@@ -1,0 +1,14 @@
+/Bin -> Executable + DLL
+/Data -> Ressources
+/Doc -> All documentation on the Engine
+/Lib ->External .lib
+/Src -> Contain sources + project
+  /EngineStein ->engine sources
+    /Audio -> audio lib
+    /Base -> Low level tools (Singleton, math, memory management ..)
+    /Core -> Scene system, Engine etc...
+    /External -> External files use in the project (tinyxml etc..)
+    /Graphics -> All the rendering sources
+    /GUI -> All the user interfaces sources
+    /Phys -> Physics lib
+  /EngineSteinDemo ->Src need for a demo

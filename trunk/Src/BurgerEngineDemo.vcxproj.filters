@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="BurgerEngineDemo\main.cpp">
+      <Filter>BurgerEngineDemo</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\AbstractPostEffect.cpp">
+      <Filter>BurgerEngine\Graphic\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Core\AbstractStage.cpp">
+      <Filter>BurgerEngine\Core\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Core\StageManager.cpp">
+      <Filter>BurgerEngine\Core\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Input\EventManager.cpp">
+      <Filter>BurgerEngine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Input\GlutInputManager.cpp">
+      <Filter>BurgerEngine\Input</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
+      <Filter>BurgerEngine\Graphic\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Base\Singleton.h">
+      <Filter>BurgerEngine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Core\AbstractStage.h">
+      <Filter>BurgerEngine\Core\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Core\StageManager.h">
+      <Filter>BurgerEngine\Core\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Input\EventManager.h">
+      <Filter>BurgerEngine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Input\GlutInputManager.h">
+      <Filter>BurgerEngine\Input</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="BurgerEngine">
+      <UniqueIdentifier>{2d90855c-ae34-4647-a255-d725f699de00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngineDemo">
+      <UniqueIdentifier>{90914403-df18-4bf8-86c8-512db48034d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Audio">
+      <UniqueIdentifier>{675214bd-936b-4ca6-9472-854df083cc12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Base">
+      <UniqueIdentifier>{9d24e5d7-ab3b-401d-bddd-409029286df0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Core">
+      <UniqueIdentifier>{a536a839-3138-45d4-8d70-3ee5d9b335fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Graphic">
+      <UniqueIdentifier>{9fcbf532-0335-4b26-b3f5-88c1bddc2713}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Graphic\Effect">
+      <UniqueIdentifier>{27d39a3f-d9c2-4c9d-b65d-e9373e7ea76b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Core\Stage">
+      <UniqueIdentifier>{db648c98-ec6c-4d3a-b97b-233a106981ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Input">
+      <UniqueIdentifier>{2e793411-a89d-46dd-afa9-f7348e5c2a5f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
