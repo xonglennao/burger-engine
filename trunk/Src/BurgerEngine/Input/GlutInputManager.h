@@ -12,9 +12,10 @@
 #ifndef __GLUTLINPUTMANAGER_H__
 #define __GLUTLINPUTMANAGER_H__
 
-///	\name GlutInputManager.h
-///	\brief Lowlevel glut input callback routines
+///	\name	GlutInputManager.h
+///	\brief	Lowlevel glut input callback routines
 ///			Will send event to the EventManager
+///			Library specific;
 
 class GlutInputManager
 {
@@ -29,6 +30,8 @@ public:
 	static void OnMouseClick(int a_iButton, int a_iState, int a_iX, int a_iY);
 	static void OnMouseMotion(int a_iX, int a_iY);
 	static void OnMousePassiveMotion(int a_iX, int a_iY);
+
+private:
 
 
 };

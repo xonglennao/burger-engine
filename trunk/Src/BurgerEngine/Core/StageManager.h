@@ -15,22 +15,19 @@
 ///	\name StageManager.h
 ///	\brief Manager all our stages
 
-
-
 #include <string>
 #include <map>
-
-#include "BurgerEngine/Base/Singleton.h"
-
 
 class AbstractStage;
 class AbstractCamera;
 
-class StageManager:public Singleton<StageManager>
+class StageManager
 {
-	friend class Singleton<StageManager>;
 
 public:
+	/// \brief Constructor/Desctructor
+	StageManager();
+	virtual ~StageManager(){Clear();}
 
 	/// \brief Add a Stage to the manager
 	void AddStage(AbstractStage* pScene);
@@ -61,9 +58,7 @@ private:
 	/// \brief Get the current stage for internal purpose
 	AbstractStage& _GrabCurrentStage();
 
-	/// \brief Constructor/Desctructor
-	StageManager();
-	virtual ~StageManager(){Clear();};
+
 
 private:
 

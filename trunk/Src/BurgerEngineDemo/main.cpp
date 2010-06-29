@@ -5,6 +5,7 @@
 #include <GL/glu.h>
 #include <iostream>
 #include "BurgerEngine/Core/StageManager.h"
+#include "BurgerEngine/Core/Engine.h"
 #include "BurgerEngine/Input/GlutInputManager.h"
 
 // Origine de la fenetre
@@ -170,12 +171,18 @@ int main(int argc, char **argv)
   glutDisplayFunc(displayGL);
   glutIdleFunc(idleGL);
 
-  GlutInputManager::InitializeInput();
+  
   //Initialize the parameter
   initGL(argc, argv);
 
-  glutMainLoop();
+  Engine::GetInstance().Init();
 
-  return 0;
+
+  glutMainLoop();
+  Engine::GetInstance().Run();
+
+  //if we exit the run loop it's over
+  Engine::KillInstance();
+  return 0 ;
 }
 

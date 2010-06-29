@@ -19,6 +19,9 @@
     <ClCompile Include="BurgerEngine\Input\GlutInputManager.cpp">
       <Filter>BurgerEngine\Input</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\Core\Engine.cpp">
+      <Filter>BurgerEngine\Core\Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -38,6 +41,9 @@
     </ClInclude>
     <ClInclude Include="BurgerEngine\Input\GlutInputManager.h">
       <Filter>BurgerEngine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Core\Engine.h">
+      <Filter>BurgerEngine\Core\Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +73,9 @@
     </Filter>
     <Filter Include="BurgerEngine\Input">
       <UniqueIdentifier>{2e793411-a89d-46dd-afa9-f7348e5c2a5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Core\Engine">
+      <UniqueIdentifier>{7eff81d9-ba4b-4419-850d-d6918bfebb6e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
