@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Base\Singleton.h" />
     <ClInclude Include="BurgerEngine\Core\AbstractStage.h" />
+    <ClInclude Include="BurgerEngine\Core\Engine.h" />
     <ClInclude Include="BurgerEngine\Core\StageManager.h" />
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h" />
     <ClInclude Include="BurgerEngine\Input\EventManager.h" />
@@ -21,6 +22,7 @@
   <ItemGroup>
     <ClCompile Include="BurgerEngineDemo\main.cpp" />
     <ClCompile Include="BurgerEngine\Core\AbstractStage.cpp" />
+    <ClCompile Include="BurgerEngine\Core\Engine.cpp" />
     <ClCompile Include="BurgerEngine\Core\StageManager.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\AbstractPostEffect.cpp" />
     <ClCompile Include="BurgerEngine\Input\EventManager.cpp" />
