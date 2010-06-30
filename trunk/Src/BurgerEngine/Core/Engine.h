@@ -18,8 +18,13 @@
 
 #include "BurgerEngine/Base/Singleton.h"
 
+/// TODO dirty
+#include "BurgerEngine/External/SFML/Window.hpp"
+
 class EventManager;
 class StageManager;
+
+class Window;
 
 class Engine:public Singleton<Engine>
 {
@@ -42,6 +47,11 @@ public:
 	/// \brief	Called to finish eveything
 	void Terminate();
 
+	/// \brief	Get the window context
+	///	TODO	This is again dirty
+	///			But we'll optimize later
+	sf::Window& GetLibSpecificWindow();
+
 	/// \brief	Getter
 	inline EventManager& GetEventManager() {return *m_pEventManager;}
 	inline StageManager& GetStageManager() {return *m_pStageManager;}
@@ -60,6 +70,8 @@ private:
 
 	EventManager*	m_pEventManager;
 	StageManager*	m_pStageManager;
+
+	Window*			m_pWindow;
 
 	///The flag use to exit the running loop;
 	bool			m_bTerminate;
