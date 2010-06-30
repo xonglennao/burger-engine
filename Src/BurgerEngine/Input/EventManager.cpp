@@ -1,13 +1,14 @@
 #include "EventManager.h"
-#include "GlutInputManager.h"
+#include "SFMLInputManager.h"
+
 
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
 void EventManager::Init()
 {
-	/// We are just using glut, but we should do a AbstractInputManager
-	GlutInputManager::InitializeInput();
+	/// We are just using SFML, but we should do a AbstractInputManager
+	SFMLInputManager::InitializeInput();
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -15,6 +16,16 @@ void EventManager::Init()
 //--------------------------------------------------------------------------------------------------------------------
 void EventManager::Clear()
 {
+
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void EventManager::ProcessEventList()
+{
+	SFMLInputManager::ProcessEvents();
+
 
 }
 

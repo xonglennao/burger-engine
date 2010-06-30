@@ -6,7 +6,8 @@
 #include <iostream>
 #include "BurgerEngine/Core/StageManager.h"
 #include "BurgerEngine/Core/Engine.h"
-#include "BurgerEngine/Input/GlutInputManager.h"
+#include "BurgerEngine/Input/SFMLInputManager.h"
+#include "BurgerEngine/External/SFML/Window.hpp"
 
 // Origine de la fenetre
 static const unsigned int windowx = 200;
@@ -16,9 +17,9 @@ static const unsigned int windowy = 200;
 static unsigned int windowwidth  = 640;
 static unsigned int windowheight = 360;
 
-float near = 0.4f;
-float far = 1000.0f;
+
 float ouverture = 45.0f;
+
 
 //Timer variables
 static unsigned int timebaseFPS;
@@ -53,7 +54,7 @@ static void reshapeGL(int newwidth, int newheight)
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(ouverture, ratio, near, far);
+	gluPerspective(ouverture, ratio, 0.5, 100);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();

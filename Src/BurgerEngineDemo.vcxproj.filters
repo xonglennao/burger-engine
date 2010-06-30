@@ -16,11 +16,14 @@
     <ClCompile Include="BurgerEngine\Input\EventManager.cpp">
       <Filter>BurgerEngine\Input</Filter>
     </ClCompile>
-    <ClCompile Include="BurgerEngine\Input\GlutInputManager.cpp">
-      <Filter>BurgerEngine\Input</Filter>
-    </ClCompile>
     <ClCompile Include="BurgerEngine\Core\Engine.cpp">
       <Filter>BurgerEngine\Core\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Input\SFMLInputManager.cpp">
+      <Filter>BurgerEngine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\Window.cpp">
+      <Filter>BurgerEngine\Graphic\Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -39,11 +42,14 @@
     <ClInclude Include="BurgerEngine\Input\EventManager.h">
       <Filter>BurgerEngine\Input</Filter>
     </ClInclude>
-    <ClInclude Include="BurgerEngine\Input\GlutInputManager.h">
-      <Filter>BurgerEngine\Input</Filter>
-    </ClInclude>
     <ClInclude Include="BurgerEngine\Core\Engine.h">
       <Filter>BurgerEngine\Core\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Input\SFMLInputManager.h">
+      <Filter>BurgerEngine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\Window.h">
+      <Filter>BurgerEngine\Graphic\Window</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +82,9 @@
     </Filter>
     <Filter Include="BurgerEngine\Core\Engine">
       <UniqueIdentifier>{7eff81d9-ba4b-4419-850d-d6918bfebb6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Graphic\Window">
+      <UniqueIdentifier>{68a26023-0222-438a-94fe-446e75cd9576}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

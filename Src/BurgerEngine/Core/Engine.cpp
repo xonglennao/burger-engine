@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "BurgerEngine/Core/StageManager.h"
 #include "BurgerEngine/Input/EventManager.h"
+#include "BurgerEngine/Graphics/Window.h"
 
 //--------------------------------------------------------------------------------------------------------------------
 //
@@ -14,6 +15,9 @@ void Engine::Init()
 	//m_pStageManager->Init();
 
 	m_bTerminate = false;
+
+	//Create the window Context
+	//.... bla bla bla
 }
 
 //--------------------------------------------------------------------------------------------------------------------

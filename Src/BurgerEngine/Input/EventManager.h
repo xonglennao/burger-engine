@@ -36,6 +36,10 @@ public:
 	/// \brief	Clear all callback list
 	void Clear();
 
+	/// \brief	Has to be called each frame
+	///			Will clear the event queue
+	void ProcessEventList();
+
 	/// \brief Register callback when a key is release
 	void RegisterCallbackKeyboardUpKey(void* a_pObject, void (*a_pFunction)(unsigned char a_cKey));
 	void UnRegisterCallbackKeyboardUpKey(/*Callback*/);
@@ -72,6 +76,8 @@ public:
 
 	///\brief	Send the mouse motion to every register Callback
 	void DispatchMouseActiveMotion(int a_iXCoordinates, int a_iYCoordinates);
+
+
 
 private:
 

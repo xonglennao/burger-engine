@@ -16,8 +16,9 @@
     <ClInclude Include="BurgerEngine\Core\Engine.h" />
     <ClInclude Include="BurgerEngine\Core\StageManager.h" />
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h" />
+    <ClInclude Include="BurgerEngine\Graphics\Window.h" />
     <ClInclude Include="BurgerEngine\Input\EventManager.h" />
-    <ClInclude Include="BurgerEngine\Input\GlutInputManager.h" />
+    <ClInclude Include="BurgerEngine\Input\SFMLInputManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BurgerEngineDemo\main.cpp" />
@@ -25,8 +26,9 @@
     <ClCompile Include="BurgerEngine\Core\Engine.cpp" />
     <ClCompile Include="BurgerEngine\Core\StageManager.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\AbstractPostEffect.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\Window.cpp" />
     <ClCompile Include="BurgerEngine\Input\EventManager.cpp" />
-    <ClCompile Include="BurgerEngine\Input\GlutInputManager.cpp" />
+    <ClCompile Include="BurgerEngine\Input\SFMLInputManager.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{99D06A18-E064-414F-BBCC-CAE1EE67296F}</ProjectGuid>
@@ -61,6 +63,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IntDir>..\Bin\</IntDir>
     <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>..\Lib\;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\Bin</OutDir>
@@ -72,11 +76,12 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Src/BurgerEngine/External;../Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32s.lib;glew32.lib;glut32.lib;glut.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;glew32.lib;glut32.lib;glut.lib;sfml-window-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -90,6 +95,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>sfml-window.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
