@@ -47,6 +47,7 @@ void StageManager::Clear()
 void StageManager::Update()
 {
 	assert(m_pCurrentStage);
+	//If finishe need to go to next stage.
 	m_pCurrentStage->Update();
 }
 

@@ -50,9 +50,12 @@ void Engine::Run()
 	//Let's Roll
 	while (m_bTerminate == false)
 	{
+		//Update Scene
+		//TODO: The main loop might just process event the fact of updating a Scene could be an event.
+		m_pStageManager->Update();
+
+		//Process Event
 		m_pEventManager->ProcessEventList();
 	}
 
-	
-	//exit(0); it's in the main that will quit.
 }

@@ -18,7 +18,8 @@ void EventManager::Init()
 //--------------------------------------------------------------------------------------------------------------------
 void EventManager::Clear()
 {
-
+	m_vKeyboardUpKeyCallbacks.clear();
+	m_vKeyboardDownKeyCallbacks.clear();
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -43,7 +44,7 @@ void EventManager::RegisterCallbackKeyboardUpKey(CallbackKeyboard a_oCallback)
 //--------------------------------------------------------------------------------------------------------------------
 void EventManager::UnRegisterCallbackKeyboardUpKey(CallbackKeyboard a_oCallback)
 {
-		std::vector<CallbackKeyboard>::iterator it = std::find(m_vKeyboardUpKeyCallbacks.begin(),
+	std::vector<CallbackKeyboard>::iterator it = std::find(m_vKeyboardUpKeyCallbacks.begin(),
 		m_vKeyboardUpKeyCallbacks.end(),
 		a_oCallback);
 	if (it != m_vKeyboardUpKeyCallbacks.end())
@@ -135,9 +136,10 @@ void EventManager::DispatchKeyboardUpKeyEvent(unsigned char a_cKey)
 	std::vector<CallbackKeyboard>::iterator it = m_vKeyboardUpKeyCallbacks.begin() ;
 	//The call back can specify that onceits routine is done, all the other cannot exectute their routine.
 	bool bContinue = true;
-	while(it != m_vKeyboardUpKeyCallbacks.end() || bContinue)
+	while(it != m_vKeyboardUpKeyCallbacks.end() && bContinue)
 	{
 		bContinue = (*it)(a_cKey);
+		++it;
 	}
 
 }
@@ -150,9 +152,10 @@ void EventManager::DispatchKeyboardDownKeyEvent(unsigned char a_cKey)
 	std::vector<CallbackKeyboard>::iterator it = m_vKeyboardDownKeyCallbacks.begin() ;
 	//The call back can specify that once its routine is done, all the other cannot exectute their routine.
 	bool bContinue = true;
-	while(it != m_vKeyboardDownKeyCallbacks.end() || bContinue)
+	while(it != m_vKeyboardDownKeyCallbacks.end() && bContinue)
 	{
 		bContinue = (*it)(a_cKey);
+		++it;
 	}
 }
 
