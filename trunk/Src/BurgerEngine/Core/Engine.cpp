@@ -14,6 +14,9 @@ void Engine::Init()
 	m_pStageManager = new StageManager();
 	//m_pStageManager->Init();
 
+	m_pWindow = new Window();
+	m_pWindow->Init();
+
 	m_bTerminate = false;
 
 	//Create the window Context
@@ -32,6 +35,10 @@ void Engine::Terminate()
 	m_pEventManager->Clear();
 	delete m_pEventManager;
 	m_pEventManager = NULL;
+
+	m_pWindow->Terminate();
+	delete m_pWindow;
+	m_pWindow = NULL;
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -39,11 +46,11 @@ void Engine::Terminate()
 //--------------------------------------------------------------------------------------------------------------------
 void Engine::Run()
 {
-	m_bTerminate = true;
+	m_bTerminate = false;
 	//Let's Roll
-	while (m_bTerminate)
+	while (m_bTerminate == false)
 	{
-	
+		m_pEventManager->ProcessEventList();
 	}
 
 	

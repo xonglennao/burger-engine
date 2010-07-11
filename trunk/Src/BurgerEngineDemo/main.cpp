@@ -7,7 +7,7 @@
 #include "BurgerEngine/Core/StageManager.h"
 #include "BurgerEngine/Core/Engine.h"
 #include "BurgerEngine/Input/SFMLInputManager.h"
-#include "BurgerEngine/External/SFML/Window.hpp"
+
 
 // Origine de la fenetre
 static const unsigned int windowx = 200;
@@ -164,22 +164,18 @@ int main(int argc, char **argv)
   glutInitWindowPosition(windowx, windowy);
   glutInitWindowSize(windowwidth, windowheight);
 
-  if(glutCreateWindow("EngineSteinDemo") == 0){ 
-    return 1;
-  }
 
-  glutReshapeFunc(reshapeGL);
-  glutDisplayFunc(displayGL);
+
+ // glutReshapeFunc(reshapeGL);
+//  glutDisplayFunc(displayGL);
   glutIdleFunc(idleGL);
 
-  
-  //Initialize the parameter
-  initGL(argc, argv);
+ 
 
   Engine::GetInstance().Init();
 
 
-  glutMainLoop();
+
   Engine::GetInstance().Run();
 
   //if we exit the run loop it's over

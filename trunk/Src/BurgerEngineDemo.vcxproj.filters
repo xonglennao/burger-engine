@@ -5,7 +5,7 @@
       <Filter>BurgerEngineDemo</Filter>
     </ClCompile>
     <ClCompile Include="BurgerEngine\Graphics\AbstractPostEffect.cpp">
-      <Filter>BurgerEngine\Graphic\Effect</Filter>
+      <Filter>BurgerEngine\Graphics\Effect</Filter>
     </ClCompile>
     <ClCompile Include="BurgerEngine\Core\AbstractStage.cpp">
       <Filter>BurgerEngine\Core\Stage</Filter>
@@ -23,12 +23,15 @@
       <Filter>BurgerEngine\Input</Filter>
     </ClCompile>
     <ClCompile Include="BurgerEngine\Graphics\Window.cpp">
-      <Filter>BurgerEngine\Graphic\Window</Filter>
+      <Filter>BurgerEngine\Graphics\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Base\Functor.cpp">
+      <Filter>BurgerEngine\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
-      <Filter>BurgerEngine\Graphic\Effect</Filter>
+      <Filter>BurgerEngine\Graphics\Effect</Filter>
     </ClInclude>
     <ClInclude Include="BurgerEngine\Base\Singleton.h">
       <Filter>BurgerEngine\Base</Filter>
@@ -49,7 +52,13 @@
       <Filter>BurgerEngine\Input</Filter>
     </ClInclude>
     <ClInclude Include="BurgerEngine\Graphics\Window.h">
-      <Filter>BurgerEngine\Graphic\Window</Filter>
+      <Filter>BurgerEngine\Graphics\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Base\Functor.h">
+      <Filter>BurgerEngine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Base\CommonBase.h">
+      <Filter>BurgerEngine\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -68,12 +77,6 @@
     <Filter Include="BurgerEngine\Core">
       <UniqueIdentifier>{a536a839-3138-45d4-8d70-3ee5d9b335fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="BurgerEngine\Graphic">
-      <UniqueIdentifier>{9fcbf532-0335-4b26-b3f5-88c1bddc2713}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="BurgerEngine\Graphic\Effect">
-      <UniqueIdentifier>{27d39a3f-d9c2-4c9d-b65d-e9373e7ea76b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="BurgerEngine\Core\Stage">
       <UniqueIdentifier>{db648c98-ec6c-4d3a-b97b-233a106981ed}</UniqueIdentifier>
     </Filter>
@@ -83,7 +86,13 @@
     <Filter Include="BurgerEngine\Core\Engine">
       <UniqueIdentifier>{7eff81d9-ba4b-4419-850d-d6918bfebb6e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="BurgerEngine\Graphic\Window">
+    <Filter Include="BurgerEngine\Graphics">
+      <UniqueIdentifier>{9fcbf532-0335-4b26-b3f5-88c1bddc2713}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Graphics\Effect">
+      <UniqueIdentifier>{27d39a3f-d9c2-4c9d-b65d-e9373e7ea76b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Graphics\Window">
       <UniqueIdentifier>{68a26023-0222-438a-94fe-446e75cd9576}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
