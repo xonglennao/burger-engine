@@ -15,18 +15,25 @@
 ///	\name EventManager.h
 ///	\brief	Register and dispatch eventCallbacks
 ///			So far works for input but could work with other stuff
+///			Here an exemple how to access control over keyboard
+///			You create a function bool MyClass::Foo(unsigned char) in you class
+///			Must return Fasle is want other callback to be not be called. (Pop Up menu)
+///			Then you call the following
+///			Engine::GetInstance().GetEventManager().RegisterCallbackKeyboardUpKey(CallBackKeyBoard<this,MyClass::Foo>);
+///			To unregister
+///			Engine::GetInstance().GetEventManager().UnRegisterCallbackKeyboardUpKey(CallBackKeyBoard<this,MyClass::Foo>);
 
 #include <vector>
-
-//#include "BurgerEngine/External/Loki/include/loki/Functor.h"
-
+//#include "BurgerEngine/Base/Functor.h"
+#include "BurgerEngine/External/Loki/Include/loki/Functor.h"
 
 
 class EventManager
 {
 public:
 
-	//typedef Loki::Functor<void,LOKI_TYPELIST_1(char)> CallbackKeyboard;
+	//Call back typedef
+	typedef Loki::Functor<bool,LOKI_TYPELIST_1(unsigned char)> CallbackKeyboard;
 
 public:
 
@@ -41,12 +48,12 @@ public:
 	void ProcessEventList();
 
 	/// \brief Register callback when a key is release
-	void RegisterCallbackKeyboardUpKey(void* a_pObject, void (*a_pFunction)(unsigned char a_cKey));
-	void UnRegisterCallbackKeyboardUpKey(/*Callback*/);
+	void RegisterCallbackKeyboardUpKey(CallbackKeyboard a_oCallback);
+	void UnRegisterCallbackKeyboardUpKey(CallbackKeyboard a_oCallback);
 
 	/// \brief Register callback when key is pressed
-	void RegisterCallbackKeyboardDownKey(void* a_pObject, void (*a_pFunction)(unsigned char a_cKey));
-	void UnRegisterCallbackKeyboardDownKey(/**/);
+	void RegisterCallbackKeyboardDownKey(CallbackKeyboard a_oCallback);
+	void UnRegisterCallbackKeyboardDownKey(CallbackKeyboard a_oCallback);
 
 	/// \brief Register callbakc when mouse is clicked
 	void RegisterCallbackMouseDownClick(void* a_pObject,
@@ -82,8 +89,8 @@ public:
 private:
 
 	//Vector containing the callbacks
-	//std::vector<callback> m_vKeyboardUpKeyCallbacks;
-	//std::vector<callback> m_vKeyboardDownKeyCallbacks;
+	std::vector<CallbackKeyboard> m_vKeyboardUpKeyCallbacks;
+	std::vector<CallbackKeyboard> m_vKeyboardDownKeyCallbacks;
 	//std::vector<callback> m_vMouseDownClickCallbacks;
 	//std::vector<callback> m_vMousePassiveMotionCallbacks;
 	//std::vector<callback> m_vMouseActiveMotionCallbacks;

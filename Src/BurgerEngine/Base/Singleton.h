@@ -15,9 +15,7 @@
 ///	\name singleton.h
 ///	\brief Singleton template class
 
-#ifndef NULL
-#define NULL    0
-#endif
+#include "CommonBase.h"
 
 template <typename T> class Singleton //typename instead of class, since it can recieve anything
 {

@@ -1,11 +1,9 @@
 #include "SFMLInputManager.h"
-
-#include <GL/glew.h>
-#include <GL/glut.h>
-#include <GL/glu.h>
+#include "EventManager.h"
 
 #include "BurgerEngine/Core/Engine.h"
-#include "EventManager.h"
+#include "BurgerEngine/Graphics/Window.h"
+
 #include <SFML/Window.hpp>
 //--------------------------------------------------------------------------------------------------------------------
 //
@@ -13,15 +11,7 @@
 void SFMLInputManager::InitializeInput()
 {
 
-	//Set the glut input callback
-	glutKeyboardFunc(OnKeyboardDown);
-	glutKeyboardUpFunc(OnKeyboardUp);
 
-	//glutSpecialFunc(keyboardSpecialGL);
-  
-	glutMouseFunc(OnMouseClick);
-	glutMotionFunc(OnMouseMotion);
-	glutPassiveMotionFunc(OnMousePassiveMotion);
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -31,11 +21,12 @@ void SFMLInputManager::ProcessEvents()
 {
 	Engine& rEngine = Engine::GetInstance();
 
+	sf::Window & rWindow = rEngine.GetWindow().GrabDriverWindow();
 	sf::Event SFMLEvent;
 
 	//go through all event since last frame
-	// It's SFML specific taht we get the window
-	while(rEngine.GetLibSpecificWindow().GetEvent(SFMLEvent))
+	// It's SFML specific that we get the window
+	while(rWindow.GetEvent(SFMLEvent))
 	{
 		switch(SFMLEvent.Type)
 		{

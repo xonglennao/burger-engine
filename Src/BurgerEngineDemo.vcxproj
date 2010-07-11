@@ -11,6 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BurgerEngine\Base\CommonBase.h" />
+    <ClInclude Include="BurgerEngine\Base\Functor.h" />
     <ClInclude Include="BurgerEngine\Base\Singleton.h" />
     <ClInclude Include="BurgerEngine\Core\AbstractStage.h" />
     <ClInclude Include="BurgerEngine\Core\Engine.h" />
@@ -22,6 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BurgerEngineDemo\main.cpp" />
+    <ClCompile Include="BurgerEngine\Base\Functor.cpp" />
     <ClCompile Include="BurgerEngine\Core\AbstractStage.cpp" />
     <ClCompile Include="BurgerEngine\Core\Engine.cpp" />
     <ClCompile Include="BurgerEngine\Core\StageManager.cpp" />
@@ -62,7 +65,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IntDir>..\Bin\</IntDir>
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>C:\Prog\BurgerEngine\Src\BurgerEngine\External\SFML;$(IncludePath)</IncludePath>
     <LibraryPath>..\Lib\;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
@@ -78,10 +81,11 @@
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>../Src/BurgerEngine/External;../Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>SFML_DYNAMIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32s.lib;glew32.lib;glut32.lib;glut.lib;sfml-window-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;glew32.lib;glut32.lib;glut.lib;sfml-window-d.lib;sfml-window.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
