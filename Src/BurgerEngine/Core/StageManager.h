@@ -30,7 +30,7 @@ public:
 	virtual ~StageManager(){Clear();}
 
 	/// \brief Add a Stage to the manager
-	void AddStage(AbstractStage* pScene);
+	void AddStage(AbstractStage* pStage);
 
 	/// \brief Set the current stage running
 	void SetCurrentStage(const std::string& sName);

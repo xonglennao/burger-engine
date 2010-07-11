@@ -1,24 +1,22 @@
-//Very dirty testing main
+/*************************************
+*
+*		BurgerEngine Project
+*		
+*		Created :	11/07/10
+*		Authors :	Franck Letellier
+*					Baptiste Malaga
+*		Contact :   shadervalouf@googlegroups.com
+*
+**************************************/
 
-#include <GL/glew.h>
-#include <GL/glut.h>
-#include <GL/glu.h>
 #include <iostream>
 #include "BurgerEngine/Core/StageManager.h"
 #include "BurgerEngine/Core/Engine.h"
 #include "BurgerEngine/Input/SFMLInputManager.h"
 
+/// \TEMP Franck: Input test
+#include "StageTestInput.h"
 
-// Origine de la fenetre
-static const unsigned int windowx = 200;
-static const unsigned int windowy = 200;
-
-// Dimensions de la fenetre
-static unsigned int windowwidth  = 640;
-static unsigned int windowheight = 360;
-
-
-float ouverture = 45.0f;
 
 
 //Timer variables
@@ -27,13 +25,13 @@ static unsigned int timebase;
 static unsigned int currentTime;
 static unsigned int frames = 0;
 
-GLenum err;
+
 
 #define CHECK_ERRORS
 
 static void reshapeGL(int newwidth, int newheight);
 
-static void displayGL(void)
+/*static void displayGL(void)
 {
 	//Reshape to normal
 	reshapeGL(windowwidth, windowheight);
@@ -98,7 +96,7 @@ static void idleGL(void)
 		}
 
 	
-	*/
+	
 	}
 
 
@@ -149,37 +147,23 @@ static void initGL(int argc, char **argv)
 
 	
 }
-
-static void initMesh()
-{
-
-}
+*/
 
 int main(int argc, char **argv)
 {
 
-  glutInit(&argc, argv);
-  glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
+	Engine::GetInstance().Init();
 
-  glutInitWindowPosition(windowx, windowy);
-  glutInitWindowSize(windowwidth, windowheight);
+	//TEMP franck: Test Input
+	StageTestInput* pStage = new StageTestInput("TestInput");
+	pStage->Init();
+	Engine::GetInstance().GetStageManager().AddStage(pStage);
+	Engine::GetInstance().GetStageManager().SetCurrentStage("TestInput");
 
+	Engine::GetInstance().Run();
 
-
- // glutReshapeFunc(reshapeGL);
-//  glutDisplayFunc(displayGL);
-  glutIdleFunc(idleGL);
-
- 
-
-  Engine::GetInstance().Init();
-
-
-
-  Engine::GetInstance().Run();
-
-  //if we exit the run loop it's over
-  Engine::KillInstance();
-  return 0 ;
+	//if we exit the run loop it's over
+	Engine::KillInstance();
+	return 0 ;
 }
 

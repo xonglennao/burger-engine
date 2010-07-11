@@ -50,7 +50,7 @@ protected:
 	/// \brief	Pre-display method can set FBO and such.
 	virtual void _PreDisplay();
 
-	/// \brief	Internal daiplay method for child class.
+	/// \brief	Internal display method for child class.
 	virtual void _Display() = 0;
 
 	/// \brief	Post-render method can free FBO, release stuff...
