@@ -41,8 +41,8 @@ public:
 	/// \brief Update the current stage
 	void Update();
 
-	/// \brief Display the current stage
-	void Display();
+	/// \brief Render the current stage in the back buffer
+	void Render();
 	
 	/// \brief Reset the current Stage
 	void Reset();

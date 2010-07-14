@@ -33,11 +33,12 @@ public:
 	bool TestInput01(unsigned char a_cKey);
 	bool TestInput02(unsigned char a_cKey);
 	bool TestInput03(unsigned char a_cKey);
+	bool TestInputMouse(unsigned int a_uMouseX, unsigned int a_uMouseY);
 
 private:
 
-	/// \brief No display
-	void _Display(){}
+	/// \brief No display OVERRIDE
+	void _Render(){}
 
 
 };

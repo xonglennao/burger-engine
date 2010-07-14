@@ -2,6 +2,7 @@
 #include "BurgerEngine/Core/StageManager.h"
 #include "BurgerEngine/Input/EventManager.h"
 #include "BurgerEngine/Graphics/Window.h"
+#include "BurgerEngine/Graphics/OpenGLContext.h"
 
 //--------------------------------------------------------------------------------------------------------------------
 //
@@ -12,15 +13,15 @@ void Engine::Init()
 	m_pEventManager->Init();
 	
 	m_pStageManager = new StageManager();
-	//m_pStageManager->Init();
 
 	m_pWindow = new Window();
 	m_pWindow->Init();
 
-	m_bTerminate = false;
+	//Create the Rendering Context
+	m_pRenderingContext = new OpenGLContext();
+	m_pRenderingContext->Init();
 
-	//Create the window Context
-	//.... bla bla bla
+	m_bTerminate = false;
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -56,6 +57,9 @@ void Engine::Run()
 
 		//Process Event
 		m_pEventManager->ProcessEventList();
+
+		//Swap buffer
+		m_pWindow->Display();
 	}
 
 }

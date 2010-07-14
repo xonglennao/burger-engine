@@ -68,10 +68,10 @@ void StageManager::SetCurrentStage(const std::string& sName)
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void StageManager::Display()
+void StageManager::Render()
 {
 	assert(m_pCurrentStage);
-	m_pCurrentStage->Display();
+	m_pCurrentStage->Render();
 
 }
 
