@@ -21,6 +21,7 @@
 class EventManager;
 class StageManager;
 class Window;
+class OpenGLContext;
 
 class Engine:public Singleton<Engine>
 {
@@ -46,9 +47,12 @@ public:
 	/// \brief	Get the window context
 	Window const& GetWindow() const {return *m_pWindow;}
 
+	/// \brief	Grabber
+	EventManager& GrabEventManager() {return *m_pEventManager;}
+
 	/// \brief	Getter
-	inline EventManager& GetEventManager() {return *m_pEventManager;}
-	inline StageManager& GetStageManager() {return *m_pStageManager;}
+	EventManager const& GetEventManager() const {return *m_pEventManager;}
+	StageManager& GetStageManager() {return *m_pStageManager;}
 
 	/// \brief Setter
 	/// A bit dangerous as everyone can call the end...
@@ -65,7 +69,9 @@ private:
 	EventManager*	m_pEventManager;
 	StageManager*	m_pStageManager;
 
+
 	Window*			m_pWindow;
+	OpenGLContext*	m_pRenderingContext;
 
 	///The flag use to exit the running loop;
 	bool			m_bTerminate;

@@ -20,10 +20,11 @@ void SFMLInputManager::InitializeInput()
 void SFMLInputManager::ProcessEvents()
 {
 	Engine& rEngine = Engine::GetInstance();
+	EventManager const& rEventManager = rEngine.GetEventManager();
 
 	sf::Window & rWindow = rEngine.GetWindow().GrabDriverWindow();
 	sf::Event SFMLEvent;
-
+	
 	//go through all event since last frame
 	// It's SFML specific that we get the window
 	while(rWindow.GetEvent(SFMLEvent))
@@ -38,64 +39,22 @@ void SFMLInputManager::ProcessEvents()
 				rEngine.SetTerminate(true);
 				break;
 			default:
-				Engine::GetInstance().GetEventManager().DispatchKeyboardDownKeyEvent(SFMLEvent.Key.Code);
+				rEventManager.DispatchKeyboardDownKeyEvent(SFMLEvent.Key.Code);
 				break;
 			}
+			break;
+		case sf::Event::MouseMoved:
+			rEventManager.DispatchMousePassiveMotion(SFMLEvent.MouseMove.X,SFMLEvent.MouseMove.Y);
+			break;
+
+		case sf::Event::Resized:
+			rEventManager.DispatchResize(SFMLEvent.Size.Height,SFMLEvent.Size.Width);
+			break;
+		case sf::Event::Closed:
+			rEngine.SetTerminate(true);
 			break;
 		}
 	
 	}
 }
 
-//--------------------------------------------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------------------------------------------
-void SFMLInputManager::OnKeyboardUp(unsigned char a_cKey,int a_iX, int a_iY)
-{
-	Engine::GetInstance().GetEventManager().DispatchKeyboardUpKeyEvent(a_cKey);
-}
-
-//--------------------------------------------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------------------------------------------
-void SFMLInputManager::OnKeyboardDown(unsigned char a_cKey,int a_iX, int a_iY)
-{
-	switch(a_cKey)
-	{ 
-	case 27:
-		    //Shoudl send a quit event it not up to this class to tell "Engine you have to die!"
-			Engine::GetInstance().SetTerminate(true);
-			exit(0);
-		break;
-	default:
-			Engine::GetInstance().GetEventManager().DispatchKeyboardDownKeyEvent(a_cKey);
-		break;
-	}
-
-}
-
-
-//--------------------------------------------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------------------------------------------
-void SFMLInputManager::OnMouseClick(int a_iButton, int a_iState, int a_iX, int a_iY)
-{
-	Engine::GetInstance().GetEventManager().DispatchMouseDownClick(a_iButton, a_iState, a_iX, a_iY);
-}
-
-//--------------------------------------------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------------------------------------------
-void SFMLInputManager::OnMouseMotion(int a_iX, int a_iY)
-{
-	Engine::GetInstance().GetEventManager().DispatchMouseActiveMotion(a_iX, a_iY);
-}
-
-//--------------------------------------------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------------------------------------------
-void SFMLInputManager::OnMousePassiveMotion(int a_iX, int a_iY)
-{
-	Engine::GetInstance().GetEventManager().DispatchMousePassiveMotion(a_iX, a_iY);
-
-}

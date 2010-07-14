@@ -31,6 +31,9 @@
     <ClCompile Include="BurgerEngineDemo\StageTestInput.cpp">
       <Filter>BurgerEngineDemo\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\OpenGlContext.cpp">
+      <Filter>BurgerEngine\Graphics\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -65,6 +68,12 @@
     </ClInclude>
     <ClInclude Include="BurgerEngineDemo\StageTestInput.h">
       <Filter>BurgerEngineDemo\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\OpenGlContext.h">
+      <Filter>BurgerEngine\Graphics\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\CommonGraphics.h">
+      <Filter>BurgerEngine\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +112,9 @@
     </Filter>
     <Filter Include="BurgerEngineDemo\Scenes">
       <UniqueIdentifier>{ee94bbe9-2c6a-437c-a87e-6ce70e54c0fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Graphics\Renderer">
+      <UniqueIdentifier>{0b60af32-c166-40cd-8881-c205822d5bd7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

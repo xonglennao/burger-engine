@@ -9,8 +9,5 @@
 *
 **************************************/
 
-#ifndef NULL
-#define NULL    0
-#endif
 
-#include <iostream>
+#include "BurgerEngine/Base/CommonBase.h"

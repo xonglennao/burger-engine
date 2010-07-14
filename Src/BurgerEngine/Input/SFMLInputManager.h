@@ -27,13 +27,6 @@ public:
 	/// \brief Process All events and send it to callback
 	static void ProcessEvents();
 
-	/// \brief	SFML callback 
-	static void OnKeyboardUp(unsigned char a_cKey,int a_iX, int a_iY);
-	static void OnKeyboardDown(unsigned char a_cKey,int a_iX, int a_iY);
-	static void OnMouseClick(int a_iButton, int a_iState, int a_iX, int a_iY);
-	static void OnMouseMotion(int a_iX, int a_iY);
-	static void OnMousePassiveMotion(int a_iX, int a_iY);
-
 private:
 
 

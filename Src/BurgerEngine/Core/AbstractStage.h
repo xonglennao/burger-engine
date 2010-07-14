@@ -30,8 +30,8 @@ public:
 	/// \brief	initialize a scene
 	virtual bool Init() = 0;
 
-	/// \brief	Main dipslay method
-	void Display();
+	/// \brief	Main Render method
+	void Render();
 
 	/// \brief Update the scene
 	virtual void Update(); 
@@ -48,13 +48,13 @@ public:
 
 protected:
 	/// \brief	Pre-display method can set FBO and such.
-	virtual void _PreDisplay();
+	virtual void _PreRender();
 
 	/// \brief	Internal display method for child class.
-	virtual void _Display() = 0;
+	virtual void _Render() = 0;
 
 	/// \brief	Post-render method can free FBO, release stuff...
-	virtual void _PostDisplay();
+	virtual void _PostRender();
 	
 
 private:

@@ -34,6 +34,8 @@ public:
 
 	//Call back typedef
 	typedef Loki::Functor<bool,LOKI_TYPELIST_1(unsigned char)> CallbackKeyboard;
+	typedef Loki::Functor<bool,LOKI_TYPELIST_2(unsigned int, unsigned int)> CallbackMouseMotion;
+	typedef Loki::Functor<bool,LOKI_TYPELIST_2(unsigned int, unsigned int)> CallbackResize;
 
 public:
 
@@ -48,12 +50,12 @@ public:
 	void ProcessEventList();
 
 	/// \brief Register callback when a key is release
-	void RegisterCallbackKeyboardUpKey(CallbackKeyboard a_oCallback);
-	void UnRegisterCallbackKeyboardUpKey(CallbackKeyboard a_oCallback);
+	void RegisterCallbackKeyboardUpKey(CallbackKeyboard& a_rCallback);
+	void UnRegisterCallbackKeyboardUpKey(CallbackKeyboard& a_rCallback);
 
 	/// \brief Register callback when key is pressed
-	void RegisterCallbackKeyboardDownKey(CallbackKeyboard a_oCallback);
-	void UnRegisterCallbackKeyboardDownKey(CallbackKeyboard a_oCallback);
+	void RegisterCallbackKeyboardDownKey(CallbackKeyboard& a_rCallback);
+	void UnRegisterCallbackKeyboardDownKey(CallbackKeyboard& a_rCallback);
 
 	/// \brief Register callbakc when mouse is clicked
 	void RegisterCallbackMouseDownClick(void* a_pObject,
@@ -61,29 +63,35 @@ public:
 	void UnRegisterCallbackMouseDownClick();
 	
 	/// \brief Register when mouse is moved without button pressed
-	void RegisterCallbackMousePassiveMotion(void* a_pObject, void (*a_pFunction)(int a_iXCoordinates, int a_iYCoordinates));
-	void UnRegisterCallbackMousePassiveMotion();
+	void RegisterCallbackMousePassiveMotion(CallbackMouseMotion& a_rCallback);
+	void UnRegisterCallbackMousePassiveMotion(CallbackMouseMotion& a_rCallback);
 
 	/// \brief Register when mouse is moved with button pressed
-	void RegisterCallbackMouseActiveMotion(void* a_pObject, void (*a_pFunction)(int a_iXCoordinates, int a_iYCoordinates));
-	void UnRegisterCallbackMouseActiveMotion();
+	void RegisterCallbackMouseActiveMotion(CallbackMouseMotion& a_rCallback);
+	void UnRegisterCallbackMouseActiveMotion(CallbackMouseMotion& a_rCallback);
+
+	/// \brief Register when screen is resized
+	void RegisterCallbacResize(CallbackResize& a_rCallback);
+	void UnRegisterCallbacResize(CallbackResize& a_rCallback);
 
 	///--------- Dispatch event ----------------
-	///\brief	Send the key event to every register Callback
-	void DispatchKeyboardUpKeyEvent(unsigned char a_cKey);
+	/// \brief	Send the key event to every register Callback
+	void DispatchKeyboardUpKeyEvent(unsigned char a_cKey) const;
 
-	///\brief	Send the key event to every register Callback
-	void DispatchKeyboardDownKeyEvent(unsigned char a_cKey);
+	/// \brief	Send the key event to every register Callback
+	void DispatchKeyboardDownKeyEvent(unsigned char a_cKey) const;
 
-	///\brief	Send the click event to every register Callback
-	void DispatchMouseDownClick(int a_iButton, int a_iState, int a_iXCoordinates, int a_iYCoordinates);
+	/// \brief	Send the click event to every register Callback
+	void DispatchMouseDownClick(int a_iButton, int a_iState, int a_iXCoordinates, int a_iYCoordinates) const;
 
-	///\brief	Send the mouse motion event to every register Callback
-	void DispatchMousePassiveMotion(int a_iXCoordinates, int a_iYCoordinates);
+	/// \brief	Send the mouse motion event to every register Callback
+	void DispatchMousePassiveMotion(unsigned int a_iXCoordinates, unsigned int a_iYCoordinates) const;
 
-	///\brief	Send the mouse motion to every register Callback
-	void DispatchMouseActiveMotion(int a_iXCoordinates, int a_iYCoordinates);
-
+	/// \brief	Send the mouse motion to every register Callback
+	void DispatchMouseActiveMotion(unsigned int a_iXCoordinates, unsigned int a_iYCoordinates) const;
+	 
+	/// \brief	Send the Resize event to every register callback
+	void DispatchResize(unsigned int a_uHeight, unsigned int a_uWidth) const;
 
 
 private:
@@ -91,9 +99,10 @@ private:
 	//Vector containing the callbacks
 	std::vector<CallbackKeyboard> m_vKeyboardUpKeyCallbacks;
 	std::vector<CallbackKeyboard> m_vKeyboardDownKeyCallbacks;
+	std::vector<CallbackResize> m_vResizeCallbacks;
+	std::vector<CallbackMouseMotion> m_vMousePassiveMotionCallbacks;
+	std::vector<CallbackMouseMotion> m_vMouseActiveMotionCallbacks;
 	//std::vector<callback> m_vMouseDownClickCallbacks;
-	//std::vector<callback> m_vMousePassiveMotionCallbacks;
-	//std::vector<callback> m_vMouseActiveMotionCallbacks;
 };
 
 #endif //__EVENTMANAGER_H__
