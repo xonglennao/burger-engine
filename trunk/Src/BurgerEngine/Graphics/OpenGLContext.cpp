@@ -1,11 +1,12 @@
+#include "OpenGLContext.h"
+#include "BurgerEngine/Core/Engine.h"
+#include "BurgerEngine/Input/EventManager.h"
 
 #include <GL/glew.h>
 #include <GL/glut.h>
 #include <GL/glu.h>
 
-#include "OpenGLContext.h"
-#include "BurgerEngine/Core/Engine.h"
-#include "BurgerEngine/Input/EventManager.h"
+
 
 //--------------------------------------------------------------------------------------------------------------------
 //
