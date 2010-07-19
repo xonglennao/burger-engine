@@ -35,6 +35,10 @@ public:
 	//Call back typedef
 	typedef Loki::Functor<bool,LOKI_TYPELIST_1(unsigned char)> CallbackKeyboard;
 	typedef Loki::Functor<bool,LOKI_TYPELIST_2(unsigned int, unsigned int)> CallbackMouseMotion;
+	typedef Loki::Functor<bool,LOKI_TYPELIST_3(
+		unsigned int, //Button
+		unsigned int, // Coordinates
+		unsigned int)> CallbackMouseButton;
 	typedef Loki::Functor<bool,LOKI_TYPELIST_2(unsigned int, unsigned int)> CallbackResize;
 
 public:
@@ -58,9 +62,8 @@ public:
 	void UnRegisterCallbackKeyboardDownKey(CallbackKeyboard& a_rCallback);
 
 	/// \brief Register callbakc when mouse is clicked
-	void RegisterCallbackMouseDownClick(void* a_pObject,
-		void (*a_pFunction)(int a_iButton, int a_iState, int a_iXCoordinates, int a_iYCoordinates));
-	void UnRegisterCallbackMouseDownClick();
+	void RegisterCallbackMouseDownClick(CallbackMouseButton& a_rCallback);
+	void UnRegisterCallbackMouseDownClick(CallbackMouseButton& a_rCallback);
 	
 	/// \brief Register when mouse is moved without button pressed
 	void RegisterCallbackMousePassiveMotion(CallbackMouseMotion& a_rCallback);
@@ -82,7 +85,10 @@ public:
 	void DispatchKeyboardDownKeyEvent(unsigned char a_cKey) const;
 
 	/// \brief	Send the click event to every register Callback
-	void DispatchMouseDownClick(int a_iButton, int a_iState, int a_iXCoordinates, int a_iYCoordinates) const;
+	void DispatchMouseDownClick(int a_iButton, int a_iXCoordinates, int a_iYCoordinates) const;
+
+	/// \brief	Send the release event to every register Callback
+	void DispatchMouseUpClick(int a_iButton, int a_iXCoordinates, int a_iYCoordinates) const;
 
 	/// \brief	Send the mouse motion event to every register Callback
 	void DispatchMousePassiveMotion(unsigned int a_iXCoordinates, unsigned int a_iYCoordinates) const;
@@ -102,7 +108,9 @@ private:
 	std::vector<CallbackResize> m_vResizeCallbacks;
 	std::vector<CallbackMouseMotion> m_vMousePassiveMotionCallbacks;
 	std::vector<CallbackMouseMotion> m_vMouseActiveMotionCallbacks;
-	//std::vector<callback> m_vMouseDownClickCallbacks;
+	std::vector<CallbackMouseButton> m_vMouseClickDownCallbacks;
+	std::vector<CallbackMouseButton> m_vMouseClickUpCallbacks;
+	
 };
 
 #endif //__EVENTMANAGER_H__

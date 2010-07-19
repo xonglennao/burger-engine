@@ -34,6 +34,9 @@
     <ClCompile Include="BurgerEngine\Graphics\OpenGlContext.cpp">
       <Filter>BurgerEngine\Graphics\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\Core\AbstractCamera.cpp">
+      <Filter>BurgerEngine\Core\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -75,6 +78,9 @@
     <ClInclude Include="BurgerEngine\Graphics\CommonGraphics.h">
       <Filter>BurgerEngine\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="BurgerEngine\Core\AbstractCamera.h">
+      <Filter>BurgerEngine\Core\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="BurgerEngine">
@@ -115,6 +121,9 @@
     </Filter>
     <Filter Include="BurgerEngine\Graphics\Renderer">
       <UniqueIdentifier>{0b60af32-c166-40cd-8881-c205822d5bd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Core\Camera">
+      <UniqueIdentifier>{1f42ef5b-3d5a-4e39-a698-2a690a138f34}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

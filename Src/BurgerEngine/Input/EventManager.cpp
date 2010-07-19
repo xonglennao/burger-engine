@@ -22,6 +22,8 @@ void EventManager::Clear()
 	m_vKeyboardDownKeyCallbacks.clear();
 	m_vMousePassiveMotionCallbacks.clear();
 	m_vMouseActiveMotionCallbacks.clear();
+	m_vMouseClickDownCallbacks.clear();
+	m_vMouseClickUpCallbacks.clear();
 	m_vResizeCallbacks.clear();
 }
 
@@ -90,17 +92,27 @@ void EventManager::UnRegisterCallbackKeyboardDownKey(CallbackKeyboard& a_rCallba
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void EventManager::RegisterCallbackMouseDownClick(void* a_pObject,
-	void (*a_pFunction)(int a_iButton, int a_iState, int a_iXCoordinates, int a_iYCoordinates))
+void EventManager::RegisterCallbackMouseDownClick(CallbackMouseButton& a_rCallback)
 {
+	m_vMouseClickDownCallbacks.push_back(a_rCallback);
 }
 
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void EventManager::UnRegisterCallbackMouseDownClick()
+void EventManager::UnRegisterCallbackMouseDownClick(CallbackMouseButton& a_rCallback)
 {
-
+	std::vector<CallbackMouseButton>::iterator it = std::find(m_vMouseClickDownCallbacks.begin(),
+		m_vMouseClickDownCallbacks.end(),
+		a_rCallback);
+	if (it != m_vMouseClickDownCallbacks.end())
+	{
+		m_vMouseClickDownCallbacks.erase(it);
+	}
+	else
+	{
+		std::cerr<<"WARNING: CallBack not found."<<std::endl;
+	}
 }
 	
 //--------------------------------------------------------------------------------------------------------------------
@@ -215,8 +227,31 @@ void EventManager::DispatchKeyboardDownKeyEvent(unsigned char a_cKey) const
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void EventManager::DispatchMouseDownClick(int a_iButton, int a_iState, int a_iXCoordinates, int a_iYCoordinates) const
+void EventManager::DispatchMouseDownClick(int a_iButton, int a_iXCoordinates, int a_iYCoordinates) const
 {
+	std::vector<CallbackMouseButton>::const_iterator it = m_vMouseClickDownCallbacks.begin() ;
+	//The call back can specify that once its routine is done, all the other cannot exectute their routine.
+	bool bContinue = true;
+	while(it != m_vMouseClickDownCallbacks.end() && bContinue)
+	{
+		bContinue = (*it)(a_iButton, a_iXCoordinates, a_iYCoordinates);
+		++it;
+	}
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void EventManager::DispatchMouseUpClick( int a_iButton, int a_iXCoordinates, int a_iYCoordinates ) const
+{
+	std::vector<CallbackMouseButton>::const_iterator it = m_vMouseClickUpCallbacks.begin() ;
+	//The call back can specify that once its routine is done, all the other cannot exectute their routine.
+	bool bContinue = true;
+	while(it != m_vMouseClickUpCallbacks.end() && bContinue)
+	{
+		bContinue = (*it)(a_iButton, a_iXCoordinates, a_iYCoordinates);
+		++it;
+	}
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -263,3 +298,5 @@ void EventManager::DispatchResize(unsigned int a_uHeight, unsigned int a_uWidth)
 		++it;
 	}
 }
+
+

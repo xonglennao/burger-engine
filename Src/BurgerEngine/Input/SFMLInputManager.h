@@ -13,7 +13,7 @@
 #define __SFMLLINPUTMANAGER_H__
 
 ///	\name	SMFLInputManager.h
-///	\brief	Lowlevel glut input callback routines
+///	\brief	Lowlevel smlf input callback routines
 ///			Will send event to the EventManager
 ///			Library specific;
 
