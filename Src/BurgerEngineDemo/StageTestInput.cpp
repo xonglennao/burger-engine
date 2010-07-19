@@ -1,14 +1,27 @@
 #include "StageTestInput.h"
 #include "BurgerEngine/Input/EventManager.h"
 #include "BurgerEngine/Core/Engine.h"
+
+//MeshTest
+#include "BurgerEngine/Graphics/StaticMesh.h"
 #include <iostream>
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+StageTestInput::StageTestInput(std::string const& a_sId):
+	AbstractStage(a_sId),
+	m_pTestMesh(NULL)
+{
+	
+}
 
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
 bool StageTestInput::Init()
 {
-
+	/// Input Test
 	Engine::GetInstance().GrabEventManager().RegisterCallbackKeyboardDownKey(
 		EventManager::CallbackKeyboard(this,&StageTestInput::TestInput01));
 	Engine::GetInstance().GrabEventManager().RegisterCallbackKeyboardDownKey(
@@ -18,6 +31,10 @@ bool StageTestInput::Init()
 
 	Engine::GetInstance().GrabEventManager().RegisterCallbackMousePassiveMotion(
 		EventManager::CallbackMouseMotion(this,&StageTestInput::TestInputMouse));
+
+	/// MeshLoad Test
+	m_pTestMesh = new StaticMesh();
+	m_pTestMesh->LoadMesh("../Data/Mesh/teapot.obj");
 
 	return true;
 }
@@ -34,6 +51,8 @@ StageTestInput::~StageTestInput()
 	Engine::GetInstance().GrabEventManager().UnRegisterCallbackKeyboardDownKey(
 		EventManager::CallbackKeyboard(this,&StageTestInput::TestInput03));
 
+	delete m_pTestMesh;
+	m_pTestMesh = NULL;
 }
 
 
@@ -85,4 +104,12 @@ bool StageTestInput::TestInputMouse(unsigned int a_uMouseX, unsigned int a_uMous
 }
 
 
-
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void StageTestInput::_Render()
+{
+	// Render a mesh
+	gluLookAt(0.0f,0.0f,5.0f,0.0f,0.0f,0.0f,0.0f,1.0f,0.0f);
+	m_pTestMesh->Render();
+}

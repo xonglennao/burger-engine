@@ -12,22 +12,20 @@
 #ifndef __EVENTMANAGER_H__
 #define __EVENTMANAGER_H__
 
-///	\name EventManager.h
-///	\brief	Register and dispatch eventCallbacks
-///			So far works for input but could work with other stuff
-///			Here an exemple how to access control over keyboard
-///			You create a function bool MyClass::Foo(unsigned char) in you class
-///			Must return Fasle is want other callback to be not be called. (Pop Up menu)
-///			Then you call the following
-///			Engine::GetInstance().GetEventManager().RegisterCallbackKeyboardUpKey(CallBackKeyBoard<this,MyClass::Foo>);
-///			To unregister
-///			Engine::GetInstance().GetEventManager().UnRegisterCallbackKeyboardUpKey(CallBackKeyBoard<this,MyClass::Foo>);
-
 #include <vector>
 //#include "BurgerEngine/Base/Functor.h"
 #include "BurgerEngine/External/Loki/Include/loki/Functor.h"
 
-
+///	\name EventManager.h
+///	\brief	Register and dispatch eventCallbacks
+///	So far works for input but could work with other stuff
+///	Here an exemple how to access control over keyboard
+///	You create a function bool MyClass::Foo(unsigned char) in you class
+///	Must return Fasle is want other callback to be not be called. (Pop Up menu)
+///	Then you call the following
+///	Engine::GetInstance().GetEventManager().RegisterCallbackKeyboardUpKey(CallBackKeyBoard<this,MyClass::Foo>);
+///	To unregister
+///	Engine::GetInstance().GetEventManager().UnRegisterCallbackKeyboardUpKey(CallBackKeyBoard<this,MyClass::Foo>);
 class EventManager
 {
 public:

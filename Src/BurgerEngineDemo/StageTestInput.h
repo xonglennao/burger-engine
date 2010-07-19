@@ -15,16 +15,17 @@
 
 #include "BurgerEngine/Core/AbstractStage.h"
 
+class AbstractMesh;
+
 /// \class	StageTestInput
 /// \brief	Use for Testing Input
 ///	\TODO	Create unit test project, better than a shit load of test scattered into the project
-
 class StageTestInput: public AbstractStage
 {
 public:
 
 	/// \brief Constuctor, call parent
-	StageTestInput(std::string const& a_sId):AbstractStage(a_sId){}
+	StageTestInput(std::string const& a_sId);
 	~StageTestInput();
 
 	bool Init();
@@ -38,8 +39,11 @@ public:
 private:
 
 	/// \brief No display OVERRIDE
-	void _Render(){}
+	void _Render();
 
+
+	///TEMP mesh
+	AbstractMesh* m_pTestMesh;
 
 };
 
