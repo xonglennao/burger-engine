@@ -15,6 +15,7 @@
     <ClInclude Include="BurgerEngine\Base\CommonBase.h" />
     <ClInclude Include="BurgerEngine\Base\Functor.h" />
     <ClInclude Include="BurgerEngine\Base\Singleton.h" />
+    <ClInclude Include="BurgerEngine\Core\AbstractCamera.h" />
     <ClInclude Include="BurgerEngine\Core\AbstractStage.h" />
     <ClInclude Include="BurgerEngine\Core\Engine.h" />
     <ClInclude Include="BurgerEngine\Core\StageManager.h" />
@@ -29,6 +30,7 @@
     <ClCompile Include="BurgerEngineDemo\main.cpp" />
     <ClCompile Include="BurgerEngineDemo\StageTestInput.cpp" />
     <ClCompile Include="BurgerEngine\Base\Functor.cpp" />
+    <ClCompile Include="BurgerEngine\Core\AbstractCamera.cpp" />
     <ClCompile Include="BurgerEngine\Core\AbstractStage.cpp" />
     <ClCompile Include="BurgerEngine\Core\Engine.cpp" />
     <ClCompile Include="BurgerEngine\Core\StageManager.cpp" />

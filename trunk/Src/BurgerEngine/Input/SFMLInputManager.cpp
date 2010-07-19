@@ -43,7 +43,10 @@ void SFMLInputManager::ProcessEvents()
 				break;
 			}
 			break;
+		case sf::Event::MouseButtonPressed:
+			break;
 		case sf::Event::MouseMoved:
+			/// If a mus button is clicked, we use ActiveMotion
 			rEventManager.DispatchMousePassiveMotion(SFMLEvent.MouseMove.X,SFMLEvent.MouseMove.Y);
 			break;
 
