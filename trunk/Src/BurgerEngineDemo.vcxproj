@@ -19,8 +19,10 @@
     <ClInclude Include="BurgerEngine\Core\AbstractStage.h" />
     <ClInclude Include="BurgerEngine\Core\Engine.h" />
     <ClInclude Include="BurgerEngine\Core\StageManager.h" />
+    <ClInclude Include="BurgerEngine\Graphics\AbstractMesh.h" />
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h" />
     <ClInclude Include="BurgerEngine\Graphics\CommonGraphics.h" />
+    <ClInclude Include="BurgerEngine\Graphics\StaticMesh.h" />
     <ClInclude Include="BurgerEngine\Graphics\OpenGLContext.h" />
     <ClInclude Include="BurgerEngine\Graphics\Window.h" />
     <ClInclude Include="BurgerEngine\Input\EventManager.h" />
@@ -34,7 +36,9 @@
     <ClCompile Include="BurgerEngine\Core\AbstractStage.cpp" />
     <ClCompile Include="BurgerEngine\Core\Engine.cpp" />
     <ClCompile Include="BurgerEngine\Core\StageManager.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\AbstractMesh.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\AbstractPostEffect.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\StaticMesh.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\OpenGLContext.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\Window.cpp" />
     <ClCompile Include="BurgerEngine\Input\EventManager.cpp" />

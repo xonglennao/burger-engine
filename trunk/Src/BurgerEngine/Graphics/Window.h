@@ -16,6 +16,7 @@
 /// \brief	The application of the window
 
 /// TODO dirty
+#include "CommonGraphics.h"
 #include "BurgerEngine/External/SFML/Window.hpp"
 
 class Window
