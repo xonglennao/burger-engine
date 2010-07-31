@@ -22,6 +22,7 @@ void Engine::Init()
 	m_pRenderingContext->Init();
 
 	m_bTerminate = false;
+
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -51,6 +52,7 @@ void Engine::Run()
 	//Let's Roll
 	while (m_bTerminate == false)
 	{
+
 		//Update Scene
 		//TODO: The main loop might just process event the fact of updating a Scene could be an event.
 		m_pStageManager->Update();
@@ -58,8 +60,18 @@ void Engine::Run()
 		//Process Event
 		m_pEventManager->ProcessEventList();
 
+		//Render Scene
+		// \Todo: avoid a "rendering" function, better send buffer trough a pipeline
+		// and "flush" this pipeline at the end.
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //TEMP
+
+		m_pStageManager->Render();
+
 		//Swap buffer
 		m_pWindow->Display();
+
+		m_pRenderingContext->CheckError();
+
 	}
 
 }

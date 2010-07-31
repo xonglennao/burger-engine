@@ -43,6 +43,9 @@
     <ClCompile Include="BurgerEngine\Graphics\AbstractMesh.cpp">
       <Filter>BurgerEngine\Graphics\Mesh</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\DebugDraw.cpp">
+      <Filter>BurgerEngine\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -92,6 +95,9 @@
     </ClInclude>
     <ClInclude Include="BurgerEngine\Graphics\AbstractMesh.h">
       <Filter>BurgerEngine\Graphics\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\DebugDraw.h">
+      <Filter>BurgerEngine\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

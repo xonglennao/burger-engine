@@ -19,7 +19,7 @@ void StageManager::AddStage(AbstractStage* pStage)
 {
 	assert(pStage);
 	if (m_mStages.find(pStage->getName()) != m_mStages.end() )
-		std::cerr<<"ERROR : Scene is already added!"<<std::endl;
+		std::cerr<<"[ERROR][StageManager] : Scene is already added!"<<std::endl;
 	else
 	{
 		m_mStages[pStage->getName()] = pStage;
@@ -58,7 +58,7 @@ void StageManager::SetCurrentStage(const std::string& sName)
 {
 	std::map<std::string,AbstractStage*>::iterator it = m_mStages.find(sName);
 	if (it == m_mStages.end())
-		std::cerr<<"ERROR : No Stage found"<<std::endl;
+		std::cerr<<"[ERROR][StageManager]: No Stage found"<<std::endl;
 	else
 	{
 		m_pCurrentStage = (*it).second;
