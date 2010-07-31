@@ -30,6 +30,9 @@ public:
 
 	bool Init();
 
+	/// \brief Simple overriden update method
+	void Update() {}
+
 	/// \brief Callback Input test
 	bool TestInput01(unsigned char a_cKey);
 	bool TestInput02(unsigned char a_cKey);
@@ -42,8 +45,10 @@ private:
 	void _Render();
 
 
-	///TEMP mesh
+	///TEMP value
 	AbstractMesh* m_pTestMesh;
+	float	m_fFoward;
+	float	m_fStrife;
 
 };
 

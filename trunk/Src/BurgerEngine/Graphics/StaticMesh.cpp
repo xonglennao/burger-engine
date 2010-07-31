@@ -407,6 +407,7 @@ void StaticMesh::Render()
 	
 	for(std::vector<sMeshGroup>::iterator it=m_vGroup.begin(); it!=m_vGroup.end(); it++)
 	{
+		// Fix !!
 		glDrawElements(GL_TRIANGLES, (GLsizei)(*it).m_vsTriangle.size()*3, GL_UNSIGNED_INT, &((*it).m_vsTriangle[0].ind[0]));
 	}
 	

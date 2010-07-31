@@ -32,7 +32,11 @@ public:
 	bool Init();
 
 	/// \brief	Upon resizing of the window
-	bool ReshapeGl(unsigned int a_uHeight, unsigned int a_uWidth);
+	bool ReshapeGl(unsigned int a_uWidth, unsigned int a_uHeight);
+
+	/// \brief	Check if the rendering context has errors of not and display a message
+	/// \return true if error, false otherwise
+	bool CheckError();
 
 	/// \group Grabber
 	/// \{
