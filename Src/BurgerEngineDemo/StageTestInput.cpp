@@ -38,8 +38,8 @@ bool StageTestInput::Init()
 		EventManager::CallbackMouseMotion(this,&StageTestInput::TestInputMouse));
 
 	/// MeshLoad Test
-	//m_pTestMesh = new StaticMesh();
-	//m_pTestMesh->LoadMesh("../Data/Mesh/teapot.obj");
+	m_pTestMesh = new StaticMesh();
+	m_pTestMesh->LoadMesh("../Data/Mesh/teapot.obj");
 
 	return true;
 }
@@ -144,5 +144,7 @@ void StageTestInput::_Render()
 	DebugDraw::DrawAxis(osg::Vec3f(0.0f,0.0f,0.0f),1.0f);
 	DebugDraw::DrawGrid(10.0f,20);
 
-	//m_pTestMesh->Render();
+	glTranslatef(0.0f,0.0f,50.0f);
+	m_pTestMesh->Render();
+
 }

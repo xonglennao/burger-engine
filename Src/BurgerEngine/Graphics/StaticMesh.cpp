@@ -14,7 +14,11 @@
 //
 //--------------------------------------------------------------------------------------------------------------------
 StaticMesh::StaticMesh():
-m_iBufferId(0)
+	m_iBufferId(0),
+	m_iSizeVertex(0),
+	m_iSizeNormal(0),
+	m_iSizeTexture(0),
+	m_iSizeTangent(0)
 {
 }
 
@@ -62,7 +66,6 @@ bool StaticMesh::LoadFromFile(std::string const& a_sFilename)
 	}
 
 	sMeshTriangle sTriangle;
-
 
 	osg::Vec3 f3TemporaryVertex;
 	osg::Vec2 f2TemporaryCoordinates;
@@ -207,11 +210,10 @@ bool StaticMesh::LoadFromFile(std::string const& a_sFilename)
 				}
 
 				// We set the offset to the first value
-				long i;
+				unsigned int i;
 				for(i=0; (cBuffer[i] < '0') || (cBuffer[i] > '9') ;++i);	
 				
-				long v;
-				for(v=0; v < 3 ;v++) 
+				for(unsigned int v=0; v < 3 ;v++) 
 				{ 
 					// Triangle with 3 Vertex
 					iIndiceTrianglePosition = 0;
@@ -254,17 +256,17 @@ bool StaticMesh::LoadFromFile(std::string const& a_sFilename)
 						NEXT_INDICE;
 					}
 
-					int idx = 0;
+					unsigned int iIndex = 0;
 					switch(iMax) {
-					case 0: {idx = iIndiceTrianglePosition;	break;}
-					case 1: {idx = iIndiceTriangleNormal;	break;}
-					case 2: {idx = iIndiceTriangleCoord;	break;}
+					case 0: {iIndex = iIndiceTrianglePosition;	break;}
+					case 1: {iIndex = iIndiceTriangleNormal;	break;}
+					case 2: {iIndex = iIndiceTriangleCoord;	break;}
 					}
 
-					m_vf3Position[idx] = vf3TempPosition[iIndiceTrianglePosition];
-					m_vf3Normal[idx] = vf3TempNormal[iIndiceTriangleNormal];
-					m_vf3Texcoord[idx] = vf2TempTexcoord[iIndiceTriangleCoord];
-					sTriangle.ind[v] = idx;
+					m_vf3Position[iIndex] = vf3TempPosition[iIndiceTrianglePosition];
+					m_vf3Normal[iIndex] = vf3TempNormal[iIndiceTriangleNormal];
+					m_vf3Texcoord[iIndex] = vf2TempTexcoord[iIndiceTriangleCoord];
+					sTriangle.ind[v] = iIndex;
 		
 				}
 
@@ -272,7 +274,6 @@ bool StaticMesh::LoadFromFile(std::string const& a_sFilename)
 				m_vGroup[g].m_vsTriangle.push_back(sTriangle); 			
 			}
 		}
-		//delete[] buf;
 	}
 	pFile.close();
 
@@ -297,7 +298,32 @@ bool StaticMesh::LoadFromFile(std::string const& a_sFilename)
 //--------------------------------------------------------------------------------------------------------------------
 void StaticMesh::ComputeTangents()
 {
-	
+	m_vf3Tangent.resize( m_vf3Normal.size() );
+
+	for(std::vector<sMeshGroup>::iterator itG=m_vGroup.begin(); itG!=m_vGroup.end(); itG++) 
+	{
+		for(std::vector<sMeshTriangle>::iterator itF=(*itG).m_vsTriangle.begin(); itF!=(*itG).m_vsTriangle.end(); itF++) 
+		{
+			GLuint* ind = ((GLuint*)(*itF).ind);
+			osg::Vec3 f3Tangent;
+
+			osg::Vec3 v0 = m_vf3Position[ind[0]];
+			osg::Vec3 v1 = m_vf3Position[ind[1]];
+			osg::Vec3 v2 = m_vf3Position[ind[2]];
+
+			osg::Vec3 vect10 = v0-v1;
+			osg::Vec3 vect12 = v2-v1;
+
+			float deltaT10 = m_vf3Texcoord[ind[0]].y() - m_vf3Texcoord[ind[1]].y();
+			float deltaT12 = m_vf3Texcoord[ind[2]].y() - m_vf3Texcoord[ind[1]].y();
+
+			f3Tangent = (vect10 * deltaT12 ) - (vect12 * deltaT10 );
+			f3Tangent.normalize();
+
+			m_vf3Tangent[ind[0]] = m_vf3Tangent[ind[1]] = m_vf3Tangent[ind[2]] = f3Tangent;
+
+		}
+	}
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -405,10 +431,10 @@ void StaticMesh::Render()
 		glTexCoordPointer( 3,GL_FLOAT, 0, BUFFER_OFFSET(m_iSizeVertex+m_iSizeNormal+m_iSizeTexture));
 	}
 	
-	for(std::vector<sMeshGroup>::iterator it=m_vGroup.begin(); it!=m_vGroup.end(); it++)
+	for(std::vector<sMeshGroup>::iterator it=m_vGroup.begin(); it!=m_vGroup.end(); ++it)
 	{
-		// Fix !!
 		glDrawElements(GL_TRIANGLES, (GLsizei)(*it).m_vsTriangle.size()*3, GL_UNSIGNED_INT, &((*it).m_vsTriangle[0].ind[0]));
+		//glDrawElements(GL_TRIANGLES, 5, GL_UNSIGNED_INT, &((*it).m_vsTriangle[0].ind[0]));
 	}
 	
 	//Disable GLOption
@@ -438,4 +464,11 @@ void StaticMesh::Destroy()
 	}
 	m_vGroup.clear();
 }
+
+
+
+
+
+
+
 

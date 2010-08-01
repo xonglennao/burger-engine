@@ -44,7 +44,6 @@ private:
 	/// \brief No display OVERRIDE
 	void _Render();
 
-
 	///TEMP value
 	AbstractMesh* m_pTestMesh;
 	float	m_fFoward;
