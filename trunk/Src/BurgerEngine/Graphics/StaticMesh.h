@@ -14,7 +14,7 @@
 
 #include "AbstractMesh.h"
 #include "BurgerEngine/External/Osg/Vec3"
-#include "BurgerEngine/External/Osg/Vec2"
+
 #include <vector>
 
 /// \class StaticMesh

@@ -170,7 +170,7 @@ void EventManager::UnRegisterCallbackMouseActiveMotion(CallbackMouseMotion& a_rC
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void EventManager::RegisterCallbacResize(CallbackResize& a_rCallback)
+void EventManager::RegisterCallbackResize(CallbackResize& a_rCallback)
 {
 	m_vResizeCallbacks.push_back(a_rCallback);
 }
@@ -178,7 +178,7 @@ void EventManager::RegisterCallbacResize(CallbackResize& a_rCallback)
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void EventManager::UnRegisterCallbacResize(CallbackResize& a_rCallback)
+void EventManager::UnRegisterCallbackResize(CallbackResize& a_rCallback)
 {
 	std::vector<CallbackResize>::iterator it = std::find(m_vResizeCallbacks.begin(),
 		m_vResizeCallbacks.end(),
@@ -287,14 +287,14 @@ void EventManager::DispatchMouseActiveMotion(unsigned int a_iXCoordinates, unsig
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void EventManager::DispatchResize(unsigned int a_uHeight, unsigned int a_uWidth) const
+void EventManager::DispatchResize(unsigned int a_uWidth, unsigned int a_uHeight) const
 {
 	std::vector<CallbackResize>::const_iterator it = m_vResizeCallbacks.begin() ;
 	//The call back can specify that once its routine is done, all the other cannot exectute their routine.
 	bool bContinue = true;
 	while(it != m_vResizeCallbacks.end() && bContinue)
 	{
-		bContinue = (*it)(a_uHeight, a_uWidth);
+		bContinue = (*it)(a_uWidth, a_uHeight);
 		++it;
 	}
 }

@@ -30,7 +30,7 @@ void StageManager::AddStage(AbstractStage* pStage)
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void StageManager::Clear()
+void StageManager::Terminate()
 {
 	for (std::map<std::string , AbstractStage*>::iterator iter = m_mStages.begin() ; iter != m_mStages.end() ; ++iter)
 	{

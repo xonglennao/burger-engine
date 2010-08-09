@@ -14,4 +14,5 @@
 #include <GL/glut.h>
 #include <GL/glu.h>
 
+#include "BurgerEngine/External/Osg/Vec2"
 #include "BurgerEngine/Base/CommonBase.h"

@@ -17,6 +17,7 @@
 
 /// TODO dirty
 #include "CommonGraphics.h"
+#include "BurgerEngine/External/Osg/Vec2s"
 #include "BurgerEngine/External/SFML/Window.hpp"
 
 class Window
@@ -27,17 +28,17 @@ public:
 	Window();
 
 	/// \brief	Initial set up of the Window Application
-	bool Init();
-
-	/// \brief	SWap front to back buffer + Check Time for FPS
-	void Display();
-
-	/// \brief Resize the window
-	bool Resize(unsigned int a_uHeight, unsigned int a_uWidth);
+	bool Initialize();
 
 	/// \brief	Clear Buffer and such for a clean exit
 	void Terminate();
 
+
+	/// \brief	SWap front to back buffer + Check Time for FPS
+	void Display();
+
+	/// \brief GetWindow size
+	osg::Vec2s const& GetWindowSize() const;
 
 	/// \group Grabber
 	/// \{
@@ -65,8 +66,11 @@ private:
 	sf::Window* m_pDriverWindow;
 
 	bool m_bIsActive;
+
+	/// Size of the window
+	/// \todo this info is already contain in the implemented window (driver)
+	/// but when we will try to separate or create our own window it will be useful
+	osg::Vec2s m_i2Size;
 };
-
-
 
 #endif //__WINDOW_H__

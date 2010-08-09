@@ -12,17 +12,17 @@
 #ifndef __ENGINE_H__
 #define __ENGINE_H__
 
-///	\name	Engine.h
-///	\brief	It's the main core of the program
-///			it runs all manager etc..
-
 #include "BurgerEngine/Base/Singleton.h"
 
 class EventManager;
 class StageManager;
 class Window;
 class OpenGLContext;
+class AbstractCamera;
 
+///	\name	Engine.h
+///	\brief	It's the main core of the program
+///			it runs all manager etc..
 class Engine:public Singleton<Engine>
 {
 	friend class Singleton<Engine>;
@@ -47,8 +47,12 @@ public:
 	/// \brief	Get the window context
 	Window const& GetWindow() const {return *m_pWindow;}
 
+	/// \brief Get Current camera
+	/// \todo a camera manager
+	AbstractCamera const& GetCurrentCamera() const;
+
 	/// \brief	Grabber
-	EventManager& GrabEventManager() {return *m_pEventManager;}
+	EventManager& GrabEventManager();
 
 	/// \brief	Getter
 	EventManager const& GetEventManager() const {return *m_pEventManager;}
@@ -61,7 +65,7 @@ public:
 protected:
 
 	/// \brief Constructor/Desctructor
-	Engine(){};
+	Engine();
 	virtual ~Engine(){Terminate();}
 
 private:
@@ -69,6 +73,8 @@ private:
 	EventManager*	m_pEventManager;
 	StageManager*	m_pStageManager;
 
+	/// Current Camera used by the scene
+	AbstractCamera* m_pCurrentCamera;
 
 	Window*			m_pWindow;
 	OpenGLContext*	m_pRenderingContext;

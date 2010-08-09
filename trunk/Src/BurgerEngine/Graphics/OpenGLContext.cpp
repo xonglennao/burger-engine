@@ -14,7 +14,7 @@ OpenGLContext::OpenGLContext()
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-bool OpenGLContext::Init()
+bool OpenGLContext::Initialize()
 {
 	///Initialisation of Glew
 	GLenum err = glewInit();
@@ -46,10 +46,20 @@ bool OpenGLContext::Init()
 	ReshapeGl(800,600);
 
 	//Register Reshape method
-	EventManager& rEventManager = Engine::GetInstance().GrabEventManager();
-	rEventManager.RegisterCallbacResize(EventManager::CallbackResize(this,&OpenGLContext::ReshapeGl));
+	EventManager& rEventManager = Engine::GrabInstance().GrabEventManager();
+	rEventManager.RegisterCallbackResize(EventManager::CallbackResize(this,&OpenGLContext::ReshapeGl));
 
 	return true;
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void OpenGLContext::Terminate()
+{
+	//Register Reshape method
+	EventManager& rEventManager = Engine::GrabInstance().GrabEventManager();
+	rEventManager.UnRegisterCallbackResize(EventManager::CallbackResize(this,&OpenGLContext::ReshapeGl));
 }
 
 //--------------------------------------------------------------------------------------------------------------------

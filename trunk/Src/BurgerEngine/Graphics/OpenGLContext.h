@@ -29,7 +29,10 @@ public:
 	~OpenGLContext(){}
 
 	/// \brief	Initial set up of the OpenGl context
-	bool Init();
+	bool Initialize();
+
+	/// \brief Clear variable
+	void Terminate();
 
 	/// \brief	Upon resizing of the window
 	bool ReshapeGl(unsigned int a_uWidth, unsigned int a_uHeight);

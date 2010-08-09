@@ -19,7 +19,7 @@ void SFMLInputManager::InitializeInput()
 //--------------------------------------------------------------------------------------------------------------------
 void SFMLInputManager::ProcessEvents()
 {
-	Engine& rEngine = Engine::GetInstance();
+	Engine& rEngine = Engine::GrabInstance();
 	EventManager const& rEventManager = rEngine.GetEventManager();
 
 	sf::Window & rWindow = rEngine.GetWindow().GrabDriverWindow();
@@ -51,7 +51,7 @@ void SFMLInputManager::ProcessEvents()
 			break;
 
 		case sf::Event::Resized:
-			rEventManager.DispatchResize(SFMLEvent.Size.Height,SFMLEvent.Size.Width);
+			rEventManager.DispatchResize(SFMLEvent.Size.Width,SFMLEvent.Size.Height);
 			break;
 		case sf::Event::Closed:
 			rEngine.SetTerminate(true);

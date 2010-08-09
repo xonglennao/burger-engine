@@ -46,6 +46,9 @@
     <ClCompile Include="BurgerEngine\Graphics\DebugDraw.cpp">
       <Filter>BurgerEngine\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\Core\CameraFps.cpp">
+      <Filter>BurgerEngine\Core\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -98,6 +101,9 @@
     </ClInclude>
     <ClInclude Include="BurgerEngine\Graphics\DebugDraw.h">
       <Filter>BurgerEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Core\CameraFps.h">
+      <Filter>BurgerEngine\Core\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
