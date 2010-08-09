@@ -100,7 +100,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32s.lib;glew32.lib;glut32.lib;glut.lib;sfml-window-d.lib;sfml-window.lib;loki_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;glew32.lib;openGL32.lib;glu32.lib;sfml-window-d.lib;sfml-window.lib;loki_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
