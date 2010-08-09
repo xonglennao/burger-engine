@@ -1,0 +1,125 @@
+#include "CameraFps.h"
+#include "BurgerEngine/Core/Engine.h"
+#include "BurgerEngine/Input/EventManager.h"
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void CameraFps::Initialize()
+{
+	//AbstractCamera::Initialize();
+
+	//Register callback
+	Engine::GrabInstance().GrabEventManager().RegisterCallbackKeyboardDownKey(
+		EventManager::CallbackKeyboard(this,&CameraFps::OnDownKey));
+	Engine::GrabInstance().GrabEventManager().RegisterCallbackMousePassiveMotion(
+		EventManager::CallbackMouseMotion(this,&CameraFps::OnMouseMoved));
+	Engine::GrabInstance().GrabEventManager().RegisterCallbackResize(
+		EventManager::CallbackResize(this,&CameraFps::OnResize));
+
+	/// \todo Get back init parameters
+	m_f2WindowSize.set(800.0,600.0);
+
+	m_fMovingSpeed = 0.2f;
+
+	m_fMouseSpeed = 0.1f;
+
+	m_fAlpha=0;
+	m_fPhi=-90;
+
+	_VectorsFromAngles();
+	
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void CameraFps::Terminate()
+{
+	// Unregister callback
+	Engine::GrabInstance().GrabEventManager().UnRegisterCallbackKeyboardDownKey(
+		EventManager::CallbackKeyboard(this,&CameraFps::OnDownKey));
+	Engine::GrabInstance().GrabEventManager().UnRegisterCallbackMouseActiveMotion(
+		EventManager::CallbackMouseMotion(this,&CameraFps::OnMouseMoved));
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void CameraFps::Update()
+{
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+bool CameraFps::OnDownKey(unsigned char a_cKey)
+{
+	osg::Vec3f& rPos = _GrabPos();
+
+	float fY = rPos.y();
+	rPos.y() = ++fY;
+
+	return true;
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+bool CameraFps::OnResize(unsigned int a_uWidth, unsigned int a_uHeight)
+{
+	m_f2WindowSize.set(static_cast<float>(a_uWidth),static_cast<float>(a_uHeight));
+	return true;
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+bool CameraFps::OnMouseMoved(unsigned int a_uX, unsigned int a_uY)
+{
+
+	m_fAlpha += (m_f2WindowSize.x() / (2.0f - static_cast<float>(a_uX) ) )* m_fMouseSpeed;
+	m_fPhi +=(m_f2WindowSize.y() /2.0f - static_cast<float>(a_uY) )*m_fMouseSpeed;
+
+	if(m_fPhi>-1)
+	{
+		m_fPhi=-1;
+	}
+	if(m_fPhi<-179)
+	{
+		m_fPhi=-179;
+	}
+
+	if(m_fAlpha>360 || m_fAlpha < -360)
+	{
+		m_fAlpha = 0.0; 
+	}
+	_VectorsFromAngles();
+
+	return true;
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void CameraFps::_VectorsFromAngles()
+{
+	osg::Vec3f& rf3Direction = _GrabDirection();
+
+	rf3Direction.x() = sin(m_fPhi*M_PI/180.0f)*sin(m_fAlpha*M_PI/180.0f);
+	rf3Direction.y() = cos(m_fPhi*M_PI/180.0f);
+	rf3Direction.z() = sin(m_fPhi*M_PI/180.0f)*cos(m_fAlpha*M_PI/180.0f);
+
+	//Cross product
+	osg::Vec3f& rf3Up = _GrabUp();
+	m_f3Right = rf3Up^rf3Direction;
+
+	//normalize
+	m_f3Right.normalize();
+
+	osg::Vec3f& rf3Aim = _GrabAim();
+	osg::Vec3f& rf3Pos = _GrabPos();
+
+	rf3Aim = rf3Pos + rf3Direction;
+}
+

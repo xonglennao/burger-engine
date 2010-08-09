@@ -72,8 +72,8 @@ public:
 	void UnRegisterCallbackMouseActiveMotion(CallbackMouseMotion& a_rCallback);
 
 	/// \brief Register when screen is resized
-	void RegisterCallbacResize(CallbackResize& a_rCallback);
-	void UnRegisterCallbacResize(CallbackResize& a_rCallback);
+	void RegisterCallbackResize(CallbackResize& a_rCallback);
+	void UnRegisterCallbackResize(CallbackResize& a_rCallback);
 
 	///--------- Dispatch event ----------------
 	/// \brief	Send the key event to every register Callback
@@ -95,7 +95,7 @@ public:
 	void DispatchMouseActiveMotion(unsigned int a_iXCoordinates, unsigned int a_iYCoordinates) const;
 	 
 	/// \brief	Send the Resize event to every register callback
-	void DispatchResize(unsigned int a_uHeight, unsigned int a_uWidth) const;
+	void DispatchResize(unsigned int a_uWidth, unsigned int a_uHeight) const;
 
 
 private:

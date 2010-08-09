@@ -2,6 +2,7 @@
 #include "BurgerEngine/Graphics/DebugDraw.h"
 #include "BurgerEngine/Input/EventManager.h"
 #include "BurgerEngine/Core/Engine.h"
+#include "BurgerEngine/Core/AbstractCamera.h"
 
 //MeshTest
 #include "BurgerEngine/Graphics/StaticMesh.h"
@@ -27,14 +28,14 @@ StageTestInput::StageTestInput(std::string const& a_sId):
 bool StageTestInput::Init()
 {
 	/// Input Test
-	Engine::GetInstance().GrabEventManager().RegisterCallbackKeyboardDownKey(
+	Engine::GrabInstance().GrabEventManager().RegisterCallbackKeyboardDownKey(
 		EventManager::CallbackKeyboard(this,&StageTestInput::TestInput01));
-	Engine::GetInstance().GrabEventManager().RegisterCallbackKeyboardDownKey(
+	Engine::GrabInstance().GrabEventManager().RegisterCallbackKeyboardDownKey(
 		EventManager::CallbackKeyboard(this,&StageTestInput::TestInput02));
-	Engine::GetInstance().GrabEventManager().RegisterCallbackKeyboardDownKey(
+	Engine::GrabInstance().GrabEventManager().RegisterCallbackKeyboardDownKey(
 		EventManager::CallbackKeyboard(this,&StageTestInput::TestInput03));
 
-	Engine::GetInstance().GrabEventManager().RegisterCallbackMousePassiveMotion(
+	Engine::GrabInstance().GrabEventManager().RegisterCallbackMousePassiveMotion(
 		EventManager::CallbackMouseMotion(this,&StageTestInput::TestInputMouse));
 
 	/// MeshLoad Test
@@ -49,11 +50,11 @@ bool StageTestInput::Init()
 //--------------------------------------------------------------------------------------------------------------------
 StageTestInput::~StageTestInput()
 {
-	Engine::GetInstance().GrabEventManager().UnRegisterCallbackKeyboardDownKey(
+	Engine::GrabInstance().GrabEventManager().UnRegisterCallbackKeyboardDownKey(
 		EventManager::CallbackKeyboard(this,&StageTestInput::TestInput01));
-	Engine::GetInstance().GrabEventManager().UnRegisterCallbackKeyboardDownKey(
+	Engine::GrabInstance().GrabEventManager().UnRegisterCallbackKeyboardDownKey(
 		EventManager::CallbackKeyboard(this,&StageTestInput::TestInput02));
-	Engine::GetInstance().GrabEventManager().UnRegisterCallbackKeyboardDownKey(
+	Engine::GrabInstance().GrabEventManager().UnRegisterCallbackKeyboardDownKey(
 		EventManager::CallbackKeyboard(this,&StageTestInput::TestInput03));
 
 	if (m_pTestMesh)
@@ -71,25 +72,6 @@ bool StageTestInput::TestInput01(unsigned char a_cKey)
 {
 	std::cout<<"Input method 1 : "<<a_cKey<<std::endl;
 
-	float fStep  = 0.2f;
-	switch(a_cKey)
-	{
-	case 'z':
-		m_fFoward += fStep;
-		break;
-	case 's':
-		m_fFoward -= fStep;
-		break;
-	case 'q':
-		m_fStrife -= fStep;
-		break;
-	case 'd':
-		m_fStrife += fStep;
-		break;
-	}
-
-	std::cout<<"X : "<<m_fStrife<<std::endl;
-	std::cout<<"Z : "<<m_fFoward<<std::endl;
 	// Do not do any of those following.
 	// You cannot modifiy the EvenManager since you are beeing call by the Vector of callback
 	// TODO: a differed Event list, and then you will be able to modify The event manager inside the callback
@@ -126,7 +108,7 @@ bool StageTestInput::TestInput03(unsigned char a_cKey)
 //--------------------------------------------------------------------------------------------------------------------
 bool StageTestInput::TestInputMouse(unsigned int a_uMouseX, unsigned int a_uMouseY)
 {
-	std::cout<<"Input method Mouse : "<<a_uMouseX<<" "<<a_uMouseY<<std::endl;
+	//std::cout<<"Input method Mouse : "<<a_uMouseX<<" "<<a_uMouseY<<std::endl;
 	return true;
 }
 
@@ -139,11 +121,19 @@ void StageTestInput::_Render()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	// Render a mesh
-	gluLookAt(m_fStrife,1.0f,m_fFoward,0.0f,0.0f,50.0f,0.0f,1.0f,0.0f);
+	Engine const& rEngine = Engine::GetInstance();
+	AbstractCamera const& rCamera = rEngine.GetCurrentCamera();
+
+	gluLookAt(rCamera.GetPos().x(), rCamera.GetPos().y(), rCamera.GetPos().z(),
+		rCamera.GetAim().x(), rCamera.GetAim().y(), rCamera.GetAim().z(),
+		rCamera.GetUp().x(), rCamera.GetUp().y(), rCamera.GetUp().z());
+
+	std::cout<<"Input method Mouse : "<<rCamera.GetAim().x()<<" "<<rCamera.GetAim().y()<< " "<<
+		rCamera.GetAim().z()<<std::endl;
 	DebugDraw::DrawAxis(osg::Vec3f(0.0f,0.0f,0.0f),1.0f);
 	DebugDraw::DrawGrid(10.0f,20);
 
+	// Render a mesh
 	glTranslatef(0.0f,0.0f,50.0f);
 	m_pTestMesh->Render();
 

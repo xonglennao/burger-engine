@@ -11,6 +11,11 @@
 
 #ifndef NULL
 #define NULL    0
-#endif
+#endif //NULL
+
+/// \todo put this into a math file
+#ifndef M_PI
+#define M_PI	3.141592
+#endif //M_PI
 
 #include <iostream>

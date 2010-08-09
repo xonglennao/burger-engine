@@ -33,12 +33,18 @@ protected:
 public:
 
 	/// \brief Only way to get the singleton
-	static inline T& GetInstance()
+	static inline T& GrabInstance()
 	{
 		if (s_pInstance == NULL)
 		{
 			s_pInstance = new T;
 		}
+		return *s_pInstance;
+	}
+
+	static inline T const& GetInstance()
+	{
+		assert(s_pInstance != NULL);
 		return *s_pInstance;
 	}
 

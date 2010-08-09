@@ -19,16 +19,18 @@
 
 int main(int argc, char **argv)
 {
+	Engine& rEngine = Engine::GrabInstance();
 
-	Engine::GetInstance().Init();
+	rEngine.Init();
 
 	//TEMP franck: Test Input
 	StageTestInput* pStage = new StageTestInput("TestInput");
 	pStage->Init();
-	Engine::GetInstance().GetStageManager().AddStage(pStage);
-	Engine::GetInstance().GetStageManager().SetCurrentStage("TestInput");
 
-	Engine::GetInstance().Run();
+	rEngine.GetStageManager().AddStage(pStage);
+	rEngine.GetStageManager().SetCurrentStage("TestInput");
+
+	rEngine.Run();
 
 	//if we exit the run loop it's over
 	Engine::KillInstance();

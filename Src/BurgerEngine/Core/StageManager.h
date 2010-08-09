@@ -27,7 +27,7 @@ class StageManager
 public:
 	/// \brief Constructor/Desctructor
 	StageManager();
-	virtual ~StageManager(){Clear();}
+	virtual ~StageManager(){Terminate();}
 
 	/// \brief Add a Stage to the manager
 	void AddStage(AbstractStage* pStage);
@@ -36,7 +36,7 @@ public:
 	void SetCurrentStage(const std::string& sName);
 
 	/// \brief Erase every data in the manager
-	void Clear();
+	void Terminate();
 
 	/// \brief Update the current stage
 	void Update();

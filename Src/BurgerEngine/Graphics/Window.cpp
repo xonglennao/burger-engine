@@ -11,7 +11,7 @@ Window::Window()
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-bool Window::Init()
+bool Window::Initialize()
 {
 	//Set Up parameters
 	sf::WindowSettings oSettings;
@@ -27,9 +27,7 @@ bool Window::Init()
 	m_pDriverWindow = new sf::Window();
 	m_pDriverWindow->Create(sf::VideoMode(800,600,32),"BurgerDemo", m_eWindowStyle, oSettings);
 
-	//Register the Resize method to the event manager
-	EventManager& rEventManager = Engine::GetInstance().GrabEventManager();
-	rEventManager.RegisterCallbacResize(EventManager::CallbackResize(this,&Window::Resize));
+	m_i2Size.set(800,600);
 
 	SetActive(true);
 
@@ -37,14 +35,13 @@ bool Window::Init()
 	return true;
 }
 
+
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-bool Window::Resize(unsigned int a_uHeight, unsigned int a_uWidth)
+osg::Vec2s const& Window::GetWindowSize() const
 {
-	
-	/// \todo is it a usefull method?
-	return true;
+	return m_i2Size;
 }
 
 //--------------------------------------------------------------------------------------------------------------------

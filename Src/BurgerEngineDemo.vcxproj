@@ -17,6 +17,7 @@
     <ClInclude Include="BurgerEngine\Base\Singleton.h" />
     <ClInclude Include="BurgerEngine\Core\AbstractCamera.h" />
     <ClInclude Include="BurgerEngine\Core\AbstractStage.h" />
+    <ClInclude Include="BurgerEngine\Core\CameraFps.h" />
     <ClInclude Include="BurgerEngine\Core\Engine.h" />
     <ClInclude Include="BurgerEngine\Core\StageManager.h" />
     <ClInclude Include="BurgerEngine\Graphics\AbstractMesh.h" />
@@ -35,6 +36,7 @@
     <ClCompile Include="BurgerEngine\Base\Functor.cpp" />
     <ClCompile Include="BurgerEngine\Core\AbstractCamera.cpp" />
     <ClCompile Include="BurgerEngine\Core\AbstractStage.cpp" />
+    <ClCompile Include="BurgerEngine\Core\CameraFps.cpp" />
     <ClCompile Include="BurgerEngine\Core\Engine.cpp" />
     <ClCompile Include="BurgerEngine\Core\StageManager.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\AbstractMesh.cpp" />
