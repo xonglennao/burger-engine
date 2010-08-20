@@ -43,6 +43,9 @@ public:
 	/// \brief What action to do when the user move the mouse
 	bool OnMouseMoved(unsigned int a_uX, unsigned int a_uY);
 
+	/// \brief Set flags relative to camera movement
+	virtual void SetFlag( CameraFlagEnum eFlag, bool bValue);
+
 private:
 
 	/// \brief Grab direction the camera is pointing at
@@ -71,6 +74,12 @@ private:
 	/// \todo bap: add detail
 	float m_fAlpha;
 	float m_fPhi;	
+
+	/// These booleans are set to true when the correspondign key is pressed, in order to avoid repeat delay
+	bool m_bForward;
+	bool m_bBackward;
+	bool m_bLeft;
+	bool m_bRight;
 
 };
 

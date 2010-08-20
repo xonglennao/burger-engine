@@ -33,6 +33,11 @@ public:
 	/// \brief Simple overriden update method
 	void Update() {}
 
+
+	///\ \brief Manage keyboard input
+	bool OnKeyUp(unsigned char a_cKey);
+	bool OnKeyDown(unsigned char a_cKey);
+
 	/// \brief Callback Input test
 	bool TestInput01(unsigned char a_cKey);
 	bool TestInput02(unsigned char a_cKey);

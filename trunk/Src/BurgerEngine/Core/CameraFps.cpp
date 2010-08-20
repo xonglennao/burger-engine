@@ -20,12 +20,17 @@ void CameraFps::Initialize()
 	/// \todo Get back init parameters
 	m_f2WindowSize.set(800.0,600.0);
 
-	m_fMovingSpeed = 0.2f;
+	m_fMovingSpeed = 0.02f;
 
 	m_fMouseSpeed = 0.1f;
 
 	m_fAlpha=0;
 	m_fPhi=-90;
+
+	m_bForward = false;
+	m_bBackward = false;
+	m_bLeft = false;
+	m_bRight = false;
 
 	_VectorsFromAngles();
 	
@@ -48,6 +53,32 @@ void CameraFps::Terminate()
 //--------------------------------------------------------------------------------------------------------------------
 void CameraFps::Update()
 {
+	osg::Vec3f& rf3Pos = _GrabPos();
+	
+	if( m_bForward )
+	{
+		rf3Pos.x() += m_fMovingSpeed * m_f3Direction.x();
+		rf3Pos.y() += m_fMovingSpeed * m_f3Direction.y();
+		rf3Pos.z() += m_fMovingSpeed * m_f3Direction.z();
+	}
+	if( m_bBackward )
+	{
+		rf3Pos.x() -= m_fMovingSpeed * m_f3Direction.x();
+		rf3Pos.y() -= m_fMovingSpeed * m_f3Direction.y();
+		rf3Pos.z() -= m_fMovingSpeed * m_f3Direction.z();	
+	}
+	if( m_bLeft )
+	{
+		rf3Pos.x() += m_fMovingSpeed * m_f3Right.x();
+		rf3Pos.z() += m_fMovingSpeed * m_f3Right.z();	
+	}
+	if( m_bRight )
+	{
+		rf3Pos.x() -= m_fMovingSpeed * m_f3Right.x();
+		rf3Pos.z() -= m_fMovingSpeed * m_f3Right.z();
+	}
+
+	_VectorsFromAngles();
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -55,11 +86,6 @@ void CameraFps::Update()
 //--------------------------------------------------------------------------------------------------------------------
 bool CameraFps::OnDownKey(unsigned char a_cKey)
 {
-	osg::Vec3f& rPos = _GrabPos();
-
-	float fY = rPos.y();
-	rPos.y() = ++fY;
-
 	return true;
 }
 
@@ -121,5 +147,24 @@ void CameraFps::_VectorsFromAngles()
 	osg::Vec3f& rf3Pos = _GrabPos();
 
 	rf3Aim = rf3Pos + rf3Direction;
+}
+
+void CameraFps::SetFlag( CameraFlagEnum eFlag, bool bValue )
+{
+	switch( eFlag )
+	{
+	case E_CAMERA_FORWARD:
+		m_bForward = bValue;
+		break;
+	case E_CAMERA_BACKWARD:
+		m_bBackward = bValue;	
+		break;
+	case E_CAMERA_LEFT:
+		m_bLeft = bValue;
+		break;
+	case E_CAMERA_RIGHT:
+		m_bRight = bValue;
+		break;
+	}
 }
 
