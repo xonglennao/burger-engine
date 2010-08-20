@@ -19,6 +19,15 @@
 class AbstractCamera
 {
 public:
+	enum CameraFlagEnum
+	{
+		 E_CAMERA_FORWARD
+		,E_CAMERA_BACKWARD
+		,E_CAMERA_LEFT
+		,E_CAMERA_RIGHT
+	};
+
+public:
 	/// \brief constructor
 	AbstractCamera();
 
@@ -33,6 +42,9 @@ public:
 
 	/// \brief Terminate Camera (free callback)
 	virtual void Terminate() = 0;
+
+	/// \brief Set flags related to camera movement
+	virtual void SetFlag( CameraFlagEnum eFlag, bool bValue){};
 
 	osg::Vec3 const& GetPos() const	{return m_f3Pos;}
 	osg::Vec3 const& GetAim() const {return m_f3Aim;}

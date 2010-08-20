@@ -49,7 +49,7 @@ public:
 
 	/// \brief Get Current camera
 	/// \todo a camera manager
-	AbstractCamera const& GetCurrentCamera() const;
+	AbstractCamera & GetCurrentCamera() const;
 
 	/// \brief	Grabber
 	EventManager& GrabEventManager();

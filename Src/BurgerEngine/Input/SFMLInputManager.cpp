@@ -43,6 +43,14 @@ void SFMLInputManager::ProcessEvents()
 				break;
 			}
 			break;
+			case sf::Event::KeyReleased:
+			switch (SFMLEvent.Key.Code)
+			{
+			default:
+				rEventManager.DispatchKeyboardUpKeyEvent(SFMLEvent.Key.Code);
+				break;
+			}
+			break;
 		case sf::Event::MouseButtonPressed:
 			break;
 		case sf::Event::MouseMoved:

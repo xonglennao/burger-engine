@@ -107,7 +107,7 @@ void Engine::Run()
  //--------------------------------------------------------------------------------------------------------------------
  //
  //--------------------------------------------------------------------------------------------------------------------
- AbstractCamera const& Engine::GetCurrentCamera() const 
+ AbstractCamera & Engine::GetCurrentCamera() const 
  {
 	 // The current Camera can not be null
 	 assert(m_pCurrentCamera != NULL);
