@@ -78,7 +78,7 @@ bool CameraFps::OnResize(unsigned int a_uWidth, unsigned int a_uHeight)
 bool CameraFps::OnMouseMoved(unsigned int a_uX, unsigned int a_uY)
 {
 
-	m_fAlpha += (m_f2WindowSize.x() / (2.0f - static_cast<float>(a_uX) ) )* m_fMouseSpeed;
+	m_fAlpha += (m_f2WindowSize.x() / 2.0f - static_cast<float>(a_uX) )* m_fMouseSpeed;
 	m_fPhi +=(m_f2WindowSize.y() /2.0f - static_cast<float>(a_uY) )*m_fMouseSpeed;
 
 	if(m_fPhi>-1)
