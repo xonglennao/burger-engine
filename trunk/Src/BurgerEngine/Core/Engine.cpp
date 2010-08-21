@@ -6,6 +6,11 @@
 #include "BurgerEngine/Graphics/Window.h"
 #include "BurgerEngine/Graphics/OpenGLContext.h"
 
+	// I've put this here just to set the same parameters to the window, the camera and the openGL context
+	// we might do something a little better than this...
+	const float fWindowWidth = 1280.0;
+	const float fWindowHeight = 720.0;
+
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
@@ -27,16 +32,16 @@ void Engine::Init()
 	m_pStageManager = new StageManager();
 
 	m_pWindow = new Window();
-	m_pWindow->Initialize();
+	m_pWindow->Initialize( fWindowWidth, fWindowHeight );
 
 	// Creation of the camera
 	/// \todo this is temporary, we should use a better camera system
 	m_pCurrentCamera = new CameraFps();
-	m_pCurrentCamera->Initialize();
+	m_pCurrentCamera->Initialize( fWindowWidth, fWindowHeight );
 
 	//Create the Rendering Context
 	m_pRenderingContext = new OpenGLContext();
-	m_pRenderingContext->Initialize();
+	m_pRenderingContext->Initialize( fWindowWidth, fWindowHeight );
 
 	m_bTerminate = false;
 
@@ -85,7 +90,8 @@ void Engine::Run()
 
 		/// \Todo XL: Bad; hard coded and ugly to put this here!
 		/// maybe put in into the camera??
-		m_pWindow->GrabDriverWindow().SetCursorPosition(400,300);
+		m_pWindow->GrabDriverWindow().SetCursorPosition( fWindowWidth / 2.0, fWindowHeight / 2.0 );
+		m_pWindow->GrabDriverWindow().ShowMouseCursor( false );
 
 		//Render Scene
 		// \Todo XL: avoid a "rendering" function, better send buffer trough a pipeline

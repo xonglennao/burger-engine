@@ -28,7 +28,7 @@ public:
 	Window();
 
 	/// \brief	Initial set up of the Window Application
-	bool Initialize();
+	bool Initialize( const float a_fWindowWidth, const float a_fWindowHeight );
 
 	/// \brief	Clear Buffer and such for a clean exit
 	void Terminate();

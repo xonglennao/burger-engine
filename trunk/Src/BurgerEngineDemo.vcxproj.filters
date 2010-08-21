@@ -49,6 +49,66 @@
     <ClCompile Include="BurgerEngine\Core\CameraFps.cpp">
       <Filter>BurgerEngine\Core\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\Core\StageMain3DScene.cpp">
+      <Filter>BurgerEngine\Core\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\ForwardRenderer.cpp">
+      <Filter>BurgerEngine\Graphics\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\FBO.cpp">
+      <Filter>BurgerEngine\Graphics\FBO</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\SceneMesh.cpp">
+      <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\SceneObject.cpp">
+      <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\Material.cpp">
+      <Filter>BurgerEngine\Graphics\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\Shader.cpp">
+      <Filter>BurgerEngine\Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\ShaderTool.cpp">
+      <Filter>BurgerEngine\Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\Texture2D.cpp">
+      <Filter>BurgerEngine\Graphics\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\AbstractTexture.cpp">
+      <Filter>BurgerEngine\Graphics\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\ImageTool.cpp">
+      <Filter>BurgerEngine\Graphics\Images</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\ShaderManager.cpp">
+      <Filter>BurgerEngine\Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\TextureManager.cpp">
+      <Filter>BurgerEngine\Graphics\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\TextureCubeMap.cpp">
+      <Filter>BurgerEngine\Graphics\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\External\TinyXml\tinyxmlparser.cpp">
+      <Filter>BurgerEngine\External\TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\External\TinyXml\tinystr.cpp">
+      <Filter>BurgerEngine\External\TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\External\TinyXml\tinyxml.cpp">
+      <Filter>BurgerEngine\External\TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\External\TinyXml\tinyxmlerror.cpp">
+      <Filter>BurgerEngine\External\TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\SceneLight.cpp">
+      <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\MeshManager.cpp">
+      <Filter>BurgerEngine\Graphics\Mesh</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -105,6 +165,60 @@
     <ClInclude Include="BurgerEngine\Core\CameraFps.h">
       <Filter>BurgerEngine\Core\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="BurgerEngine\Core\StageMain3DScene.h">
+      <Filter>BurgerEngine\Core\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\ForwardRenderer.h">
+      <Filter>BurgerEngine\Graphics\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\FBO.h">
+      <Filter>BurgerEngine\Graphics\FBO</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\SceneMesh.h">
+      <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\SceneObject.h">
+      <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\Material.h">
+      <Filter>BurgerEngine\Graphics\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\Shader.h">
+      <Filter>BurgerEngine\Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\ShaderTool.h">
+      <Filter>BurgerEngine\Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\Texture2D.h">
+      <Filter>BurgerEngine\Graphics\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\AbstractTexture.h">
+      <Filter>BurgerEngine\Graphics\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\ImageTool.h">
+      <Filter>BurgerEngine\Graphics\Images</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\ShaderManager.h">
+      <Filter>BurgerEngine\Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\TextureManager.h">
+      <Filter>BurgerEngine\Graphics\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\TextureCubeMap.h">
+      <Filter>BurgerEngine\Graphics\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\External\TinyXml\tinystr.h">
+      <Filter>BurgerEngine\External\TinyXML</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\External\TinyXml\tinyxml.h">
+      <Filter>BurgerEngine\External\TinyXML</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\SceneLight.h">
+      <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\MeshManager.h">
+      <Filter>BurgerEngine\Graphics\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="BurgerEngine">
@@ -152,5 +266,43 @@
     <Filter Include="BurgerEngine\Graphics\Mesh">
       <UniqueIdentifier>{36ed5507-bf66-4110-85b6-db531fefce4e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="BurgerEngine\Graphics\FBO">
+      <UniqueIdentifier>{7f5c2f11-f0fa-4742-a920-aa307ac18aaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Graphics\SceneObjects">
+      <UniqueIdentifier>{6ae887d6-fa7c-4a61-9fff-bc55e3adc978}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Graphics\Material">
+      <UniqueIdentifier>{a7d5e49b-bd91-4a84-8906-4596691290bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Graphics\Shaders">
+      <UniqueIdentifier>{a24e4822-1da6-46aa-a297-7d4f7e83e959}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Graphics\Textures">
+      <UniqueIdentifier>{daa67d7a-bfef-4629-aaca-3792138613f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Graphics\Images">
+      <UniqueIdentifier>{ecb9a7ec-b877-43e4-91b0-a3dffc1f7654}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\External">
+      <UniqueIdentifier>{896d5b9a-4ddf-4395-af3e-40567b661aaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\External\TinyXML">
+      <UniqueIdentifier>{feacfa82-d507-4d7f-8ff1-eb4cf42a10bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Data">
+      <UniqueIdentifier>{08cd1581-dcee-445a-a923-3aac47ce3587}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Data\Shaders">
+      <UniqueIdentifier>{109f1770-6919-4c25-95a9-95336260e0a2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Data\Shaders\LightBase.frag">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\LightBase.vert">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

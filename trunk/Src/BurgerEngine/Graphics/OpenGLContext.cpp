@@ -14,7 +14,7 @@ OpenGLContext::OpenGLContext()
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-bool OpenGLContext::Initialize()
+bool OpenGLContext::Initialize( const float a_fWindowWidth, const float a_fWindowHeight )
 {
 	///Initialisation of Glew
 	GLenum err = glewInit();
@@ -43,7 +43,7 @@ bool OpenGLContext::Initialize()
 	glPixelStorei(GL_PACK_ALIGNMENT,1);
 
 	//Reshape Once for start
-	ReshapeGl(800,600);
+	ReshapeGl(a_fWindowWidth,a_fWindowHeight);
 
 	//Register Reshape method
 	EventManager& rEventManager = Engine::GrabInstance().GrabEventManager();

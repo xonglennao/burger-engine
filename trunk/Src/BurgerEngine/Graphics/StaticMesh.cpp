@@ -448,6 +448,48 @@ void StaticMesh::Render()
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
+
+void StaticMesh::Render( GLuint group )
+{
+	assert(group < (GLuint)m_vGroup.size());
+	Bind();
+
+	//Enable GL option
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glVertexPointer(3, GL_FLOAT, 0, 0);
+
+	if(!m_vf3Normal.empty()) 
+	{
+		glNormalPointer( GL_FLOAT, 0, BUFFER_OFFSET(m_iSizeVertex));
+	}
+	if (!m_vf3Texcoord.empty()) 
+	{
+		glClientActiveTexture(GL_TEXTURE0);
+		glTexCoordPointer( 2,GL_FLOAT, 0, BUFFER_OFFSET(m_iSizeVertex+m_iSizeNormal));
+	}
+	//Tangent
+	if (!m_vf3Tangent.empty()) 
+	{
+		glClientActiveTexture(GL_TEXTURE1);
+		glTexCoordPointer( 3,GL_FLOAT, 0, BUFFER_OFFSET(m_iSizeVertex+m_iSizeNormal+m_iSizeTexture));
+	}
+	
+	glDrawElements(GL_TRIANGLES, (GLsizei)m_vGroup[group].m_vsTriangle.size()*3, GL_UNSIGNED_INT, &(m_vGroup[group].m_vsTriangle[0].ind[0]));
+	
+	//Disable GLOption
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY); 
+
+	Unbind();
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
 void StaticMesh::Destroy()
 {
 	glDeleteBuffersARB(1, &m_iBufferId);

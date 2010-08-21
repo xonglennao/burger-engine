@@ -19,13 +19,31 @@
     <ClInclude Include="BurgerEngine\Core\AbstractStage.h" />
     <ClInclude Include="BurgerEngine\Core\CameraFps.h" />
     <ClInclude Include="BurgerEngine\Core\Engine.h" />
+    <ClInclude Include="BurgerEngine\Core\StageMain3DScene.h" />
     <ClInclude Include="BurgerEngine\Core\StageManager.h" />
+    <ClInclude Include="BurgerEngine\External\TinyXml\tinystr.h" />
+    <ClInclude Include="BurgerEngine\External\TinyXml\tinyxml.h" />
     <ClInclude Include="BurgerEngine\Graphics\AbstractMesh.h" />
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h" />
+    <ClInclude Include="BurgerEngine\Graphics\AbstractTexture.h" />
     <ClInclude Include="BurgerEngine\Graphics\CommonGraphics.h" />
     <ClInclude Include="BurgerEngine\Graphics\DebugDraw.h" />
+    <ClInclude Include="BurgerEngine\Graphics\FBO.h" />
+    <ClInclude Include="BurgerEngine\Graphics\ForwardRenderer.h" />
+    <ClInclude Include="BurgerEngine\Graphics\ImageTool.h" />
+    <ClInclude Include="BurgerEngine\Graphics\Material.h" />
+    <ClInclude Include="BurgerEngine\Graphics\MeshManager.h" />
+    <ClInclude Include="BurgerEngine\Graphics\SceneLight.h" />
+    <ClInclude Include="BurgerEngine\Graphics\SceneMesh.h" />
+    <ClInclude Include="BurgerEngine\Graphics\SceneObject.h" />
+    <ClInclude Include="BurgerEngine\Graphics\Shader.h" />
+    <ClInclude Include="BurgerEngine\Graphics\ShaderManager.h" />
+    <ClInclude Include="BurgerEngine\Graphics\ShaderTool.h" />
     <ClInclude Include="BurgerEngine\Graphics\StaticMesh.h" />
     <ClInclude Include="BurgerEngine\Graphics\OpenGLContext.h" />
+    <ClInclude Include="BurgerEngine\Graphics\Texture2D.h" />
+    <ClInclude Include="BurgerEngine\Graphics\TextureCubeMap.h" />
+    <ClInclude Include="BurgerEngine\Graphics\TextureManager.h" />
     <ClInclude Include="BurgerEngine\Graphics\Window.h" />
     <ClInclude Include="BurgerEngine\Input\EventManager.h" />
     <ClInclude Include="BurgerEngine\Input\SFMLInputManager.h" />
@@ -38,15 +56,39 @@
     <ClCompile Include="BurgerEngine\Core\AbstractStage.cpp" />
     <ClCompile Include="BurgerEngine\Core\CameraFps.cpp" />
     <ClCompile Include="BurgerEngine\Core\Engine.cpp" />
+    <ClCompile Include="BurgerEngine\Core\StageMain3DScene.cpp" />
     <ClCompile Include="BurgerEngine\Core\StageManager.cpp" />
+    <ClCompile Include="BurgerEngine\External\TinyXml\tinystr.cpp" />
+    <ClCompile Include="BurgerEngine\External\TinyXml\tinyxml.cpp" />
+    <ClCompile Include="BurgerEngine\External\TinyXml\tinyxmlerror.cpp" />
+    <ClCompile Include="BurgerEngine\External\TinyXml\tinyxmlparser.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\AbstractMesh.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\AbstractPostEffect.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\AbstractTexture.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\DebugDraw.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\FBO.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\ForwardRenderer.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\ImageTool.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\Material.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\MeshManager.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\SceneLight.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\SceneMesh.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\SceneObject.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\Shader.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\ShaderManager.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\ShaderTool.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\StaticMesh.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\OpenGLContext.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\Texture2D.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\TextureCubeMap.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\TextureManager.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\Window.cpp" />
     <ClCompile Include="BurgerEngine\Input\EventManager.cpp" />
     <ClCompile Include="BurgerEngine\Input\SFMLInputManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Data\Shaders\LightBase.frag" />
+    <None Include="..\Data\Shaders\LightBase.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{99D06A18-E064-414F-BBCC-CAE1EE67296F}</ProjectGuid>
@@ -100,7 +142,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32s.lib;glew32.lib;openGL32.lib;glu32.lib;sfml-window-d.lib;sfml-window.lib;loki_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;glew32.lib;openGL32.lib;glu32.lib;sfml-window-d.lib;sfml-window.lib;loki_D.lib;devIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -114,7 +156,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>sfml-window.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;glew32.lib;openGL32.lib;glu32.lib;sfml-window-d.lib;sfml-window.lib;loki_D.lib;devIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
