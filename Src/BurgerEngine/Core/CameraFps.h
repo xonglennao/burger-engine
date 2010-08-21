@@ -26,7 +26,7 @@ public:
 	~CameraFps(){}
 
 	/// \brief Initialize Camera (set up callback)
-	void Initialize();
+	void Initialize( const float a_fWindowWidth, const float a_fWindowHeight );
 
 	/// \brief Terminate Camera (free callback)
 	void Terminate();
@@ -43,7 +43,7 @@ public:
 	/// \brief What action to do when the user move the mouse
 	bool OnMouseMoved(unsigned int a_uX, unsigned int a_uY);
 
-	/// \brief Set flags relative to camera movement
+	/// \brief Set flags related to camera movement
 	virtual void SetFlag( CameraFlagEnum eFlag, bool bValue);
 
 private:
@@ -53,7 +53,7 @@ private:
 
 	/// \brief Calculate new Position from updated parameters
 	/// \todo bap: Need to calculate ourself the cross product.. can't the lib do it?
-	void _VectorsFromAngles();
+	void _InternalUpdate();
 
 	/// Right position ?
 	osg::Vec3f m_f3Right;
@@ -70,12 +70,12 @@ private:
 	/// Mouse speed (sensibility)
 	float m_fMouseSpeed;
 
-	/// Math variables for camera
-	/// \todo bap: add detail
+	/// Angle : rotation around Up axis
 	float m_fAlpha;
+	/// Angle : rotation around Right Axis
 	float m_fPhi;	
 
-	/// These booleans are set to true when the correspondign key is pressed, in order to avoid repeat delay
+	/// These booleans are set to true when the corresponding key is pressed, in order to avoid keyboard repeat delay
 	bool m_bForward;
 	bool m_bBackward;
 	bool m_bLeft;

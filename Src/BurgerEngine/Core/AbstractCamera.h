@@ -38,7 +38,7 @@ public:
 	virtual void Update() = 0;
 
 	/// \brief Initialize Camera (set up callback)
-	virtual void Initialize() = 0;
+	virtual void Initialize( const float a_fWindowWidth, const float a_fWindowHeight ) = 0;
 
 	/// \brief Terminate Camera (free callback)
 	virtual void Terminate() = 0;

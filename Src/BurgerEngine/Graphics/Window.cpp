@@ -11,7 +11,7 @@ Window::Window()
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-bool Window::Initialize()
+bool Window::Initialize( const float a_fWindowWidth, const float a_fWindowHeight )
 {
 	//Set Up parameters
 	sf::WindowSettings oSettings;
@@ -25,9 +25,9 @@ bool Window::Initialize()
 	unsigned int m_eWindowStyle = sf::Style::Resize | sf::Style::Close;
 
 	m_pDriverWindow = new sf::Window();
-	m_pDriverWindow->Create(sf::VideoMode(800,600,32),"BurgerDemo", m_eWindowStyle, oSettings);
+	m_pDriverWindow->Create(sf::VideoMode(a_fWindowWidth,a_fWindowHeight,32),"BurgerDemo", m_eWindowStyle, oSettings);
 
-	m_i2Size.set(800,600);
+	m_i2Size.set(a_fWindowWidth,a_fWindowHeight);
 
 	SetActive(true);
 

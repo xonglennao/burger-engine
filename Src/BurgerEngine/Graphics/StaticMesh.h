@@ -37,6 +37,9 @@ public:
 	/// \brief Render the mesh
 	void Render();
 
+	/// \brief Render a sub-part of the mesh
+	void Render(GLuint group);
+
 	/// \brief Free buffer
 	void Destroy();
 

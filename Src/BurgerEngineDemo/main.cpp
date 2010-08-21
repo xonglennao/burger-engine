@@ -17,6 +17,8 @@
 /// \TEMP Franck: Input test
 #include "StageTestInput.h"
 
+#include "BurgerEngine\Core\StageMain3DScene.h"
+
 int main(int argc, char **argv)
 {
 	Engine& rEngine = Engine::GrabInstance();
@@ -24,7 +26,8 @@ int main(int argc, char **argv)
 	rEngine.Init();
 
 	//TEMP franck: Test Input
-	StageTestInput* pStage = new StageTestInput("TestInput");
+	//StageTestInput* pStage = new StageTestInput("TestInput");
+	StageMain3DScene* pStage = new StageMain3DScene("TestInput");
 	pStage->Init();
 
 	rEngine.GetStageManager().AddStage(pStage);

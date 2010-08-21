@@ -1,0 +1,15 @@
+<material>
+  <shadername>LightBase</shadername>
+  <vertexshader>../Data/Shaders/LightBase.vert</vertexshader>
+  <pixelshader>../Data/Shaders/LightBase.frag</pixelshader>
+  <uniforms>
+    <float value="4.0">fTileSize</float>
+    <float value="10.0">fShininess</float>
+  </uniforms>
+  <samplers>
+    <sampler>
+      <uniformname unit="0">diffuseMap</uniformname>
+      <filename>../Data/Textures/floor.jpg</filename>
+    </sampler>
+  </samplers>
+</material>

@@ -5,7 +5,7 @@
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void CameraFps::Initialize()
+void CameraFps::Initialize( const float a_fWindowWidth, const float a_fWindowHeight )
 {
 	//AbstractCamera::Initialize();
 
@@ -18,7 +18,7 @@ void CameraFps::Initialize()
 		EventManager::CallbackResize(this,&CameraFps::OnResize));
 
 	/// \todo Get back init parameters
-	m_f2WindowSize.set(800.0,600.0);
+	m_f2WindowSize.set( a_fWindowWidth, a_fWindowHeight );
 
 	m_fMovingSpeed = 0.02f;
 
@@ -32,8 +32,6 @@ void CameraFps::Initialize()
 	m_bLeft = false;
 	m_bRight = false;
 
-	_VectorsFromAngles();
-	
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -78,7 +76,7 @@ void CameraFps::Update()
 		rf3Pos.z() -= m_fMovingSpeed * m_f3Right.z();
 	}
 
-	_VectorsFromAngles();
+	_InternalUpdate();
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -120,7 +118,7 @@ bool CameraFps::OnMouseMoved(unsigned int a_uX, unsigned int a_uY)
 	{
 		m_fAlpha = 0.0; 
 	}
-	_VectorsFromAngles();
+	_InternalUpdate();
 
 	return true;
 }
@@ -128,7 +126,7 @@ bool CameraFps::OnMouseMoved(unsigned int a_uX, unsigned int a_uY)
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void CameraFps::_VectorsFromAngles()
+void CameraFps::_InternalUpdate()
 {
 	osg::Vec3f& rf3Direction = _GrabDirection();
 
