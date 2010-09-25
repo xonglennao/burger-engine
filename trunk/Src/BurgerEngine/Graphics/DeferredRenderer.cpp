@@ -223,32 +223,54 @@ void DeferredRenderer::Render()
 		}
 	m_oGBuffer->Desactivate();
 
-	//Lighting
-	glActiveTexture( GL_TEXTURE0 );
-	m_oGBuffer->ActivateTexture(0);
-	glActiveTexture( GL_TEXTURE1 );
-	m_oGBuffer->ActivateTexture(1);
-	glActiveTexture( GL_TEXTURE2 );
-	m_oGBuffer->ActivateDepthTexture();
-	glActiveTexture( GL_TEXTURE0 );
 
-	m_pOmniLightShader->Activate();
 
-	m_pOmniLightShader->setUniformf( "fWindowWidth", iWindowWidth );
-	m_pOmniLightShader->setUniformf( "fWindowHeight", iWindowHeight );
-	m_pOmniLightShader->setUniformMatrix4fv( "mInvProj", mGLInvProj );
-	m_pOmniLightShader->setUniformi( "bDebug", 0 );
-	DrawScreenSpaceQuad( rEngine.GetWindowWidth(), rEngine.GetWindowHeight() );
+	if( m_iDebugFlag == 0 )
+	{
+		//Lighting
+		glActiveTexture( GL_TEXTURE0 );
+		m_oGBuffer->ActivateTexture(0);
+		glActiveTexture( GL_TEXTURE1 );
+		m_oGBuffer->ActivateTexture(1);
+		glActiveTexture( GL_TEXTURE2 );
+		m_oGBuffer->ActivateDepthTexture();
+		glActiveTexture( GL_TEXTURE0 );
+		m_pOmniLightShader->Activate();
 
-	m_pOmniLightShader->Desactivate();
+		m_pOmniLightShader->setUniformf( "fWindowWidth", iWindowWidth );
+		m_pOmniLightShader->setUniformf( "fWindowHeight", iWindowHeight );
+		m_pOmniLightShader->setUniformMatrix4fv( "mInvProj", mGLInvProj );
+		m_pOmniLightShader->setUniformi( "iDebug", m_iDebugFlag );
+		DrawScreenSpaceQuad( rEngine.GetWindowWidth(), rEngine.GetWindowHeight() );
 
-	glActiveTexture( GL_TEXTURE0 );
-	Texture2D::Desactivate();
-	glActiveTexture( GL_TEXTURE1 );
-	Texture2D::Desactivate();
-	glActiveTexture( GL_TEXTURE2 );
-	Texture2D::Desactivate();
-	glActiveTexture( GL_TEXTURE0 );
+		m_pOmniLightShader->Desactivate();
+
+		glActiveTexture( GL_TEXTURE0 );
+		Texture2D::Desactivate();
+		glActiveTexture( GL_TEXTURE1 );
+		Texture2D::Desactivate();
+		glActiveTexture( GL_TEXTURE2 );
+		Texture2D::Desactivate();
+		glActiveTexture( GL_TEXTURE0 );
+	}
+	else
+	{
+		glActiveTexture( GL_TEXTURE0 );
+		m_oGBuffer->ActivateTexture(0);
+		glActiveTexture( GL_TEXTURE1 );
+		Texture2D::Desactivate();
+		glActiveTexture( GL_TEXTURE2 );
+		Texture2D::Desactivate();
+		DrawScreenSpaceQuad( rEngine.GetWindowWidth(), rEngine.GetWindowHeight() );
+		glActiveTexture( GL_TEXTURE0 );
+		Texture2D::Desactivate();
+		glActiveTexture( GL_TEXTURE1 );
+		Texture2D::Desactivate();
+		glActiveTexture( GL_TEXTURE2 );
+		Texture2D::Desactivate();
+		glActiveTexture( GL_TEXTURE0 );
+	}
+
 
 	std::stringstream oStream;
 	oStream << "GPU:" << m_oTimer->Stop() << "ms";
