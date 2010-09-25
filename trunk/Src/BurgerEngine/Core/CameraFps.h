@@ -26,22 +26,15 @@ public:
 	~CameraFps(){}
 
 	/// \brief Initialize Camera (set up callback)
-	void Initialize( const unsigned int a_iWindowWidth, const unsigned int a_iWindowHeight );
+	void Initialize();
 
 	/// \brief Terminate Camera (free callback)
 	void Terminate();
 
 	/// \brief the main update fonction, for position etc...
-	void Update();
+	void Update( float fDeltaTime );
 
-	/// \brief What to do when the user press the down key
-	bool OnDownKey(unsigned char a_cKey);
-
-	/// \brief When the screen is Resize, when want the new size to be stored
-	bool OnResize(unsigned int a_uWidth, unsigned int a_uHeight);
-
-	/// \brief What action to do when the user move the mouse
-	bool OnMouseMoved(unsigned int a_uX, unsigned int a_uY);
+	void UpdateAngles( float a_fAddToAlpha, float a_fAddToPhi );
 
 	/// \brief Set flags related to camera movement
 	virtual void SetFlag( CameraFlagEnum eFlag, bool bValue);
@@ -61,19 +54,11 @@ private:
 	/// The direction the camera in pointing at
 	vec3 m_f3Direction;
 
-	/// Size of the window
-	vec2 m_f2WindowSize;
-
 	/// Moving speed into space
 	float m_fMovingSpeed;
 
 	/// Mouse speed (sensibility)
 	float m_fMouseSpeed;
-
-	/// Angle : rotation around Up axis
-	float m_fAlpha;
-	/// Angle : rotation around Right Axis
-	float m_fPhi;	
 
 	/// These booleans are set to true when the corresponding key is pressed, in order to avoid keyboard repeat delay
 	bool m_bForward;

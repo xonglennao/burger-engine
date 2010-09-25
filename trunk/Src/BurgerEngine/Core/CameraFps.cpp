@@ -5,21 +5,11 @@
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void CameraFps::Initialize( const unsigned int a_iWindowWidth, const unsigned int a_iWindowHeight )
+void CameraFps::Initialize()
 {
 	//AbstractCamera::Initialize();
 
-	//Register callback
-	Engine::GrabInstance().GrabEventManager().RegisterCallbackKeyboardDownKey(
-		EventManager::CallbackKeyboard(this,&CameraFps::OnDownKey));
-	Engine::GrabInstance().GrabEventManager().RegisterCallbackMousePassiveMotion(
-		EventManager::CallbackMouseMotion(this,&CameraFps::OnMouseMoved));
-	Engine::GrabInstance().GrabEventManager().RegisterCallbackResize(
-		EventManager::CallbackResize(this,&CameraFps::OnResize));
-
 	/// \todo Get back init parameters
-	//m_f2WindowSize.set( static_cast<float>(a_iWindowWidth), static_cast<float>(a_iWindowHeight) );
-	m_f2WindowSize = vec2( static_cast<float>(a_iWindowWidth), static_cast<float>(a_iWindowHeight) );
 	m_fMovingSpeed = 0.02f;
 
 	m_fMouseSpeed = 0.1f;
@@ -39,90 +29,58 @@ void CameraFps::Initialize( const unsigned int a_iWindowWidth, const unsigned in
 //--------------------------------------------------------------------------------------------------------------------
 void CameraFps::Terminate()
 {
-	// Unregister callback
-	Engine::GrabInstance().GrabEventManager().UnRegisterCallbackKeyboardDownKey(
-		EventManager::CallbackKeyboard(this,&CameraFps::OnDownKey));
-	Engine::GrabInstance().GrabEventManager().UnRegisterCallbackMouseActiveMotion(
-		EventManager::CallbackMouseMotion(this,&CameraFps::OnMouseMoved));
 }
 
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void CameraFps::Update()
+void CameraFps::Update( float fDeltaTime )
 {
 	vec3& rf3Pos = _GrabPos();
+
+	float fMovingSpeed = m_fMovingSpeed * fDeltaTime;
 	
 	if( m_bForward )
 	{
-		rf3Pos.x += m_fMovingSpeed * m_f3Direction.x;
-		rf3Pos.y += m_fMovingSpeed * m_f3Direction.y;
-		rf3Pos.z += m_fMovingSpeed * m_f3Direction.z;
+		rf3Pos.x += fMovingSpeed * m_f3Direction.x;
+		rf3Pos.y += fMovingSpeed * m_f3Direction.y;
+		rf3Pos.z += fMovingSpeed * m_f3Direction.z;
 	}
 	if( m_bBackward )
 	{
-		rf3Pos.x -= m_fMovingSpeed * m_f3Direction.x;
-		rf3Pos.y -= m_fMovingSpeed * m_f3Direction.y;
-		rf3Pos.z -= m_fMovingSpeed * m_f3Direction.z;	
+		rf3Pos.x -= fMovingSpeed * m_f3Direction.x;
+		rf3Pos.y -= fMovingSpeed * m_f3Direction.y;
+		rf3Pos.z -= fMovingSpeed * m_f3Direction.z;	
 	}
 	if( m_bLeft )
 	{
-		rf3Pos.x += m_fMovingSpeed * m_f3Right.x;
-		rf3Pos.z += m_fMovingSpeed * m_f3Right.z;	
+		rf3Pos.x += fMovingSpeed * m_f3Right.x;
+		rf3Pos.z += fMovingSpeed * m_f3Right.z;	
 	}
 	if( m_bRight )
 	{
-		rf3Pos.x -= m_fMovingSpeed * m_f3Right.x;
-		rf3Pos.z -= m_fMovingSpeed * m_f3Right.z;
+		rf3Pos.x -= fMovingSpeed * m_f3Right.x;
+		rf3Pos.z -= fMovingSpeed * m_f3Right.z;
 	}
 
 	_InternalUpdate();
 }
 
-//--------------------------------------------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------------------------------------------
-bool CameraFps::OnDownKey(unsigned char a_cKey)
+void CameraFps::UpdateAngles( float a_fAddToAlpha, float a_fAddToPhi )
 {
-	return true;
-}
+	m_fAlpha += a_fAddToAlpha * m_fMouseSpeed;
+	m_fPhi += a_fAddToPhi * m_fMouseSpeed;
 
-//--------------------------------------------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------------------------------------------
-bool CameraFps::OnResize(unsigned int a_uWidth, unsigned int a_uHeight)
-{
-	m_f2WindowSize = vec2( static_cast<float>(a_uWidth),static_cast<float>(a_uHeight) );
-	return true;
-}
-
-//--------------------------------------------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------------------------------------------
-bool CameraFps::OnMouseMoved(unsigned int a_uX, unsigned int a_uY)
-{
-
-	m_fAlpha += (m_f2WindowSize.x / 2.0f - static_cast<float>(a_uX) )* m_fMouseSpeed;
-	m_fPhi +=(m_f2WindowSize.y /2.0f - static_cast<float>(a_uY) )*m_fMouseSpeed;
-
-	if(m_fPhi>-1)
+	m_fPhi = m_fPhi > -1.0f ? -1.0f : m_fPhi;
+	m_fPhi = m_fPhi < -179.0f ? -179.0f : m_fPhi;
+	
+	if(m_fAlpha > 360.0f || m_fAlpha < -360.0f )
 	{
-		m_fPhi=-1;
-	}
-	if(m_fPhi<-179)
-	{
-		m_fPhi=-179;
+		m_fAlpha = 0.0f; 
 	}
 
-	if(m_fAlpha>360 || m_fAlpha < -360)
-	{
-		m_fAlpha = 0.0; 
-	}
 	_InternalUpdate();
-
-	return true;
 }
-
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------

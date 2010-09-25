@@ -22,6 +22,8 @@
     <ClInclude Include="BurgerEngine\Core\SceneGraph.h" />
     <ClInclude Include="BurgerEngine\Core\StageMain3DScene.h" />
     <ClInclude Include="BurgerEngine\Core\StageManager.h" />
+    <ClInclude Include="BurgerEngine\Core\Timer.h" />
+    <ClInclude Include="BurgerEngine\External\GLFont\glfont.h" />
     <ClInclude Include="BurgerEngine\External\Math\MyMath.h" />
     <ClInclude Include="BurgerEngine\External\Math\Vector.h" />
     <ClInclude Include="BurgerEngine\External\TinyXml\tinystr.h" />
@@ -62,6 +64,8 @@
     <ClCompile Include="BurgerEngine\Core\SceneGraph.cpp" />
     <ClCompile Include="BurgerEngine\Core\StageMain3DScene.cpp" />
     <ClCompile Include="BurgerEngine\Core\StageManager.cpp" />
+    <ClCompile Include="BurgerEngine\Core\Timer.cpp" />
+    <ClCompile Include="BurgerEngine\External\GLFont\glfont.cc" />
     <ClCompile Include="BurgerEngine\External\Math\Vector.cpp" />
     <ClCompile Include="BurgerEngine\External\TinyXml\tinystr.cpp" />
     <ClCompile Include="BurgerEngine\External\TinyXml\tinyxml.cpp" />

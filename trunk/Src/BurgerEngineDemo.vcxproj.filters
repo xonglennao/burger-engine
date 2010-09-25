@@ -115,6 +115,12 @@
     <ClCompile Include="BurgerEngine\External\Math\Vector.cpp">
       <Filter>BurgerEngine\External\Math</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\External\GLFont\glfont.cc">
+      <Filter>BurgerEngine\External\GLFont</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Core\Timer.cpp">
+      <Filter>BurgerEngine\Core\Timer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -234,6 +240,12 @@
     <ClInclude Include="BurgerEngine\External\Math\Vector.h">
       <Filter>BurgerEngine\External\Math</Filter>
     </ClInclude>
+    <ClInclude Include="BurgerEngine\External\GLFont\glfont.h">
+      <Filter>BurgerEngine\External\GLFont</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Core\Timer.h">
+      <Filter>BurgerEngine\Core\Timer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="BurgerEngine">
@@ -322,6 +334,12 @@
     </Filter>
     <Filter Include="BurgerEngine\Data\Materials">
       <UniqueIdentifier>{8e9c4298-7d5f-4ee5-adeb-85b4bbda4162}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\External\GLFont">
+      <UniqueIdentifier>{fabbe29f-086e-4748-955a-20e26f0cd0aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Core\Timer">
+      <UniqueIdentifier>{54b98ab8-d31b-4d13-bc12-2ed8e3a44ac5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

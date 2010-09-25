@@ -38,7 +38,7 @@ void Engine::Init()
 	// Creation of the camera
 	/// \todo this is temporary, we should use a better camera system
 	m_pCurrentCamera = new CameraFps();
-	m_pCurrentCamera->Initialize( m_iWindowWidth, m_iWindowHeight );
+	m_pCurrentCamera->Initialize();
 
 	//Create the Rendering Context
 	m_pRenderingContext = new OpenGLContext();
