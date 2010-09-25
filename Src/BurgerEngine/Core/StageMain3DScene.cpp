@@ -1,6 +1,7 @@
 #include "BurgerEngine/Core/StageMain3DScene.h"
 #include "BurgerEngine/Core/Engine.h"
 #include "BurgerEngine/Core/AbstractCamera.h"
+#include "BurgerEngine/Core/Timer.h"
 
 #include "BurgerEngine/Input/EventManager.h"
 
@@ -15,6 +16,7 @@ StageMain3DScene::StageMain3DScene(std::string const& a_sId)
 	: AbstractStage(a_sId)
 {
 	m_pDeferredRenderer = new DeferredRenderer();
+	m_oTimer = new Timer();
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -27,6 +29,9 @@ bool StageMain3DScene::Init()
 
 	Engine::GrabInstance().GrabEventManager().RegisterCallbackKeyboardUpKey(
 		EventManager::CallbackKeyboard(this,&StageMain3DScene::OnKeyUp));
+
+	Engine::GrabInstance().GrabEventManager().RegisterCallbackMousePassiveMotion(
+		EventManager::CallbackMouseMotion(this,&StageMain3DScene::OnMouseMoved));
 
 	return true;
 }
@@ -44,6 +49,9 @@ StageMain3DScene::~StageMain3DScene()
 
 	delete m_pDeferredRenderer;
 	m_pDeferredRenderer = NULL;
+
+	delete m_oTimer;
+	m_oTimer = NULL;
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -111,10 +119,27 @@ bool StageMain3DScene::OnKeyUp(unsigned char a_cKey)
 	return true;
 }
 
+bool StageMain3DScene::OnMouseMoved(unsigned int a_uX, unsigned int a_uY)
+{
+	Engine const& rEngine = Engine::GetInstance();
+	
+	float fAlpha = (rEngine.GetWindowWidth() / 2.0f - static_cast<float>(a_uX) );
+	float fPhi = ( rEngine.GetWindowHeight() /2.0f - static_cast<float>(a_uY) );
+
+	Engine::GetInstance().GetCurrentCamera().UpdateAngles( fAlpha, fPhi );
+
+	return true;
+}
+
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
 void StageMain3DScene::_Render()
 {
+	double fDeltaTime = m_oTimer->Stop();
+	m_oTimer->Start();
+	Engine::GetInstance().GetCurrentCamera().Update( fDeltaTime );
 	m_pDeferredRenderer->Render();
+
+
 }

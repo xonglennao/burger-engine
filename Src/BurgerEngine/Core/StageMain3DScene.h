@@ -16,6 +16,7 @@
 #include "BurgerEngine/Core/AbstractStage.h"
 
 class DeferredRenderer;
+class Timer;
 
 /// \class	StageMain3DScene
 /// \brief	Used to display 3D scenes
@@ -35,6 +36,7 @@ public:
 	///\ \brief Manage keyboard input
 	bool OnKeyUp(unsigned char a_cKey);
 	bool OnKeyDown(unsigned char a_cKey);
+	bool OnMouseMoved(unsigned int a_uX, unsigned int a_uY);
 
 private:
 	/// \brief No display OVERRIDE
@@ -42,6 +44,7 @@ private:
 
 private:
 	DeferredRenderer* m_pDeferredRenderer;
+	Timer* m_oTimer;
 
 };
 

@@ -26,12 +26,13 @@ bool OpenGLContext::Initialize( const unsigned int a_iWindowWidth, const unsigne
 
 	//Set OpenGL parameter
 	/// \todo More flexible parameter??
-	glClearColor(0.1f,0.1f,0.1f,0.0f);
+	glClearColor(0.f,0.f,0.f,0.f);
 	glClearDepth(1.f);
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
-
+	glEnable(GL_CULL_FACE);
+	
 	glDisable(GL_BLEND);
     //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	

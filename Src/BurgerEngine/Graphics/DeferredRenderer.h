@@ -20,6 +20,8 @@
 
 class FBO;
 class Shader;
+class PixelPerfectGLFont;
+class Timer;
 
 class DeferredRenderer
 {
@@ -37,13 +39,19 @@ public:
 private:
 	/// \brief Display a full screen quad
 	/// this is temporary, we need a fullscreenquad class using VBO
-	void DrawScreenSpaceQuad(int iWindowWidth, int iWindowHeight);
+	void DrawScreenSpaceQuad( int iWindowWidth, int iWindowHeight );
+
+	/// \brief Display 2D text on the screen
+	void DisplayText( const std::string& sText, int iPosX, int iPosY );
 
 private:
 	FBO* m_oGBuffer;
 	FBO* m_oLightBuffer;
 
 	int m_iDebugFlag;
+	PixelPerfectGLFont* m_oFont;
+
+	Timer* m_oTimer;
 
 	/*FBO * m_oFBOColorDepth;
 	FBO * m_oFBOWriteAlpha;

@@ -10,17 +10,28 @@
     </mesh>
   </sceneobject>
 
-  <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">
+  <!-- TEAPOT -->
+  <sceneobject x="10.0" y="3.0" z="-2.0" rX="0.0" rY="10.0" rZ="0.0" scale="0.2">
     <mesh>
-      <file>../Data/Mesh/plane.obj</file>
+      <file>../Data/Mesh/teapot.obj</file>
       <part>
-        <material>../Data/Materials/floorDiffuse.xml</material>
+        <material>../Data/Materials/teaPotDiffuse.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>
+
+  <!-- TORUS -->
+  <sceneobject x="0.0" y="3.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="0.2">
+    <mesh>
+      <file>../Data/Mesh/torus.obj</file>
+      <part>
+        <material>../Data/Materials/teaPotDiffuse.xml</material>
       </part>
     </mesh>
   </sceneobject>  
-
+  
   <!-- TEAPOT -->
-  <sceneobject x="10.0" y="0.0" z="2.0" rX="0.0" rY="0.0" rZ="0.0" scale="0.2">
+  <sceneobject x="12.0" y="0.0" z="3.0" rX="0.0" rY="0.0" rZ="10.0" scale="0.3">
     <mesh>
       <file>../Data/Mesh/teapot.obj</file>
       <part>
@@ -30,7 +41,37 @@
   </sceneobject>
 
   <!-- TEAPOT -->
-  <sceneobject x="5.0" y="0.0" z="6.0" rX="0.0" rY="85.0" rZ="0.0" scale="0.2">
+  <sceneobject x="15.0" y="0.0" z="-12.0" rX="90.0" rY="20.0" rZ="0.0" scale="0.2">
+    <mesh>
+      <file>../Data/Mesh/teapot.obj</file>
+      <part>
+        <material>../Data/Materials/teaPotDiffuse.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>
+
+  <!-- TEAPOT -->
+  <sceneobject x="-10.0" y="0.0" z="10.0" rX="8.0" rY="0.0" rZ="63.0" scale="0.2">
+    <mesh>
+      <file>../Data/Mesh/teapot.obj</file>
+      <part>
+        <material>../Data/Materials/teaPotDiffuse.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>
+
+  <!-- TEAPOT -->
+  <sceneobject x="20.0" y="2.0" z="9.0" rX="5.0" rY="85.0" rZ="0.0" scale="0.6">
+    <mesh>
+      <file>../Data/Mesh/teapot.obj</file>
+      <part>
+        <material>../Data/Materials/teaPotDiffuse.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>
+
+  <!-- TEAPOT -->
+  <sceneobject x="-5.0" y="0.0" z="-6.0" rX="0.0" rY="85.0" rZ="0.0" scale="0.2">
     <mesh>
       <file>../Data/Mesh/teapot.obj</file>
       <part>
@@ -40,42 +81,42 @@
   </sceneobject>
   
   <!-- LIGHT 0 -->
-  <sceneobject x="10.0" y="2.0" z="10.0" w="1.0" rX="0.0" rY="0.0" rZ="0.0">
+  <sceneobject x="10.0" y="2.0" z="12.0" w="1.0" rX="0.0" rY="0.0" rZ="0.0">
     <light>
       <InnerAngle value="0.0" />
       <OuterAngle value="0.0"/>
       <Radius value="20"/>
-      <Color  r="1.0" g="0.0" b="0.0"/>
+      <Color  r="1.0" g="0.9" b="0.9"/>
     </light>
   </sceneobject>
   
   <!-- LIGHT 1   -->
-  <sceneobject x="10.0" y="2.0" z="-10.0" w="1.0" rX="10.0" rY="90.0" rZ="0.0">
+  <sceneobject x="15.0" y="1.0" z="-20.0" w="1.0" rX="0.0" rY="0.0" rZ="0.0">
     <light>
       <InnerAngle value="0.0" />
       <OuterAngle value="0.0"/>
-      <Radius value="20"/>
-      <Color  r="1.0" g="0.0" b="1.0"/>
+      <Radius value="30"/>
+      <Color  r="0.9" g="0.9" b="0.5"/>
     </light>
   </sceneobject>
 
   <!-- LIGHT 2   -->
-  <sceneobject x="-10.0" y="2.0" z="10.0" w="1.0" rX="10.0" rY="0.0" rZ="-90.0">
+  <sceneobject x="-2.0" y="5.0" z="8.0" w="1.0" rX="0.0" rY="0.0" rZ="0.0">
     <light>
       <InnerAngle value="0.0" />
       <OuterAngle value="0.0"/>
-      <Radius value="20"/>
-      <Color  r="0.0" g="1.0" b="0.0"/>
+      <Radius value="50"/>
+      <Color  r="0.9" g="0.85" b="0.85"/>
     </light>
   </sceneobject>
 
   <!-- LIGHT 3 -->
-  <sceneobject x="-10.0" y="2.0" z="-10.0" w="1.0" rX="10.0" rY="180.0" rZ="0.0">
+  <sceneobject x="-10.0" y="2.0" z="-10.0" w="1.0" rX="0.0" rY="0.0" rZ="0.0">
     <light>
       <InnerAngle value="0.0" />
       <OuterAngle value="0.0"/>
-      <Radius value="20"/>
-      <Color  r="0.0" g="0.0" b="1.0"/>
+      <Radius value="30"/>
+      <Color  r="1.0" g="0.9" b="0.85"/>
     </light>
   </sceneobject>
 </scene>
