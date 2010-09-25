@@ -17,7 +17,7 @@
 /// \TEMP Franck: Input test
 #include "StageTestInput.h"
 
-#include "BurgerEngine\Core\StageMain3DScene.h"
+#include "BurgerEngine/Core/StageMain3DScene.h"
 
 int main(int argc, char **argv)
 {

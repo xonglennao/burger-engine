@@ -67,8 +67,8 @@ bool StaticMesh::LoadFromFile(std::string const& a_sFilename)
 
 	sMeshTriangle sTriangle;
 
-	osg::Vec3 f3TemporaryVertex;
-	osg::Vec2 f2TemporaryCoordinates;
+	vec3 f3TemporaryVertex;
+	vec2 f2TemporaryCoordinates;
 	//char buftmp[64];
 	long g;	// compteur pour le stockage des données lors de la seconde passe
 
@@ -76,9 +76,9 @@ bool StaticMesh::LoadFromFile(std::string const& a_sFilename)
 	unsigned int	iIndiceTriangleNormal;
 	unsigned int	iIndiceTriangleCoord;
 
-	std::vector<osg::Vec3>	vf3TempPosition;
-	std::vector<osg::Vec3>	vf3TempNormal;
-	std::vector<osg::Vec2>	vf2TempTexcoord;
+	std::vector<vec3>	vf3TempPosition;
+	std::vector<vec3>	vf3TempNormal;
+	std::vector<vec2>	vf2TempTexcoord;
 
 	std::string sBuffer;
 
@@ -106,21 +106,21 @@ bool StaticMesh::LoadFromFile(std::string const& a_sFilename)
 			else if(sTempBuffer == "v") 
 			{	
 				// Found a Vertex
-				sscanf(&sBuffer[2],"%f%f%f",&f3TemporaryVertex.x(),&f3TemporaryVertex.y(),&f3TemporaryVertex.z());
+				sscanf(&sBuffer[2],"%f%f%f",&f3TemporaryVertex.x,&f3TemporaryVertex.y,&f3TemporaryVertex.z);
 				vf3TempPosition.push_back(f3TemporaryVertex);
 			}
 			else if(sTempBuffer == "vt") 
 			{	
 				// Found a TextCoord
-				sscanf(&sBuffer[2],"%f%f",&f2TemporaryCoordinates.x(),&f2TemporaryCoordinates.y());
-				f2TemporaryCoordinates.y() = 1.0f - f2TemporaryCoordinates.y();
+				sscanf(&sBuffer[2],"%f%f",&f2TemporaryCoordinates.x,&f2TemporaryCoordinates.y);
+				f2TemporaryCoordinates.y = 1.0f - f2TemporaryCoordinates.y;
 				vf2TempTexcoord.push_back(f2TemporaryCoordinates);
 			} 
 			else if(sTempBuffer == "vn")
 			{
 				// Found a Normal
-				sscanf(&sBuffer[2],"%f%f%f",&f3TemporaryVertex.x(),&f3TemporaryVertex.y(),&f3TemporaryVertex.z());
-				f3TemporaryVertex.normalize();
+				sscanf(&sBuffer[2],"%f%f%f",&f3TemporaryVertex.x,&f3TemporaryVertex.y,&f3TemporaryVertex.z);
+				f3TemporaryVertex = normalize( f3TemporaryVertex );
 				vf3TempNormal.push_back(f3TemporaryVertex);
 			} 
 			else if(sTempBuffer == "g") 
@@ -305,20 +305,20 @@ void StaticMesh::ComputeTangents()
 		for(std::vector<sMeshTriangle>::iterator itF=(*itG).m_vsTriangle.begin(); itF!=(*itG).m_vsTriangle.end(); itF++) 
 		{
 			GLuint* ind = ((GLuint*)(*itF).ind);
-			osg::Vec3 f3Tangent;
+			vec3 f3Tangent;
 
-			osg::Vec3 v0 = m_vf3Position[ind[0]];
-			osg::Vec3 v1 = m_vf3Position[ind[1]];
-			osg::Vec3 v2 = m_vf3Position[ind[2]];
+			vec3 v0 = m_vf3Position[ind[0]];
+			vec3 v1 = m_vf3Position[ind[1]];
+			vec3 v2 = m_vf3Position[ind[2]];
 
-			osg::Vec3 vect10 = v0-v1;
-			osg::Vec3 vect12 = v2-v1;
+			vec3 vect10 = v0-v1;
+			vec3 vect12 = v2-v1;
 
-			float deltaT10 = m_vf3Texcoord[ind[0]].y() - m_vf3Texcoord[ind[1]].y();
-			float deltaT12 = m_vf3Texcoord[ind[2]].y() - m_vf3Texcoord[ind[1]].y();
+			float deltaT10 = m_vf3Texcoord[ind[0]].y - m_vf3Texcoord[ind[1]].y;
+			float deltaT12 = m_vf3Texcoord[ind[2]].y - m_vf3Texcoord[ind[1]].y;
 
 			f3Tangent = (vect10 * deltaT12 ) - (vect12 * deltaT10 );
-			f3Tangent.normalize();
+			f3Tangent = normalize( f3Tangent );
 
 			m_vf3Tangent[ind[0]] = m_vf3Tangent[ind[1]] = m_vf3Tangent[ind[2]] = f3Tangent;
 
@@ -339,7 +339,7 @@ bool StaticMesh::BuildBuffer()
 	//Build the VBO
 	if(!m_vf3Position.empty()) 
 	{
-		m_iSizeVertex = m_vf3Position.size()*sizeof(osg::Vec3);
+		m_iSizeVertex = m_vf3Position.size()*sizeof(vec3);
 	}
 	else
 	{
@@ -350,19 +350,19 @@ bool StaticMesh::BuildBuffer()
 	// build normal
 	if(!m_vf3Normal.empty())
 	{
-		m_iSizeNormal	= m_vf3Normal.size()*sizeof(osg::Vec3);
+		m_iSizeNormal	= m_vf3Normal.size()*sizeof(vec3);
 	}
 
 	// build TextCoord
 	if(!m_vf3Texcoord.empty())
 	{
-		m_iSizeTexture = m_vf3Texcoord.size()*sizeof(osg::Vec2);
+		m_iSizeTexture = m_vf3Texcoord.size()*sizeof(vec2);
 	}
 		
 	// build tangent
 	if(!m_vf3Tangent.empty())
 	{
-		m_iSizeTangent = m_vf3Tangent.size()*sizeof(osg::Vec3);
+		m_iSizeTangent = m_vf3Tangent.size()*sizeof(vec3);
 	}
 
 	//Link the buffer

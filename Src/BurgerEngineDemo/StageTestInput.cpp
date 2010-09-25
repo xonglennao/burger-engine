@@ -186,13 +186,13 @@ void StageTestInput::_Render()
 	Engine const& rEngine = Engine::GetInstance();
 	AbstractCamera & rCamera = rEngine.GetCurrentCamera();
 
-	gluLookAt(rCamera.GetPos().x(), rCamera.GetPos().y(), rCamera.GetPos().z(),
-		rCamera.GetAim().x(), rCamera.GetAim().y(), rCamera.GetAim().z(),
-		rCamera.GetUp().x(), rCamera.GetUp().y(), rCamera.GetUp().z());
+	gluLookAt(rCamera.GetPos().x, rCamera.GetPos().y, rCamera.GetPos().z,
+		rCamera.GetAim().x, rCamera.GetAim().y, rCamera.GetAim().z,
+		rCamera.GetUp().x, rCamera.GetUp().y, rCamera.GetUp().z);
 
 	rCamera.Update();
 
-	DebugDraw::DrawAxis(osg::Vec3f(0.0f,0.0f,0.0f),1.0f);
+	DebugDraw::DrawAxis(vec3(0.0f,0.0f,0.0f),1.0f);
 	DebugDraw::DrawGrid(10.0f,20);
 
 	// Render a mesh

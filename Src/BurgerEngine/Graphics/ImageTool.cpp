@@ -1,8 +1,10 @@
 #include "imageTool.h"
-#include "BurgerEngine\External\IL\il.h"
-#include <iostream>
-#undef _UNICODE
 
+#include "BurgerEngine/External/IL/il.h"
+
+#include <iostream>
+
+#undef _UNICODE
 
 GLubyte* ImageTool::loadImage(const std::string& sName, unsigned int& iWidthOut,unsigned int& iHeightOut, unsigned int& iChannelOut)
 {

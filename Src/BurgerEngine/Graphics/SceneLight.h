@@ -12,10 +12,10 @@
 #ifndef __SCENELIGHT_H__
 #define __SCENELIGHT_H__
 
-#define  M_PI 3.1415926535897932384626433832795
+#include "BurgerEngine/Base/CommonBase.h"
 
-#include "BurgerEngine/External/Osg/Vec3"
 #include "BurgerEngine/Graphics/SceneObject.h"
+#include "BurgerEngine/External/Math/Vector.h"
 
 class SceneLight
 	: public SceneObject
@@ -26,11 +26,11 @@ public:
 
 public:
 	inline void SetInnerAngle( float fValue ){ fInnerAngle = fValue; };
-	inline void SetOuterAngle( float fValue){ fCosOut = cos( fValue * M_PI / 180.0); };
+	inline void SetOuterAngle( float fValue){ fCosOut = cosf( fValue * M_PI / 180.0f ); };
 
-	inline void SetSpecular( osg::Vec3 vValue ){ vSpecularColor = vValue; };
-	inline void SetAmbient( osg::Vec3 vValue ){ vAmbientColor = vValue; };
-	inline void SetDiffuse( osg::Vec3 vValue ){ vDiffuseColor = vValue; };
+	inline void SetSpecular( vec3 vValue ){ vSpecularColor = vValue; };
+	inline void SetAmbient( vec3 vValue ){ vAmbientColor = vValue; };
+	inline void SetDiffuse( vec3 vValue ){ vDiffuseColor = vValue; };
 
 	inline void SetConstantAtt( float fValue ){ fConstantAttenuation = fValue; };
 	inline void SetQuadraticAtt( float fValue ){ fQuadraticAttenuation = fValue; };		
@@ -45,9 +45,9 @@ private:
 	float		fQuadraticAttenuation;
 	float		fLinearAttenuation;
 
-	osg::Vec3	vSpecularColor;
-	osg::Vec3	vAmbientColor;
-	osg::Vec3	vDiffuseColor;
+	vec3	vSpecularColor;
+	vec3	vAmbientColor;
+	vec3	vDiffuseColor;
 };
 
 #endif //__SCENELIGHT_H__

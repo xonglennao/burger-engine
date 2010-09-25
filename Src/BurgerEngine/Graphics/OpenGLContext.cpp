@@ -14,7 +14,7 @@ OpenGLContext::OpenGLContext()
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-bool OpenGLContext::Initialize( const float a_fWindowWidth, const float a_fWindowHeight )
+bool OpenGLContext::Initialize( const unsigned int a_iWindowWidth, const unsigned int a_iWindowHeight )
 {
 	///Initialisation of Glew
 	GLenum err = glewInit();
@@ -32,18 +32,15 @@ bool OpenGLContext::Initialize( const float a_fWindowWidth, const float a_fWindo
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
 
-	glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDisable(GL_BLEND);
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
-
-	glShadeModel(GL_SMOOTH);
-
 	glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
 	glPixelStorei(GL_PACK_ALIGNMENT,1);
 
 	//Reshape Once for start
-	ReshapeGl(a_fWindowWidth,a_fWindowHeight);
+	ReshapeGl(a_iWindowWidth,a_iWindowHeight);
 
 	//Register Reshape method
 	EventManager& rEventManager = Engine::GrabInstance().GrabEventManager();

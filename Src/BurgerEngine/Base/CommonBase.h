@@ -19,3 +19,4 @@
 #endif //M_PI
 
 #include <iostream>
+#include <assert.h>

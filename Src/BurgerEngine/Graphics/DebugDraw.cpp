@@ -5,7 +5,7 @@
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void DebugDraw::DrawCube(osg::Vec3f const& a_rf3Position, float a_fSize)
+void DebugDraw::DrawCube(vec3 const& a_rf3Position, float a_fSize)
 {
 	glDisable(GL_LIGHTING);
 
@@ -47,23 +47,23 @@ void DebugDraw::DrawCube(osg::Vec3f const& a_rf3Position, float a_fSize)
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void DebugDraw::DrawAxis(osg::Vec3f const& a_rf3Position, float a_fSize)
+void DebugDraw::DrawAxis(vec3 const& a_rf3Position, float a_fSize)
 {
 
 	glDisable(GL_LIGHTING);
 
 	glBegin(GL_LINES);
 		glColor3f(1.0f,0.0f,0.0f);
-		glVertex3f(a_rf3Position.x(),a_rf3Position.y(),a_rf3Position.z());
-		glVertex3f(a_rf3Position.x() + a_fSize,a_rf3Position.y(),a_rf3Position.z());
+		glVertex3f(a_rf3Position.x,a_rf3Position.y,a_rf3Position.z);
+		glVertex3f(a_rf3Position.x + a_fSize,a_rf3Position.y,a_rf3Position.z);
 
 		glColor3f(0.0f,1.0f,0.0f);
-		glVertex3f(a_rf3Position.x(),a_rf3Position.y(),a_rf3Position.z());
-		glVertex3f(a_rf3Position.x(),a_rf3Position.y() + a_fSize,a_rf3Position.z());
+		glVertex3f(a_rf3Position.x,a_rf3Position.y,a_rf3Position.z);
+		glVertex3f(a_rf3Position.x,a_rf3Position.y + a_fSize,a_rf3Position.z);
 
 		glColor3f(0.0f,0.0f,1.0f);
-		glVertex3f(a_rf3Position.x(),a_rf3Position.y(),a_rf3Position.z());
-		glVertex3f(a_rf3Position.x(),a_rf3Position.y(),a_rf3Position.z() + a_fSize);
+		glVertex3f(a_rf3Position.x,a_rf3Position.y,a_rf3Position.z);
+		glVertex3f(a_rf3Position.x,a_rf3Position.y,a_rf3Position.z + a_fSize);
 	glEnd();
 
 }

@@ -14,13 +14,8 @@
 #define __STAGEMAINS3DCENE_H__
 
 #include "BurgerEngine/Core/AbstractStage.h"
-#include "BurgerEngine/Graphics/CommonGraphics.h"
 
-#include <vector>
-
-class AbstractMesh;
-class SceneMesh;
-class SceneLight;
+class DeferredRenderer;
 
 /// \class	StageMain3DScene
 /// \brief	Used to display 3D scenes
@@ -46,17 +41,7 @@ private:
 	void _Render();
 
 private:
-	void	LoadSceneXML( const char * sName );
-
-private:
-	//lists of renderable object and light
-	//should be replaced by a scenegraph?
-	std::vector< SceneMesh* > m_oSceneMeshes;
-	std::vector< SceneLight* > m_oSceneLights;
-
-	//constants for lights, will be moved somewhere else
-	GLfloat * m_pLightZeros;
-	GLfloat * m_pLightDir;
+	DeferredRenderer* m_pDeferredRenderer;
 
 };
 

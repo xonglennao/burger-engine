@@ -26,10 +26,10 @@ void SceneMesh::Draw()
 	if( m_pMesh )
 	{
 		glPushMatrix();
-		glTranslatef( vPosition.x(), vPosition.y(), vPosition.z() );
-		glRotatef( vRotation.x(), 1, 0, 0 );	
-		glRotatef( vRotation.y(), 0, 1, 0 );
-		glRotatef( vRotation.z(), 0, 0, 1 );	
+		glTranslatef( vPosition.x, vPosition.y, vPosition.z );
+		glRotatef( vRotation.x, 1, 0, 0 );	
+		glRotatef( vRotation.y, 0, 1, 0 );
+		glRotatef( vRotation.z, 0, 0, 1 );	
 
 		glScalef( fScale, fScale, fScale);
 

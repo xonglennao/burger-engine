@@ -11,7 +11,7 @@ Window::Window()
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-bool Window::Initialize( const float a_fWindowWidth, const float a_fWindowHeight )
+bool Window::Initialize( const unsigned int a_iWindowWidth, const unsigned int a_iWindowHeight )
 {
 	//Set Up parameters
 	sf::WindowSettings oSettings;
@@ -25,9 +25,9 @@ bool Window::Initialize( const float a_fWindowWidth, const float a_fWindowHeight
 	unsigned int m_eWindowStyle = sf::Style::Resize | sf::Style::Close;
 
 	m_pDriverWindow = new sf::Window();
-	m_pDriverWindow->Create(sf::VideoMode(a_fWindowWidth,a_fWindowHeight,32),"BurgerDemo", m_eWindowStyle, oSettings);
+	m_pDriverWindow->Create(sf::VideoMode(a_iWindowWidth,a_iWindowHeight,32),"BurgerDemo", m_eWindowStyle, oSettings);
 
-	m_i2Size.set(a_fWindowWidth,a_fWindowHeight);
+	m_i2Size = vec2( static_cast<float>( a_iWindowWidth) , static_cast<float>( a_iWindowHeight ) );
 
 	SetActive(true);
 
@@ -39,7 +39,7 @@ bool Window::Initialize( const float a_fWindowWidth, const float a_fWindowHeight
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-osg::Vec2s const& Window::GetWindowSize() const
+vec2 const& Window::GetWindowSize() const
 {
 	return m_i2Size;
 }

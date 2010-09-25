@@ -1,57 +1,80 @@
 <scene>
-  <sceneobject x="0.0" y="-10.0" z="0.0" rX="-90.0" rY="0.0" rZ="0.0" scale="15.0">
+  
+  <!-- FLOOR   -->
+  <sceneobject x="0.0" y="0.0" z="0.0" rX="-90.0" rY="0.0" rZ="0.0" scale="8.0">
     <mesh>
       <file>../Data/Mesh/plane.obj</file>
       <part>
-        <material>../Data/Materials/testPhong.xml</material>
+        <material>../Data/Materials/floorDiffuse.xml</material>
       </part>
     </mesh>
   </sceneobject>
-  <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="0.5">
+
+  <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">
+    <mesh>
+      <file>../Data/Mesh/plane.obj</file>
+      <part>
+        <material>../Data/Materials/floorDiffuse.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>  
+
+  <!-- TEAPOT -->
+  <sceneobject x="10.0" y="0.0" z="2.0" rX="0.0" rY="0.0" rZ="0.0" scale="0.2">
     <mesh>
       <file>../Data/Mesh/teapot.obj</file>
       <part>
-        <material>../Data/Materials/testMaterial.xml</material>
+        <material>../Data/Materials/teaPotDiffuse.xml</material>
       </part>
     </mesh>
   </sceneobject>
-  <sceneobject x="30.0" y="0.0" z="0.0" rX="0.0" rY="90.0" rZ="0.0" scale="0.5">
+
+  <!-- TEAPOT -->
+  <sceneobject x="5.0" y="0.0" z="6.0" rX="0.0" rY="85.0" rZ="0.0" scale="0.2">
     <mesh>
       <file>../Data/Mesh/teapot.obj</file>
       <part>
-        <material>../Data/Materials/testMaterial.xml</material>
+        <material>../Data/Materials/teaPotDiffuse.xml</material>
       </part>
     </mesh>
   </sceneobject>
-  <sceneobject x="1.0" y="1" z="1.0" w="0.0" rX="45.0" rY="0.0" rZ="45.0">
+  
+  <!-- LIGHT 0 -->
+  <sceneobject x="10.0" y="2.0" z="10.0" w="1.0" rX="0.0" rY="0.0" rZ="0.0">
     <light>
-      <InnerAngle value="180.0" />
+      <InnerAngle value="0.0" />
       <OuterAngle value="0.0"/>
-      <Radius value="100"/>
-      <Color  r="1.0" g="1.0" b="1.0"/>
-    </light>
-  </sceneobject>
-  <sceneobject x="0.0" y="15.0" z="-10.0" w="1.0" rX="10.0" rY="90.0" rZ="0.0">
-    <light>
-      <InnerAngle value="180.0" />
-      <OuterAngle value="0.0"/>
-      <Radius value="30"/>
+      <Radius value="20"/>
       <Color  r="1.0" g="0.0" b="0.0"/>
     </light>
   </sceneobject>
-  <sceneobject x="0.0" y="10.0" z="-10.0" w="1.0" rX="10.0" rY="0.0" rZ="-90.0">
+  
+  <!-- LIGHT 1   -->
+  <sceneobject x="10.0" y="2.0" z="-10.0" w="1.0" rX="10.0" rY="90.0" rZ="0.0">
     <light>
-      <InnerAngle value="180.0" />
+      <InnerAngle value="0.0" />
       <OuterAngle value="0.0"/>
-      <Radius value="30"/>
+      <Radius value="20"/>
+      <Color  r="1.0" g="0.0" b="1.0"/>
+    </light>
+  </sceneobject>
+
+  <!-- LIGHT 2   -->
+  <sceneobject x="-10.0" y="2.0" z="10.0" w="1.0" rX="10.0" rY="0.0" rZ="-90.0">
+    <light>
+      <InnerAngle value="0.0" />
+      <OuterAngle value="0.0"/>
+      <Radius value="20"/>
       <Color  r="0.0" g="1.0" b="0.0"/>
     </light>
   </sceneobject>
-  <sceneobject x="10.0" y="10.0" z="-10.0" w="1.0" rX="10.0" rY="180.0" rZ="0.0">
+
+  <!-- LIGHT 3 -->
+  <sceneobject x="-10.0" y="2.0" z="-10.0" w="1.0" rX="10.0" rY="180.0" rZ="0.0">
     <light>
-      <InnerAngle value="180.0" />
+      <InnerAngle value="0.0" />
       <OuterAngle value="0.0"/>
-      <Radius value="30"/>
+      <Radius value="20"/>
       <Color  r="0.0" g="0.0" b="1.0"/>
     </light>
   </sceneobject>

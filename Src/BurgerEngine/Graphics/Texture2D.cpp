@@ -28,7 +28,7 @@ bool Texture2D::loadTexture(const std::string &name)
 	destroyID();
 	generateID();
 
-	activate();
+	Activate();
 	
 	if (!m_bMipMaps)
 	{
@@ -52,14 +52,14 @@ bool Texture2D::loadTexture(const std::string &name)
 	else
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_iWidth, m_iHeight, 0, GL_RGB, GL_UNSIGNED_BYTE , data );
 	
-	desactivate();
+	Desactivate();
 	delete[] data;
 
 	return true;
 
 }
 
-void Texture2D::activate()
+void Texture2D::Activate()
 {
 	//OpenGL Bind
 	//glEnable(GL_TEXTURE_2D);
@@ -67,7 +67,7 @@ void Texture2D::activate()
 	 
 }
 
-void Texture2D::desactivate()
+void Texture2D::Desactivate()
 {
 	glBindTexture(GL_TEXTURE_2D,0);
 	glDisable(GL_TEXTURE_2D);

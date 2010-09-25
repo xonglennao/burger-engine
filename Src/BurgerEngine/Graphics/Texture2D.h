@@ -25,8 +25,10 @@ class Texture2D: public AbstractTexture
 
 		virtual bool loadTexture(const std::string &name);
 		virtual bool loadTexture(GLenum target, const std::string& name){return loadTexture(name);};
-		virtual void activate();	
-		virtual void desactivate();	
+		virtual void Activate();	
+		//virtual void Desactivate();	
+
+		static void Desactivate();
 
 	protected:
 		bool m_bMipMaps;

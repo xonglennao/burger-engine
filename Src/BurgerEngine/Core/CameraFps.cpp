@@ -5,7 +5,7 @@
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void CameraFps::Initialize( const float a_fWindowWidth, const float a_fWindowHeight )
+void CameraFps::Initialize( const unsigned int a_iWindowWidth, const unsigned int a_iWindowHeight )
 {
 	//AbstractCamera::Initialize();
 
@@ -18,8 +18,8 @@ void CameraFps::Initialize( const float a_fWindowWidth, const float a_fWindowHei
 		EventManager::CallbackResize(this,&CameraFps::OnResize));
 
 	/// \todo Get back init parameters
-	m_f2WindowSize.set( a_fWindowWidth, a_fWindowHeight );
-
+	//m_f2WindowSize.set( static_cast<float>(a_iWindowWidth), static_cast<float>(a_iWindowHeight) );
+	m_f2WindowSize = vec2( static_cast<float>(a_iWindowWidth), static_cast<float>(a_iWindowHeight) );
 	m_fMovingSpeed = 0.02f;
 
 	m_fMouseSpeed = 0.1f;
@@ -51,29 +51,29 @@ void CameraFps::Terminate()
 //--------------------------------------------------------------------------------------------------------------------
 void CameraFps::Update()
 {
-	osg::Vec3f& rf3Pos = _GrabPos();
+	vec3& rf3Pos = _GrabPos();
 	
 	if( m_bForward )
 	{
-		rf3Pos.x() += m_fMovingSpeed * m_f3Direction.x();
-		rf3Pos.y() += m_fMovingSpeed * m_f3Direction.y();
-		rf3Pos.z() += m_fMovingSpeed * m_f3Direction.z();
+		rf3Pos.x += m_fMovingSpeed * m_f3Direction.x;
+		rf3Pos.y += m_fMovingSpeed * m_f3Direction.y;
+		rf3Pos.z += m_fMovingSpeed * m_f3Direction.z;
 	}
 	if( m_bBackward )
 	{
-		rf3Pos.x() -= m_fMovingSpeed * m_f3Direction.x();
-		rf3Pos.y() -= m_fMovingSpeed * m_f3Direction.y();
-		rf3Pos.z() -= m_fMovingSpeed * m_f3Direction.z();	
+		rf3Pos.x -= m_fMovingSpeed * m_f3Direction.x;
+		rf3Pos.y -= m_fMovingSpeed * m_f3Direction.y;
+		rf3Pos.z -= m_fMovingSpeed * m_f3Direction.z;	
 	}
 	if( m_bLeft )
 	{
-		rf3Pos.x() += m_fMovingSpeed * m_f3Right.x();
-		rf3Pos.z() += m_fMovingSpeed * m_f3Right.z();	
+		rf3Pos.x += m_fMovingSpeed * m_f3Right.x;
+		rf3Pos.z += m_fMovingSpeed * m_f3Right.z;	
 	}
 	if( m_bRight )
 	{
-		rf3Pos.x() -= m_fMovingSpeed * m_f3Right.x();
-		rf3Pos.z() -= m_fMovingSpeed * m_f3Right.z();
+		rf3Pos.x -= m_fMovingSpeed * m_f3Right.x;
+		rf3Pos.z -= m_fMovingSpeed * m_f3Right.z;
 	}
 
 	_InternalUpdate();
@@ -92,7 +92,7 @@ bool CameraFps::OnDownKey(unsigned char a_cKey)
 //--------------------------------------------------------------------------------------------------------------------
 bool CameraFps::OnResize(unsigned int a_uWidth, unsigned int a_uHeight)
 {
-	m_f2WindowSize.set(static_cast<float>(a_uWidth),static_cast<float>(a_uHeight));
+	m_f2WindowSize = vec2( static_cast<float>(a_uWidth),static_cast<float>(a_uHeight) );
 	return true;
 }
 
@@ -102,8 +102,8 @@ bool CameraFps::OnResize(unsigned int a_uWidth, unsigned int a_uHeight)
 bool CameraFps::OnMouseMoved(unsigned int a_uX, unsigned int a_uY)
 {
 
-	m_fAlpha += (m_f2WindowSize.x() / 2.0f - static_cast<float>(a_uX) )* m_fMouseSpeed;
-	m_fPhi +=(m_f2WindowSize.y() /2.0f - static_cast<float>(a_uY) )*m_fMouseSpeed;
+	m_fAlpha += (m_f2WindowSize.x / 2.0f - static_cast<float>(a_uX) )* m_fMouseSpeed;
+	m_fPhi +=(m_f2WindowSize.y /2.0f - static_cast<float>(a_uY) )*m_fMouseSpeed;
 
 	if(m_fPhi>-1)
 	{
@@ -128,21 +128,21 @@ bool CameraFps::OnMouseMoved(unsigned int a_uX, unsigned int a_uY)
 //--------------------------------------------------------------------------------------------------------------------
 void CameraFps::_InternalUpdate()
 {
-	osg::Vec3f& rf3Direction = _GrabDirection();
+	vec3& rf3Direction = _GrabDirection();
 
-	rf3Direction.x() = sin(m_fPhi*M_PI/180.0f)*sin(m_fAlpha*M_PI/180.0f);
-	rf3Direction.y() = cos(m_fPhi*M_PI/180.0f);
-	rf3Direction.z() = sin(m_fPhi*M_PI/180.0f)*cos(m_fAlpha*M_PI/180.0f);
+	rf3Direction.x = sinf(m_fPhi*M_PI/180.0f)*sin(m_fAlpha*M_PI/180.0f);
+	rf3Direction.y = cosf(m_fPhi*M_PI/180.0f);
+	rf3Direction.z = sinf(m_fPhi*M_PI/180.0f)*cos(m_fAlpha*M_PI/180.0f);
 
 	//Cross product
-	osg::Vec3f& rf3Up = _GrabUp();
-	m_f3Right = rf3Up^rf3Direction;
+	vec3& rf3Up = _GrabUp();
+	m_f3Right = cross( rf3Up, rf3Direction);
 
 	//normalize
-	m_f3Right.normalize();
+	m_f3Right = normalize( m_f3Right );
 
-	osg::Vec3f& rf3Aim = _GrabAim();
-	osg::Vec3f& rf3Pos = _GrabPos();
+	vec3& rf3Aim = _GrabAim();
+	vec3& rf3Pos = _GrabPos();
 
 	rf3Aim = rf3Pos + rf3Direction;
 }
