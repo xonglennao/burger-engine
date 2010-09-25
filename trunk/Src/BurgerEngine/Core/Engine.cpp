@@ -2,14 +2,12 @@
 #include "BurgerEngine/Core/StageManager.h"
 #include "BurgerEngine/Core/AbstractCamera.h"
 #include "BurgerEngine/Core/CameraFps.h"
+#include "BurgerEngine/Core/SceneGraph.h"
+
 #include "BurgerEngine/Input/EventManager.h"
+
 #include "BurgerEngine/Graphics/Window.h"
 #include "BurgerEngine/Graphics/OpenGLContext.h"
-
-	// I've put this here just to set the same parameters to the window, the camera and the openGL context
-	// we might do something a little better than this...
-	const float fWindowWidth = 1280.0;
-	const float fWindowHeight = 720.0;
 
 //--------------------------------------------------------------------------------------------------------------------
 //
@@ -26,22 +24,27 @@ Engine::Engine():
 //--------------------------------------------------------------------------------------------------------------------
 void Engine::Init()
 {
+	m_iWindowWidth = 1280;
+	m_iWindowHeight = 720;
+	
 	m_pEventManager = new EventManager();
 	m_pEventManager->Init();
 	
 	m_pStageManager = new StageManager();
 
 	m_pWindow = new Window();
-	m_pWindow->Initialize( fWindowWidth, fWindowHeight );
+	m_pWindow->Initialize( m_iWindowWidth, m_iWindowHeight );
 
 	// Creation of the camera
 	/// \todo this is temporary, we should use a better camera system
 	m_pCurrentCamera = new CameraFps();
-	m_pCurrentCamera->Initialize( fWindowWidth, fWindowHeight );
+	m_pCurrentCamera->Initialize( m_iWindowWidth, m_iWindowHeight );
 
 	//Create the Rendering Context
 	m_pRenderingContext = new OpenGLContext();
-	m_pRenderingContext->Initialize( fWindowWidth, fWindowHeight );
+	m_pRenderingContext->Initialize( m_iWindowWidth, m_iWindowHeight );
+
+	m_pSceneGraph = new SceneGraph();
 
 	m_bTerminate = false;
 
@@ -69,6 +72,9 @@ void Engine::Terminate()
 	delete m_pWindow;
 	m_pWindow = NULL;
 
+	delete m_pSceneGraph;
+	m_pSceneGraph = NULL;
+
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -90,7 +96,7 @@ void Engine::Run()
 
 		/// \Todo XL: Bad; hard coded and ugly to put this here!
 		/// maybe put in into the camera??
-		m_pWindow->GrabDriverWindow().SetCursorPosition( fWindowWidth / 2.0, fWindowHeight / 2.0 );
+		m_pWindow->GrabDriverWindow().SetCursorPosition( m_iWindowWidth / 2, m_iWindowHeight / 2 );
 		m_pWindow->GrabDriverWindow().ShowMouseCursor( false );
 
 		//Render Scene
@@ -127,4 +133,13 @@ void Engine::Run()
  {
 	assert(m_pEventManager != NULL);
 	return *(m_pEventManager);
+ }
+
+  //--------------------------------------------------------------------------------------------------------------------
+ //
+ //--------------------------------------------------------------------------------------------------------------------
+ SceneGraph& Engine::GrabSceneGraph()
+ {
+	assert(m_pSceneGraph != NULL);
+	return *(m_pSceneGraph);
  }

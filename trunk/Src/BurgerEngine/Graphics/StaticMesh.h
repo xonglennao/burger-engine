@@ -13,7 +13,7 @@
 #define __STATICMESH_H__
 
 #include "AbstractMesh.h"
-#include "BurgerEngine/External/Osg/Vec3"
+#include "BurgerEngine/External/Math/Vector.h"
 
 #include <vector>
 
@@ -72,16 +72,16 @@ private:
 	unsigned int		m_iBufferId;
 
 	/// Vertex buffer
-	std::vector<osg::Vec3>	m_vf3Position;
+	std::vector<vec3>	m_vf3Position;
 
 	/// Normal buffer
-	std::vector<osg::Vec3>	m_vf3Normal;
+	std::vector<vec3>	m_vf3Normal;
 
 	/// Texture Coordinate buffer
-	std::vector<osg::Vec2>	m_vf3Texcoord;
+	std::vector<vec2>	m_vf3Texcoord;
 
 	/// Tangent buffer
-	std::vector<osg::Vec3>	m_vf3Tangent;
+	std::vector<vec3>	m_vf3Tangent;
 
 	/// Size of those buffer
 	GLsizeiptr m_iSizeVertex;

@@ -29,7 +29,7 @@ public:
 	~OpenGLContext(){}
 
 	/// \brief	Initial set up of the OpenGl context
-	bool Initialize( const float a_fWindowWidth, const float a_fWindowHeight );
+	bool Initialize( const unsigned int a_fWindowWidth, const unsigned int a_fWindowHeight );
 
 	/// \brief Clear variable
 	void Terminate();

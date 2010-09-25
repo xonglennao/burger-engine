@@ -29,8 +29,8 @@ class TextureCubeMap: public AbstractTexture
 		
 		virtual bool loadTexture(GLenum target,const std::string &name);
 		virtual bool loadTexture(const std::string &name);
-		virtual void activate();	
-		virtual void desactivate();	
+		virtual void Activate();	
+		virtual void Desactivate();	
 
 
 

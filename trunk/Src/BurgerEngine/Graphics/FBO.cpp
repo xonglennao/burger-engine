@@ -16,9 +16,9 @@ FBO::FBO(unsigned int iWidth, unsigned int iHeight, FboEnum eType)
 		m_eTextureType = GL_TEXTURE_2D;
 }
 
-void FBO::generateDepthOnly()
+void FBO::GenerateDepthOnly()
 {
-	destroy();
+	Destroy();
 
 	glGenTextures(1, &m_iTexDepthId);
 	glBindTexture(m_eTextureType, m_iTexDepthId);
@@ -33,7 +33,7 @@ void FBO::generateDepthOnly()
 
 	//Generating ID
 	glGenFramebuffersEXT(1, &m_iId);
-	activate();
+	Activate();
 
 	//We attach the texture to the depth attachment point
 	glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT,GL_DEPTH_ATTACHMENT_EXT,m_eTextureType, m_iTexDepthId, 0);
@@ -42,29 +42,29 @@ void FBO::generateDepthOnly()
 	glDrawBuffer(GL_NONE);
 	glReadBuffer(GL_NONE);
 
-	desactivate();
+	Desactivate();
 
 	//Check FBO status
-	if(!checkFramebufferStatus())
+	if(!CheckFramebufferStatus())
 		std::cerr<<"ERROR : FBO creation Fail "<<std::endl;
 	
 	//Depth Only
 	m_iType = 1;
 }
 
-void FBO::generateColorOnly(bool tex16f)
+void FBO::GenerateColorOnly(bool tex16f)
 {
-    destroy();
+    Destroy();
 
 	//Generate the texture
-	glGenTextures(1, &m_iTexId);
-	glBindTexture(m_eTextureType, m_iTexId);
+	glGenTextures(1, &m_iTexId[0]);
+	glBindTexture(m_eTextureType, m_iTexId[0]);
 
     glTexParameteri (m_eTextureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri (m_eTextureType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(m_eTextureType, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(m_eTextureType, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(m_eTextureType, GL_GENERATE_MIPMAP, GL_TRUE);
+	//glTexParameteri(m_eTextureType, GL_GENERATE_MIPMAP, GL_TRUE);
 
 	///We need six Face for cube, or one for 2D
 	if (m_eTextureType == GL_TEXTURE_CUBE_MAP)
@@ -93,25 +93,25 @@ void FBO::generateColorOnly(bool tex16f)
 
 	//Generating ID
 	glGenFramebuffersEXT(1, &m_iId);
-	activate();
+	Activate();
 
     // attach a texture to FBO color attachement point
-    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, m_eTextureType, m_iTexId, 0);
+    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, m_eTextureType, m_iTexId[0], 0);
 
 	// attach a renderbuffer to depth attachment point
     glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, m_iRenderId);
 
-	desactivate();
+	Desactivate();
 
 	//Check FBO status
-	if(!checkFramebufferStatus())
+	if(!CheckFramebufferStatus())
 		std::cerr<<"ERROR : FBO creation Fail "<<std::endl;
 	
 	//Color Only
 	m_iType = 0;
 }
 
-void FBO::generate()
+void FBO::Generate()
 {
 	// create a texture object for the depthmap
     glGenTextures(1, &m_iTexDepthId);
@@ -120,52 +120,115 @@ void FBO::generate()
     glTexParameterf(m_eTextureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_T, GL_CLAMP);
-    glTexParameteri(m_eTextureType, GL_GENERATE_MIPMAP, GL_TRUE);
+   // glTexParameteri(m_eTextureType, GL_GENERATE_MIPMAP, GL_TRUE);
     glTexImage2D(m_eTextureType, 0, GL_DEPTH_COMPONENT, m_iWidth, m_iHeight, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
     glBindTexture(m_eTextureType, 0);
 
     // create a texture object
-    glGenTextures(1, &m_iTexId);
-    glBindTexture(m_eTextureType, m_iTexId);
+    glGenTextures(1, &m_iTexId[0]);
+    glBindTexture(m_eTextureType, m_iTexId[0]);
     glTexParameterf(m_eTextureType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameterf(m_eTextureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(m_eTextureType, GL_GENERATE_MIPMAP, GL_TRUE);
+    //glTexParameteri(m_eTextureType, GL_GENERATE_MIPMAP, GL_TRUE);
     glTexImage2D(m_eTextureType, 0, GL_RGBA8, m_iWidth, m_iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
     glBindTexture(m_eTextureType, 0);
 
     glGenFramebuffersEXT(1, &m_iId);
-    activate();
+    Activate();
 
     // attach a texture to FBO color attachement point
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, m_eTextureType, m_iTexDepthId, 0);
-    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, m_eTextureType, m_iTexId, 0);
+    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, m_eTextureType, m_iTexId[0], 0);
 
-	desactivate();
+	Desactivate();
 	//Check FBO status
-	if(!checkFramebufferStatus())
+	if(!CheckFramebufferStatus())
 		std::cerr<<"ERROR : FBO creation Fail "<<std::endl;
 	
 	//Color + Depth
 	m_iType = 2;
 }
 
-void FBO::activateTexture()
+void FBO::GenerateGBuffer()
+{
+	// create a texture object for the depthmap
+    glGenTextures(1, &m_iTexDepthId);
+	glBindTexture(m_eTextureType, m_iTexDepthId);
+    glTexParameterf(m_eTextureType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(m_eTextureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_T, GL_CLAMP);
+   // glTexParameteri(m_eTextureType, GL_GENERATE_MIPMAP, GL_TRUE);
+    glTexImage2D(m_eTextureType, 0, GL_DEPTH_COMPONENT, m_iWidth, m_iHeight, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
+    glBindTexture(m_eTextureType, 0);
+
+    // create a texture object
+    glGenTextures(1, &m_iTexId[0]);
+    glBindTexture(m_eTextureType, m_iTexId[0]);
+    glTexParameterf(m_eTextureType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(m_eTextureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+   // glTexParameteri(m_eTextureType, GL_GENERATE_MIPMAP, GL_TRUE);
+    glTexImage2D(m_eTextureType, 0, GL_RGBA8, m_iWidth, m_iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    glBindTexture(m_eTextureType, 0);
+
+    // create a texture object
+    glGenTextures(1, &m_iTexId[1]);
+    glBindTexture(m_eTextureType, m_iTexId[1]);
+    glTexParameterf(m_eTextureType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(m_eTextureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+   // glTexParameteri(m_eTextureType, GL_GENERATE_MIPMAP, GL_TRUE);
+    glTexImage2D(m_eTextureType, 0, GL_RGBA8, m_iWidth, m_iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    glBindTexture(m_eTextureType, 0);
+
+    glGenFramebuffersEXT(1, &m_iId);
+    Activate();
+
+    // attach a texture to FBO color attachement point
+    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, m_eTextureType, m_iTexDepthId, 0);
+    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, m_eTextureType, m_iTexId[0], 0);
+    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT1_EXT, m_eTextureType, m_iTexId[1], 0);
+
+	Desactivate();
+	//Check FBO status
+	if(!CheckFramebufferStatus())
+		std::cerr<<"ERROR : FBO creation Fail "<<std::endl;
+	
+	//Color + Depth
+	m_iType = 2;
+}
+
+void FBO::ActivateTexture()
 {
 	if (m_iType == 0 || m_iType == 2)
 	{
 		glEnable(m_eTextureType);
-		glBindTexture(m_eTextureType,m_iTexId);
+		glBindTexture(m_eTextureType,m_iTexId[0]);
 	}
 }
-void FBO::desactivateTexture()
+
+void FBO::ActivateTexture( unsigned int i )
+{
+	assert( i < 5 );
+	if (m_iType == 0 || m_iType == 2)
+	{
+		glEnable(m_eTextureType);
+		glBindTexture(m_eTextureType,m_iTexId[i]);
+	}
+}
+
+void FBO::DesactivateTexture()
 {
 	glBindTexture(m_eTextureType,0);
 	glDisable(m_eTextureType);
 }
 
-void FBO::activateDepthTexture()
+void FBO::ActivateDepthTexture()
 {
 	if (m_iType == 1 || m_iType == 2)
 	{
@@ -173,37 +236,37 @@ void FBO::activateDepthTexture()
 		glBindTexture(m_eTextureType,m_iTexDepthId);
 	}
 }
-void FBO::desactivateDepthTexture()
+void FBO::DesactivateDepthTexture()
 {
-	desactivateTexture();
+	DesactivateTexture();
 }
 
-void FBO::activate()
+void FBO::Activate()
 {
 	m_bIsActivated = true;
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_iId);
 }
 
-void FBO::activate(unsigned int iFace)
+void FBO::Activate(unsigned int iFace)
 {
 	assert(iFace<6);
-	activate();
+	Activate();
 	if (m_eDefinitionType == E_FBO_CUBE)
-		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_CUBE_MAP_POSITIVE_X+iFace, m_iTexId, 0);
+		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_CUBE_MAP_POSITIVE_X+iFace, m_iTexId[0], 0);
 }
 
-void FBO::desactivate()
+void FBO::Desactivate()
 {
 	m_bIsActivated = false;
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 }
 
-void FBO::destroy()
+void FBO::Destroy()
 {
 	glDeleteFramebuffersEXT(1, &m_iId);
 
 	if (m_iType == 0 || m_iType == 2)
-		glDeleteTextures(1,&m_iTexId);
+		glDeleteTextures(1,&m_iTexId[0]);
 
 	if(m_iType == 0)
 		glDeleteRenderbuffersEXT(1, &m_iRenderId);
@@ -213,7 +276,7 @@ void FBO::destroy()
 	m_bIsActivated = false;
 }
 
-bool FBO::checkFramebufferStatus()
+bool FBO::CheckFramebufferStatus()
 {
     GLenum status;
     status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);

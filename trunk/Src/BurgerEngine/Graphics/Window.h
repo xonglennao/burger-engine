@@ -17,7 +17,7 @@
 
 /// TODO dirty
 #include "CommonGraphics.h"
-#include "BurgerEngine/External/Osg/Vec2s"
+#include "BurgerEngine/External/Math/Vector.h"
 #include "BurgerEngine/External/SFML/Window.hpp"
 
 class Window
@@ -28,7 +28,7 @@ public:
 	Window();
 
 	/// \brief	Initial set up of the Window Application
-	bool Initialize( const float a_fWindowWidth, const float a_fWindowHeight );
+	bool Initialize( const unsigned int a_iWindowWidth, const unsigned int a_iWindowHeight );
 
 	/// \brief	Clear Buffer and such for a clean exit
 	void Terminate();
@@ -38,7 +38,7 @@ public:
 	void Display();
 
 	/// \brief GetWindow size
-	osg::Vec2s const& GetWindowSize() const;
+	vec2 const& GetWindowSize() const;
 
 	/// \group Grabber
 	/// \{
@@ -70,7 +70,7 @@ private:
 	/// Size of the window
 	/// \todo this info is already contain in the implemented window (driver)
 	/// but when we will try to separate or create our own window it will be useful
-	osg::Vec2s m_i2Size;
+	vec2 m_i2Size;
 };
 
 #endif //__WINDOW_H__

@@ -1,7 +1,8 @@
 #include "Material.h"
-#include "BurgerEngine\External\TinyXml\TinyXml.h"
-#include "shaderManager.h"
-#include "textureManager.h"
+#include "BurgerEngine/Graphics/ShaderManager.h"
+#include "BurgerEngine/Graphics/TextureManager.h"
+
+#include "BurgerEngine/External/TinyXml/TinyXml.h"
 
 Material::Material( const char * sName )
 	: m_pShader( NULL )
@@ -37,7 +38,7 @@ void Material::ActivateTextures()
 	while( it != m_oUniformTextures2DMap.end() )
 	{
 		glActiveTexture( GL_TEXTURE0 + (*it).first );
-		(*it).second->activate();
+		(*it).second->Activate();
 		++it;
 	}
 }

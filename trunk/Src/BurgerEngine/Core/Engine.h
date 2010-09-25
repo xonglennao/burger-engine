@@ -13,12 +13,13 @@
 #define __ENGINE_H__
 
 #include "BurgerEngine/Base/Singleton.h"
-
+#include <iostream>
 class EventManager;
 class StageManager;
 class Window;
 class OpenGLContext;
 class AbstractCamera;
+class SceneGraph;
 
 ///	\name	Engine.h
 ///	\brief	It's the main core of the program
@@ -52,11 +53,18 @@ public:
 	AbstractCamera & GetCurrentCamera() const;
 
 	/// \brief	Grabber
-	EventManager& GrabEventManager();
+	EventManager&	GrabEventManager();
+	SceneGraph&		GrabSceneGraph();
+	
+	OpenGLContext& GrabRenderingContext() const { return *m_pRenderingContext; };
 
 	/// \brief	Getter
 	EventManager const& GetEventManager() const {return *m_pEventManager;}
 	StageManager& GetStageManager() {return *m_pStageManager;}
+
+
+	const unsigned int GetWindowWidth() const { return m_iWindowWidth; }
+	const unsigned int GetWindowHeight() const { return m_iWindowHeight; }
 
 	/// \brief Setter
 	/// A bit dangerous as everyone can call the end...
@@ -78,6 +86,11 @@ private:
 
 	Window*			m_pWindow;
 	OpenGLContext*	m_pRenderingContext;
+
+	SceneGraph*		m_pSceneGraph;
+
+	unsigned int	m_iWindowWidth;
+	unsigned int	m_iWindowHeight;
 
 	///The flag use to exit the running loop;
 	bool			m_bTerminate;

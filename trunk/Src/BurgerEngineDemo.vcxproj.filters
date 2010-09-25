@@ -52,9 +52,6 @@
     <ClCompile Include="BurgerEngine\Core\StageMain3DScene.cpp">
       <Filter>BurgerEngine\Core\Stage</Filter>
     </ClCompile>
-    <ClCompile Include="BurgerEngine\Graphics\ForwardRenderer.cpp">
-      <Filter>BurgerEngine\Graphics\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="BurgerEngine\Graphics\FBO.cpp">
       <Filter>BurgerEngine\Graphics\FBO</Filter>
     </ClCompile>
@@ -108,6 +105,15 @@
     </ClCompile>
     <ClCompile Include="BurgerEngine\Graphics\MeshManager.cpp">
       <Filter>BurgerEngine\Graphics\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\DeferredRenderer.cpp">
+      <Filter>BurgerEngine\Graphics\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Core\SceneGraph.cpp">
+      <Filter>BurgerEngine\Core\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\External\Math\Vector.cpp">
+      <Filter>BurgerEngine\External\Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -168,9 +174,6 @@
     <ClInclude Include="BurgerEngine\Core\StageMain3DScene.h">
       <Filter>BurgerEngine\Core\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="BurgerEngine\Graphics\ForwardRenderer.h">
-      <Filter>BurgerEngine\Graphics\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="BurgerEngine\Graphics\FBO.h">
       <Filter>BurgerEngine\Graphics\FBO</Filter>
     </ClInclude>
@@ -218,6 +221,18 @@
     </ClInclude>
     <ClInclude Include="BurgerEngine\Graphics\MeshManager.h">
       <Filter>BurgerEngine\Graphics\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\DeferredRenderer.h">
+      <Filter>BurgerEngine\Graphics\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Core\SceneGraph.h">
+      <Filter>BurgerEngine\Core\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\External\Math\MyMath.h">
+      <Filter>BurgerEngine\External\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\External\Math\Vector.h">
+      <Filter>BurgerEngine\External\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -296,12 +311,45 @@
     <Filter Include="BurgerEngine\Data\Shaders">
       <UniqueIdentifier>{109f1770-6919-4c25-95a9-95336260e0a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="BurgerEngine\Core\SceneGraph">
+      <UniqueIdentifier>{5083bcc9-c4a8-4a5e-83a1-5273314a570a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\External\Math">
+      <UniqueIdentifier>{f22028c4-6483-43e4-b34e-f8ad21b98628}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Data\Scenes">
+      <UniqueIdentifier>{c217b7c8-a3d8-41c2-854d-ae7f3fd39063}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Data\Materials">
+      <UniqueIdentifier>{8e9c4298-7d5f-4ee5-adeb-85b4bbda4162}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\Shaders\LightBase.frag">
       <Filter>BurgerEngine\Data\Shaders</Filter>
     </None>
     <None Include="..\Data\Shaders\LightBase.vert">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\FillGBufferDiffuse.frag">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\FillGBufferDiffuse.vert">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Scenes\testScene.xml">
+      <Filter>BurgerEngine\Data\Scenes</Filter>
+    </None>
+    <None Include="..\Data\Materials\floorDiffuse.xml">
+      <Filter>BurgerEngine\Data\Materials</Filter>
+    </None>
+    <None Include="..\Data\Materials\teaPotDiffuse.xml">
+      <Filter>BurgerEngine\Data\Materials</Filter>
+    </None>
+    <None Include="..\Data\Shaders\OmniLight.frag">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\OmniLight.vert">
       <Filter>BurgerEngine\Data\Shaders</Filter>
     </None>
   </ItemGroup>

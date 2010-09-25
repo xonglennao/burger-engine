@@ -1,7 +1,7 @@
 <material>
-  <shadername>LightBase</shadername>
-  <vertexshader>../Data/Shaders/LightBase.vert</vertexshader>
-  <pixelshader>../Data/Shaders/LightBase.frag</pixelshader>
+  <shadername>FillGBufferDiffuse</shadername>
+  <vertexshader>../Data/Shaders/FillGBufferDiffuse.vert</vertexshader>
+  <pixelshader>../Data/Shaders/FillGBufferDiffuse.frag</pixelshader>
   <uniforms>
     <float value="1.0">fTileSize</float>
     <float value="50.0">fShininess</float>
@@ -9,7 +9,7 @@
   <samplers>
     <sampler>
       <uniformname unit="0">diffuseMap</uniformname>
-      <filename>../Data/Textures/rock.jpg</filename>
+      <filename>../Data/Textures/floor.jpg</filename>
     </sampler>
   </samplers>
 </material>

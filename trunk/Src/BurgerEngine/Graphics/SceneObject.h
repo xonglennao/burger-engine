@@ -13,8 +13,7 @@
 #define __SCENEOBJECT_H__
 
 #include <vector>
-#include "BurgerEngine/External/Osg/Vec3"
-#include "BurgerEngine/External/Osg/Vec4"
+#include "BurgerEngine/External/Math/Vector.h"
 
 class SceneObject
 {
@@ -24,23 +23,23 @@ public:
 	~SceneObject();
 
 public:
-	inline void SetPos( osg::Vec4 vValue ){ vPosition = vValue; };
-	inline void SetPosX ( float fValue ) { vPosition.x() = fValue; };
-	inline void SetPosY ( float fValue ) { vPosition.y() = fValue; };
-	inline void SetPosZ ( float fValue ) { vPosition.z() = fValue; };
-	inline void SetPosW ( float fValue ) { vPosition.w() = fValue; };
+	inline void SetPos( vec4 vValue ){ vPosition = vValue; };
+	inline void SetPosX ( float fValue ) { vPosition.x = fValue; };
+	inline void SetPosY ( float fValue ) { vPosition.y = fValue; };
+	inline void SetPosZ ( float fValue ) { vPosition.z = fValue; };
+	inline void SetPosW ( float fValue ) { vPosition.w = fValue; };
 	
-	inline void SetRotation( osg::Vec3 vValue ){ vRotation = vValue; };
-	inline void SetRX ( float fValue ) { vRotation.x() = fValue; };
-	inline void SetRY ( float fValue ) { vRotation.y() = fValue; };
-	inline void SetRZ ( float fValue ) { vRotation.z() = fValue; };
+	inline void SetRotation( vec3 vValue ){ vRotation = vValue; };
+	inline void SetRX ( float fValue ) { vRotation.x = fValue; };
+	inline void SetRY ( float fValue ) { vRotation.y = fValue; };
+	inline void SetRZ ( float fValue ) { vRotation.z = fValue; };
 
-	inline const osg::Vec4 GetPos() const { return vPosition; };
-	inline const osg::Vec3 GetRotation() const { return vRotation; }
+	inline const vec4 GetPos() const { return vPosition; };
+	inline const vec3 GetRotation() const { return vRotation; }
 
 protected:
-	osg::Vec4	vPosition;
-	osg::Vec3	vRotation;
+	vec4	vPosition;
+	vec3	vRotation;
 };
 
 #endif //__SCENEOBJECT_H__

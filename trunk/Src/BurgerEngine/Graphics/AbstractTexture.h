@@ -31,8 +31,7 @@ class AbstractTexture
 		*/
 		virtual bool loadTexture(const std::string& name) = 0;
 		virtual bool loadTexture(GLenum target, const std::string& name) = 0;
-		virtual void activate() = 0;
-		virtual void desactivate() = 0;
+		virtual void Activate() = 0;
 
 		virtual GLubyte* loadData();
 		void generateID();

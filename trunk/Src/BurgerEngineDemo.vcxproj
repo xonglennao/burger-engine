@@ -19,8 +19,11 @@
     <ClInclude Include="BurgerEngine\Core\AbstractStage.h" />
     <ClInclude Include="BurgerEngine\Core\CameraFps.h" />
     <ClInclude Include="BurgerEngine\Core\Engine.h" />
+    <ClInclude Include="BurgerEngine\Core\SceneGraph.h" />
     <ClInclude Include="BurgerEngine\Core\StageMain3DScene.h" />
     <ClInclude Include="BurgerEngine\Core\StageManager.h" />
+    <ClInclude Include="BurgerEngine\External\Math\MyMath.h" />
+    <ClInclude Include="BurgerEngine\External\Math\Vector.h" />
     <ClInclude Include="BurgerEngine\External\TinyXml\tinystr.h" />
     <ClInclude Include="BurgerEngine\External\TinyXml\tinyxml.h" />
     <ClInclude Include="BurgerEngine\Graphics\AbstractMesh.h" />
@@ -28,8 +31,8 @@
     <ClInclude Include="BurgerEngine\Graphics\AbstractTexture.h" />
     <ClInclude Include="BurgerEngine\Graphics\CommonGraphics.h" />
     <ClInclude Include="BurgerEngine\Graphics\DebugDraw.h" />
+    <ClInclude Include="BurgerEngine\Graphics\DeferredRenderer.h" />
     <ClInclude Include="BurgerEngine\Graphics\FBO.h" />
-    <ClInclude Include="BurgerEngine\Graphics\ForwardRenderer.h" />
     <ClInclude Include="BurgerEngine\Graphics\ImageTool.h" />
     <ClInclude Include="BurgerEngine\Graphics\Material.h" />
     <ClInclude Include="BurgerEngine\Graphics\MeshManager.h" />
@@ -56,8 +59,10 @@
     <ClCompile Include="BurgerEngine\Core\AbstractStage.cpp" />
     <ClCompile Include="BurgerEngine\Core\CameraFps.cpp" />
     <ClCompile Include="BurgerEngine\Core\Engine.cpp" />
+    <ClCompile Include="BurgerEngine\Core\SceneGraph.cpp" />
     <ClCompile Include="BurgerEngine\Core\StageMain3DScene.cpp" />
     <ClCompile Include="BurgerEngine\Core\StageManager.cpp" />
+    <ClCompile Include="BurgerEngine\External\Math\Vector.cpp" />
     <ClCompile Include="BurgerEngine\External\TinyXml\tinystr.cpp" />
     <ClCompile Include="BurgerEngine\External\TinyXml\tinyxml.cpp" />
     <ClCompile Include="BurgerEngine\External\TinyXml\tinyxmlerror.cpp" />
@@ -66,8 +71,8 @@
     <ClCompile Include="BurgerEngine\Graphics\AbstractPostEffect.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\AbstractTexture.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\DebugDraw.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\DeferredRenderer.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\FBO.cpp" />
-    <ClCompile Include="BurgerEngine\Graphics\ForwardRenderer.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\ImageTool.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\Material.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\MeshManager.cpp" />
@@ -87,8 +92,15 @@
     <ClCompile Include="BurgerEngine\Input\SFMLInputManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Data\Materials\floorDiffuse.xml" />
+    <None Include="..\Data\Materials\teaPotDiffuse.xml" />
+    <None Include="..\Data\Scenes\testScene.xml" />
+    <None Include="..\Data\Shaders\FillGBufferDiffuse.frag" />
+    <None Include="..\Data\Shaders\FillGBufferDiffuse.vert" />
     <None Include="..\Data\Shaders\LightBase.frag" />
     <None Include="..\Data\Shaders\LightBase.vert" />
+    <None Include="..\Data\Shaders\OmniLight.frag" />
+    <None Include="..\Data\Shaders\OmniLight.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{99D06A18-E064-414F-BBCC-CAE1EE67296F}</ProjectGuid>
@@ -122,7 +134,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IntDir>..\Bin\</IntDir>
-    <IncludePath>C:\Prog\BurgerEngine\Src\BurgerEngine\External\SFML;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath)</IncludePath>
     <LibraryPath>..\Lib\;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
@@ -131,6 +143,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IntDir>..\Bin</IntDir>
+    <LibraryPath>..\Lib\;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -142,7 +157,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32s.lib;glew32.lib;openGL32.lib;glu32.lib;sfml-window-d.lib;sfml-window.lib;loki_D.lib;devIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;openGL32.lib;glu32.lib;sfml-window-d.lib;loki_D.lib;devIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -151,12 +166,13 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>../Src/BurgerEngine/External;../Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glew32s.lib;glew32.lib;openGL32.lib;glu32.lib;sfml-window-d.lib;sfml-window.lib;loki_D.lib;devIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;openGL32.lib;glu32.lib;sfml-window.lib;loki.lib;devIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

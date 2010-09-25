@@ -29,12 +29,12 @@ public:
 
 private:
 		///Check the status of the FBO created
-	bool checkFramebufferStatus();
+	bool CheckFramebufferStatus();
 
-	void generateID();
-	void destroy();
+	void GenerateID();
+	void Destroy();
 
-	GLuint m_iTexId;
+	GLuint m_iTexId[4];
 	GLuint m_iTexDepthId;
 	GLuint m_iRenderId;
 	GLuint m_iId;
@@ -55,28 +55,30 @@ private:
 public:
 
 	FBO(unsigned int iWidth, unsigned int iHeight, FboEnum eType);
-	~FBO(){destroy();};
+	~FBO(){ Destroy(); };
 
-	void generateDepthOnly();
-	void generateColorOnly(bool tex16f = false);
-	void generate();
+	void GenerateDepthOnly();
+	void GenerateColorOnly(bool tex16f = false);
+	void Generate();
+	void GenerateGBuffer();
 
 	//To activate the texture
-	void activateTexture();
-	void desactivateTexture();
+	void ActivateTexture();
+	void DesactivateTexture();
+	void ActivateTexture( unsigned int i );
 
 	//To activate the depth texture
-	void activateDepthTexture();
-	void desactivateDepthTexture();
+	void ActivateDepthTexture();
+	void DesactivateDepthTexture();
 
 	//To activate the FBO (in order to write)
-	void activate();
-	void desactivate();
+	void Activate();
+	void Desactivate();
 	//To choose a face for the cube 
-	void activate(unsigned int iFace);
+	void Activate(unsigned int iFace);
 
-	inline const unsigned int& getWidth(){return m_iWidth;};
-	inline const unsigned int& getHeight(){return m_iHeight;};
+	inline const unsigned int& GetWidth(){return m_iWidth;};
+	inline const unsigned int& GetHeight(){return m_iHeight;};
 };
 
 #endif //__FBO_H__

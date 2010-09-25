@@ -26,7 +26,7 @@ public:
 	~CameraFps(){}
 
 	/// \brief Initialize Camera (set up callback)
-	void Initialize( const float a_fWindowWidth, const float a_fWindowHeight );
+	void Initialize( const unsigned int a_iWindowWidth, const unsigned int a_iWindowHeight );
 
 	/// \brief Terminate Camera (free callback)
 	void Terminate();
@@ -49,20 +49,20 @@ public:
 private:
 
 	/// \brief Grab direction the camera is pointing at
-	osg::Vec3f& _GrabDirection(){return m_f3Direction;}
+	vec3& _GrabDirection(){return m_f3Direction;}
 
 	/// \brief Calculate new Position from updated parameters
 	/// \todo bap: Need to calculate ourself the cross product.. can't the lib do it?
 	void _InternalUpdate();
 
 	/// Right position ?
-	osg::Vec3f m_f3Right;
+	vec3 m_f3Right;
 
 	/// The direction the camera in pointing at
-	osg::Vec3f m_f3Direction;
+	vec3 m_f3Direction;
 
 	/// Size of the window
-	osg::Vec2f m_f2WindowSize;
+	vec2 m_f2WindowSize;
 
 	/// Moving speed into space
 	float m_fMovingSpeed;

@@ -13,7 +13,7 @@
 #define __TEXTUREMANAGER_H__
 
 #include "BurgerEngine/Base/Singleton.h"
-#include "BurgerEngine\External\IL\il.h"
+#include "BurgerEngine/External/IL/il.h"
 
 #include <map>
 #include <string>

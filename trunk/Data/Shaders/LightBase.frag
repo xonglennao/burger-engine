@@ -81,7 +81,8 @@ void main(){
 				finalColor += ( ( diffuse + specular ) * spot * att  );
 			}
 		}
-		gl_FragColor = finalColor  * texture2D( diffuseMap, vTexCoord );
+		gl_FragData[0] = finalColor * texture2D( diffuseMap, vTexCoord );
+		gl_FragData[1] = vec4(N, 1.0);
 	}
 		
 }

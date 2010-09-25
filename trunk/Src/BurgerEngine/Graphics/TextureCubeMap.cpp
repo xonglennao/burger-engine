@@ -18,7 +18,7 @@ bool TextureCubeMap::loadTexture(GLenum target,const std::string &name)
 		m_bFirstInit = true;
 	}
 
-	activate();
+	Activate();
 
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -102,7 +102,7 @@ bool TextureCubeMap::loadTexture(GLenum target,const std::string &name)
 	else
 		return false;*/
 	
-	desactivate();
+	Desactivate();
 
 	return true;
 
@@ -113,12 +113,12 @@ bool TextureCubeMap::loadTexture(const std::string &name)
 	return loadTexture(GL_TEXTURE_CUBE_MAP_POSITIVE_Z,name);
 }
 
-void TextureCubeMap::activate()
+void TextureCubeMap::Activate()
 {
 	if (!m_bFirstInit)
 		std::cout<<"INFO : The CubeMap has not been texturized"<<std::endl;
 
-	desactivate();
+	Desactivate();
 	//OpenGL Bind
 	glEnable (GL_TEXTURE_GEN_S);
 	glEnable (GL_TEXTURE_GEN_T);
@@ -132,7 +132,7 @@ void TextureCubeMap::activate()
 	glTexGeni (GL_R, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
 }
 
-void TextureCubeMap::desactivate()
+void TextureCubeMap::Desactivate()
 {
 	glBindTexture (GL_TEXTURE_CUBE_MAP, 0);
 	glDisable (GL_TEXTURE_CUBE_MAP);
