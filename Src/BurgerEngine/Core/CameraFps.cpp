@@ -10,7 +10,7 @@ void CameraFps::Initialize()
 	//AbstractCamera::Initialize();
 
 	/// \todo Get back init parameters
-	m_fMovingSpeed = 0.02f;
+	m_fMovingSpeed = 0.005f;
 
 	m_fMouseSpeed = 0.1f;
 

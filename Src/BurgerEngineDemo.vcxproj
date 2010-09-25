@@ -97,10 +97,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\Materials\floorDiffuse.xml" />
+    <None Include="..\Data\Materials\metalFloorDiffuseBump.xml" />
+    <None Include="..\Data\Materials\rockDiffuseBump.xml" />
     <None Include="..\Data\Materials\teaPotDiffuse.xml" />
     <None Include="..\Data\Scenes\testScene.xml" />
     <None Include="..\Data\Shaders\FillGBufferDiffuse.frag" />
     <None Include="..\Data\Shaders\FillGBufferDiffuse.vert" />
+    <None Include="..\Data\Shaders\FillGBufferDiffuse_NM.frag" />
+    <None Include="..\Data\Shaders\FillGBufferDiffuse_NM.vert" />
     <None Include="..\Data\Shaders\LightBase.frag" />
     <None Include="..\Data\Shaders\LightBase.vert" />
     <None Include="..\Data\Shaders\OmniLight.frag" />

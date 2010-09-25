@@ -102,8 +102,7 @@ void Material::LoadMaterialXML( const char * sName )
 					m_oUniformTextures2DMap[ iUnit ] = pTexture2D;
 				}
 
-								
-				pXmlSampler = pXmlSamplers->NextSiblingElement( "sampler" );
+				pXmlSampler = pXmlSampler->NextSiblingElement( "sampler" );
 			}
 		}
 		m_pShader->Desactivate();
