@@ -34,9 +34,11 @@
     <ClInclude Include="BurgerEngine\Graphics\CommonGraphics.h" />
     <ClInclude Include="BurgerEngine\Graphics\DebugDraw.h" />
     <ClInclude Include="BurgerEngine\Graphics\DeferredRenderer.h" />
+    <ClInclude Include="BurgerEngine\Graphics\EffectTechnique.h" />
     <ClInclude Include="BurgerEngine\Graphics\FBO.h" />
     <ClInclude Include="BurgerEngine\Graphics\ImageTool.h" />
     <ClInclude Include="BurgerEngine\Graphics\Material.h" />
+    <ClInclude Include="BurgerEngine\Graphics\MaterialManager.h" />
     <ClInclude Include="BurgerEngine\Graphics\MeshManager.h" />
     <ClInclude Include="BurgerEngine\Graphics\SceneLight.h" />
     <ClInclude Include="BurgerEngine\Graphics\SceneMesh.h" />
@@ -76,9 +78,11 @@
     <ClCompile Include="BurgerEngine\Graphics\AbstractTexture.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\DebugDraw.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\DeferredRenderer.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\EffectTechnique.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\FBO.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\ImageTool.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\Material.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\MaterialManager.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\MeshManager.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\SceneLight.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\SceneMesh.cpp" />
@@ -98,7 +102,9 @@
   <ItemGroup>
     <None Include="..\Data\Materials\floorDiffuse.xml" />
     <None Include="..\Data\Materials\metalFloorDiffuseBump.xml" />
-    <None Include="..\Data\Materials\rockDiffuseBump.xml" />
+    <None Include="..\Data\Materials\rockDiffuseBump.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\Data\Materials\teaPotDiffuse.xml" />
     <None Include="..\Data\Scenes\testScene.xml" />
     <None Include="..\Data\Shaders\FillGBufferDiffuse.frag" />
@@ -109,6 +115,8 @@
     <None Include="..\Data\Shaders\LightBase.vert" />
     <None Include="..\Data\Shaders\OmniLight.frag" />
     <None Include="..\Data\Shaders\OmniLight.vert" />
+    <None Include="..\Data\Shaders\rockDiffuseSpecBump.frag" />
+    <None Include="..\Data\Shaders\rockDiffuseSpecBump.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{99D06A18-E064-414F-BBCC-CAE1EE67296F}</ProjectGuid>

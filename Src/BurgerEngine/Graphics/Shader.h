@@ -31,7 +31,10 @@ class Shader
 
 		//To communicate with the shader, but we should use some math class
 		void setUniformf(const std::string& sName, float fValue);
+		void setUniformf( int iUniformLocation, float fValue);
+
 		void setUniformi(const std::string& sName, int fValue);
+
 		void setUniformTexture(const std::string& sName, int iUnit);
 		void setUniformMatrix4fv(const std::string& sName, float * pValue);
 		

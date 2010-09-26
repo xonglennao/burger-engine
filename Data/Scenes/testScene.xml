@@ -5,7 +5,7 @@
     <mesh>
       <file>../Data/Mesh/plane.obj</file>
       <part>
-        <material>../Data/Materials/metalFloorDiffuseBump.xml</material>
+        <material>../Data/Materials/rockDiffuseBump.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -15,7 +15,7 @@
     <mesh>
       <file>../Data/Mesh/teapot.obj</file>
       <part>
-        <material>../Data/Materials/teaPotDiffuse.xml</material>
+        <material>../Data/Materials/rockDiffuseBump.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -35,7 +35,7 @@
     <mesh>
       <file>../Data/Mesh/torus.obj</file>
       <part>
-        <material>../Data/Materials/teaPotDiffuse.xml</material>
+        <material>../Data/Materials/rockDiffuseBump.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -65,7 +65,7 @@
     <mesh>
       <file>../Data/Mesh/teapot.obj</file>
       <part>
-        <material>../Data/Materials/teaPotDiffuse.xml</material>
+        <material>../Data/Materials/rockDiffuseBump.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -76,7 +76,7 @@
       <InnerAngle value="0.0" />
       <OuterAngle value="0.0"/>
       <Radius value="60"/>
-      <Color  r="1.0" g="1.0" b="1.0"/>
+      <Color  r="1.0" g="0.0" b="0.0"/>
     </light>
   </sceneobject>
   
@@ -86,7 +86,7 @@
       <InnerAngle value="0.0" />
       <OuterAngle value="0.0"/>
       <Radius value="60"/>
-      <Color  r="1.0" g="1.0" b="1.0"/>
+      <Color  r="0.0" g="1.0" b="0.0"/>
     </light>
   </sceneobject>
 
@@ -96,17 +96,17 @@
       <InnerAngle value="0.0" />
       <OuterAngle value="0.0"/>
       <Radius value="60"/>
-      <Color  r="0.9" g="0.85" b="0.85"/>
+      <Color  r="0.0" g="0.0" b="1.0"/>
     </light>
   </sceneobject>
 
   <!-- LIGHT 3 -->
-  <sceneobject x="-10.0" y="2.0" z="-10.0" w="1.0" rX="0.0" rY="0.0" rZ="0.0">
+  <sceneobject x="0.0" y="10.0" z="0.0" w="1.0" rX="0.0" rY="0.0" rZ="0.0">
     <light>
       <InnerAngle value="0.0" />
       <OuterAngle value="0.0"/>
       <Radius value="60"/>
-      <Color  r="0.9" g="0.9" b="1.0"/>
+      <Color  r="1" g="1.0" b="1.0"/>
     </light>
   </sceneobject>
 </scene>

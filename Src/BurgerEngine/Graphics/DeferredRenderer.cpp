@@ -41,9 +41,8 @@ DeferredRenderer::DeferredRenderer()
 
 	m_pOmniLightShader = ShaderManager::GrabInstance().addShader( "OmniLightShader", "../Data/Shaders/OmniLight.vert", "../Data/Shaders/OmniLight.frag" );
 	m_pOmniLightShader->Activate();
-	m_pOmniLightShader->setUniformTexture("sColorSampler",0);
-	m_pOmniLightShader->setUniformTexture("sNormalSampler",1);
-	m_pOmniLightShader->setUniformTexture("sDepthSampler",2);
+	m_pOmniLightShader->setUniformTexture("sNormalSampler",0);
+	m_pOmniLightShader->setUniformTexture("sDepthSampler",1);
 	m_pOmniLightShader->Desactivate();
 	
 	//loading font
@@ -165,7 +164,7 @@ void DeferredRenderer::Render()
 	AbstractCamera & rCamera = rEngine.GetCurrentCamera();
 	OpenGLContext& rRenderingContext = rEngine.GrabRenderingContext(); 
 
-	rRenderingContext.ReshapeGl( m_oGBuffer->GetWidth(), m_oGBuffer->GetHeight() );
+	rRenderingContext.ReshapeGl( iWindowWidth, iWindowHeight );
 	
 	rCamera.LookAt();
 	
@@ -209,68 +208,71 @@ void DeferredRenderer::Render()
 		++oLightIt;
 	}
 
-	//Fill GBuffer
+	//GBuffer pass
 	m_oGBuffer->Activate();
-	GLenum buffers[] = { GL_COLOR_ATTACHMENT0_EXT, GL_COLOR_ATTACHMENT1_EXT };
-	glDrawBuffers(2, buffers);
-		glViewport( 0, 0, m_oGBuffer->GetWidth(), m_oGBuffer->GetHeight() );
-		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-		std::vector< SceneMesh* >::const_iterator oMeshIt = oSceneMeshes.begin();
-		while( oMeshIt != oSceneMeshes.end() )
-		{
-			(*oMeshIt)->Draw();
-			++oMeshIt;
-		}
+	
+	//multiple render target, not useful for now. Do not delete, I might need the code... :)
+	//GLenum buffers[] = { GL_COLOR_ATTACHMENT0_EXT, GL_COLOR_ATTACHMENT1_EXT };
+	//glDrawBuffers(2, buffers);
+
+	glViewport( 0, 0, m_oGBuffer->GetWidth(), m_oGBuffer->GetHeight() );
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	std::vector< SceneMesh* >::const_iterator oMeshIt = oSceneMeshes.begin();
+	while( oMeshIt != oSceneMeshes.end() )
+	{
+		(*oMeshIt)->Draw( EffectTechnique::E_RENDER_GBUFFER );
+		++oMeshIt;
+	}
+
 	m_oGBuffer->Desactivate();
 
+	//Lighting pass
+	glActiveTexture( GL_TEXTURE0 );
+	m_oGBuffer->ActivateTexture(0);
+	glActiveTexture( GL_TEXTURE1 );
+	m_oGBuffer->ActivateDepthTexture();
+	glActiveTexture( GL_TEXTURE0 );
+
+	m_pOmniLightShader->Activate();
+
+	m_pOmniLightShader->setUniformf( "fWindowWidth", iWindowWidth );
+	m_pOmniLightShader->setUniformf( "fWindowHeight", iWindowHeight );
+	m_pOmniLightShader->setUniformMatrix4fv( "mInvProj", mGLInvProj );
+	m_pOmniLightShader->setUniformi( "iDebug", m_iDebugFlag );
+
+	m_oLightBuffer->Activate();		
+	DrawScreenSpaceQuad( iWindowWidth, iWindowHeight );
+	m_oLightBuffer->Desactivate();
+
+	m_pOmniLightShader->Desactivate();
+
+	glActiveTexture( GL_TEXTURE0 );
+	Texture2D::Desactivate();
+	glActiveTexture( GL_TEXTURE1 );
+	Texture2D::Desactivate();
+	glActiveTexture( GL_TEXTURE0 );
+	//m_oLightBuffer->ActivateTexture();
+	//DrawScreenSpaceQuad( iWindowWidth, iWindowHeight );
 
 
-	if( m_iDebugFlag == 0 )
-	{
-		//Lighting
-		glActiveTexture( GL_TEXTURE0 );
-		m_oGBuffer->ActivateTexture(0);
-		glActiveTexture( GL_TEXTURE1 );
-		m_oGBuffer->ActivateTexture(1);
-		glActiveTexture( GL_TEXTURE2 );
-		m_oGBuffer->ActivateDepthTexture();
-		glActiveTexture( GL_TEXTURE0 );
-		m_pOmniLightShader->Activate();
+	glActiveTexture( GL_TEXTURE6 );
+	m_oLightBuffer->ActivateTexture();
+	glActiveTexture( GL_TEXTURE0 );	
+	//Material pass
+	rRenderingContext.ReshapeGl( iWindowWidth, iWindowHeight );
+	rCamera.LookAt();
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+		//std::vector< SceneMesh* >::const_iterator oMeshIt = oSceneMeshes.begin();
+		oMeshIt = oSceneMeshes.begin();	
+		while( oMeshIt != oSceneMeshes.end() )
+		{
+			(*oMeshIt)->Draw( EffectTechnique::E_RENDER_OPAQUE );
+			++oMeshIt;
+		}
 
-		m_pOmniLightShader->setUniformf( "fWindowWidth", iWindowWidth );
-		m_pOmniLightShader->setUniformf( "fWindowHeight", iWindowHeight );
-		m_pOmniLightShader->setUniformMatrix4fv( "mInvProj", mGLInvProj );
-		m_pOmniLightShader->setUniformi( "iDebug", m_iDebugFlag );
-		DrawScreenSpaceQuad( rEngine.GetWindowWidth(), rEngine.GetWindowHeight() );
-
-		m_pOmniLightShader->Desactivate();
-
-		glActiveTexture( GL_TEXTURE0 );
-		Texture2D::Desactivate();
-		glActiveTexture( GL_TEXTURE1 );
-		Texture2D::Desactivate();
-		glActiveTexture( GL_TEXTURE2 );
-		Texture2D::Desactivate();
-		glActiveTexture( GL_TEXTURE0 );
-	}
-	else
-	{
-		glActiveTexture( GL_TEXTURE0 );
-		m_oGBuffer->ActivateTexture(0);
-		glActiveTexture( GL_TEXTURE1 );
-		Texture2D::Desactivate();
-		glActiveTexture( GL_TEXTURE2 );
-		Texture2D::Desactivate();
-		DrawScreenSpaceQuad( rEngine.GetWindowWidth(), rEngine.GetWindowHeight() );
-		glActiveTexture( GL_TEXTURE0 );
-		Texture2D::Desactivate();
-		glActiveTexture( GL_TEXTURE1 );
-		Texture2D::Desactivate();
-		glActiveTexture( GL_TEXTURE2 );
-		Texture2D::Desactivate();
-		glActiveTexture( GL_TEXTURE0 );
-	}
-
+	glActiveTexture( GL_TEXTURE6 );
+	Texture2D::Desactivate();
+	glActiveTexture( GL_TEXTURE0 );
 
 	std::stringstream oStream;
 	oStream << "GPU:" << m_oTimer->Stop() << "ms";

@@ -16,6 +16,8 @@
 /// \brief	The application of the window
 
 #include "CommonGraphics.h"
+#include "BurgerEngine/Graphics/EffectTechnique.h"
+
 #include <vector>
 
 class FBO;
@@ -52,14 +54,6 @@ private:
 	PixelPerfectGLFont* m_oFont;
 
 	Timer* m_oTimer;
-
-	/*FBO * m_oFBOColorDepth;
-	FBO * m_oFBOWriteAlpha;
-	FBO * m_oFBOBlurH;
-	FBO * m_oFBOBlurV;
-	FBO * m_oFinalFBO;
-	FBO * m_oPostProcessFBO0;
-	FBO * m_oPostProcessFBO1;*/
 
 	Shader* m_pOmniLightShader;
 

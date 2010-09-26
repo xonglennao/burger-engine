@@ -1,45 +1,44 @@
 #include "Material.h"
 #include "BurgerEngine/Graphics/ShaderManager.h"
 #include "BurgerEngine/Graphics/TextureManager.h"
+#include "BurgerEngine/Graphics/Shader.h"
+#include "BurgerEngine/Graphics/MaterialManager.h"
 
 #include "BurgerEngine/External/TinyXml/TinyXml.h"
 
 Material::Material( const char * sName )
-	: m_pShader( NULL )
 {
 	LoadMaterialXML( sName );
 }
 
 Material::~Material()
 {
-};
-
-void Material::Activate()
-{
-	m_pShader->Activate();
-	ActivateTextures();
-	CommitFloatUniforms();
-}
-
-void Material::CommitFloatUniforms()
-{
-	std::map< std::string, float >::iterator it = m_oUniformFloatsMap.begin();
-	while( it != m_oUniformFloatsMap.end() )
+	std::map< EffectTechnique::RenderingTechnique, EffectTechnique* >::iterator it = m_oTechniques.begin();
+	while( it != m_oTechniques.end() )
 	{
-		m_pShader->setUniformf( (*it).first, (*it).second );
+		delete (*it).second;
+		(*it).second = NULL;
 		++it;
 	}
+};
 
+bool Material::Activate( EffectTechnique::RenderingTechnique eTechnique )
+{
+	std::map< EffectTechnique::RenderingTechnique, EffectTechnique* >::iterator oIt = m_oTechniques.find(eTechnique);
+	if (oIt != m_oTechniques.end())
+	{
+		oIt->second->Activate();
+		return true;
+	}
+	return false;
 }
 
-void Material::ActivateTextures()
+void Material::Desactivate( EffectTechnique::RenderingTechnique eTechnique )
 {
-	std::map< int, Texture2D* >::iterator it = m_oUniformTextures2DMap.begin();
-	while( it != m_oUniformTextures2DMap.end() )
+	std::map< EffectTechnique::RenderingTechnique, EffectTechnique* >::iterator oIt = m_oTechniques.find(eTechnique);
+	if (oIt != m_oTechniques.end())
 	{
-		glActiveTexture( GL_TEXTURE0 + (*it).first );
-		(*it).second->Activate();
-		++it;
+		oIt->second->Desactivate();
 	}
 }
 
@@ -56,69 +55,86 @@ void Material::LoadMaterialXML( const char * sName )
 
 	if( pRoot )
 	{
-		std::string sName, sVertexShader, sPixelShader;
+		//loads a technique
+		TiXmlElement * pXmlTechnique = pRoot->FirstChildElement( "technique" );
+		while( pXmlTechnique )
+		{
+			EffectTechnique* pTechnique = new EffectTechnique();
+			std::string sTechniqueName = pXmlTechnique->Attribute("name");
+			
+			std::string sName, sVertexShader, sPixelShader;
 		
-		//loads shader program
-		TiXmlElement * pXmlName = pRoot->FirstChildElement( "shadername" );
-		if( pXmlName )
-		{
-			sName = std::string( pXmlName->GetText() );
-		}
+			//loads shader program
+			TiXmlElement * pXmlName = pXmlTechnique->FirstChildElement( "shadername" );
+			if( pXmlName )
+			{
+				sName = std::string( pXmlName->GetText() );
+			}
 
-		TiXmlElement * pXmlVertex = pRoot->FirstChildElement( "vertexshader" );
-		if( pXmlVertex )
-		{
-			sVertexShader = std::string( pXmlVertex->GetText() );
-		}
+			TiXmlElement * pXmlVertex = pXmlTechnique->FirstChildElement( "vertexshader" );
+			if( pXmlVertex )
+			{
+				sVertexShader = std::string( pXmlVertex->GetText() );
+			}
 
-		TiXmlElement * pXmlPixel = pRoot->FirstChildElement( "pixelshader" );
-		if( pXmlPixel )
-		{
-			sPixelShader = std::string( pXmlPixel->GetText() );
-		}
+			TiXmlElement * pXmlPixel = pXmlTechnique->FirstChildElement( "pixelshader" );
+			if( pXmlPixel )
+			{
+				sPixelShader = std::string( pXmlPixel->GetText() );
+			}
 		
-		m_pShader = ShaderManager::GrabInstance().addShader( sName, sVertexShader, sPixelShader );
-		m_pShader->Activate();
+			Shader* pShader = ShaderManager::GrabInstance().addShader( sName, sVertexShader, sPixelShader );
+			pShader->Activate();
 
-		//gets the samplers used by the material
-		TextureManager & textureManager = TextureManager::GrabInstance();
-		TiXmlElement * pXmlSamplers = pRoot->FirstChildElement( "samplers" );
-		if( pXmlSamplers )
-		{
-			TiXmlElement * pXmlSampler = pXmlSamplers->FirstChildElement( "sampler" );
-			while ( pXmlSampler )
+			//gets the samplers used by the material
+			TextureManager & textureManager = TextureManager::GrabInstance();
+			TiXmlElement * pXmlSamplers = pXmlTechnique->FirstChildElement( "samplers" );
+			if( pXmlSamplers )
 			{
-				int iUnit;
-				TiXmlElement * pXmlParam = pXmlSampler->FirstChildElement( "uniformname" );
-				if( pXmlParam )
+				TiXmlElement * pXmlSampler = pXmlSamplers->FirstChildElement( "sampler" );
+				while ( pXmlSampler )
 				{
-					pXmlParam->QueryIntAttribute("unit",&iUnit);
-					m_pShader->setUniformTexture( pXmlParam->GetText(), iUnit );
-				}
-				TiXmlElement * pXmlFileName = pXmlSampler->FirstChildElement( "filename" );
-				if( pXmlFileName )
-				{
-					Texture2D* pTexture2D = textureManager.getTexture2D( pXmlFileName->GetText() );
-					m_oUniformTextures2DMap[ iUnit ] = pTexture2D;
-				}
+					int iUnit;
+					TiXmlElement * pXmlParam = pXmlSampler->FirstChildElement( "uniformname" );
+					if( pXmlParam )
+					{
+						pXmlParam->QueryIntAttribute("unit",&iUnit);
+						pShader->setUniformTexture( pXmlParam->GetText(), iUnit );
+					}
+					TiXmlElement * pXmlFileName = pXmlSampler->FirstChildElement( "filename" );
+					if( pXmlFileName )
+					{
+						Texture2D* pTexture2D = textureManager.getTexture2D( pXmlFileName->GetText() );
+						pTechnique->AddUniformTexture( iUnit, pTexture2D );
 
-				pXmlSampler = pXmlSampler->NextSiblingElement( "sampler" );
+					}
+
+					pXmlSampler = pXmlSampler->NextSiblingElement( "sampler" );
+				}
 			}
-		}
-		m_pShader->Desactivate();
 
-		//gets uniform float variables
-		TiXmlElement * pXmlUniforms = pRoot->FirstChildElement( "uniforms" );
-		if( pXmlUniforms )
-		{
-			TiXmlElement * pXmlFloat = pXmlUniforms->FirstChildElement( "float" );
-			while ( pXmlFloat )
+			//gets uniform float variables
+			TiXmlElement * pXmlUniforms = pXmlTechnique->FirstChildElement( "uniforms" );
+			if( pXmlUniforms )
 			{
-				float fValue;
-				pXmlFloat->QueryFloatAttribute("value",&fValue);
-				m_oUniformFloatsMap[ pXmlFloat->GetText() ] = fValue;
-				pXmlFloat = pXmlFloat->NextSiblingElement( "float" );
+				TiXmlElement * pXmlFloat = pXmlUniforms->FirstChildElement( "float" );
+				while ( pXmlFloat )
+				{
+					float fValue;
+					pXmlFloat->QueryFloatAttribute("value",&fValue);
+
+					int iUniformLocation = glGetUniformLocation( pShader->getHandle(), pXmlFloat->GetText() );
+					pTechnique->AddUniformFloat( iUniformLocation, fValue );
+					pXmlFloat = pXmlFloat->NextSiblingElement( "float" );
+				}
 			}
+
+			pShader->Desactivate();
+			pTechnique->SetShader( pShader );
+
+			m_oTechniques[ MaterialManager::GrabInstance().GetTechniqueID( sTechniqueName ) ] = pTechnique;
+
+			pXmlTechnique = pXmlTechnique->NextSiblingElement( "technique" );
 		}
 	}
 }

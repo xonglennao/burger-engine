@@ -59,6 +59,13 @@ void Shader::setUniformf(const std::string& sName, float fValue)
 	glUniform1f(glGetUniformLocation(m_oProgram, sName.c_str()), fValue);
 }
 
+void Shader::setUniformf( int iUniformLocation, float fValue)
+{
+	/// Need to Activate the shader before, but we are not doing it
+	/// in here to save computation time (if we are setting several variable at the same time)
+	glUniform1f( iUniformLocation, fValue);
+}
+
 void Shader::setUniformi(const std::string& sName, int fValue)
 {
 	/// Need to Activate the shader before, but we are not doing it

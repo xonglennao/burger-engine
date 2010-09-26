@@ -1,19 +1,33 @@
 <material>
+  <technique name="render_gbuffer">
   <shadername>LightDiffuseBump</shadername>
   <vertexshader>../Data/Shaders/FillGBufferDiffuse_NM.vert</vertexshader>
   <pixelshader>../Data/Shaders/FillGBufferDiffuse_NM.frag</pixelshader>
   <uniforms>
     <float value="4.0">fTileSize</float>
-    <float value="10.0">fShininess</float>
   </uniforms>
   <samplers>
-    <sampler>
-      <uniformname unit="0">diffuseMap</uniformname>
-      <filename>../Data/Textures/rock_diffuse.png</filename>
-    </sampler>
     <sampler>
       <uniformname unit="1">normalMap</uniformname>
       <filename>../Data/Textures/rock_normals.png</filename>
     </sampler>
   </samplers>
+  </technique>
+  <technique name="render_opaque">
+    <shadername>rockDiffuseSpecBump</shadername>
+    <vertexshader>../Data/Shaders/rockDiffuseSpecBump.vert</vertexshader>
+    <pixelshader>../Data/Shaders/rockDiffuseSpecBump.frag</pixelshader>
+    <uniforms>
+      <float value="4.0">fTileSize</float>
+    </uniforms>
+    <samplers>
+      <sampler>
+        <uniformname unit="0">diffuseMap</uniformname>
+        <filename>../Data/Textures/rock_diffuse.png</filename>
+      </sampler>
+      <sampler>
+        <uniformname unit="6">lightBuffer</uniformname>
+      </sampler>
+    </samplers>
+  </technique>
 </material>
