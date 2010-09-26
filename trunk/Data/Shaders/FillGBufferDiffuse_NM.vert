@@ -1,8 +1,9 @@
 varying mat3 mTBN;
+uniform float fTileSize ; //Used to scale texture coordinates
 void main()
 {
 	// texture coordinates
-	gl_TexCoord[0] =  gl_MultiTexCoord0;
+	gl_TexCoord[0] =  gl_MultiTexCoord0 * fTileSize;
 
 	//Getting back the Tangent
 	vec3 T = normalize( gl_MultiTexCoord1.xyz ); 

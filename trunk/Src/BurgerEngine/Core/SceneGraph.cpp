@@ -7,8 +7,7 @@
 #include "BurgerEngine/Graphics/SceneMesh.h"
 #include "BurgerEngine/Graphics/SceneLight.h"
 #include "BurgerEngine/Graphics/MeshManager.h"
-#include "BurgerEngine/Graphics/Material.h"
-
+#include "BurgerEngine/Graphics/MaterialManager.h"
 
 #include "BurgerEngine/External/TinyXml/TinyXml.h"
 
@@ -115,7 +114,7 @@ void SceneGraph::LoadSceneXML( const char * sName )
 							TiXmlElement * pXmlMaterial = pXmlPoint->FirstChildElement( "material" );
 							if( pXmlMaterial )
 							{
-								Material * pMaterial = new Material( pXmlMaterial->GetText() );
+								Material * pMaterial = MaterialManager::GrabInstance().addMaterial( pXmlMaterial->GetText() );
 								if( pMaterial )
 									pSceneMesh->AddMaterial( pMaterial );
 							}			

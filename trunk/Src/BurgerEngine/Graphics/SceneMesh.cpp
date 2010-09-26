@@ -11,16 +11,9 @@ SceneMesh::SceneMesh( StaticMesh * pMesh )
 
 SceneMesh::~SceneMesh()
 {
-	std::vector< Material* >::iterator it = m_oMaterials.begin();
-	while( it != m_oMaterials.end() )
-	{
-		delete (*it);
-		(*it) = NULL;
-		++it;
-	}
 };
 
-void SceneMesh::Draw()
+void SceneMesh::Draw( EffectTechnique::RenderingTechnique eTechnique )
 {
 
 	if( m_pMesh )
@@ -35,9 +28,11 @@ void SceneMesh::Draw()
 
 		for( unsigned int i = 0; i < m_iPartCount; ++i )
 		{
-			m_oMaterials[ i ]->Activate();
-			m_pMesh->Render( i );
-			m_oMaterials[ i ]->Desactivate();
+			if( m_oMaterials[ i ]->Activate( eTechnique ) )
+			{
+				m_pMesh->Render( i );
+				m_oMaterials[ i ]->Desactivate( eTechnique );
+			}
 		}
 
 		glPopMatrix();

@@ -121,6 +121,12 @@
     <ClCompile Include="BurgerEngine\Core\Timer.cpp">
       <Filter>BurgerEngine\Core\Timer</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\EffectTechnique.cpp">
+      <Filter>BurgerEngine\Graphics\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\MaterialManager.cpp">
+      <Filter>BurgerEngine\Graphics\Material</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -245,6 +251,12 @@
     </ClInclude>
     <ClInclude Include="BurgerEngine\Core\Timer.h">
       <Filter>BurgerEngine\Core\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\EffectTechnique.h">
+      <Filter>BurgerEngine\Graphics\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\MaterialManager.h">
+      <Filter>BurgerEngine\Graphics\Material</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -381,6 +393,12 @@
     </None>
     <None Include="..\Data\Materials\metalFloorDiffuseBump.xml">
       <Filter>BurgerEngine\Data\Materials</Filter>
+    </None>
+    <None Include="..\Data\Shaders\rockDiffuseSpecBump.frag">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\rockDiffuseSpecBump.vert">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

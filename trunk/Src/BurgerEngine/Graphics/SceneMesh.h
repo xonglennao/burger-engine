@@ -14,6 +14,7 @@
 
 #include <vector>
 #include "BurgerEngine/Graphics/SceneObject.h"
+#include "BurgerEngine/Graphics/EffectTechnique.h"
 
 class StaticMesh;
 class Material;
@@ -24,7 +25,7 @@ class SceneMesh
 public:
 	SceneMesh( StaticMesh * pMesh );
 	~SceneMesh();
-	void Draw();
+	void Draw( EffectTechnique::RenderingTechnique eTechnique );
 
 public: 
 	inline void			SetScale( float fValue ){ fScale = fValue; };

@@ -12,15 +12,9 @@
 #ifndef __MATERIAL_H__
 #define __MATERIAL_H__
 
-
-#include <iostream>
-#include <string>
 #include <map>
 
-#include "BurgerEngine/Graphics/shader.h"
-#include "BurgerEngine/Graphics/Texture2D.h"
-
-class Shader;
+#include "BurgerEngine/Graphics/EffectTechnique.h"
 
 class Material
 {
@@ -29,21 +23,15 @@ public:
 	Material( const char * sName );
 	~Material();
 
-	void Activate();
-	inline void Desactivate(){ m_pShader->Desactivate(); }
-
-
+	bool Activate( EffectTechnique::RenderingTechnique eTechnique );
+	void Desactivate( EffectTechnique::RenderingTechnique eTechnique );
 
 private:
-	void ActivateTextures();
-	void CommitFloatUniforms();
+
 	void LoadMaterialXML( const char * sName );
 
-private:
-	Shader * m_pShader;
-	std::map< int, Texture2D* > m_oUniformTextures2DMap;
-	std::map< std::string, float > m_oUniformFloatsMap;
-
+private:		
+	std::map< EffectTechnique::RenderingTechnique, EffectTechnique* > m_oTechniques;
 };
 
 #endif //__MATERIAL_H__
