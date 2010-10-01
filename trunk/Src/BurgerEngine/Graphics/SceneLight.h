@@ -26,27 +26,19 @@ public:
 
 public:
 	inline void SetInnerAngle( float fValue ){ fInnerAngle = fValue; };
-	inline void SetOuterAngle( float fValue){ fCosOut = cosf( fValue * M_PI / 180.0f ); };
+	inline void SetOuterAngle( float fValue){ fCosOut = cosf( fValue * (float)M_PI / 180.0f ); };
 
-	inline void SetSpecular( vec3 vValue ){ vSpecularColor = vValue; };
-	inline void SetAmbient( vec3 vValue ){ vAmbientColor = vValue; };
 	inline void SetDiffuse( vec3 vValue ){ vDiffuseColor = vValue; };
-
-	inline void SetConstantAtt( float fValue ){ fConstantAttenuation = fValue; };
-	inline void SetQuadraticAtt( float fValue ){ fQuadraticAttenuation = fValue; };		
-	inline void SetLinearAtt( float fValue ){ fLinearAttenuation = fValue; };
+	
+	inline void SetRadius( float fValue ){ fRadius = fValue; };
+	inline float GetRadius(){ return fRadius; };
 
 private:
 
 	float		fInnerAngle;
 	float		fCosOut;
+	float		fRadius;
 	
-	float		fConstantAttenuation;
-	float		fQuadraticAttenuation;
-	float		fLinearAttenuation;
-
-	vec3	vSpecularColor;
-	vec3	vAmbientColor;
 	vec3	vDiffuseColor;
 };
 

@@ -355,18 +355,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Data\Shaders\LightBase.frag">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\LightBase.vert">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\FillGBufferDiffuse.frag">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\FillGBufferDiffuse.vert">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
     <None Include="..\Data\Scenes\testScene.xml">
       <Filter>BurgerEngine\Data\Scenes</Filter>
     </None>
@@ -376,28 +364,40 @@
     <None Include="..\Data\Materials\teaPotDiffuse.xml">
       <Filter>BurgerEngine\Data\Materials</Filter>
     </None>
-    <None Include="..\Data\Shaders\OmniLight.frag">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\OmniLight.vert">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\FillGBufferDiffuse_NM.frag">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\FillGBufferDiffuse_NM.vert">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
     <None Include="..\Data\Materials\rockDiffuseBump.xml">
       <Filter>BurgerEngine\Data\Materials</Filter>
     </None>
     <None Include="..\Data\Materials\metalFloorDiffuseBump.xml">
       <Filter>BurgerEngine\Data\Materials</Filter>
     </None>
-    <None Include="..\Data\Shaders\rockDiffuseSpecBump.frag">
+    <None Include="..\Data\Shaders\DiffuseSpecBump.frag">
       <Filter>BurgerEngine\Data\Shaders</Filter>
     </None>
-    <None Include="..\Data\Shaders\rockDiffuseSpecBump.vert">
+    <None Include="..\Data\Shaders\DiffuseSpecBump.vert">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\FillGBufferBasic.frag">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\FillGBufferBasic.vert">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\FillGBufferNormalMap.frag">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\FillGBufferNormalMap.vert">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\LightBase.frag">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\LightBase.vert">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\OmniLight.frag">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\OmniLight.vert">
       <Filter>BurgerEngine\Data\Shaders</Filter>
     </None>
   </ItemGroup>

@@ -5,7 +5,7 @@
 Timer::Timer()
 {
 	QueryPerformanceFrequency(&m_iFrequency);
-	m_iStart.QuadPart = 0.0;
+	m_iStart.QuadPart = (LONGLONG)0.0;
 }
 
 void Timer::Start()
@@ -19,5 +19,5 @@ float Timer::Stop()
 	QueryPerformanceCounter(&iStop);
 	LONGLONG iTimeDiff = iStop.QuadPart - m_iStart.QuadPart;
 	//returns duration in milliseconds
-	return (float) iTimeDiff * 1000.0 / (float) m_iFrequency.QuadPart;
+	return (float) iTimeDiff * 1000.0f / (float) m_iFrequency.QuadPart;
 }

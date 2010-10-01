@@ -167,8 +167,8 @@ void SceneGraph::LoadSceneXML( const char * sName )
 					{
 						float fValue;
 						pXmlElement->QueryFloatAttribute("value",&fValue);
+						pLight->SetRadius( fValue );
 						fValue = 1.0f / fValue;
-						pLight->SetConstantAtt( fValue );
 						glLightf( GL_LIGHT0 + iLightCount, GL_CONSTANT_ATTENUATION, fValue );
 					}
 					pXmlElement = pXmlLight->FirstChildElement("Color");
@@ -178,7 +178,6 @@ void SceneGraph::LoadSceneXML( const char * sName )
 						pXmlElement->QueryFloatAttribute("r",&r);
 						pXmlElement->QueryFloatAttribute("g",&g);
 						pXmlElement->QueryFloatAttribute("b",&b);
-						pLight->SetSpecular( vec3( r, g, b ) );
 
 						GLfloat pColor[] = { r, g, b };
 						glLightfv( GL_LIGHT0 + iLightCount , GL_AMBIENT, pColor );

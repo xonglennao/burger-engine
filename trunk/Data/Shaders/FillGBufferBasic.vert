@@ -16,7 +16,7 @@ void main()
 /***********************************************************/
 /***********************************************************/
 /*
-
+//I keep this code just in case I need to switch back to forward rendering
 #define LIGHT_COUNT 4
 
 

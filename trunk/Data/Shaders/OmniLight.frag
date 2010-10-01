@@ -12,21 +12,23 @@ void main()
 {
 	//temporary
 	vec4 vSpecColor = vec4(1.0,1.0,1.0,0.0);
-	vec4 vAmbient = vec4(0.05,0.05,0.05,0.0);	
+	vec4 vAmbient = vec4(0.0,0.0,0.0,0.0);	
 	
+	//screenspace position in order to get samples from the GBuffer
 	vec2 vTexCoord = vec2( gl_FragCoord.x / fWindowWidth, gl_FragCoord.y / fWindowHeight );
 
+	//we need the view-space position of the vertex
 	float fDepth = texture2D( sDepthSampler, vTexCoord ).r;
-	vec4 vNormal = texture2D( sNormalSampler, vTexCoord );
-
-	vNormal.xyz = vNormal.xyz * 2.0 - 1.0;
 	// Construct clip-space position
 	vec4 vClipPos = vec4( 2.0 * vTexCoord.x - 1.0, 2.0 * vTexCoord.y - 1.0, 2.0 * fDepth - 1.0, 1.0 );
 	// Multiply by inverse projection matrix to get eye-space position
 	vec4 vEyePos = mInvProj * vClipPos;
 	vEyePos = vEyePos/vEyePos.w;
-	
-	//Basic Phong Lighting
+
+	vec4 vNormal = texture2D( sNormalSampler, vTexCoord );
+	vNormal.xyz = vNormal.xyz * 2.0 - 1.0;	
+
+	//Phong Lighting
 	vec3 N = normalize(vNormal.xyz);	
 	vec3 E = normalize(-vEyePos.xyz);
 	vec4 finalColor = vAmbient;
@@ -48,9 +50,10 @@ void main()
 
 		vec3 diffuse = NDotLAtt * gl_LightSource[i].diffuse.rgb;
 			
-		float fSpecular = pow( max( dot( R, E ), 0.0 ), 60 );
-		float fSpecularLuminance = dot( fSpecular, float3( 0.2126, 0.7152, 0.0722 ) );
+		float fSpecular = pow( max( dot( R, E ), 0.0 ), 60.0 );
+		float fSpecularLuminance = dot( fSpecular, vec3( 0.2126, 0.7152, 0.0722 ) );
 
+		//storing diffuse and specular on different channels (rgb = diffuse, a = lum(spec) ) 
 		finalColor += vec4(diffuse, fSpecularLuminance * NDotLAtt );
 	}
 

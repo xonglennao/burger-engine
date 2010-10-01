@@ -105,18 +105,22 @@
     <None Include="..\Data\Materials\rockDiffuseBump.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="..\Data\Materials\teaPotDiffuse.xml" />
-    <None Include="..\Data\Scenes\testScene.xml" />
-    <None Include="..\Data\Shaders\FillGBufferDiffuse.frag" />
-    <None Include="..\Data\Shaders\FillGBufferDiffuse.vert" />
-    <None Include="..\Data\Shaders\FillGBufferDiffuse_NM.frag" />
-    <None Include="..\Data\Shaders\FillGBufferDiffuse_NM.vert" />
+    <None Include="..\Data\Materials\teaPotDiffuse.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="..\Data\Scenes\testScene.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="..\Data\Shaders\DiffuseSpecBump.frag" />
+    <None Include="..\Data\Shaders\DiffuseSpecBump.vert" />
+    <None Include="..\Data\Shaders\FillGBufferBasic.frag" />
+    <None Include="..\Data\Shaders\FillGBufferBasic.vert" />
+    <None Include="..\Data\Shaders\FillGBufferNormalMap.frag" />
+    <None Include="..\Data\Shaders\FillGBufferNormalMap.vert" />
     <None Include="..\Data\Shaders\LightBase.frag" />
     <None Include="..\Data\Shaders\LightBase.vert" />
     <None Include="..\Data\Shaders\OmniLight.frag" />
     <None Include="..\Data\Shaders\OmniLight.vert" />
-    <None Include="..\Data\Shaders\rockDiffuseSpecBump.frag" />
-    <None Include="..\Data\Shaders\rockDiffuseSpecBump.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{99D06A18-E064-414F-BBCC-CAE1EE67296F}</ProjectGuid>

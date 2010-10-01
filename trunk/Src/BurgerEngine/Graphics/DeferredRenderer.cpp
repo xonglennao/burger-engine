@@ -84,7 +84,7 @@ DeferredRenderer::~DeferredRenderer()
 	m_oTimer = NULL;
 }
 
-void DeferredRenderer::DrawScreenSpaceQuad( int iWindowWidth, int iWindowHeight )
+void DeferredRenderer::DrawFullScreenQuad( int iWindowWidth, int iWindowHeight )
 {
 	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
@@ -101,17 +101,75 @@ void DeferredRenderer::DrawScreenSpaceQuad( int iWindowWidth, int iWindowHeight 
 
 	glBegin(GL_QUADS);
 	glColor3f(1.0f,1.0f,1.0f);
+	
 	glTexCoord2f(0.0f,0.0f);
 	glVertex2i(0,0);
+	
 	glTexCoord2f(0.0f,1.0f);
 	glVertex2i(0,iWindowHeight);
+	
 	glTexCoord2f(1.0f,1.0f);
 	glVertex2i(iWindowWidth,iWindowHeight);
+	
 	glTexCoord2f(1.0f,0.0f);
 	glVertex2i(iWindowWidth,0);
 	glEnd();
 	
 	glEnable(GL_CULL_FACE);
+}
+
+void DeferredRenderer::DrawScreenSpaceQuad( int iWindowWidth, int iWindowHeight, vec3 vData )
+{
+	glPointSize(5);
+		glDisable(GL_CULL_FACE);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	  
+	glViewport(0,0,iWindowWidth,iWindowHeight);
+	glOrtho(0,iWindowWidth,0,iWindowHeight,-0.2,0.2);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	float fHalfWidth = iWindowWidth * 0.5f;
+	float fHalfHeight = iWindowHeight * 0.5f;
+
+	float x,y;
+
+	glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+	glDisable(GL_DEPTH_TEST);
+
+
+	glBegin(GL_POINTS);
+	x = fHalfWidth * (vData.x + 1);
+	y = fHalfHeight * (vData.y + 1);	
+	glVertex2f(x, y );	
+	glEnd();
+
+	glBegin(GL_QUADS);
+
+	float fHalfSquare = fHalfWidth * vData.z;
+
+	glVertex2f(x+fHalfSquare, y+fHalfSquare );
+	
+	x = fHalfWidth * (vData.x + 1);
+	y = fHalfHeight * (vData.y + 1);		
+	glVertex2f(x+fHalfSquare, y-fHalfSquare );
+
+	x = fHalfWidth * (vData.x + 1);
+	y = fHalfHeight * (vData.y + 1);		
+	glVertex2f(x-fHalfSquare, y-fHalfSquare );
+
+	x = fHalfWidth * (vData.x + 1);
+	y = fHalfHeight * (vData.y + 1);		
+	glVertex2f(x-fHalfSquare, y+fHalfSquare );
+
+	glEnd();
+	
+
+
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 }
 
 void DeferredRenderer::DisplayText( const std::string& sText, int iPosX, int iPosY )
@@ -138,7 +196,7 @@ void DeferredRenderer::DisplayText( const std::string& sText, int iPosX, int iPo
 	glColor3f(1.0f, 1.0f, 1.0f);
 
 	m_oFont->Begin();
-	m_oFont->TextOut( sText, iPosX, iPosY, 0.0);
+	m_oFont->TextOut( sText, iPosX, iPosY, 0);
 
 	Texture2D::Desactivate();
 	glDisable(GL_BLEND);
@@ -148,6 +206,10 @@ void DeferredRenderer::DisplayText( const std::string& sText, int iPosX, int iPo
 
 void DeferredRenderer::Render()
 {
+	//DEBUG LIGHT
+	std::vector< vec3 > vLightPos;
+	
+	
 	m_oTimer->Start();
 
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );	
@@ -167,18 +229,17 @@ void DeferredRenderer::Render()
 	rRenderingContext.ReshapeGl( iWindowWidth, iWindowHeight );
 	
 	rCamera.LookAt();
-	
-	// Compute scene matrices
-	GLfloat mGLProjection[16];
-	glGetFloatv ( GL_PROJECTION_MATRIX, mGLProjection ); // grab projection matrix
 
-	float4x4 mProjection = float4x4(
-							mGLProjection[0], mGLProjection[1], mGLProjection[2],mGLProjection[3],
-							mGLProjection[4], mGLProjection[5], mGLProjection[6],mGLProjection[7],
-							mGLProjection[8], mGLProjection[9], mGLProjection[10],mGLProjection[11],
-							mGLProjection[12], mGLProjection[13], mGLProjection[14],mGLProjection[15] );
+	// Retrieving scene matrices
+	float4x4 mProjection;
+	glGetFloatv ( GL_PROJECTION_MATRIX, mProjection );
 
-	GLfloat* mGLInvProj = (float*)!mProjection;
+	float4x4 mModelView;
+	glGetFloatv ( GL_MODELVIEW_MATRIX, mModelView );
+
+	float4x4 mModelViewProjection = transpose(mProjection) * transpose(mModelView);
+
+	vec4 oViewPos = vec4( rCamera.GetPos(), 1.0 );
 
 	unsigned int i = 0;
 	std::vector< SceneLight* >::const_iterator oLightIt = oSceneLights.begin();
@@ -186,22 +247,22 @@ void DeferredRenderer::Render()
 	{
 		SceneLight * pLight = (*oLightIt);
 		vec4 oPos = pLight->GetPos();
-		vec3 oRotation = pLight->GetRotation();
+		float fRadius = pLight->GetRadius(); 
+
+		vec4 oScreenPos = mModelViewProjection * oPos ;
+		oScreenPos = oScreenPos / oScreenPos.w;
+
+		vec4 vLightRight = oPos + vec4( fRadius * rCamera.GetRight(), 0.0 );
+		vec4 oScreenRightPos = mModelViewProjection * vLightRight ;
+		oScreenRightPos = oScreenRightPos / oScreenRightPos.w;
+
+		float fHalfSquareLength = oScreenPos.x - oScreenRightPos.x;
+
+		vLightPos.push_back( vec3( oScreenPos.x, oScreenPos.y,fHalfSquareLength ) ); 
+
 		glPushMatrix();
 			glTranslatef( oPos.x, oPos.y , oPos.z );
-			glRotatef( oRotation.x, 1, 0, 0 );
-			glRotatef( oRotation.y, 0, 1, 0 );
-			glRotatef( oRotation.z, 0, 0, 1 );
-			if( oPos.w == 1.0 )
-			{
-				glLightfv( GL_LIGHT0+i, GL_POSITION, m_pLightZeros );
-			}
-			else
-			{
-				GLfloat fPos[] = { 1.0, 0.0 , 0.0, 0.0 };
-				glLightfv( GL_LIGHT0+i, GL_POSITION, fPos );
-			}
-
+			glLightfv( GL_LIGHT0+i, GL_POSITION, m_pLightZeros );
 			glLightfv( GL_LIGHT0+i, GL_SPOT_DIRECTION, m_pLightDir );
 		glPopMatrix();
 		++i;
@@ -235,13 +296,13 @@ void DeferredRenderer::Render()
 
 	m_pOmniLightShader->Activate();
 
-	m_pOmniLightShader->setUniformf( "fWindowWidth", iWindowWidth );
-	m_pOmniLightShader->setUniformf( "fWindowHeight", iWindowHeight );
-	m_pOmniLightShader->setUniformMatrix4fv( "mInvProj", mGLInvProj );
+	m_pOmniLightShader->setUniformf( "fWindowWidth", (float)iWindowWidth );
+	m_pOmniLightShader->setUniformf( "fWindowHeight", (float)iWindowHeight );
+	m_pOmniLightShader->setUniformMatrix4fv( "mInvProj", !mProjection );
 	m_pOmniLightShader->setUniformi( "iDebug", m_iDebugFlag );
 
 	m_oLightBuffer->Activate();		
-	DrawScreenSpaceQuad( iWindowWidth, iWindowHeight );
+	DrawFullScreenQuad( iWindowWidth, iWindowHeight );
 	m_oLightBuffer->Desactivate();
 
 	m_pOmniLightShader->Desactivate();
@@ -277,4 +338,29 @@ void DeferredRenderer::Render()
 	std::stringstream oStream;
 	oStream << "GPU:" << m_oTimer->Stop() << "ms";
 	DisplayText( oStream.str(), iWindowWidth - 200, 50);
+
+	std::vector<vec3>::iterator oLightPosIt = vLightPos.begin();
+
+	bool bFlag = true;
+
+	while( oLightPosIt != vLightPos.end() )
+	{
+		if(bFlag)
+		{
+			glColor3f(0.0f,1.0f,0.0f);
+		}
+		else
+		{
+			glColor3f(1.0f,0.0f,0.0f);
+		}
+
+		bFlag = !bFlag;
+
+		//vec3 oData = (*oLightPosIt);
+		DrawScreenSpaceQuad( iWindowWidth, iWindowHeight, (*oLightPosIt) );
+
+		++oLightPosIt;
+	}
+	
+
 }
