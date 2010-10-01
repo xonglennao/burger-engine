@@ -52,7 +52,7 @@ public:
 	vec3 const& GetPos() const	{return m_f3Pos;}
 	vec3 const& GetAim() const {return m_f3Aim;}
 	vec3 const& GetUp() const {return m_f3Up;}
-
+	vec3 const& GetRight() const {return m_f3Right;}
 	void LookAt();
 
 protected:
@@ -66,12 +66,13 @@ protected:
 	/// Angle : rotation around Right Axis
 	float m_fPhi;	
 
-private:
+protected:
 	/// The position Vector
 	/// \todo On next implementation, we should use a full matrix instead of separate vector
 	vec3 m_f3Pos;
 	vec3 m_f3Aim;
 	vec3 m_f3Up;
+	vec3 m_f3Right;
 
 };
 

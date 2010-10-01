@@ -24,6 +24,7 @@ class FBO;
 class Shader;
 class PixelPerfectGLFont;
 class Timer;
+struct vec3;
 
 class DeferredRenderer
 {
@@ -41,8 +42,12 @@ public:
 private:
 	/// \brief Display a full screen quad
 	/// this is temporary, we need a fullscreenquad class using VBO
-	void DrawScreenSpaceQuad( int iWindowWidth, int iWindowHeight );
+	void DrawFullScreenQuad( int iWindowWidth, int iWindowHeight );
 
+	/// \draw a point on screen
+	/// this is only for debug purpose
+	void DrawScreenSpaceQuad( int iWindowWidth, int iWindowHeight, vec3 vData );
+	
 	/// \brief Display 2D text on the screen
 	void DisplayText( const std::string& sText, int iPosX, int iPosY );
 

@@ -48,9 +48,6 @@ private:
 	/// \todo bap: Need to calculate ourself the cross product.. can't the lib do it?
 	void _InternalUpdate();
 
-	/// Right position ?
-	vec3 m_f3Right;
-
 	/// The direction the camera in pointing at
 	vec3 m_f3Direction;
 

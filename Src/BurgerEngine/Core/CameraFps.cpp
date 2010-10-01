@@ -10,7 +10,7 @@ void CameraFps::Initialize()
 	//AbstractCamera::Initialize();
 
 	/// \todo Get back init parameters
-	m_fMovingSpeed = 0.005f;
+	m_fMovingSpeed = 0.05f;
 
 	m_fMouseSpeed = 0.1f;
 
@@ -88,9 +88,9 @@ void CameraFps::_InternalUpdate()
 {
 	vec3& rf3Direction = _GrabDirection();
 
-	rf3Direction.x = sinf(m_fPhi*M_PI/180.0f)*sin(m_fAlpha*M_PI/180.0f);
+	rf3Direction.x = sinf(m_fPhi*M_PI/180.0f)*sinf(m_fAlpha*(float)M_PI/180.0f);
 	rf3Direction.y = cosf(m_fPhi*M_PI/180.0f);
-	rf3Direction.z = sinf(m_fPhi*M_PI/180.0f)*cos(m_fAlpha*M_PI/180.0f);
+	rf3Direction.z = sinf(m_fPhi*M_PI/180.0f)*cosf(m_fAlpha*(float)M_PI/180.0f);
 
 	//Cross product
 	vec3& rf3Up = _GrabUp();

@@ -136,7 +136,7 @@ bool StageMain3DScene::OnMouseMoved(unsigned int a_uX, unsigned int a_uY)
 //--------------------------------------------------------------------------------------------------------------------
 void StageMain3DScene::_Render()
 {
-	double fDeltaTime = m_oTimer->Stop();
+	float fDeltaTime = m_oTimer->Stop();
 	m_oTimer->Start();
 	Engine::GetInstance().GetCurrentCamera().Update( fDeltaTime );
 	m_pDeferredRenderer->Render();

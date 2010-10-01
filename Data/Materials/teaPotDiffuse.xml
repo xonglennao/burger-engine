@@ -1,15 +1,24 @@
 <material>
-  <shadername>LightBase</shadername>
-  <vertexshader>../Data/Shaders/FillGBufferDiffuse.vert</vertexshader>
-  <pixelshader>../Data/Shaders/FillGBufferDiffuse.frag</pixelshader>
-  <uniforms>
-    <float value="4.0">fTileSize</float>
-    <float value="10.0">fShininess</float>
-  </uniforms>
-  <samplers>
-    <sampler>
-      <uniformname unit="0">diffuseMap</uniformname>
-      <filename>../Data/Textures/rock.jpg</filename>
-    </sampler>
-  </samplers>
+  <technique name="render_gbuffer">
+    <shadername>FillGBUfferDiffuse</shadername>
+    <vertexshader>../Data/Shaders/FillGBufferBasic.vert</vertexshader>
+    <pixelshader>../Data/Shaders/FillGBufferBasic.frag</pixelshader>
+  </technique>
+  <technique name="render_opaque">
+    <shadername>DiffuseSpec</shadername>
+    <vertexshader>../Data/Shaders/DiffuseSpec.vert</vertexshader>
+    <pixelshader>../Data/Shaders/DiffuseSpec.frag</pixelshader>
+    <uniforms>
+      <float value="2.0">fTileSize</float>
+    </uniforms>
+    <samplers>
+      <sampler>
+        <uniformname unit="0">diffuseMap</uniformname>
+        <filename>../Data/Textures/trendy_teapot.png</filename>
+      </sampler>
+      <sampler>
+        <uniformname unit="6">lightBuffer</uniformname>
+      </sampler>
+    </samplers>
+  </technique>
 </material>

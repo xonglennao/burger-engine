@@ -1,19 +1,33 @@
 <material>
-  <shadername>FillGBufferDiffuseBump</shadername>
-  <vertexshader>../Data/Shaders/FillGBufferDiffuse_NM.vert</vertexshader>
-  <pixelshader>../Data/Shaders/FillGBufferDiffuse_NM.frag</pixelshader>
-  <uniforms>
-    <float value="10.0">fTileSize</float>
-    <float value="50.0">fShininess</float>
-  </uniforms>
-  <samplers>
-    <sampler>
-      <uniformname unit="0">diffuseMap</uniformname>
-      <filename>../Data/Textures/metal_floor_diffuse.png</filename>
-    </sampler>
-    <sampler>
-      <uniformname unit="1">normalMap</uniformname>
-      <filename>../Data/Textures/metal_floor_normals.png</filename>
-    </sampler>
-  </samplers>
+  <technique name="render_gbuffer">
+    <shadername>FillBGufferNorml</shadername>
+    <vertexshader>../Data/Shaders/FillGBufferNormalMap.vert</vertexshader>
+    <pixelshader>../Data/Shaders/FillGBufferNormalMap.frag</pixelshader>
+    <uniforms>
+      <float value="4.0">fTileSize</float>
+    </uniforms>
+    <samplers>
+      <sampler>
+        <uniformname unit="1">normalMap</uniformname>
+        <filename>../Data/Textures/metal_floor_normals.png</filename>
+      </sampler>
+    </samplers>
+  </technique>
+  <technique name="render_opaque">
+    <shadername>DiffuseSpec</shadername>
+    <vertexshader>../Data/Shaders/DiffuseSpec.vert</vertexshader>
+    <pixelshader>../Data/Shaders/DiffuseSpec.frag</pixelshader>
+    <uniforms>
+      <float value="4.0">fTileSize</float>
+    </uniforms>
+    <samplers>
+      <sampler>
+        <uniformname unit="0">diffuseMap</uniformname>
+        <filename>../Data/Textures/metal_floor_diffuse.png</filename>
+      </sampler>
+      <sampler>
+        <uniformname unit="6">lightBuffer</uniformname>
+      </sampler>
+    </samplers>
+  </technique>
 </material>

@@ -1,6 +1,4 @@
 varying vec3 vNormal;
-
-uniform sampler2D diffuseMap; // regular texture: texture unit 0
 uniform float fTileSize ; //Used to scale texture coordinates
 
 void main()
