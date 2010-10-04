@@ -34,10 +34,13 @@ class Shader
 		void setUniformf( int iUniformLocation, float fValue);
 
 		void setUniformi(const std::string& sName, int fValue);
+		void setUniformi( int iUniformLocation, int fValue);
 
 		void setUniformTexture(const std::string& sName, int iUnit);
+		void setUniformTexture( int iUniformLocation, int iUnit);
+
 		void setUniformMatrix4fv(const std::string& sName, float * pValue);
-		
+		void setUniformMatrix4fv( int iUniformLocation, float * pValue);		
 		//Debug Function, should not be used
 		GLhandleARB		getHandle();		
 	private:

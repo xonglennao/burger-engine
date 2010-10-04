@@ -73,9 +73,21 @@ void Shader::setUniformi(const std::string& sName, int fValue)
 	glUniform1i(glGetUniformLocation(m_oProgram, sName.c_str()), fValue);
 }
 
+void Shader::setUniformi( int iUniformLocation, int fValue)
+{
+	/// Need to Activate the shader before, but we are not doing it
+	/// in here to save computation time (if we are setting several variable at the same time)
+	glUniform1i( iUniformLocation, fValue);
+}
+
 void Shader::setUniformTexture(const std::string& sName, int iUnit)
 {
 	glUniform1iARB(glGetUniformLocationARB(m_oProgram, sName.c_str()), iUnit);
+}
+
+void Shader::setUniformTexture( int iUniformLocation, int iUnit)
+{
+	glUniform1iARB( iUniformLocation, iUnit);
 }
 
 void Shader::setUniformMatrix4fv(const std::string& sName, float * pValue)
@@ -83,6 +95,10 @@ void Shader::setUniformMatrix4fv(const std::string& sName, float * pValue)
 	glUniformMatrix4fvARB(glGetUniformLocationARB(m_oProgram,sName.c_str()),1,GL_FALSE,pValue);
 }
 
+void Shader::setUniformMatrix4fv( int iUniformLocation, float * pValue)
+{
+	glUniformMatrix4fvARB( iUniformLocation,1,GL_FALSE,pValue);
+}
 
 GLhandleARB	Shader::getHandle()
 {

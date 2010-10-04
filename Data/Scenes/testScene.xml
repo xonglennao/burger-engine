@@ -10,17 +10,7 @@
     </mesh>
   </sceneobject>
 
-  <!-- TEAPOT 
-  <sceneobject x="10.0" y="3.0" z="-2.0" rX="0.0" rY="10.0" rZ="0.0" scale="0.2">
-    <mesh>
-      <file>../Data/Mesh/teapot.obj</file>
-      <part>
-        <material>../Data/Materials/teaPotDiffuse.xml</material>
-      </part>
-    </mesh>
-  </sceneobject>-->
-
-  <!-- TORUS BUMP 
+  <!-- TORUS BUMP
   <sceneobject x="0.0" y="3.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="0.2">
     <mesh>
       <file>../Data/Mesh/torus.obj</file>
@@ -28,7 +18,7 @@
         <material>../Data/Materials/rockDiffuseBump.xml</material>
       </part>
     </mesh>
-  </sceneobject>-->
+  </sceneobject> -->
 
   <!-- TORUS BASIC
   <sceneobject x="5.0" y="1.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="0.2">
@@ -39,164 +29,235 @@
       </part>
     </mesh>
   </sceneobject>-->
-  
-  <!-- CUBE BUMP -->
-  <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="0.02">
-    <mesh>
-      <file>../Data/Mesh/cube.obj</file>
-      <part>
-        <material>../Data/Materials/rockDiffuseBump.xml</material>
-      </part>
-    </mesh>
-  </sceneobject>
 
-  <!-- CUBE BUMP -->
-  <sceneobject x="4.0" y="2.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="0.1">
+  <!-- UNIT SPHERE -->
+  <sceneobject x="0.0" y="8.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="8.0">
     <mesh>
-      <file>../Data/Mesh/cube.obj</file>
+      <file>../Data/Mesh/unit_sphere.obj</file>
       <part>
         <material>../Data/Materials/teaPotDiffuse.xml</material>
       </part>
     </mesh>
   </sceneobject>
 
-  <!-- CUBE BUMP -->
-  <sceneobject x="8.0" y="2.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="0.1">
+  <!-- UNIT SPHERE -->
+  <sceneobject x="10.0" y="3.0" z="7.0" rX="0.0" rY="0.0" rZ="0.0" scale="3.0">
     <mesh>
-      <file>../Data/Mesh/cube.obj</file>
+      <file>../Data/Mesh/unit_sphere.obj</file>
       <part>
         <material>../Data/Materials/teaPotDiffuse.xml</material>
       </part>
     </mesh>
   </sceneobject>
 
-  <!-- CUBE BUMP -->
-  <sceneobject x="10.0" y="2.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="0.1">
+  <!-- UNIT SPHERE -->
+  <sceneobject x="-2.0" y="10.0" z="-56.0" rX="0.0" rY="0.0" rZ="0.0" scale="10.0">
     <mesh>
-      <file>../Data/Mesh/cube.obj</file>
+      <file>../Data/Mesh/unit_sphere.obj</file>
       <part>
         <material>../Data/Materials/teaPotDiffuse.xml</material>
       </part>
     </mesh>
   </sceneobject>
 
-  <!-- CUBE BUMP -->
-  <sceneobject x="16.0" y="2.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="0.1">
+  <!-- CUBE BUMP
+  <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">
     <mesh>
-      <file>../Data/Mesh/cube.obj</file>
+      <file>../Data/Mesh/unit_cube.obj</file>
       <part>
         <material>../Data/Materials/teaPotDiffuse.xml</material>
       </part>
     </mesh>
-  </sceneobject>
+  </sceneobject> -->
 
-  <!-- CUBE BUMP -->
-  <sceneobject x="20.0" y="2.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="0.1">
+  <!-- CUBE BUMP
+  <sceneobject x="-4.0" y="1.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">
     <mesh>
-      <file>../Data/Mesh/cube.obj</file>
+      <file>../Data/Mesh/unit_cube.obj</file>
       <part>
         <material>../Data/Materials/teaPotDiffuse.xml</material>
       </part>
     </mesh>
-  </sceneobject>
+  </sceneobject> -->
 
-  <!-- CUBE BUMP -->
-  <sceneobject x="-4.0" y="2.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="0.1">
-    <mesh>
-      <file>../Data/Mesh/cube.obj</file>
-      <part>
-        <material>../Data/Materials/teaPotDiffuse.xml</material>
-      </part>
-    </mesh>
-  </sceneobject>
-
-  <!-- CUBE BUMP -->
-  <sceneobject x="-8.0" y="2.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="0.1">
-    <mesh>
-      <file>../Data/Mesh/cube.obj</file>
-      <part>
-        <material>../Data/Materials/teaPotDiffuse.xml</material>
-      </part>
-    </mesh>
-  </sceneobject>
-
-  <!-- CUBE BUMP -->
-  <sceneobject x="-10.0" y="2.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="0.1">
-    <mesh>
-      <file>../Data/Mesh/teapot.obj</file>
-      <part>
-        <material>../Data/Materials/teaPotDiffuse.xml</material>
-      </part>
-    </mesh>
-  </sceneobject>
-
-  <!-- CUBE BUMP -->
-  <sceneobject x="-16.0" y="2.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="0.1">
-    <mesh>
-      <file>../Data/Mesh/cube.obj</file>
-      <part>
-        <material>../Data/Materials/teaPotDiffuse.xml</material>
-      </part>
-    </mesh>
-  </sceneobject>
-
-  <!-- CUBE BUMP -->
-  <sceneobject x="-20.0" y="2.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="0.1">
-    <mesh>
-      <file>../Data/Mesh/cube.obj</file>
-      <part>
-        <material>../Data/Materials/teaPotDiffuse.xml</material>
-      </part>
-    </mesh>
-  </sceneobject>
-  
-  <!-- TEAPOT BUMP 
-  <sceneobject x="15.0" y="0.0" z="-12.0" rX="90.0" rY="20.0" rZ="0.0" scale="0.2">
-    <mesh>
-      <file>../Data/Mesh/teapot.obj</file>
-      <part>
-        <material>../Data/Materials/rockDiffuseBump.xml</material>
-      </part>
-    </mesh>
-  </sceneobject>-->
-
-  <!-- LIGHT 0 -->
-  <sceneobject x="0.0" y="1.0" z="0.0" w="1.0" rX="0.0" rY="0.0" rZ="0.0">
-    <light>
-      <InnerAngle value="0.0" />
-      <OuterAngle value="0.0"/>
-      <Radius value="10"/>
-      <Color  r="0.0" g="1.0" b="0.0"/>
-    </light>
-  </sceneobject>
-  
   <!-- LIGHT 1 -->
-  <sceneobject x="-30.0" y="4.0" z="-25.0" w="1.0" rX="0.0" rY="0.0" rZ="0.0">
-    <light>
-      <InnerAngle value="0.0" />
-      <OuterAngle value="0.0"/>
-      <Radius value="6"/>
-      <Color  r="1.0" g="0.0" b="0.0"/>
-    </light>
+  <sceneobject x="0.0" y="30.0" z="0.0">
+    <omnilight>
+      <Multiplier value="1.0"/>
+      <Radius value="50"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </omnilight>
   </sceneobject>
-
+  
   <!-- LIGHT 2 -->
-  <sceneobject x="-2.0" y="5.0" z="-8.0" w="1.0" rX="0.0" rY="0.0" rZ="0.0">
-    <light>
-      <InnerAngle value="0.0" />
-      <OuterAngle value="0.0"/>
-      <Radius value="15"/>
-      <Color  r="1.0" g="0.7" b="1.0"/>
-    </light>
+  <sceneobject x="-12.0" y="7.0" z="-12.0">
+    <omnilight>
+      <Multiplier value="1.0"/>
+      <Radius value="50"/>
+      <Color  r="1.0" g="0.0" b="0.0"/>
+    </omnilight>
   </sceneobject>
 
   <!-- LIGHT 3 -->
-  <sceneobject x="20.0" y="10.0" z="18.0" w="1.0" rX="0.0" rY="0.0" rZ="0.0">
-    <light>
-      <InnerAngle value="0.0" />
-      <OuterAngle value="0.0"/>
-      <Radius value="30"/>
-      <Color  r="1" g="1.0" b="1.0"/>
-    </light>
+  <sceneobject x="-12.0" y="7.0" z="12.0">
+    <omnilight>
+      <Multiplier value="1.0"/>
+      <Radius value="50"/>
+      <Color  r="0.0" g="1.0" b="0.0"/>
+    </omnilight>
   </sceneobject>
+
+  <!-- LIGHT 4 -->
+  <sceneobject x="12.0" y="7.0" z="12.0">
+    <omnilight>
+      <Multiplier value="1.0"/>
+      <Radius value="50"/>
+      <Color  r="0.0" g="0.0" b="1.0"/>
+    </omnilight>
+  </sceneobject>
+
+  <!-- LIGHT 5 -->
+  <sceneobject x="12.0" y="7.0" z="-12.0">
+    <omnilight>
+      <Multiplier value="1.0"/>
+      <Radius value="50"/>
+      <Color  r="1.0" g="0.0" b="1.0"/>
+    </omnilight>
+  </sceneobject>
+
+  <!-- LIGHT 6 -->
+  <sceneobject x="-22.0" y="5.0" z="-22.0">
+    <omnilight>
+      <Multiplier value="1.0"/>
+      <Radius value="50"/>
+      <Color  r="0.0" g="1.0" b="1.0"/>
+    </omnilight>
+  </sceneobject>
+
+  <!-- LIGHT 7 -->
+  <sceneobject x="-22.0" y="5.0" z="22.0">
+    <omnilight>
+      <Multiplier value="1.0"/>
+      <Radius value="50"/>
+      <Color  r="1.0" g="0.0" b="1.0"/>
+    </omnilight>
+  </sceneobject>
+
+  <!-- LIGHT 8 -->
+  <sceneobject x="22.0" y="5.0" z="22.0">
+    <omnilight>
+      <Multiplier value="1.0"/>
+      <Radius value="50"/>
+      <Color  r="0.5" g="1.0" b="0.0"/>
+    </omnilight>
+  </sceneobject>
+
+  <!-- LIGHT 9 -->
+  <sceneobject x="22.0" y="5.0" z="-32.0">
+    <omnilight>
+      <Multiplier value="1.0"/>
+      <Radius value="50"/>
+      <Color  r="1.0" g="0.5" b="1.0"/>
+    </omnilight>
+  </sceneobject>
+
+  <!-- LIGHT 10 -->
+  <sceneobject x="-32.0" y="2.0" z="-32.0">
+    <omnilight>
+      <Multiplier value="1.0"/>
+      <Radius value="50"/>
+      <Color  r="1.0" g="0.0" b="1.0"/>
+    </omnilight>
+  </sceneobject>
+
+  <!-- LIGHT 11 -->
+  <sceneobject x="-32.0" y="2.0" z="32.0">
+    <omnilight>
+      <Multiplier value="1.0"/>
+      <Radius value="50"/>
+      <Color  r="1.0" g="1.0" b="0.0"/>
+    </omnilight>
+  </sceneobject>
+
+  <!-- LIGHT 12 -->
+  <sceneobject x="32.0" y="2.0" z="32.0">
+    <omnilight>
+      <Multiplier value="1.0"/>
+      <Radius value="50"/>
+      <Color  r="0.5" g="0.5" b="1.0"/>
+    </omnilight>
+  </sceneobject>
+
+  <!-- LIGHT 13 -->
+  <sceneobject x="32.0" y="2.0" z="-32.0">
+    <omnilight>
+      <Multiplier value="1.0"/>
+      <Radius value="50"/>
+      <Color  r="1.0" g="0.5" b="1.0"/>
+    </omnilight>
+  </sceneobject>
+
+  <!-- LIGHT 14 -->
+  <sceneobject x="0.0" y="1.0" z="-32.0">
+    <omnilight>
+      <Multiplier value="1.0"/>
+      <Radius value="20"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </omnilight>
+  </sceneobject>
+
+  <!-- LIGHT 15 -->
+  <sceneobject x="0.0" y="1.0" z="32.0">
+    <omnilight>
+      <Multiplier value="1.0"/>
+      <Radius value="20"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </omnilight>
+  </sceneobject>
+
+  <!-- LIGHT 16 -->
+  <sceneobject x="32.0" y="1.0" z="0.0">
+    <omnilight>
+      <Multiplier value="1.0"/>
+      <Radius value="20"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </omnilight>
+  </sceneobject>
+
+  <!-- LIGHT 17 -->
+  <sceneobject x="-32.0" y="1.0" z="0.0">
+    <omnilight>
+      <Multiplier value="1.0"/>
+      <Radius value="10"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </omnilight>
+  </sceneobject>
+
+  <!-- LIGHT 18 -->
+  <sceneobject x="-40.0" y="3.0" z="8.0">
+    <omnilight>
+      <Multiplier value="1.0"/>
+      <Radius value="10"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </omnilight>
+  </sceneobject>
+
+  <!-- LIGHT 19 -->
+  <sceneobject x="-5.0" y="8.0" z="35.0">
+    <omnilight>
+      <Multiplier value="1.0"/>
+      <Radius value="10"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </omnilight>
+  </sceneobject>
+
+  <!-- LIGHT 20 -->
+  <sceneobject x="-22.0" y="4.0" z="29.0">
+    <omnilight>
+      <Multiplier value="1.0"/>
+      <Radius value="10"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </omnilight>
+  </sceneobject>
+
 </scene>

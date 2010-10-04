@@ -101,7 +101,7 @@ void SceneGraph::LoadSceneXML( const char * sName )
 
 						SceneMesh * pSceneMesh = new SceneMesh( pMesh );
 
-						pSceneMesh->SetPos( vec4( x, y, z, 1.0 ) );
+						pSceneMesh->SetPos( vec3( x, y, z ) );
 						pSceneMesh->SetRotation( vec3( rX, rY, rZ ));
 						pSceneMesh->SetScale( scale );
 
@@ -131,19 +131,13 @@ void SceneGraph::LoadSceneXML( const char * sName )
 			}
 			else
 			{
-				TiXmlElement * pXmlLight = pXmlObject->FirstChildElement( "light" );
+				TiXmlElement * pXmlLight = pXmlObject->FirstChildElement( "omnilight" );
 				if( pXmlLight )
 				{
-					float w;
-					pXmlObject->QueryFloatAttribute("w",&w);
-
 					SceneLight * pLight = new SceneLight;					
-					pLight->SetPos( vec4( x, y, z, w ) );
-					pLight->SetRotation( vec3( rX, rY, rZ ));
-
-					TiXmlElement * pXmlElement;
-					
-					pXmlElement = pXmlLight->FirstChildElement("InnerAngle");
+					pLight->SetPos( vec3( x, y, z ) );
+					TiXmlElement * pXmlElement;					
+					/*pXmlElement = pXmlLight->FirstChildElement("InnerAngle");
 					if( pXmlElement )
 					{
 						float fValue;
@@ -161,15 +155,13 @@ void SceneGraph::LoadSceneXML( const char * sName )
 						float fCosOut = cosf( fValue * (float)M_PI / 180.0f );
 						//bouh la vieille feinte!
 						glLightf( GL_LIGHT0 + iLightCount, GL_QUADRATIC_ATTENUATION, fCosOut );
-					}
+					}*/
 					pXmlElement = pXmlLight->FirstChildElement("Radius");
 					if( pXmlElement )
 					{
 						float fValue;
 						pXmlElement->QueryFloatAttribute("value",&fValue);
 						pLight->SetRadius( fValue );
-						fValue = 1.0f / fValue;
-						glLightf( GL_LIGHT0 + iLightCount, GL_CONSTANT_ATTENUATION, fValue );
 					}
 					pXmlElement = pXmlLight->FirstChildElement("Color");
 					if( pXmlElement )
@@ -179,10 +171,14 @@ void SceneGraph::LoadSceneXML( const char * sName )
 						pXmlElement->QueryFloatAttribute("g",&g);
 						pXmlElement->QueryFloatAttribute("b",&b);
 
-						GLfloat pColor[] = { r, g, b };
-						glLightfv( GL_LIGHT0 + iLightCount , GL_AMBIENT, pColor );
-						glLightfv( GL_LIGHT0 + iLightCount , GL_SPECULAR, pColor );
-						glLightfv( GL_LIGHT0 + iLightCount , GL_DIFFUSE, pColor );
+						pLight->SetColor( vec3( r, g, b ) );
+					}
+					pXmlElement = pXmlLight->FirstChildElement("Multiplier");
+					if( pXmlElement )
+					{
+						float fValue;
+						pXmlElement->QueryFloatAttribute("value",&fValue);
+						pLight->SetMultiplier( fValue );
 					}
 
 					m_oSceneLights.push_back( pLight );

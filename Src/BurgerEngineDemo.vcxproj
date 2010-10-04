@@ -24,6 +24,7 @@
     <ClInclude Include="BurgerEngine\Core\StageManager.h" />
     <ClInclude Include="BurgerEngine\Core\Timer.h" />
     <ClInclude Include="BurgerEngine\External\GLFont\glfont.h" />
+    <ClInclude Include="BurgerEngine\External\Math\Frustum.h" />
     <ClInclude Include="BurgerEngine\External\Math\MyMath.h" />
     <ClInclude Include="BurgerEngine\External\Math\Vector.h" />
     <ClInclude Include="BurgerEngine\External\TinyXml\tinystr.h" />
@@ -68,6 +69,7 @@
     <ClCompile Include="BurgerEngine\Core\StageManager.cpp" />
     <ClCompile Include="BurgerEngine\Core\Timer.cpp" />
     <ClCompile Include="BurgerEngine\External\GLFont\glfont.cc" />
+    <ClCompile Include="BurgerEngine\External\Math\Frustum.cpp" />
     <ClCompile Include="BurgerEngine\External\Math\Vector.cpp" />
     <ClCompile Include="BurgerEngine\External\TinyXml\tinystr.cpp" />
     <ClCompile Include="BurgerEngine\External\TinyXml\tinyxml.cpp" />
@@ -100,7 +102,9 @@
     <ClCompile Include="BurgerEngine\Input\SFMLInputManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Data\Materials\floorDiffuse.xml" />
+    <None Include="..\Data\Materials\floorDiffuse.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\Data\Materials\metalFloorDiffuseBump.xml" />
     <None Include="..\Data\Materials\rockDiffuseBump.xml">
       <SubType>Designer</SubType>
@@ -111,8 +115,9 @@
     <None Include="..\Data\Scenes\testScene.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="..\Data\Shaders\DiffuseSpecBump.frag" />
-    <None Include="..\Data\Shaders\DiffuseSpecBump.vert" />
+    <None Include="..\Data\Shaders\BasicVertexShader.vert" />
+    <None Include="..\Data\Shaders\DiffuseSpec.frag" />
+    <None Include="..\Data\Shaders\DiffuseSpecStrength.frag" />
     <None Include="..\Data\Shaders\FillGBufferBasic.frag" />
     <None Include="..\Data\Shaders\FillGBufferBasic.vert" />
     <None Include="..\Data\Shaders\FillGBufferNormalMap.frag" />

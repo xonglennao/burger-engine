@@ -9,14 +9,14 @@
     <samplers>
       <sampler>
         <uniformname unit="1">normalMap</uniformname>
-        <filename>../Data/Textures/metal_floor_normals.png</filename>
+        <filename>../Data/Textures/metal_floor_normals_gloss.tga</filename>
       </sampler>
     </samplers>
   </technique>
   <technique name="render_opaque">
-    <shadername>DiffuseSpec</shadername>
-    <vertexshader>../Data/Shaders/DiffuseSpec.vert</vertexshader>
-    <pixelshader>../Data/Shaders/DiffuseSpec.frag</pixelshader>
+    <shadername>DiffuseSpecStrength</shadername>
+    <vertexshader>../Data/Shaders/BasicVertexShader.vert</vertexshader>
+    <pixelshader>../Data/Shaders/DiffuseSpecStrength.frag</pixelshader>
     <uniforms>
       <float value="4.0">fTileSize</float>
     </uniforms>
@@ -24,6 +24,10 @@
       <sampler>
         <uniformname unit="0">diffuseMap</uniformname>
         <filename>../Data/Textures/metal_floor_diffuse.png</filename>
+      </sampler>
+      <sampler>
+        <uniformname unit="1">specStrength</uniformname>
+        <filename>../Data/Textures/metal_floor_strength.png</filename>
       </sampler>
       <sampler>
         <uniformname unit="6">lightBuffer</uniformname>

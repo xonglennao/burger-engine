@@ -127,6 +127,9 @@
     <ClCompile Include="BurgerEngine\Graphics\MaterialManager.cpp">
       <Filter>BurgerEngine\Graphics\Material</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\External\Math\Frustum.cpp">
+      <Filter>BurgerEngine\External\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -258,6 +261,9 @@
     <ClInclude Include="BurgerEngine\Graphics\MaterialManager.h">
       <Filter>BurgerEngine\Graphics\Material</Filter>
     </ClInclude>
+    <ClInclude Include="BurgerEngine\External\Math\Frustum.h">
+      <Filter>BurgerEngine\External\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="BurgerEngine">
@@ -370,12 +376,6 @@
     <None Include="..\Data\Materials\metalFloorDiffuseBump.xml">
       <Filter>BurgerEngine\Data\Materials</Filter>
     </None>
-    <None Include="..\Data\Shaders\DiffuseSpecBump.frag">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\DiffuseSpecBump.vert">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
     <None Include="..\Data\Shaders\FillGBufferBasic.frag">
       <Filter>BurgerEngine\Data\Shaders</Filter>
     </None>
@@ -398,6 +398,15 @@
       <Filter>BurgerEngine\Data\Shaders</Filter>
     </None>
     <None Include="..\Data\Shaders\OmniLight.vert">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\DiffuseSpec.frag">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\DiffuseSpecStrength.frag">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\BasicVertexShader.vert">
       <Filter>BurgerEngine\Data\Shaders</Filter>
     </None>
   </ItemGroup>
