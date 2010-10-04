@@ -6,7 +6,7 @@
   </technique>
   <technique name="render_opaque">
     <shadername>DiffuseSpec</shadername>
-    <vertexshader>../Data/Shaders/DiffuseSpec.vert</vertexshader>
+    <vertexshader>../Data/Shaders/BasicVertexShader.vert</vertexshader>
     <pixelshader>../Data/Shaders/DiffuseSpec.frag</pixelshader>
     <uniforms>
       <float value="4.0">fTileSize</float>
@@ -14,7 +14,7 @@
     <samplers>
       <sampler>
         <uniformname unit="0">diffuseMap</uniformname>
-        <filename>../Data/Textures/rock_diffuse.png</filename>
+        <filename>../Data/Textures/rock_normals.png</filename>
       </sampler>
       <sampler>
         <uniformname unit="6">lightBuffer</uniformname>

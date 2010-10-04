@@ -1,11 +1,19 @@
-#define LIGHT_COUNT 4
-varying vec3 vLight[LIGHT_COUNT];
+//vertex attributes
+attribute vec4 vColorAndInverseRadius;
+attribute vec4 vViewSpacePosAndMultiplier;
+attribute float fInverseRadius;
+
+varying vec3 vVarColor;
+varying vec3 vVarLightPos;
+varying float fVarInverseRadius;
+varying float fVarMultiplier;
+
 void main()
 {
-	for( int i = 0; i < LIGHT_COUNT; ++i )
-	{
-		vLight[i] = gl_LightSource[i].position.xyz;
-	}
-	
+	vVarLightPos = vec3( vViewSpacePosAndMultiplier.xyz );
+	fVarMultiplier = vViewSpacePosAndMultiplier.a;
+	vVarColor = vec3( vColorAndInverseRadius.rgb );
+	fVarInverseRadius = vColorAndInverseRadius.a;
+
 	gl_Position = ftransform();
 }

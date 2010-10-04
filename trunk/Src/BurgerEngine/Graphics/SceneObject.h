@@ -23,22 +23,21 @@ public:
 	~SceneObject();
 
 public:
-	inline void SetPos( vec4 vValue ){ vPosition = vValue; };
+	inline void SetPos( vec3 vValue ){ vPosition = vValue; };
 	inline void SetPosX ( float fValue ) { vPosition.x = fValue; };
 	inline void SetPosY ( float fValue ) { vPosition.y = fValue; };
 	inline void SetPosZ ( float fValue ) { vPosition.z = fValue; };
-	inline void SetPosW ( float fValue ) { vPosition.w = fValue; };
 	
 	inline void SetRotation( vec3 vValue ){ vRotation = vValue; };
 	inline void SetRX ( float fValue ) { vRotation.x = fValue; };
 	inline void SetRY ( float fValue ) { vRotation.y = fValue; };
 	inline void SetRZ ( float fValue ) { vRotation.z = fValue; };
 
-	inline const vec4 GetPos() const { return vPosition; };
+	inline const vec3 GetPos() const { return vPosition; };
 	inline const vec3 GetRotation() const { return vRotation; }
 
 protected:
-	vec4	vPosition;
+	vec3	vPosition;
 	vec3	vRotation;
 };
 
