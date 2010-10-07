@@ -62,13 +62,10 @@ bool Texture2D::loadTexture(const std::string &name)
 void Texture2D::Activate()
 {
 	//OpenGL Bind
-	//glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D,m_iId);
-	 
 }
 
 void Texture2D::Desactivate()
 {
 	glBindTexture(GL_TEXTURE_2D,0);
-	glDisable(GL_TEXTURE_2D);
 }

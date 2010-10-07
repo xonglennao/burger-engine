@@ -15,10 +15,11 @@ void EffectTechnique::Activate()
 {
 	m_pShader->Activate();
 	ActivateTextures();
-	CommitFloatUniforms();
+	m_pShader->CommitStdUniforms();
+	CommitUniformFloats();
 }
 
-void EffectTechnique::CommitFloatUniforms()
+void EffectTechnique::CommitUniformFloats()
 {
 	std::map< int, float >::iterator it = m_oUniformFloatsMap.begin();
 	while( it != m_oUniformFloatsMap.end() )

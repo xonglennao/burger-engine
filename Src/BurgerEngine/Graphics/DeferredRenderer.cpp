@@ -36,7 +36,7 @@ DeferredRenderer::DeferredRenderer()
 	unsigned int iWindowHeight = rEngine.GetWindowHeight();
 
 	m_oGBuffer = new FBO( iWindowWidth, iWindowHeight, FBO::E_FBO_2D );
-	m_oGBuffer->GenerateGBuffer();
+	m_oGBuffer->Generate();
 
 	m_oLightBuffer = new FBO( iWindowWidth, iWindowHeight, FBO::E_FBO_2D );
 	m_oLightBuffer->GenerateColorOnly();
@@ -46,8 +46,7 @@ DeferredRenderer::DeferredRenderer()
 	m_pOmniLightShader = ShaderManager::GrabInstance().addShader( "OmniLightShader", "../Data/Shaders/OmniLight.vert", "../Data/Shaders/OmniLight.frag" );
 	m_pOmniLightShader->Activate();
 
-	m_iOmniLightShaderWindowWidthHandle = glGetUniformLocation( m_pOmniLightShader->getHandle(), "fWindowWidth" );
-	m_iOmniLightShaderWindowHeightHandle = glGetUniformLocation( m_pOmniLightShader->getHandle(), "fWindowHeight" );
+	m_pOmniLightShader->QueryStdUniforms();
 	m_iOmniLightShaderInvMVPHandle = glGetUniformLocation( m_pOmniLightShader->getHandle(), "mInvProj" );
 	
 	m_iOmniLightShaderColorAndInverseRadiusHandle = glGetAttribLocation( m_pOmniLightShader->getHandle(),"vColorAndInverseRadius");
@@ -55,7 +54,7 @@ DeferredRenderer::DeferredRenderer()
 
 	m_pOmniLightShader->setUniformTexture("sNormalSampler",0);
 	m_pOmniLightShader->setUniformTexture("sDepthSampler",1);
-	
+
 	m_pOmniLightShader->Desactivate();
 	
 	//loading font
@@ -65,7 +64,7 @@ DeferredRenderer::DeferredRenderer()
 	m_oFont->Create("../Data/Fonts/lucida_sans.glf", iFontId);
 
 	m_oTimer = new Timer();
-	m_fMaxFrame = 120.0;
+	m_fMaxFrame = 15.0;
 	m_fFrameCount = m_fMaxFrame;
 
 
@@ -451,14 +450,13 @@ void DeferredRenderer::Render()
 	glActiveTexture( GL_TEXTURE1 );
 	m_oGBuffer->ActivateDepthTexture();
 	glActiveTexture( GL_TEXTURE0 );
-
-	//Render Omni Lights
 	
-	m_pOmniLightShader->Activate();
 	m_oLightBuffer->Activate();
 	
-	m_pOmniLightShader->setUniformf( m_iOmniLightShaderWindowWidthHandle, (float)iWindowWidth );
-	m_pOmniLightShader->setUniformf( m_iOmniLightShaderWindowHeightHandle, (float)iWindowHeight );
+	//Render Omni Lights
+
+	m_pOmniLightShader->Activate();	
+	m_pOmniLightShader->CommitStdUniforms();
 	m_pOmniLightShader->setUniformMatrix4fv( m_iOmniLightShaderInvMVPHandle, !mProjection );
 	m_pOmniLightShader->setUniformi( "iDebug", m_iDebugFlag );
 
@@ -502,8 +500,8 @@ void DeferredRenderer::Render()
 	Texture2D::Desactivate();
 	glActiveTexture( GL_TEXTURE0 );
 
-	//Render omni lights bounding quad
-	if( m_iDebugFlag == 1 )
+	//Render omni lights bounding quads
+	if( m_iDebugFlag == 2 )
 	{
 		std::vector< SceneLight::OmniLightQuad >::iterator oOmniIt =  m_vOmniLightQuads.begin();
 		while( oOmniIt != m_vOmniLightQuads.end() )
@@ -515,7 +513,6 @@ void DeferredRenderer::Render()
 	}
 
 	m_fFrameCount++;
-
 	if( m_fFrameCount >= m_fMaxFrame )
 	{
 		m_fFrameTime = m_oTimer->Stop() / m_fMaxFrame;

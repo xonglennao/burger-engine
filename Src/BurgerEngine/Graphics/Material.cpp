@@ -128,7 +128,8 @@ void Material::LoadMaterialXML( const char * sName )
 					pXmlFloat = pXmlFloat->NextSiblingElement( "float" );
 				}
 			}
-
+			
+			pShader->QueryStdUniforms();
 			pShader->Desactivate();
 			pTechnique->SetShader( pShader );
 

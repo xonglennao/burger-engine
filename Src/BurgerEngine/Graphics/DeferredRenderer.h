@@ -73,12 +73,9 @@ private:
 	float	m_fFrameTime;
 
 	Shader* m_pOmniLightShader;
-	unsigned int m_iOmniLightShaderWindowWidthHandle;
-	unsigned int m_iOmniLightShaderWindowHeightHandle;
 	unsigned int m_iOmniLightShaderInvMVPHandle;
 	unsigned int m_iOmniLightShaderColorAndInverseRadiusHandle;
 	unsigned int m_iOmniLightShaderViewSpacePosAndMultiplierHandle;
-	unsigned int m_iOmniLightShaderInverseRadiusHandle;
 
 	std::vector< SceneLight::OmniLightQuad > m_vOmniLightQuads;
 };

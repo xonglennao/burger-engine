@@ -77,9 +77,11 @@ bool StageMain3DScene::OnKeyDown(unsigned char a_cKey)
 			Engine::GetInstance().GetCurrentCamera().SetFlag( AbstractCamera::E_CAMERA_BACKWARD, true );
 		break;
 		case 40 :
+		case 'o':
 			m_pDeferredRenderer->SetDebugFlag(0);
 			break;
 		case 41 :
+		case 'p':
 			m_pDeferredRenderer->SetDebugFlag(1);
 			break;
 		case 42 :

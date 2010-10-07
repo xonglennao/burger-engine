@@ -15,11 +15,17 @@
 #include <string>
 
 #include "CommonGraphics.h"
+#include <map>
 
 class Shader
 {
 	public:
 	
+		enum StandardUniforms
+		{
+			E_STD_INV_VIEWPORT
+		};
+
 		Shader(const std::string& sName);
 		~Shader() {};
 
@@ -42,12 +48,17 @@ class Shader
 		void setUniformMatrix4fv(const std::string& sName, float * pValue);
 		void setUniformMatrix4fv( int iUniformLocation, float * pValue);		
 		//Debug Function, should not be used
-		GLhandleARB		getHandle();		
-	private:
+		GLhandleARB		getHandle();	
+
+		void QueryStdUniforms();
+		void CommitStdUniforms();
+
+private:
 		GLhandleARB		m_oProgram;
 		std::string		m_sName;
 		bool			m_bIsReady;
 
+		std::map< StandardUniforms, int > m_oStdUniformsMap;
 };
 
 
