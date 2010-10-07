@@ -1,5 +1,10 @@
 #include "shader.h"
 #include "shaderTool.h"
+
+#include "BurgerEngine/Core/Engine.h"
+
+#include "BurgerEngine/External/Math/Vector.h"
+
 #include <iostream>
 
 Shader::Shader(const std::string& sName):
@@ -104,3 +109,20 @@ GLhandleARB	Shader::getHandle()
 {
 	return m_oProgram;
 }	
+
+void Shader::QueryStdUniforms()
+{
+	m_oStdUniformsMap[ E_STD_INV_VIEWPORT ] = glGetUniformLocation( m_oProgram, "vInvViewport" );
+}
+
+void Shader::CommitStdUniforms()
+{
+	Engine const& rEngine = Engine::GetInstance();
+
+	vec2 vViewPort = vec2( 1.0f / (float)rEngine.GetWindowWidth(), 1.0f / (float)rEngine.GetWindowHeight());
+	
+	int iHandle;
+	iHandle = m_oStdUniformsMap[ E_STD_INV_VIEWPORT ];
+	if( iHandle != -1 )
+		glUniform2fv( iHandle, 1, (float*)vViewPort );
+}

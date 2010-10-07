@@ -24,8 +24,8 @@ Engine::Engine():
 //--------------------------------------------------------------------------------------------------------------------
 void Engine::Init()
 {
-	m_iWindowWidth = 1280;
-	m_iWindowHeight = 720;
+	m_iWindowWidth = 640;
+	m_iWindowHeight = 480;
 	
 	m_pEventManager = new EventManager();
 	m_pEventManager->Init();

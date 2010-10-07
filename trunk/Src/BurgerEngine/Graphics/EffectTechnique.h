@@ -42,13 +42,12 @@ public:
 
 private:
 	void ActivateTextures();
-	void CommitFloatUniforms();
+	void CommitUniformFloats();
 
 private:
 	Shader * m_pShader;
 	std::map< int, Texture2D* > m_oUniformTextures2DMap;
 	std::map< int, float > m_oUniformFloatsMap;
-
 };
 
 #endif //__EFFECT_TECHNIQUE_H__

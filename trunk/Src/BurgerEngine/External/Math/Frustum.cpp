@@ -33,14 +33,8 @@ void Frustum::loadFrustum(const mat4 &mvp)
 	planes[FRUSTUM_TOP   ] = Plane(mvp.rows[0].w - mvp.rows[0].y, mvp.rows[1].w - mvp.rows[1].y, mvp.rows[2].w - mvp.rows[2].y,  mvp.rows[3].w - mvp.rows[3].y);
 	planes[FRUSTUM_BOTTOM] = Plane(mvp.rows[0].w + mvp.rows[0].y, mvp.rows[1].w + mvp.rows[1].y, mvp.rows[2].w + mvp.rows[2].y,  mvp.rows[3].w + mvp.rows[3].y);
 
-#if 0 // Direct3D
-	planes[FRUSTUM_FAR   ] = Plane(mvp.rows[0].w - mvp.rows[0].z, mvp.rows[1].w - mvp.rows[1].z, mvp.rows[2].w - mvp.rows[2].z,  mvp.rows[3].w - mvp.rows[3].z);
-	planes[FRUSTUM_NEAR  ] = Plane(mvp.rows[0].z, mvp.rows[1].z, mvp.rows[2].z, mvp.rows[3].z);
-#else
 	planes[FRUSTUM_FAR   ] = Plane(mvp.rows[0].w - mvp.rows[0].z, mvp.rows[1].w - mvp.rows[1].z, mvp.rows[2].w - mvp.rows[2].z,  mvp.rows[3].w - mvp.rows[3].z);
 	planes[FRUSTUM_NEAR  ] = Plane(mvp.rows[0].w + mvp.rows[0].z, mvp.rows[1].w + mvp.rows[1].z, mvp.rows[2].w + mvp.rows[2].z,  mvp.rows[3].w + mvp.rows[3].z);
-#endif
-
 }
 
 bool Frustum::pointInFrustum(const vec3 &pos) const {

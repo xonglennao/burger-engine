@@ -24,7 +24,7 @@ void FBO::GenerateDepthOnly()
 	glBindTexture(m_eTextureType, m_iTexDepthId);
 
 	//we create a special texture for depth
-	glTexImage2D(m_eTextureType, 0, GL_DEPTH_COMPONENT, m_iWidth, m_iHeight, 0,GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+	glTexImage2D(m_eTextureType, 0, GL_DEPTH_COMPONENT24, m_iWidth, m_iHeight, 0,GL_DEPTH_COMPONENT, GL_FLOAT, 0);
     glTexParameteri (m_eTextureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri (m_eTextureType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(m_eTextureType, GL_TEXTURE_WRAP_S, GL_CLAMP);
@@ -121,7 +121,7 @@ void FBO::Generate()
     glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_T, GL_CLAMP);
    // glTexParameteri(m_eTextureType, GL_GENERATE_MIPMAP, GL_TRUE);
-    glTexImage2D(m_eTextureType, 0, GL_DEPTH_COMPONENT, m_iWidth, m_iHeight, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
+    glTexImage2D(m_eTextureType, 0, GL_DEPTH_COMPONENT24, m_iWidth, m_iHeight, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
     glBindTexture(m_eTextureType, 0);
 
     // create a texture object
@@ -161,7 +161,7 @@ void FBO::GenerateGBuffer()
     glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_T, GL_CLAMP);
    // glTexParameteri(m_eTextureType, GL_GENERATE_MIPMAP, GL_TRUE);
-    glTexImage2D(m_eTextureType, 0, GL_DEPTH_COMPONENT, m_iWidth, m_iHeight, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
+    glTexImage2D(m_eTextureType, 0, GL_DEPTH_COMPONENT24, m_iWidth, m_iHeight, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
     glBindTexture(m_eTextureType, 0);
 
     // create a texture object
