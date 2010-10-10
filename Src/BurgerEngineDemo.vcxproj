@@ -41,12 +41,14 @@
     <ClInclude Include="BurgerEngine\Graphics\Material.h" />
     <ClInclude Include="BurgerEngine\Graphics\MaterialManager.h" />
     <ClInclude Include="BurgerEngine\Graphics\MeshManager.h" />
+    <ClInclude Include="BurgerEngine\Graphics\OmniLight.h" />
     <ClInclude Include="BurgerEngine\Graphics\SceneLight.h" />
     <ClInclude Include="BurgerEngine\Graphics\SceneMesh.h" />
     <ClInclude Include="BurgerEngine\Graphics\SceneObject.h" />
     <ClInclude Include="BurgerEngine\Graphics\Shader.h" />
     <ClInclude Include="BurgerEngine\Graphics\ShaderManager.h" />
     <ClInclude Include="BurgerEngine\Graphics\ShaderTool.h" />
+    <ClInclude Include="BurgerEngine\Graphics\SpotLight.h" />
     <ClInclude Include="BurgerEngine\Graphics\StaticMesh.h" />
     <ClInclude Include="BurgerEngine\Graphics\OpenGLContext.h" />
     <ClInclude Include="BurgerEngine\Graphics\Texture2D.h" />
@@ -86,12 +88,14 @@
     <ClCompile Include="BurgerEngine\Graphics\Material.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\MaterialManager.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\MeshManager.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\OmniLight.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\SceneLight.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\SceneMesh.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\SceneObject.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\Shader.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\ShaderManager.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\ShaderTool.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\SpotLight.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\StaticMesh.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\OpenGLContext.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\Texture2D.cpp" />
@@ -115,6 +119,9 @@
     <None Include="..\Data\Scenes\testScene.xml">
       <SubType>Designer</SubType>
     </None>
+    <None Include="..\Data\Scenes\testSpots.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\Data\Shaders\BasicVertexShader.vert" />
     <None Include="..\Data\Shaders\DiffuseSpec.frag" />
     <None Include="..\Data\Shaders\DiffuseSpecStrength.frag" />
@@ -126,6 +133,8 @@
     <None Include="..\Data\Shaders\LightBase.vert" />
     <None Include="..\Data\Shaders\OmniLight.frag" />
     <None Include="..\Data\Shaders\OmniLight.vert" />
+    <None Include="..\Data\Shaders\SpotLight.frag" />
+    <None Include="..\Data\Shaders\SpotLight.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{99D06A18-E064-414F-BBCC-CAE1EE67296F}</ProjectGuid>

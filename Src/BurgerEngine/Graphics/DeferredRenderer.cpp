@@ -22,8 +22,6 @@
 #include "BurgerEngine/Graphics/MeshManager.h"
 #include "BurgerEngine/Graphics/StaticMesh.h"
 
-float g_fHackMovingLights = 0.0f;
-
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
@@ -56,6 +54,22 @@ DeferredRenderer::DeferredRenderer()
 	m_pOmniLightShader->setUniformTexture("sDepthSampler",1);
 
 	m_pOmniLightShader->Desactivate();
+
+	m_pSpotLightShader = ShaderManager::GrabInstance().addShader( "SpotLightShader", "../Data/Shaders/SpotLight.vert", "../Data/Shaders/SpotLight.frag" );
+	m_pSpotLightShader->Activate();
+
+	m_pSpotLightShader->QueryStdUniforms();
+	m_iSpotLightShaderInvMVPHandle = glGetUniformLocation( m_pSpotLightShader->getHandle(), "mInvProj" );
+	
+	m_iSpotLightShaderColorAndInverseRadiusHandle = glGetAttribLocation( m_pSpotLightShader->getHandle(),"vColorAndInverseRadius");
+	m_iSpotLightShaderViewSpacePosAndMultiplierHandle = glGetAttribLocation( m_pSpotLightShader->getHandle(),"vViewSpacePosAndMultiplier");
+	m_iSpotLightShaderViewSpaceDirHandle = glGetAttribLocation( m_pSpotLightShader->getHandle(),"vViewSpaceDir");
+	m_iSpotLightShaderCosInAndOutHandle = glGetAttribLocation( m_pSpotLightShader->getHandle(),"vCosInAndOut");
+	
+	m_pSpotLightShader->setUniformTexture("sNormalSampler",0);
+	m_pSpotLightShader->setUniformTexture("sDepthSampler",1);
+
+	m_pSpotLightShader->Desactivate();
 	
 	//loading font
 	GLuint iFontId;
@@ -125,7 +139,7 @@ void DeferredRenderer::DrawFullScreenQuad( int iWindowWidth, int iWindowHeight )
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void DeferredRenderer::RenderOmniLights( std::vector< SceneLight::OmniLightQuad > vOmniLightQuads )
+void DeferredRenderer::RenderOmniLights( std::vector< OmniLight::OmniLightQuad > vOmniLightQuads )
 {
 	Engine const& rEngine = Engine::GetInstance();
 	unsigned int iWindowWidth = rEngine.GetWindowWidth();
@@ -147,21 +161,15 @@ void DeferredRenderer::RenderOmniLights( std::vector< SceneLight::OmniLightQuad 
 	glGenBuffers(1,  &iVertexBufferId);
 
 	unsigned int iNbVertex = vOmniLightQuads.size() * 4;
+	unsigned int iSizeOfOmniVertex = sizeof(OmniLight::OmniLightVertex);
 
-	//vertex buffer size 
-	unsigned int iSizeVertex = ( iNbVertex * 2 * sizeof(float) );
-	float * pVertexPositions = new float[ iNbVertex * 2 ];
-
-	unsigned int iSizeColorAndInvRadius = ( iNbVertex * 4 * sizeof(float) );
-	float * pColorsAndInvRadius = new float[ iNbVertex * 4 ];
-
-	unsigned int iSizeViewSpacePosAndMultiplier = ( iNbVertex * 4 * sizeof(float) );
-	float * pViewSpacePosAndMultiplier = new float[ iNbVertex * 4 ];
+	unsigned int iSizeOmniVertex = ( iNbVertex * iSizeOfOmniVertex );
+	OmniLight::OmniLightVertex * pOmniVertex = new OmniLight::OmniLightVertex[ iNbVertex ];
 
 	for(unsigned int i = 0; i < vOmniLightQuads.size(); ++i )
 	{
-		float x = fHalfWidth * (vOmniLightQuads[i].vScreenSpaceCenter.x + 1.0f);
-		float y = fHalfHeight * (vOmniLightQuads[i].vScreenSpaceCenter.y + 1.0f);
+		float x = fHalfWidth * (vOmniLightQuads[i].vScreenSpaceQuadCenter.x + 1.0f);
+		float y = fHalfHeight * (vOmniLightQuads[i].vScreenSpaceQuadCenter.y + 1.0f);
 
 		float fHalfSquare = fHalfWidth * vOmniLightQuads[i].fHalfWidth;
 
@@ -170,72 +178,38 @@ void DeferredRenderer::RenderOmniLights( std::vector< SceneLight::OmniLightQuad 
 		float fTop = clamp(y+fHalfSquare,0.0f, (float)iWindowHeight);
 		float fBottom = clamp(y-fHalfSquare,0.0f, (float)iWindowHeight);
 
-		pVertexPositions[i*8] = fRight;		
-		pVertexPositions[i*8+1] = fTop;
-		pVertexPositions[i*8+2] = fRight;
-		pVertexPositions[i*8+3] = fBottom;
-		pVertexPositions[i*8+4] = fLeft;
-		pVertexPositions[i*8+5] = fBottom;
-		pVertexPositions[i*8+6] = fLeft;
-		pVertexPositions[i*8+7] = fTop;
+		OmniLight::OmniLightVertex oTopRight, oBottomRight, oBottomLeft, oTopLeft;
+		
+		oTopRight.vColor = vec3( vOmniLightQuads[i].vColor.x, vOmniLightQuads[i].vColor.y, vOmniLightQuads[i].vColor.z );
+		oTopRight.fInverseRadius = vOmniLightQuads[i].fInverseRadius;
+		oTopRight.vViewSpaceLightPos = vec3( vOmniLightQuads[i].vViewSpaceLightPos.x, vOmniLightQuads[i].vViewSpaceLightPos.y, vOmniLightQuads[i].vViewSpaceLightPos.z );
+		oTopRight.fMultiplier = vOmniLightQuads[i].fMultiplier;
 
-		pColorsAndInvRadius[i*16] = vOmniLightQuads[i].vColor.x;
-		pColorsAndInvRadius[i*16+1] = vOmniLightQuads[i].vColor.y;
-		pColorsAndInvRadius[i*16+2] = vOmniLightQuads[i].vColor.z;
-		pColorsAndInvRadius[i*16+3] = vOmniLightQuads[i].fInverseRadius;
+		oBottomRight = oBottomLeft = oTopLeft = oTopRight;
 
-		pColorsAndInvRadius[i*16+4] = vOmniLightQuads[i].vColor.x;
-		pColorsAndInvRadius[i*16+5] = vOmniLightQuads[i].vColor.y;
-		pColorsAndInvRadius[i*16+6] = vOmniLightQuads[i].vColor.z;
-		pColorsAndInvRadius[i*16+7] = vOmniLightQuads[i].fInverseRadius;
+		oBottomRight.vScreenSpaceVertexPos = vec2( fRight, fBottom );
+		oBottomLeft.vScreenSpaceVertexPos = vec2( fLeft, fBottom );
+		oTopLeft.vScreenSpaceVertexPos = vec2( fLeft, fTop);
+		oTopRight.vScreenSpaceVertexPos = vec2( fRight, fTop );
 
-		pColorsAndInvRadius[i*16+8] = vOmniLightQuads[i].vColor.x;
-		pColorsAndInvRadius[i*16+9] = vOmniLightQuads[i].vColor.y;
-		pColorsAndInvRadius[i*16+10] = vOmniLightQuads[i].vColor.z;
-		pColorsAndInvRadius[i*16+11] = vOmniLightQuads[i].fInverseRadius;
-
-		pColorsAndInvRadius[i*16+12] = vOmniLightQuads[i].vColor.x;
-		pColorsAndInvRadius[i*16+13] = vOmniLightQuads[i].vColor.y;
-		pColorsAndInvRadius[i*16+14] = vOmniLightQuads[i].vColor.z;
-		pColorsAndInvRadius[i*16+15] = vOmniLightQuads[i].fInverseRadius;
-
-		pViewSpacePosAndMultiplier[i*16] = vOmniLightQuads[i].vViewSpacePosition.x;
-		pViewSpacePosAndMultiplier[i*16+1] = vOmniLightQuads[i].vViewSpacePosition.y;
-		pViewSpacePosAndMultiplier[i*16+2] = vOmniLightQuads[i].vViewSpacePosition.z;
-		pViewSpacePosAndMultiplier[i*16+3] = vOmniLightQuads[i].fMultiplier;
-
-		pViewSpacePosAndMultiplier[i*16+4] = vOmniLightQuads[i].vViewSpacePosition.x;
-		pViewSpacePosAndMultiplier[i*16+5] = vOmniLightQuads[i].vViewSpacePosition.y;
-		pViewSpacePosAndMultiplier[i*16+6] = vOmniLightQuads[i].vViewSpacePosition.z;
-		pViewSpacePosAndMultiplier[i*16+7] = vOmniLightQuads[i].fMultiplier;
-
-		pViewSpacePosAndMultiplier[i*16+8] = vOmniLightQuads[i].vViewSpacePosition.x;
-		pViewSpacePosAndMultiplier[i*16+9] = vOmniLightQuads[i].vViewSpacePosition.y;
-		pViewSpacePosAndMultiplier[i*16+10] = vOmniLightQuads[i].vViewSpacePosition.z;
-		pViewSpacePosAndMultiplier[i*16+11] = vOmniLightQuads[i].fMultiplier;
-
-		pViewSpacePosAndMultiplier[i*16+12] = vOmniLightQuads[i].vViewSpacePosition.x;
-		pViewSpacePosAndMultiplier[i*16+13] = vOmniLightQuads[i].vViewSpacePosition.y;
-		pViewSpacePosAndMultiplier[i*16+14] = vOmniLightQuads[i].vViewSpacePosition.z;
-		pViewSpacePosAndMultiplier[i*16+15] = vOmniLightQuads[i].fMultiplier;
-
+		pOmniVertex[i*4] = oTopRight;
+		pOmniVertex[i*4+1] = oBottomRight;
+		pOmniVertex[i*4+2] = oBottomLeft;
+		pOmniVertex[i*4+3] = oTopLeft;
 	}
 	
 	glBindBuffer(GL_ARRAY_BUFFER, iVertexBufferId);
-	glBufferData(GL_ARRAY_BUFFER, iSizeVertex+iSizeColorAndInvRadius+iSizeViewSpacePosAndMultiplier, pVertexPositions, GL_STATIC_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, iSizeVertex, iSizeColorAndInvRadius, pColorsAndInvRadius);
-	glBufferSubData(GL_ARRAY_BUFFER, iSizeVertex+iSizeColorAndInvRadius, iSizeViewSpacePosAndMultiplier, pViewSpacePosAndMultiplier);
+	glBufferData(GL_ARRAY_BUFFER, iSizeOmniVertex, pOmniVertex, GL_STATIC_DRAW);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableVertexAttribArray(m_iOmniLightShaderColorAndInverseRadiusHandle);
 	glEnableVertexAttribArray(m_iOmniLightShaderViewSpacePosAndMultiplierHandle);
 
-	glVertexPointer(2, GL_FLOAT, 0, 0);
-	
-	glVertexAttribPointer(m_iOmniLightShaderColorAndInverseRadiusHandle,4,GL_FLOAT,GL_FALSE,4*sizeof(float),(void*)iSizeVertex);
-	
-	glVertexAttribPointer(m_iOmniLightShaderViewSpacePosAndMultiplierHandle,4,GL_FLOAT,GL_FALSE,4*sizeof(float),(void*)( iSizeVertex+iSizeColorAndInvRadius ) );	
-	
+	glVertexPointer(2, GL_FLOAT, iSizeOfOmniVertex, 0);
+
+	glVertexAttribPointer(m_iOmniLightShaderColorAndInverseRadiusHandle, 4, GL_FLOAT, GL_FALSE, iSizeOfOmniVertex, (void*)( 2 * sizeof(float) ) );	
+	glVertexAttribPointer(m_iOmniLightShaderViewSpacePosAndMultiplierHandle, 4, GL_FLOAT, GL_FALSE, iSizeOfOmniVertex, (void*)( 6 * sizeof(float) ) );	
+
 	glDrawArrays(GL_QUADS, 0, iNbVertex );
 
 	glDisableClientState(GL_VERTEX_ARRAY); 
@@ -246,13 +220,106 @@ void DeferredRenderer::RenderOmniLights( std::vector< SceneLight::OmniLightQuad 
 
 	glDeleteBuffers(1, &iVertexBufferId);
 
-	delete [] pVertexPositions; 
-	delete [] pColorsAndInvRadius;
-	delete [] pViewSpacePosAndMultiplier;
-	
+	delete [] pOmniVertex;
+
 	glEnable(GL_CULL_FACE);
 }
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------	
+void DeferredRenderer::RenderSpotLights( std::vector< SpotLight::SpotLightQuad > vSpotLightQuads )
+{
+	Engine const& rEngine = Engine::GetInstance();
+	unsigned int iWindowWidth = rEngine.GetWindowWidth();
+	unsigned int iWindowHeight = rEngine.GetWindowHeight();
 	
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	  
+	glViewport(0,0,iWindowWidth,iWindowHeight);
+	glOrtho(0,iWindowWidth,0,iWindowHeight,-0.2,0.2);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();	
+	glDisable(GL_CULL_FACE);
+
+	float fHalfWidth = iWindowWidth * 0.5f; 
+	float fHalfHeight = iWindowHeight * 0.5f; 
+
+	GLuint iVertexBufferId;	
+	glGenBuffers(1,  &iVertexBufferId);
+
+	unsigned int iNbVertex = vSpotLightQuads.size() * 4;
+	unsigned int iSizeOfSpotVertex = sizeof(SpotLight::SpotLightVertex);
+
+	unsigned int iSizeSpotVertex = ( iNbVertex * iSizeOfSpotVertex );
+	SpotLight::SpotLightVertex * pOmniVertex = new SpotLight::SpotLightVertex[ iNbVertex ];
+
+	for(unsigned int i = 0; i < vSpotLightQuads.size(); ++i )
+	{
+		float x = fHalfWidth * (vSpotLightQuads[i].vScreenSpaceQuadCenter.x + 1.0f);
+		float y = fHalfHeight * (vSpotLightQuads[i].vScreenSpaceQuadCenter.y + 1.0f);
+
+		float fHalfSquare = fHalfWidth * vSpotLightQuads[i].fHalfWidth;
+
+		float fRight = clamp(x+fHalfSquare,0.0f, (float)iWindowWidth);
+		float fLeft = clamp(x-fHalfSquare,0.0f, (float)iWindowWidth);
+		float fTop = clamp(y+fHalfSquare,0.0f, (float)iWindowHeight);
+		float fBottom = clamp(y-fHalfSquare,0.0f, (float)iWindowHeight);
+
+		SpotLight::SpotLightVertex oTopRight, oBottomRight, oBottomLeft, oTopLeft;
+		
+		oTopRight.vColor = vec3( vSpotLightQuads[i].vColor.x, vSpotLightQuads[i].vColor.y, vSpotLightQuads[i].vColor.z );
+		oTopRight.fInverseRadius = vSpotLightQuads[i].fInverseRadius;
+		oTopRight.vViewSpaceLightPos = vec3( vSpotLightQuads[i].vViewSpaceLightPos.x, vSpotLightQuads[i].vViewSpaceLightPos.y, vSpotLightQuads[i].vViewSpaceLightPos.z );
+		oTopRight.fMultiplier = vSpotLightQuads[i].fMultiplier;
+		oTopRight.vViewSpaceLightDir = vSpotLightQuads[i].vViewSpaceLightDir;
+		oTopRight.vCosInAndOut = vSpotLightQuads[i].vCosInAndOut;
+
+		oBottomRight = oBottomLeft = oTopLeft = oTopRight;
+
+		oBottomRight.vScreenSpaceVertexPos = vec2( fRight, fBottom );
+		oBottomLeft.vScreenSpaceVertexPos = vec2( fLeft, fBottom );
+		oTopLeft.vScreenSpaceVertexPos = vec2( fLeft, fTop);
+		oTopRight.vScreenSpaceVertexPos = vec2( fRight, fTop );
+
+		pOmniVertex[i*4] = oTopRight;
+		pOmniVertex[i*4+1] = oBottomRight;
+		pOmniVertex[i*4+2] = oBottomLeft;
+		pOmniVertex[i*4+3] = oTopLeft;
+	}
+	
+	glBindBuffer(GL_ARRAY_BUFFER, iVertexBufferId);
+	glBufferData(GL_ARRAY_BUFFER, iSizeSpotVertex, pOmniVertex, GL_STATIC_DRAW);
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableVertexAttribArray(m_iSpotLightShaderColorAndInverseRadiusHandle);
+	glEnableVertexAttribArray(m_iSpotLightShaderViewSpacePosAndMultiplierHandle);
+	glEnableVertexAttribArray(m_iSpotLightShaderViewSpaceDirHandle);
+	glEnableVertexAttribArray(m_iSpotLightShaderCosInAndOutHandle);
+
+	glVertexPointer(2, GL_FLOAT, iSizeOfSpotVertex, 0);
+
+	glVertexAttribPointer(m_iSpotLightShaderColorAndInverseRadiusHandle, 4, GL_FLOAT, GL_FALSE, iSizeOfSpotVertex, (void*)( 2 * sizeof(float) ) );	
+	glVertexAttribPointer(m_iSpotLightShaderViewSpacePosAndMultiplierHandle, 4, GL_FLOAT, GL_FALSE, iSizeOfSpotVertex, (void*)( 6 * sizeof(float) ) );	
+	glVertexAttribPointer(m_iSpotLightShaderViewSpaceDirHandle, 3, GL_FLOAT, GL_FALSE, iSizeOfSpotVertex, (void*)( 10 * sizeof(float) ) );
+	glVertexAttribPointer(m_iSpotLightShaderCosInAndOutHandle, 2, GL_FLOAT, GL_FALSE, iSizeOfSpotVertex, (void*)( 13 * sizeof(float) ) );
+
+	glDrawArrays(GL_QUADS, 0, iNbVertex );
+
+	glDisableClientState(GL_VERTEX_ARRAY); 
+	glDisableVertexAttribArray(m_iOmniLightShaderColorAndInverseRadiusHandle);
+	glDisableVertexAttribArray(m_iOmniLightShaderViewSpacePosAndMultiplierHandle);
+
+	glBindBuffer(GL_ARRAY_BUFFER, iNbVertex );
+
+	glDeleteBuffers(1, &iVertexBufferId);
+
+	delete [] pOmniVertex;
+
+	glEnable(GL_CULL_FACE);
+}
+
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
@@ -292,8 +359,6 @@ void DeferredRenderer::DrawScreenSpaceQuad( int iWindowWidth, int iWindowHeight,
 	glEnd();
 
 	glBegin(GL_QUADS);
-	glColor4f(1.0f,0.0f,0.0f,0.5f);
-
 	glVertex2f(fRight, fTop );
 	glVertex2f(fRight,fBottom );
 	glVertex2f(fLeft, fBottom );
@@ -310,7 +375,7 @@ void DeferredRenderer::DrawScreenSpaceQuad( int iWindowWidth, int iWindowHeight,
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void DeferredRenderer::DisplayText( const std::string& a_sText, int a_iPosX, int a_iPosY )
+void DeferredRenderer::DisplayText( const std::string& sText, int iPosX, int iPosY )
 {
 	Engine const& rEngine = Engine::GetInstance();
 	unsigned int iWindowWidth = rEngine.GetWindowWidth();
@@ -334,7 +399,7 @@ void DeferredRenderer::DisplayText( const std::string& a_sText, int a_iPosX, int
 	glColor3f(1.0f, 1.0f, 1.0f);
 
 	m_oFont->Begin();
-	m_oFont->TextOut( a_sText, a_iPosX, a_iPosY, 0);
+	m_oFont->TextOut( sText, iPosX, iPosY, 0);
 
 	Texture2D::Desactivate();
 	glDisable(GL_BLEND);
@@ -345,23 +410,17 @@ void DeferredRenderer::DisplayText( const std::string& a_sText, int a_iPosX, int
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void DeferredRenderer::PrepareOmniLights( const std::vector< SceneLight* >& oOmniLights, 
-	const AbstractCamera & rCamera, const Frustum& oViewFrustum, 
-	const float4x4& mModelView, const float4x4& mModelViewProjection )
+void DeferredRenderer::PrepareOmniLights( const std::vector< OmniLight* >& oOmniLights, const AbstractCamera & rCamera, const Frustum& oViewFrustum, const float4x4& mModelView, const float4x4& mModelViewProjection )
 {
 	m_vOmniLightQuads.clear();
-	std::vector< SceneLight* >::const_iterator oLightIt = oOmniLights.begin();
-	std::vector< SceneLight* >::const_iterator oLightItEnd = oOmniLights.end();
-
-	g_fHackMovingLights += 0.01f;
+	std::vector< OmniLight* >::const_iterator oLightIt = oOmniLights.begin();
+	std::vector< OmniLight* >::const_iterator oLightItEnd = oOmniLights.end();
 
 	while( oLightIt != oLightItEnd )
 	{
-		SceneLight * pLight = (*oLightIt);
+		OmniLight * pLight = (*oLightIt);
 		
 		vec3 f3Pos = pLight->GetPos();
-		f3Pos.x += 6.0 * sin( f3Pos.x + g_fHackMovingLights );
-		f3Pos.z += 6.0 * cos( f3Pos.z + g_fHackMovingLights );
 		float fRadius = pLight->GetRadius(); 
 		
 		if(	oViewFrustum.sphereInFrustum( vec3(f3Pos.x, f3Pos.y, f3Pos.z), fRadius ) )
@@ -369,18 +428,18 @@ void DeferredRenderer::PrepareOmniLights( const std::vector< SceneLight* >& oOmn
 			vec3 vLightToView = rCamera.GetPos() - f3Pos;
 			float fLength = length(vLightToView);
 
-			SceneLight::OmniLightQuad oQuad;
+			OmniLight::OmniLightQuad oQuad;
 
 			//computing view space position
-			vec4 vViewSpacePos = transpose( mModelView ) * vec4( f3Pos.x, f3Pos.y, f3Pos.z, 1.0 );
-			oQuad.vViewSpacePosition = vec3( vViewSpacePos.x, vViewSpacePos.y, vViewSpacePos.z );
+			vec4 vViewSpacePos = mModelView * vec4( f3Pos.x, f3Pos.y, f3Pos.z, 1.0 );
+			oQuad.vViewSpaceLightPos = vec3( vViewSpacePos.x, vViewSpacePos.y, vViewSpacePos.z );
 			oQuad.vColor = pLight->GetColor();
 			oQuad.fInverseRadius = 1.0f / fRadius;
-			oQuad.fMultiplier = pLight->GeMultiplier();
+			oQuad.fMultiplier = pLight->GetMultiplier();
 
 			if( fLength <= fRadius )
 			{
-				oQuad.vScreenSpaceCenter = vec2( 0.0f, 0.0f );
+				oQuad.vScreenSpaceQuadCenter = vec2( 0.0f, 0.0f );
 				oQuad.fHalfWidth = 1.0f;
 			}
 			else
@@ -396,10 +455,71 @@ void DeferredRenderer::PrepareOmniLights( const std::vector< SceneLight* >& oOmn
 				vec4 oScreenRightPos = mModelViewProjection * vec4(vLightRight.x, vLightRight.y, vLightRight.z, 1.0 );
 				oScreenRightPos = oScreenRightPos / oScreenRightPos.w;
 
-				oQuad.vScreenSpaceCenter = vec2( oScreenPos.x, oScreenPos.y );
+				oQuad.vScreenSpaceQuadCenter = vec2( oScreenPos.x, oScreenPos.y );
 				oQuad.fHalfWidth = oScreenPos.x - oScreenRightPos.x;
 			}
 				m_vOmniLightQuads.push_back( oQuad );
+		}
+		++oLightIt;
+	}
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void DeferredRenderer::PrepareSpotLights( const std::vector< SpotLight* >& oOmniLights, const AbstractCamera & rCamera, const Frustum& oViewFrustum, const float4x4& mModelView, const float4x4& mModelViewProjection )
+{
+	m_vSpotLightQuads.clear();
+	std::vector< SpotLight* >::const_iterator oLightIt = oOmniLights.begin();
+	std::vector< SpotLight* >::const_iterator oLightItEnd = oOmniLights.end();
+
+	while( oLightIt != oLightItEnd )
+	{
+		SpotLight * pLight = (*oLightIt);
+		
+		vec3 f3Pos = pLight->GetPos();
+		float fRadius = pLight->GetRadius(); 
+		
+		if(	oViewFrustum.sphereInFrustum( vec3(f3Pos.x, f3Pos.y, f3Pos.z), fRadius ) )
+		{
+			vec3 vLightToView = rCamera.GetPos() - f3Pos;
+			float fLength = length(vLightToView);
+
+			SpotLight::SpotLightQuad oQuad;
+			//computing view space position
+			vec4 vViewSpacePos = mModelView * vec4( f3Pos.x, f3Pos.y, f3Pos.z, 1.0 );
+			vec3 vRotation = pLight->GetRotation();
+			vec4 vViewSpaceDir = mModelView * rotateY( vRotation.y * (float)M_PI / 180.0f ) * rotateX( vRotation.x * (float)M_PI / 180.0f ) * vec4( 0.0, 0.0, -1.0, 0.0 );
+
+			oQuad.vViewSpaceLightPos = vec3( vViewSpacePos.x, vViewSpacePos.y, vViewSpacePos.z );
+			oQuad.vViewSpaceLightDir = vec3( vViewSpaceDir.x, vViewSpaceDir.y, vViewSpaceDir.z );
+			oQuad.vColor = pLight->GetColor();
+			oQuad.fInverseRadius = 1.0f / fRadius;
+			oQuad.fMultiplier = pLight->GetMultiplier();
+			oQuad.vCosInAndOut = vec2( pLight->GetCosInnerAngle(), pLight->GetCosOuterAngle() );
+
+			if( fLength <= fRadius )
+			{
+				oQuad.vScreenSpaceQuadCenter = vec2( 0.0f, 0.0f );
+				oQuad.fHalfWidth = 1.0f;
+			}
+			else
+			{
+				vLightToView = normalize( vLightToView );
+
+				vec3 oShiftedPos = f3Pos + min( fLength, fRadius ) * vLightToView;
+
+				vec4 oScreenPos = mModelViewProjection * vec4(oShiftedPos.x, oShiftedPos.y, oShiftedPos.z, 1.0 );
+				oScreenPos = oScreenPos / oScreenPos.w;
+
+				vec3 vLightRight = oShiftedPos + fRadius * rCamera.GetRight();
+				vec4 oScreenRightPos = mModelViewProjection * vec4(vLightRight.x, vLightRight.y, vLightRight.z, 1.0 );
+				oScreenRightPos = oScreenRightPos / oScreenRightPos.w;
+
+				oQuad.vScreenSpaceQuadCenter = vec2( oScreenPos.x, oScreenPos.y );
+				oQuad.fHalfWidth = oScreenPos.x - oScreenRightPos.x;
+			}
+				m_vSpotLightQuads.push_back( oQuad );
 		}
 		++oLightIt;
 	}
@@ -433,8 +553,9 @@ void DeferredRenderer::Render()
 
 	float4x4 mModelView;
 	glGetFloatv ( GL_MODELVIEW_MATRIX, mModelView );
+	mModelView = transpose( mModelView );
 
-	float4x4 mModelViewProjection = transpose(mProjection) * transpose(mModelView);
+	float4x4 mModelViewProjection = transpose(mProjection) * mModelView;
 
 	Frustum oViewFrustum;
 	oViewFrustum.loadFrustum(transpose(mModelViewProjection));
@@ -461,9 +582,12 @@ void DeferredRenderer::Render()
 	//Lighting pass
 
 	//creates one quad per omni light
-	PrepareOmniLights( 	rSceneGraph.GetSceneLights(), rCamera, oViewFrustum, mModelView, mModelViewProjection );
+	PrepareOmniLights( 	rSceneGraph.GetOmniLights(), rCamera, oViewFrustum, mModelView, mModelViewProjection );
 
+	//creates one quad per spot light
+	PrepareSpotLights( 	rSceneGraph.GetSpotLights(), rCamera, oViewFrustum, mModelView, mModelViewProjection );
 	//enable blending in order to add all the light contributions
+	
 	glEnable(GL_BLEND);
 	glBlendFunc( GL_ONE, GL_ONE );
 	glDisable( GL_DEPTH_TEST );
@@ -473,7 +597,7 @@ void DeferredRenderer::Render()
 	glActiveTexture( GL_TEXTURE1 );
 	m_oGBuffer->ActivateDepthTexture();
 	glActiveTexture( GL_TEXTURE0 );
-	
+
 	m_oLightBuffer->Activate();
 	
 	//Render Omni Lights
@@ -488,9 +612,20 @@ void DeferredRenderer::Render()
 	{
 		RenderOmniLights( m_vOmniLightQuads );
 	}
+	m_pOmniLightShader->Desactivate();
+
+	m_pSpotLightShader->Activate();	
+	m_pSpotLightShader->CommitStdUniforms();
+	m_pSpotLightShader->setUniformMatrix4fv( m_iOmniLightShaderInvMVPHandle, !mProjection );
+	m_pSpotLightShader->setUniformi( "iDebug", m_iDebugFlag );
+
+	if( !m_vSpotLightQuads.empty() )
+	{
+		RenderSpotLights( m_vSpotLightQuads );
+	}
+	m_pSpotLightShader->Desactivate();
 
 	m_oLightBuffer->Desactivate();
-	m_pOmniLightShader->Desactivate();
 
 	glActiveTexture( GL_TEXTURE0 );
 	Texture2D::Desactivate();
@@ -501,7 +636,6 @@ void DeferredRenderer::Render()
 	glEnable( GL_DEPTH_TEST );
 
 	//Material pass
-	
 	//The material pass needs to fetch the light buffer
 	glActiveTexture( GL_TEXTURE6 );
 	m_oLightBuffer->ActivateTexture();
@@ -510,8 +644,6 @@ void DeferredRenderer::Render()
 	//Restoring perspective view
 	rRenderingContext.ReshapeGl( iWindowWidth, iWindowHeight );
 	rCamera.LookAt();
-	//glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
 	oMeshIt = oSceneMeshes.begin();	
 	while( oMeshIt != oSceneMeshes.end() )
 	{
@@ -523,15 +655,25 @@ void DeferredRenderer::Render()
 	Texture2D::Desactivate();
 	glActiveTexture( GL_TEXTURE0 );
 
-	//Render omni lights bounding quads
-	if( m_iDebugFlag == 2 )
+	//Render lights bounding quads
+	if( m_iDebugFlag == 1 )
 	{
-		std::vector< SceneLight::OmniLightQuad >::iterator oOmniIt =  m_vOmniLightQuads.begin();
+		glColor4f(0.6f,0.0f,0.0f,0.3f);
+		std::vector< OmniLight::OmniLightQuad >::iterator oOmniIt =  m_vOmniLightQuads.begin();
 		while( oOmniIt != m_vOmniLightQuads.end() )
 		{
-			vec3 vData = vec3( (*oOmniIt).vScreenSpaceCenter.x,(*oOmniIt).vScreenSpaceCenter.y, (*oOmniIt).fHalfWidth );
+			vec3 vData = vec3( (*oOmniIt).vScreenSpaceQuadCenter.x,(*oOmniIt).vScreenSpaceQuadCenter.y, (*oOmniIt).fHalfWidth );
 			DrawScreenSpaceQuad( iWindowWidth, iWindowHeight, vData );
 			++oOmniIt;
+		}
+
+		glColor4f(0.0f,0.6f,0.0f,0.3f);
+		std::vector< SpotLight::SpotLightQuad >::iterator oSpotIt =  m_vSpotLightQuads.begin();
+		while( oSpotIt != m_vSpotLightQuads.end() )
+		{
+			vec3 vData = vec3( (*oSpotIt).vScreenSpaceQuadCenter.x,(*oSpotIt).vScreenSpaceQuadCenter.y, (*oSpotIt).fHalfWidth );
+			DrawScreenSpaceQuad( iWindowWidth, iWindowHeight, vData );
+			++oSpotIt;
 		}
 	}
 
@@ -549,6 +691,6 @@ void DeferredRenderer::Render()
 	DisplayText( oStream.str(), iWindowWidth - 200, 50);
 
 	std::stringstream oStream2;
-	oStream2 << "Displaying " << m_vOmniLightQuads.size() << " of " << rSceneGraph.GetSceneLights().size() << " lights.";
+	oStream2 << "Displaying " << m_vOmniLightQuads.size() << " of " << rSceneGraph.GetOmniLights().size() << "omni lights.";
 	DisplayText( oStream2.str(), iWindowWidth - 200, 70);
 }

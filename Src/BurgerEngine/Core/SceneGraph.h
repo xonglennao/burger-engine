@@ -19,7 +19,8 @@
 
 class AbstractMesh;
 class SceneMesh;
-class SceneLight;
+class OmniLight;
+class SpotLight;
 
 /// \class	SceneGraph
 /// \brief	Used to display 3D scenes
@@ -34,8 +35,8 @@ public:
 	bool Init();
 
 	const std::vector< SceneMesh* >& GetSceneMeshes(){ return m_oSceneMeshes; };
-	const std::vector< SceneLight* >& GetSceneLights(){ return m_oSceneLights; };
-
+	const std::vector< OmniLight* >& GetOmniLights(){ return m_oOmniLights; };
+	const std::vector< SpotLight* >& GetSpotLights(){ return m_oSpotLights; };
 private:
 /// \brief Clears object and light lists
 	void Clear();
@@ -45,7 +46,8 @@ private:
 private:
 	///lists of renderable objects and lights
 	std::vector< SceneMesh* > m_oSceneMeshes;
-	std::vector< SceneLight* > m_oSceneLights;
+	std::vector< OmniLight* > m_oOmniLights;
+	std::vector< SpotLight* > m_oSpotLights;
 };
 
 

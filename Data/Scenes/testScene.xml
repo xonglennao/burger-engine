@@ -82,182 +82,182 @@
 
   <!-- LIGHT 1 -->
   <sceneobject x="0.0" y="30.0" z="0.0">
-    <omnilight>
+    <light type="omni">
       <Multiplier value="1.0"/>
       <Radius value="50"/>
       <Color  r="1.0" g="1.0" b="1.0"/>
-    </omnilight>
+    </light>
   </sceneobject>
   
   <!-- LIGHT 2 -->
   <sceneobject x="-12.0" y="7.0" z="-12.0">
-    <omnilight>
+    <light type="omni">
       <Multiplier value="1.0"/>
       <Radius value="50"/>
       <Color  r="1.0" g="0.0" b="0.0"/>
-    </omnilight>
+    </light>
   </sceneobject>
 
   <!-- LIGHT 3 -->
   <sceneobject x="-12.0" y="7.0" z="12.0">
-    <omnilight>
+    <light type="omni">
       <Multiplier value="1.0"/>
       <Radius value="50"/>
       <Color  r="0.0" g="1.0" b="0.0"/>
-    </omnilight>
+    </light>
   </sceneobject>
 
   <!-- LIGHT 4 -->
   <sceneobject x="12.0" y="7.0" z="12.0">
-    <omnilight>
+    <light type="omni">
       <Multiplier value="1.0"/>
       <Radius value="50"/>
       <Color  r="0.0" g="0.0" b="1.0"/>
-    </omnilight>
+    </light>
   </sceneobject>
 
   <!-- LIGHT 5 -->
   <sceneobject x="12.0" y="7.0" z="-12.0">
-    <omnilight>
+    <light type="omni">
       <Multiplier value="1.0"/>
       <Radius value="50"/>
       <Color  r="1.0" g="0.0" b="1.0"/>
-    </omnilight>
+    </light>
   </sceneobject>
 
   <!-- LIGHT 6 -->
   <sceneobject x="-22.0" y="5.0" z="-22.0">
-    <omnilight>
+    <light type="omni">
       <Multiplier value="1.0"/>
       <Radius value="50"/>
       <Color  r="0.0" g="1.0" b="1.0"/>
-    </omnilight>
+    </light>
   </sceneobject>
 
   <!-- LIGHT 7 -->
   <sceneobject x="-22.0" y="5.0" z="22.0">
-    <omnilight>
+    <light type="omni">
       <Multiplier value="1.0"/>
       <Radius value="50"/>
       <Color  r="1.0" g="0.0" b="1.0"/>
-    </omnilight>
+    </light>
   </sceneobject>
 
   <!-- LIGHT 8 -->
   <sceneobject x="22.0" y="5.0" z="22.0">
-    <omnilight>
+    <light type="omni">
       <Multiplier value="1.0"/>
       <Radius value="50"/>
       <Color  r="0.5" g="1.0" b="0.0"/>
-    </omnilight>
+    </light>
   </sceneobject>
 
   <!-- LIGHT 9 -->
   <sceneobject x="22.0" y="5.0" z="-32.0">
-    <omnilight>
+    <light type="omni">
       <Multiplier value="1.0"/>
       <Radius value="50"/>
       <Color  r="1.0" g="0.5" b="1.0"/>
-    </omnilight>
+    </light>
   </sceneobject>
 
   <!-- LIGHT 10 -->
   <sceneobject x="-32.0" y="2.0" z="-32.0">
-    <omnilight>
+    <light type="omni">
       <Multiplier value="1.0"/>
       <Radius value="50"/>
       <Color  r="1.0" g="0.0" b="1.0"/>
-    </omnilight>
+    </light>
   </sceneobject>
 
   <!-- LIGHT 11 -->
   <sceneobject x="-32.0" y="2.0" z="32.0">
-    <omnilight>
+    <light type="omni">
       <Multiplier value="1.0"/>
       <Radius value="50"/>
       <Color  r="1.0" g="1.0" b="0.0"/>
-    </omnilight>
+    </light>
   </sceneobject>
 
   <!-- LIGHT 12 -->
   <sceneobject x="32.0" y="2.0" z="32.0">
-    <omnilight>
+    <light type="omni">
       <Multiplier value="1.0"/>
       <Radius value="50"/>
       <Color  r="0.5" g="0.5" b="1.0"/>
-    </omnilight>
+    </light>
   </sceneobject>
 
   <!-- LIGHT 13 -->
   <sceneobject x="32.0" y="2.0" z="-32.0">
-    <omnilight>
+    <light type="omni">
       <Multiplier value="1.0"/>
       <Radius value="50"/>
       <Color  r="1.0" g="0.5" b="1.0"/>
-    </omnilight>
+    </light>
   </sceneobject>
 
   <!-- LIGHT 14 -->
   <sceneobject x="0.0" y="1.0" z="-32.0">
-    <omnilight>
+    <light type="omni">
       <Multiplier value="1.0"/>
       <Radius value="20"/>
       <Color  r="1.0" g="1.0" b="1.0"/>
-    </omnilight>
+    </light>
   </sceneobject>
 
   <!-- LIGHT 15 -->
   <sceneobject x="0.0" y="1.0" z="32.0">
-    <omnilight>
+    <light type="omni">
       <Multiplier value="1.0"/>
       <Radius value="20"/>
       <Color  r="1.0" g="1.0" b="1.0"/>
-    </omnilight>
+    </light>
   </sceneobject>
 
   <!-- LIGHT 16 -->
   <sceneobject x="32.0" y="1.0" z="0.0">
-    <omnilight>
+    <light type="omni">
       <Multiplier value="1.0"/>
       <Radius value="20"/>
       <Color  r="1.0" g="1.0" b="1.0"/>
-    </omnilight>
+    </light>
   </sceneobject>
 
   <!-- LIGHT 17 -->
   <sceneobject x="-32.0" y="1.0" z="0.0">
-    <omnilight>
+    <light type="omni">
       <Multiplier value="1.0"/>
       <Radius value="10"/>
       <Color  r="1.0" g="1.0" b="1.0"/>
-    </omnilight>
+    </light>
   </sceneobject>
 
   <!-- LIGHT 18 -->
   <sceneobject x="-40.0" y="3.0" z="8.0">
-    <omnilight>
+    <light type="omni">
       <Multiplier value="1.0"/>
       <Radius value="10"/>
       <Color  r="1.0" g="1.0" b="1.0"/>
-    </omnilight>
+    </light>
   </sceneobject>
 
   <!-- LIGHT 19 -->
   <sceneobject x="-5.0" y="8.0" z="35.0">
-    <omnilight>
+    <light type="omni">
       <Multiplier value="1.0"/>
       <Radius value="10"/>
       <Color  r="1.0" g="1.0" b="1.0"/>
-    </omnilight>
+    </light>
   </sceneobject>
 
   <!-- LIGHT 20 -->
   <sceneobject x="-22.0" y="4.0" z="29.0">
-    <omnilight>
+    <light type="omni">
       <Multiplier value="1.0"/>
       <Radius value="10"/>
       <Color  r="1.0" g="1.0" b="1.0"/>
-    </omnilight>
+    </light>
   </sceneobject>
 
 </scene>

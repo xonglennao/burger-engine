@@ -20,7 +20,7 @@ bool Window::Initialize( const unsigned int a_iWindowWidth, const unsigned int a
 	// Request a 8 bits stencil buffer
 	oSettings.StencilBits       = 8;  
 	// Request 2 levels of antialiasing
-	oSettings.AntialiasingLevel = 2;  
+	//oSettings.AntialiasingLevel = 2;  
 
 	unsigned int m_eWindowStyle = sf::Style::Resize | sf::Style::Close;
 
