@@ -130,6 +130,12 @@
     <ClCompile Include="BurgerEngine\External\Math\Frustum.cpp">
       <Filter>BurgerEngine\External\Math</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\OmniLight.cpp">
+      <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\SpotLight.cpp">
+      <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -263,6 +269,12 @@
     </ClInclude>
     <ClInclude Include="BurgerEngine\External\Math\Frustum.h">
       <Filter>BurgerEngine\External\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\OmniLight.h">
+      <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\SpotLight.h">
+      <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -407,6 +419,15 @@
       <Filter>BurgerEngine\Data\Shaders</Filter>
     </None>
     <None Include="..\Data\Shaders\BasicVertexShader.vert">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Scenes\testSpots.xml">
+      <Filter>BurgerEngine\Data\Scenes</Filter>
+    </None>
+    <None Include="..\Data\Shaders\SpotLight.frag">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\SpotLight.vert">
       <Filter>BurgerEngine\Data\Shaders</Filter>
     </None>
   </ItemGroup>

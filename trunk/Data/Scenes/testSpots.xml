@@ -1,0 +1,86 @@
+<scene>
+  
+  <!-- FLOOR   -->
+  <sceneobject x="0.0" y="0.0" z="0.0" rX="-90.0" rY="0.0" rZ="0.0" scale="30.0">
+    <mesh>
+      <file>../Data/Mesh/plane.obj</file>
+      <part>
+        <material>../Data/Materials/metalFloorDiffuseBump.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>
+
+  <!-- BOX
+  <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="50.0">
+    <mesh>
+      <file>../Data/Mesh/inverted_cube.obj</file>
+      <part>
+        <material>../Data/Materials/teaPotDiffuse.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>  -->
+
+  <!-- UNIT SPHERE -->
+  <sceneobject x="0.0" y="2.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="7.0">
+    <mesh>
+      <file>../Data/Mesh/unit_sphere.obj</file>
+      <part>
+        <material>../Data/Materials/rockDiffuseBump.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>
+
+  <!-- LIGHT 1 -->
+  <sceneobject x="0.0" y="0.0" z="0.0">
+    <light type="omni">
+      <Multiplier value="0.1"/>
+      <Radius value="50"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </light>
+  </sceneobject>
+  
+  <!-- LIGHT 2 -->
+  <sceneobject x="35.0" y="30.0" z="35.0" rX="-35" rY="-45">
+    <light type="spot">
+      <Multiplier value="10.0"/>
+      <Radius value="80"/>
+      <InnerAngle value="5"/>
+      <OuterAngle value="10"/>
+      <Color  r="0.0" g="1.0" b="0.0"/>
+    </light>
+  </sceneobject>
+
+  <!-- LIGHT 3 -->
+  <sceneobject x="-35.0" y="30.0" z="35.0" rX="-35" rY="45">
+    <light type="spot">
+      <Multiplier value="10.0"/>
+      <Radius value="80"/>
+      <InnerAngle value="5"/>
+      <OuterAngle value="10"/>
+      <Color  r="1.0" g="0.0" b="0.0"/>
+    </light>
+  </sceneobject>
+
+  <!-- LIGHT 4 -->
+  <sceneobject x="35.0" y="30.0" z="-35.0" rX="-35" rY="-135">
+    <light type="spot">
+      <Multiplier value="10.0"/>
+      <Radius value="80"/>
+      <InnerAngle value="5"/>
+      <OuterAngle value="10"/>
+      <Color  r="0.0" g="0.0" b="1.0"/>
+    </light>
+  </sceneobject>
+
+  <!-- LIGHT 5 -->
+  <sceneobject x="-35.0" y="30.0" z="-35.0" rX="-35" rY="135">
+    <light type="spot">
+      <Multiplier value="10.0"/>
+      <Radius value="80"/>
+      <InnerAngle value="5"/>
+      <OuterAngle value="10"/>
+      <Color  r="0.0" g="1.0" b="1.0"/>
+    </light>
+  </sceneobject> 
+  
+</scene>

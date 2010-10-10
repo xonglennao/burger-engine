@@ -5,7 +5,11 @@
 #include "BurgerEngine/Input/EventManager.h"
 
 #include "BurgerEngine/Graphics/SceneMesh.h"
+
 #include "BurgerEngine/Graphics/SceneLight.h"
+#include "BurgerEngine/Graphics/SpotLight.h"
+#include "BurgerEngine/Graphics/OmniLight.h"
+
 #include "BurgerEngine/Graphics/MeshManager.h"
 #include "BurgerEngine/Graphics/MaterialManager.h"
 
@@ -18,7 +22,7 @@
 //--------------------------------------------------------------------------------------------------------------------
 SceneGraph::SceneGraph()
 {
-	LoadSceneXML( "../Data/Scenes/testScene.xml" );
+	LoadSceneXML( "../Data/Scenes/testSpots.xml" );
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -41,12 +45,20 @@ void SceneGraph::Clear()
 		++oMeshIt;
 	}
 
-	std::vector< SceneLight* >::iterator oLightIt = m_oSceneLights.begin();
-	while( oLightIt != m_oSceneLights.end() )
+	std::vector< OmniLight* >::iterator oLightIt = m_oOmniLights.begin();
+	while( oLightIt != m_oOmniLights.end() )
 	{
 		delete (*oLightIt);
 		(*oLightIt) = NULL;
 		++oLightIt;
+	}
+
+	std::vector< SpotLight* >::iterator oSpotLightIt = m_oSpotLights.begin();
+	while( oSpotLightIt != m_oSpotLights.end() )
+	{
+		delete (*oSpotLightIt);
+		(*oSpotLightIt) = NULL;
+		++oSpotLightIt;
 	}
 }
 
@@ -68,7 +80,6 @@ void SceneGraph::LoadSceneXML( const char * sName )
 	if( pRoot )
 	{
 		MeshManager & meshManager = MeshManager::GrabInstance();
-		unsigned int iLightCount = 0;
 		TiXmlElement * pXmlObject = pRoot->FirstChildElement( "sceneobject" );
 		
 		while ( pXmlObject )
@@ -131,58 +142,75 @@ void SceneGraph::LoadSceneXML( const char * sName )
 			}
 			else
 			{
-				TiXmlElement * pXmlLight = pXmlObject->FirstChildElement( "omnilight" );
+				TiXmlElement * pXmlLight = pXmlObject->FirstChildElement( "light" );
 				if( pXmlLight )
 				{
-					SceneLight * pLight = new SceneLight;					
-					pLight->SetPos( vec3( x, y, z ) );
-					TiXmlElement * pXmlElement;					
-					/*pXmlElement = pXmlLight->FirstChildElement("InnerAngle");
-					if( pXmlElement )
-					{
-						float fValue;
-						pXmlElement->QueryFloatAttribute("value",&fValue);
-						pLight->SetInnerAngle( fValue );
-						glLightf( GL_LIGHT0 + iLightCount , GL_SPOT_CUTOFF, fValue );
-					}
-					pXmlElement = pXmlLight->FirstChildElement("OuterAngle");
-					if( pXmlElement )
-					{
-						float fValue;
-						pXmlElement->QueryFloatAttribute("value",&fValue);
-						pLight->SetOuterAngle( fValue );
+					TiXmlElement * pXmlElement;
 
-						float fCosOut = cosf( fValue * (float)M_PI / 180.0f );
-						//bouh la vieille feinte!
-						glLightf( GL_LIGHT0 + iLightCount, GL_QUADRATIC_ATTENUATION, fCosOut );
-					}*/
-					pXmlElement = pXmlLight->FirstChildElement("Radius");
-					if( pXmlElement )
-					{
-						float fValue;
-						pXmlElement->QueryFloatAttribute("value",&fValue);
-						pLight->SetRadius( fValue );
-					}
+					float r, g, b;
 					pXmlElement = pXmlLight->FirstChildElement("Color");
 					if( pXmlElement )
 					{
-						float r, g, b;
 						pXmlElement->QueryFloatAttribute("r",&r);
 						pXmlElement->QueryFloatAttribute("g",&g);
 						pXmlElement->QueryFloatAttribute("b",&b);
-
-						pLight->SetColor( vec3( r, g, b ) );
 					}
+					
+					float fMultiplier;
 					pXmlElement = pXmlLight->FirstChildElement("Multiplier");
 					if( pXmlElement )
 					{
-						float fValue;
-						pXmlElement->QueryFloatAttribute("value",&fValue);
-						pLight->SetMultiplier( fValue );
+						pXmlElement->QueryFloatAttribute("value",&fMultiplier);
 					}
 
-					m_oSceneLights.push_back( pLight );
-					++iLightCount;
+					std::string sType = pXmlLight->Attribute("type");
+					if( sType == "omni" || sType =="spot" )
+					{
+						float fRadius;
+						pXmlElement = pXmlLight->FirstChildElement("Radius");
+						if( pXmlElement )
+						{
+
+							pXmlElement->QueryFloatAttribute("value",&fRadius);
+						}
+						if( sType == "spot" )
+						{
+							SpotLight * pSpot = new SpotLight();
+							
+							pSpot->SetColor( vec3( r, g, b ) );
+							pSpot->SetMultiplier( fMultiplier );
+							pSpot->SetRadius( fRadius );
+							pSpot->SetPos( vec3( x, y, z ) );
+							pSpot->SetRotation( vec3( rX,rY, 0.0 ) );
+
+							pXmlElement = pXmlLight->FirstChildElement("InnerAngle");
+							if( pXmlElement )
+							{
+								float fValue;
+								pXmlElement->QueryFloatAttribute("value",&fValue);
+								pSpot->SetInnerAngle( fValue );
+							}
+							pXmlElement = pXmlLight->FirstChildElement("OuterAngle");
+							if( pXmlElement )
+							{
+								float fValue;
+								pXmlElement->QueryFloatAttribute("value",&fValue);
+								pSpot->SetOuterAngle( fValue );
+							}
+							m_oSpotLights.push_back( pSpot );
+						}
+						else
+						{
+							OmniLight * pOmni = new OmniLight();
+							pOmni->SetColor( vec3( r, g, b ) );
+							pOmni->SetMultiplier( fMultiplier );
+							pOmni->SetRadius( fRadius );
+							pOmni->SetPos( vec3( x, y, z ) );
+							m_oOmniLights.push_back( pOmni );
+						}
+					}
+					
+
 				}
 			}
 			//moves on to the next object

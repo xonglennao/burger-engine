@@ -11,6 +11,8 @@ varying vec3 vVarLightPos;
 varying float fVarInverseRadius;
 varying float fVarMultiplier;
 varying float fZMin;
+varying vec3 vVarViewSpaceDir;
+varying vec2 vVarCosInAndOut;
 
 void main()
 {
@@ -38,14 +40,20 @@ void main()
 		vec3 E = normalize( -vViewSpaceVertex.xyz );
 
 		vec3 vVertexToLight = vVarLightPos.xyz - vViewSpaceVertex.xyz;
-						
+					
 		//attenuation
 		float fDistSqr = dot( vVertexToLight, vVertexToLight );
 		float fAtt = clamp( 1.0 - fVarInverseRadius * sqrt(fDistSqr), 0.0, 1.0 );
 
 		vec3 L = normalize( vVertexToLight );		
-		float NDotLAtt = max( dot(N,L), 0.0 ) * fAtt * fVarMultiplier;
 
+		vec3 D = normalize( vVarViewSpaceDir );
+		float fCosCurrentAngle = dot( -L, D );
+		float fCosInMinusOut = vVarCosInAndOut.x - vVarCosInAndOut.y;
+		float fSpotAtt = clamp( ( fCosCurrentAngle - vVarCosInAndOut.y ) / fCosInMinusOut, 0.0, 1.0 );
+		
+		float NDotLAtt = max( dot(N,L), 0.0 ) * fAtt * fVarMultiplier * fSpotAtt;
+		
 		vec3 R = reflect(-L, N);
 
 		vec3 diffuse = NDotLAtt * vVarColor;
@@ -56,5 +64,6 @@ void main()
 		//storing diffuse and specular on different channels (rgb = diffuse, a = lum(spec) ) 
 		finalColor += vec4(diffuse, fSpecularLuminance * NDotLAtt );
 	}
+
 	gl_FragColor = finalColor;
 }
