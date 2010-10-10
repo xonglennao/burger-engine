@@ -6,11 +6,17 @@
 
 #include "BurgerEngine/External/TinyXml/TinyXml.h"
 
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
 Material::Material( const char * sName )
 {
-	LoadMaterialXML( sName );
+	_LoadMaterialXML( sName );
 }
 
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
 Material::~Material()
 {
 	std::map< EffectTechnique::RenderingTechnique, EffectTechnique* >::iterator it = m_oTechniques.begin();
@@ -22,6 +28,9 @@ Material::~Material()
 	}
 };
 
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
 bool Material::Activate( EffectTechnique::RenderingTechnique eTechnique )
 {
 	std::map< EffectTechnique::RenderingTechnique, EffectTechnique* >::iterator oIt = m_oTechniques.find(eTechnique);
@@ -33,6 +42,9 @@ bool Material::Activate( EffectTechnique::RenderingTechnique eTechnique )
 	return false;
 }
 
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
 void Material::Desactivate( EffectTechnique::RenderingTechnique eTechnique )
 {
 	std::map< EffectTechnique::RenderingTechnique, EffectTechnique* >::iterator oIt = m_oTechniques.find(eTechnique);
@@ -42,7 +54,10 @@ void Material::Desactivate( EffectTechnique::RenderingTechnique eTechnique )
 	}
 }
 
-void Material::LoadMaterialXML( const char * sName )
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void Material::_LoadMaterialXML( const char * sName )
 {
 	TiXmlDocument * pDocument = new TiXmlDocument( sName );
 

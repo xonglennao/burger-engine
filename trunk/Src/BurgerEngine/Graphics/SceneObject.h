@@ -15,30 +15,40 @@
 #include <vector>
 #include "BurgerEngine/External/Math/Vector.h"
 
+
+/// \name	SceneObject.h
+/// \brief	The main object in a scene, can be positioned, rotated etc...
 class SceneObject
 {
 public:
 
+	/// \brief Constructor
 	SceneObject();
+
+	/// \brief Destructor
 	~SceneObject();
 
 public:
-	inline void SetPos( vec3 vValue ){ vPosition = vValue; };
-	inline void SetPosX ( float fValue ) { vPosition.x = fValue; };
-	inline void SetPosY ( float fValue ) { vPosition.y = fValue; };
-	inline void SetPosZ ( float fValue ) { vPosition.z = fValue; };
+	void SetPos( vec3 vValue ){ m_f3Position = vValue; }
+	void SetPosX ( float fValue ) { m_f3Position.x = fValue; }
+	void SetPosY ( float fValue ) { m_f3Position.y = fValue; }
+	void SetPosZ ( float fValue ) { m_f3Position.z = fValue; }
 	
-	inline void SetRotation( vec3 vValue ){ vRotation = vValue; };
-	inline void SetRX ( float fValue ) { vRotation.x = fValue; };
-	inline void SetRY ( float fValue ) { vRotation.y = fValue; };
-	inline void SetRZ ( float fValue ) { vRotation.z = fValue; };
+	void SetRotation( vec3 vValue ){ m_f3Rotation = vValue; }
+	void SetRX ( float fValue ) { m_f3Rotation.x = fValue; }
+	void SetRY ( float fValue ) { m_f3Rotation.y = fValue; }
+	void SetRZ ( float fValue ) { m_f3Rotation.z = fValue; }
 
-	inline const vec3 GetPos() const { return vPosition; };
-	inline const vec3 GetRotation() const { return vRotation; }
+	vec3 const&  GetPos() const { return m_f3Position; }
+	vec3 const&  GetRotation() const { return m_f3Rotation; }
 
 protected:
-	vec3	vPosition;
-	vec3	vRotation;
+
+	/// Position
+	vec3	m_f3Position;
+
+	/// Rotation
+	vec3	m_f3Rotation;
 };
 
 #endif //__SCENEOBJECT_H__

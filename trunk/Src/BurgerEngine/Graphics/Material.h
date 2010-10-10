@@ -16,6 +16,9 @@
 
 #include "BurgerEngine/Graphics/EffectTechnique.h"
 
+/// \name	Material.h
+/// \brief	
+
 class Material
 {
 public:
@@ -28,7 +31,7 @@ public:
 
 private:
 
-	void LoadMaterialXML( const char * sName );
+	void _LoadMaterialXML( const char * sName );
 
 private:		
 	std::map< EffectTechnique::RenderingTechnique, EffectTechnique* > m_oTechniques;

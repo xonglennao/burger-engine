@@ -12,23 +12,16 @@
 #ifndef __DEFERREDRENDERER_H__
 #define __DEFERREDRENDERER_H__
 
-/// \name	DeferredRenderer.h
-/// \brief	The application of the window
 
 #include "CommonGraphics.h"
 #include "BurgerEngine/Graphics/EffectTechnique.h"
-
-#include <vector>
 #include "BurgerEngine/Graphics/SceneLight.h"
 
-class FBO;
-class Shader;
-class PixelPerfectGLFont;
-class Timer;
-class Frustum;
-struct vec3;
-class AbstractCamera;
+#include "BurgerEngine/External/Math/Vector.h"
+#include <vector>
 
+/// \name	DeferredRenderer.h
+/// \brief	The application of the window
 class DeferredRenderer
 {
 public:
@@ -39,7 +32,7 @@ public:
 
 	void SetDebugFlag( int i){ m_iDebugFlag = i; }
 
-	/// \brief strats rendering process
+	/// \brief starts rendering process
 	void Render();
 
 private:
@@ -52,12 +45,15 @@ private:
 	void DrawScreenSpaceQuad( int iWindowWidth, int iWindowHeight, vec3 vData );
 
 	/// \brief draw Creates and stores 1 screen space quad per omni light
-	void DeferredRenderer::PrepareOmniLights( const std::vector< SceneLight* >& oOmniLights, const AbstractCamera & rCamera, const Frustum& oViewFrustum, const float4x4& mModelView, const float4x4& mModelViewProjection );
+	void DeferredRenderer::PrepareOmniLights( std::vector< SceneLight* > const& oOmniLights, 
+		 AbstractCamera const& rCamera,  Frustum const& oViewFrustum, 
+		 float4x4 const& mModelView,  float4x4 const& mModelViewProjection );
+
 	/// \brief Displays previously created quads using 1 VBO
 	void RenderOmniLights( std::vector< SceneLight::OmniLightQuad > vOmniLightQuads );	
 
 	/// \brief Display 2D text on the screen
-	void DisplayText( const std::string& sText, int iPosX, int iPosY );
+	void DisplayText(  std::string const& a_sText, int a_iPosX, int a_iPosY );
 
 private:
 	FBO* m_oGBuffer;
@@ -81,3 +77,4 @@ private:
 };
 
 #endif //__DEFERREDRENDERER_H__
+

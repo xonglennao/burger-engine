@@ -21,12 +21,12 @@
 
 #include "BurgerEngine/Graphics/MeshManager.h"
 #include "BurgerEngine/Graphics/StaticMesh.h"
-//--------------------------------------------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------------------------------------------
 
 float g_fHackMovingLights = 0.0f;
 
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
 DeferredRenderer::DeferredRenderer()
 	: m_iDebugFlag(0)
 {
@@ -70,6 +70,9 @@ DeferredRenderer::DeferredRenderer()
 
 }
 
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
 DeferredRenderer::~DeferredRenderer()
 {
 	delete m_oGBuffer;
@@ -82,6 +85,9 @@ DeferredRenderer::~DeferredRenderer()
 	m_oTimer = NULL;
 }
 
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
 void DeferredRenderer::DrawFullScreenQuad( int iWindowWidth, int iWindowHeight )
 {
 	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
@@ -116,6 +122,9 @@ void DeferredRenderer::DrawFullScreenQuad( int iWindowWidth, int iWindowHeight )
 	glEnable(GL_CULL_FACE);
 }
 
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
 void DeferredRenderer::RenderOmniLights( std::vector< SceneLight::OmniLightQuad > vOmniLightQuads )
 {
 	Engine const& rEngine = Engine::GetInstance();
@@ -244,6 +253,9 @@ void DeferredRenderer::RenderOmniLights( std::vector< SceneLight::OmniLightQuad 
 	glEnable(GL_CULL_FACE);
 }
 	
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
 void DeferredRenderer::DrawScreenSpaceQuad( int iWindowWidth, int iWindowHeight, vec3 vData )
 {
 	glPointSize(10);
@@ -295,7 +307,10 @@ void DeferredRenderer::DrawScreenSpaceQuad( int iWindowWidth, int iWindowHeight,
 	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 }
 
-void DeferredRenderer::DisplayText( const std::string& sText, int iPosX, int iPosY )
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void DeferredRenderer::DisplayText( const std::string& a_sText, int a_iPosX, int a_iPosY )
 {
 	Engine const& rEngine = Engine::GetInstance();
 	unsigned int iWindowWidth = rEngine.GetWindowWidth();
@@ -319,7 +334,7 @@ void DeferredRenderer::DisplayText( const std::string& sText, int iPosX, int iPo
 	glColor3f(1.0f, 1.0f, 1.0f);
 
 	m_oFont->Begin();
-	m_oFont->TextOut( sText, iPosX, iPosY, 0);
+	m_oFont->TextOut( a_sText, a_iPosX, a_iPosY, 0);
 
 	Texture2D::Desactivate();
 	glDisable(GL_BLEND);
@@ -327,7 +342,12 @@ void DeferredRenderer::DisplayText( const std::string& sText, int iPosX, int iPo
 	glEnable(GL_DEPTH_TEST);
 }
 
-void DeferredRenderer::PrepareOmniLights( const std::vector< SceneLight* >& oOmniLights, const AbstractCamera & rCamera, const Frustum& oViewFrustum, const float4x4& mModelView, const float4x4& mModelViewProjection )
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void DeferredRenderer::PrepareOmniLights( const std::vector< SceneLight* >& oOmniLights, 
+	const AbstractCamera & rCamera, const Frustum& oViewFrustum, 
+	const float4x4& mModelView, const float4x4& mModelViewProjection )
 {
 	m_vOmniLightQuads.clear();
 	std::vector< SceneLight* >::const_iterator oLightIt = oOmniLights.begin();
@@ -339,20 +359,20 @@ void DeferredRenderer::PrepareOmniLights( const std::vector< SceneLight* >& oOmn
 	{
 		SceneLight * pLight = (*oLightIt);
 		
-		vec3 oPos = pLight->GetPos();
-		oPos.x += 6.0 * sin( oPos.x + g_fHackMovingLights );
-		oPos.z += 6.0 * cos( oPos.z + g_fHackMovingLights );
+		vec3 f3Pos = pLight->GetPos();
+		f3Pos.x += 6.0 * sin( f3Pos.x + g_fHackMovingLights );
+		f3Pos.z += 6.0 * cos( f3Pos.z + g_fHackMovingLights );
 		float fRadius = pLight->GetRadius(); 
 		
-		if(	oViewFrustum.sphereInFrustum( vec3(oPos.x, oPos.y, oPos.z), fRadius ) )
+		if(	oViewFrustum.sphereInFrustum( vec3(f3Pos.x, f3Pos.y, f3Pos.z), fRadius ) )
 		{
-			vec3 vLightToView = rCamera.GetPos() - oPos;
+			vec3 vLightToView = rCamera.GetPos() - f3Pos;
 			float fLength = length(vLightToView);
 
 			SceneLight::OmniLightQuad oQuad;
 
 			//computing view space position
-			vec4 vViewSpacePos = transpose( mModelView ) * vec4( oPos.x, oPos.y, oPos.z, 1.0 );
+			vec4 vViewSpacePos = transpose( mModelView ) * vec4( f3Pos.x, f3Pos.y, f3Pos.z, 1.0 );
 			oQuad.vViewSpacePosition = vec3( vViewSpacePos.x, vViewSpacePos.y, vViewSpacePos.z );
 			oQuad.vColor = pLight->GetColor();
 			oQuad.fInverseRadius = 1.0f / fRadius;
@@ -367,7 +387,7 @@ void DeferredRenderer::PrepareOmniLights( const std::vector< SceneLight* >& oOmn
 			{
 				vLightToView = normalize( vLightToView );
 
-				vec3 oShiftedPos = oPos + min( fLength, fRadius ) * vLightToView;
+				vec3 oShiftedPos = f3Pos + min( fLength, fRadius ) * vLightToView;
 
 				vec4 oScreenPos = mModelViewProjection * vec4(oShiftedPos.x, oShiftedPos.y, oShiftedPos.z, 1.0 );
 				oScreenPos = oScreenPos / oScreenPos.w;
@@ -385,6 +405,9 @@ void DeferredRenderer::PrepareOmniLights( const std::vector< SceneLight* >& oOmn
 	}
 }
 
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
 void DeferredRenderer::Render()
 {
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );	

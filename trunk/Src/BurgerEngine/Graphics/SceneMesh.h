@@ -19,27 +19,35 @@
 class StaticMesh;
 class Material;
 
-class SceneMesh
-	: public SceneObject
+/// \name	SceneMesh.h
+/// \brief	The scene object which has a mesh
+
+class SceneMesh: public SceneObject
 {
 public:
-	SceneMesh( StaticMesh * pMesh );
-	~SceneMesh();
-	void Draw( EffectTechnique::RenderingTechnique eTechnique );
+
+	/// \brief Constructor
+	/// \param[in] pMesh Pointer to the actual mesh?
+	SceneMesh( StaticMesh* pMesh );
+
+	~SceneMesh(){}
 
 public: 
-	inline void			SetScale( float fValue ){ fScale = fValue; };
-	inline void			SetPartCount( int iValue ){ m_iPartCount = iValue; };
-	inline const float	GetScale() const { return fScale; };
-	inline const int	GetPartCount( int iValue ) const { return m_iPartCount; };
-	inline void			AddMaterial( Material * pMaterial ){ m_oMaterials.push_back( pMaterial ); }
+	void Draw( EffectTechnique::RenderingTechnique eTechnique );
+
+	void SetScale( float fValue ){ m_fScale = fValue; }
+	void SetPartCount( unsigned int iValue ){ m_uPartCount = iValue; }
+
+	float const	GetScale() const { return m_fScale; }
+	unsigned int const GetPartCount( int iValue ) const { return m_uPartCount; }
+
+	void AddMaterial( Material * pMaterial ){ m_vMaterials.push_back( pMaterial ); }
 
 private:	
-	std::vector< Material * >	m_oMaterials;
-	unsigned int				m_iPartCount;
-	StaticMesh*					m_pMesh;
-
-	float	fScale;
+	std::vector<Material*>	m_vMaterials;
+	unsigned int m_uPartCount;
+	StaticMesh*	m_pMesh;
+	float	m_fScale;
 };
 
 #endif //__SCENEMESH_H__

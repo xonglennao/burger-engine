@@ -14,3 +14,10 @@
 #include <GL/glu.h>
 
 #include "BurgerEngine/Base/CommonBase.h"
+
+class FBO;
+class Shader;
+class PixelPerfectGLFont;
+class Timer;
+class Frustum;
+class AbstractCamera;
