@@ -1,15 +1,15 @@
 <material>
   <technique name="render_gbuffer">
-    <shadername>LightDiffuseBump</shadername>
+    <shadername>FillBGufferNorml</shadername>
     <vertexshader>../Data/Shaders/FillGBufferNormalMap.vert</vertexshader>
     <pixelshader>../Data/Shaders/FillGBufferNormalMap.frag</pixelshader>
     <uniforms>
-      <float value="4.0">fTileSize</float>
+      <float value="10.0">fTileSize</float>
     </uniforms>
     <samplers>
       <sampler>
         <uniformname unit="1">normalMap</uniformname>
-        <filename>../Data/Textures/rock_normals.tga</filename>
+        <filename>../Data/Textures/checkboard_normals.tga</filename>
       </sampler>
     </samplers>
   </technique>
@@ -18,12 +18,12 @@
     <vertexshader>../Data/Shaders/BasicVertexShader.vert</vertexshader>
     <pixelshader>../Data/Shaders/DiffuseSpec.frag</pixelshader>
     <uniforms>
-      <float value="4.0">fTileSize</float>
+      <float value="10.0">fTileSize</float>
     </uniforms>
     <samplers>
       <sampler>
         <uniformname unit="0">diffuseMap</uniformname>
-        <filename>../Data/Textures/rock_diffuse.png</filename>
+        <filename>../Data/Textures/checkboard_diffuse.png</filename>
       </sampler>
       <sampler>
         <uniformname unit="6">lightBuffer</uniformname>

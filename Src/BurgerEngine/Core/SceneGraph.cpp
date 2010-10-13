@@ -197,6 +197,7 @@ void SceneGraph::LoadSceneXML( const char * sName )
 								pXmlElement->QueryFloatAttribute("value",&fValue);
 								pSpot->SetOuterAngle( fValue );
 							}
+							pSpot->ComputeBoundingVolume();
 							m_oSpotLights.push_back( pSpot );
 						}
 						else

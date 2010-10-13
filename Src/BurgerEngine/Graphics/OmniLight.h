@@ -23,13 +23,11 @@ class OmniLight
 public:
 
 	struct OmniLightQuad
+	: public SceneLightQuad
 	{
 		vec2	vScreenSpaceQuadCenter;
 		float	fHalfWidth;
-		vec3	vViewSpaceLightPos;
-		vec3	vColor;
 		float	fInverseRadius;
-		float	fMultiplier;
 	};
 
 	struct OmniLightVertex
@@ -45,12 +43,12 @@ public:
 	~OmniLight();
 
 public:
-	inline void SetRadius( float fValue ){ fRadius = fValue; };
-	inline float GetRadius(){ return fRadius; };
+	inline void SetRadius( float fValue ){ m_fRadius = fValue; };
+	inline float GetRadius(){ return m_fRadius; };
 
 
-private:
-	float		fRadius;
+protected:
+	float		m_fRadius;
 };
 
 #endif //__OMNILIGHT_H__

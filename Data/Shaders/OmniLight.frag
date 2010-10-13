@@ -26,15 +26,16 @@ void main()
 	vec4 vClipPos = vec4( vTexCoord.x * 2.0 - 1.0, vTexCoord.y * 2.0 - 1.0, fDepth * 2.0 - 1.0, 1.0 );
 	// Multiply by inverse projection matrix to get view-space position
 	vec4 vViewSpaceVertex = mInvProj * vClipPos;
-	vViewSpaceVertex = vViewSpaceVertex / vViewSpaceVertex.w;
+	vViewSpaceVertex = vViewSpaceVertex / abs(vViewSpaceVertex.w);
 
 	if( vViewSpaceVertex.z > fZMin ) 
 	{
 		vec4 vNormalAndGloss = texture2D( sNormalSampler, vTexCoord );
 		vNormalAndGloss.xyz = vNormalAndGloss.xyz * 2.0 - 1.0;	
-
+		//vec3 N = vNormalAndGloss.xyz * 2.0 - 1.0;
 		//Phong Lighting
-		vec3 N = normalize( vNormalAndGloss.xyz );	
+		vec3 N = normalize( vNormalAndGloss.xyz );
+		//N = N * 2.0 - 1.0;	
 		vec3 E = normalize( -vViewSpaceVertex.xyz );
 
 		vec3 vVertexToLight = vVarLightPos.xyz - vViewSpaceVertex.xyz;
@@ -50,11 +51,11 @@ void main()
 
 		vec3 diffuse = NDotLAtt * vVarColor;
 
-		float fSpecular = pow( max( dot( R, E ), 0.0 ), vNormalAndGloss.a * 250.0 );
+		float fSpecular = pow( max( dot( R, E ), 0.0 ), 0.1 * 256.0 ) * NDotLAtt;
 		float fSpecularLuminance = dot( vec3(fSpecular,0.0,0.0), vec3( 0.2126, 0.7152, 0.0722 ) );
 
 		//storing diffuse and specular on different channels (rgb = diffuse, a = lum(spec) ) 
-		finalColor += vec4(diffuse, fSpecularLuminance * NDotLAtt );
+		finalColor += vec4(diffuse, 4.0f * fSpecularLuminance );
 	}
 	gl_FragColor = finalColor;
 }

@@ -58,8 +58,8 @@ public:
 	~FBO(){ Destroy(); };
 
 	void GenerateDepthOnly();
-	void GenerateColorOnly(bool tex16f = false);
-	void Generate();
+	void GenerateColorOnly(bool bTex16f = false);
+	void Generate( bool bTex16f = false );
 	void GenerateGBuffer();
 
 	//To activate the texture
