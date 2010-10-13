@@ -21,6 +21,14 @@ class SceneLight
 	: public SceneObject
 {
 public:
+
+	struct SceneLightQuad
+	{
+		vec3	vViewSpaceLightPos;
+		vec3	vColor;
+		float	fMultiplier;
+	};
+
 	SceneLight();
 	~SceneLight();
 

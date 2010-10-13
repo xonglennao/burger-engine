@@ -64,6 +64,5 @@ void main()
 		//storing diffuse and specular on different channels (rgb = diffuse, a = lum(spec) ) 
 		finalColor += vec4(diffuse, fSpecularLuminance * NDotLAtt );
 	}
-
 	gl_FragColor = finalColor;
 }

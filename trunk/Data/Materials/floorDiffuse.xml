@@ -14,7 +14,7 @@
     <samplers>
       <sampler>
         <uniformname unit="0">diffuseMap</uniformname>
-        <filename>../Data/Textures/rock_normals.png</filename>
+        <filename>../Data/Textures/floor.jpg</filename>
       </sampler>
       <sampler>
         <uniformname unit="6">lightBuffer</uniformname>

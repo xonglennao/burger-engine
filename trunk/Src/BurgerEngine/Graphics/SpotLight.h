@@ -23,10 +23,12 @@ class SpotLight
 public:
 
 	struct SpotLightQuad
-	: public OmniLightQuad
+	: public SceneLightQuad
 	{
-		vec3 vViewSpaceLightDir;
-		vec2 vCosInAndOut;
+		vec4	vLeftRightTopBottom;
+		float	fInverseRadius;
+		vec3	vViewSpaceLightDir;
+		vec2	vCosInAndOut;
 	};
 
 	struct SpotLightVertex
@@ -40,16 +42,24 @@ public:
 	~SpotLight();
 
 public:
-	inline void SetInnerAngle( float fValue ){ fCosIn = cosf( fValue * (float)M_PI / 180.0f ); };
-	inline void SetOuterAngle( float fValue){ fCosOut = cosf( fValue * (float)M_PI / 180.0f ); };
+	void ComputeBoundingVolume();
 
-	inline float GetCosInnerAngle(){ return fCosIn; };
-	inline float GetCosOuterAngle(){ return fCosOut; };
+	void SetInnerAngle( float fValue ){ m_fCosIn = cosf( fValue * (float)M_PI / 180.0f ); };
+	void SetOuterAngle( float fValue){ m_fCosOut = cosf( fValue * (float)M_PI / 180.0f ); };
+
+	float GetCosInnerAngle(){ return m_fCosIn; };
+	float GetCosOuterAngle(){ return m_fCosOut; };
+
+	const vec3* GetFarPlanePoints(){ return m_pFarPlanePoints; };
+	const float* GetBoundingBox(){ return m_pBoundingBox; };
 
 private:
 
-	float		fCosIn;
-	float		fCosOut;
+	float		m_fCosIn;
+	float		m_fCosOut;
+
+	vec3		m_pFarPlanePoints[4];
+	float		m_pBoundingBox[6];
 };
 
 #endif //__SPOTLIGHT_H__

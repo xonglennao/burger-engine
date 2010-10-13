@@ -113,6 +113,7 @@
     <None Include="..\Data\Materials\rockDiffuseBump.xml">
       <SubType>Designer</SubType>
     </None>
+    <None Include="..\Data\Materials\stoneFloorDiffuseBump.xml" />
     <None Include="..\Data\Materials\teaPotDiffuse.xml">
       <SubType>Designer</SubType>
     </None>

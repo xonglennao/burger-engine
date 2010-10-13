@@ -257,15 +257,15 @@ void DeferredRenderer::RenderSpotLights( std::vector< SpotLight::SpotLightQuad >
 
 	for(unsigned int i = 0; i < vSpotLightQuads.size(); ++i )
 	{
-		float x = fHalfWidth * (vSpotLightQuads[i].vScreenSpaceQuadCenter.x + 1.0f);
-		float y = fHalfHeight * (vSpotLightQuads[i].vScreenSpaceQuadCenter.y + 1.0f);
+		float fLeft = fHalfWidth * (vSpotLightQuads[i].vLeftRightTopBottom.x + 1.0f);
+		float fRight = fHalfWidth * (vSpotLightQuads[i].vLeftRightTopBottom.y + 1.0f);
+		float fTop = fHalfHeight * (vSpotLightQuads[i].vLeftRightTopBottom.z + 1.0f);
+		float fBottom = fHalfHeight * (vSpotLightQuads[i].vLeftRightTopBottom.w + 1.0f);
 
-		float fHalfSquare = fHalfWidth * vSpotLightQuads[i].fHalfWidth;
-
-		float fRight = clamp(x+fHalfSquare,0.0f, (float)iWindowWidth);
-		float fLeft = clamp(x-fHalfSquare,0.0f, (float)iWindowWidth);
-		float fTop = clamp(y+fHalfSquare,0.0f, (float)iWindowHeight);
-		float fBottom = clamp(y-fHalfSquare,0.0f, (float)iWindowHeight);
+		fRight = clamp( fRight ,0.0f, (float)iWindowWidth);
+		fLeft = clamp( fLeft, 0.0f, (float)iWindowWidth);
+		fTop = clamp( fTop, 0.0f, (float)iWindowHeight);
+		fBottom = clamp( fBottom, 0.0f, (float)iWindowHeight);
 
 		SpotLight::SpotLightVertex oTopRight, oBottomRight, oBottomLeft, oTopLeft;
 		
@@ -325,7 +325,7 @@ void DeferredRenderer::RenderSpotLights( std::vector< SpotLight::SpotLightQuad >
 //--------------------------------------------------------------------------------------------------------------------
 void DeferredRenderer::DrawScreenSpaceQuad( int iWindowWidth, int iWindowHeight, vec3 vData )
 {
-	glPointSize(10);
+	glPointSize(3);
 	glDisable(GL_CULL_FACE);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -338,7 +338,6 @@ void DeferredRenderer::DrawScreenSpaceQuad( int iWindowWidth, int iWindowHeight,
 	float fHalfWidth = iWindowWidth * 0.5f;
 	float fHalfHeight = iWindowHeight * 0.5f;
 
-	glEnable(GL_BLEND);
 	glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 
 	glDisable(GL_DEPTH_TEST);
@@ -366,7 +365,6 @@ void DeferredRenderer::DrawScreenSpaceQuad( int iWindowWidth, int iWindowHeight,
 
 	glEnd();
 	
-	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
@@ -480,16 +478,22 @@ void DeferredRenderer::PrepareSpotLights( const std::vector< SpotLight* >& oOmni
 		vec3 f3Pos = pLight->GetPos();
 		float fRadius = pLight->GetRadius(); 
 		
-		if(	oViewFrustum.sphereInFrustum( vec3(f3Pos.x, f3Pos.y, f3Pos.z), fRadius ) )
+		const float * pBoundingBox = pLight->GetBoundingBox();
+
+		if(	oViewFrustum.cubeInFrustum( pBoundingBox[0], pBoundingBox[1],pBoundingBox[2],pBoundingBox[3],pBoundingBox[4],pBoundingBox[5] ) )
 		{
-			vec3 vLightToView = rCamera.GetPos() - f3Pos;
+			vec3 vCameraPos = rCamera.GetPos();
+			vec3 vLightToView = vCameraPos - f3Pos;
+
 			float fLength = length(vLightToView);
 
 			SpotLight::SpotLightQuad oQuad;
+
 			//computing view space position
-			vec4 vViewSpacePos = mModelView * vec4( f3Pos.x, f3Pos.y, f3Pos.z, 1.0 );
+			vec4 vViewSpacePos = mModelView * vec4( f3Pos.x, f3Pos.y, f3Pos.z, 1.0f );
 			vec3 vRotation = pLight->GetRotation();
-			vec4 vViewSpaceDir = mModelView * rotateY( vRotation.y * (float)M_PI / 180.0f ) * rotateX( vRotation.x * (float)M_PI / 180.0f ) * vec4( 0.0, 0.0, -1.0, 0.0 );
+
+			vec4 vViewSpaceDir = mModelView * rotateY( vRotation.y * (float)M_PI / 180.0f ) * rotateX( vRotation.x * (float)M_PI / 180.0f ) * vec4( 0.0f, 0.0f, -1.0f, 0.0f );
 
 			oQuad.vViewSpaceLightPos = vec3( vViewSpacePos.x, vViewSpacePos.y, vViewSpacePos.z );
 			oQuad.vViewSpaceLightDir = vec3( vViewSpaceDir.x, vViewSpaceDir.y, vViewSpaceDir.z );
@@ -498,26 +502,32 @@ void DeferredRenderer::PrepareSpotLights( const std::vector< SpotLight* >& oOmni
 			oQuad.fMultiplier = pLight->GetMultiplier();
 			oQuad.vCosInAndOut = vec2( pLight->GetCosInnerAngle(), pLight->GetCosOuterAngle() );
 
-			if( fLength <= fRadius )
+			if( vCameraPos.x > pBoundingBox[0] && vCameraPos.x < pBoundingBox[1] && vCameraPos.y > pBoundingBox[2] && vCameraPos.y < pBoundingBox[3] && vCameraPos.z > pBoundingBox[4] && vCameraPos.z < pBoundingBox[5] )
 			{
-				oQuad.vScreenSpaceQuadCenter = vec2( 0.0f, 0.0f );
-				oQuad.fHalfWidth = 1.0f;
+				oQuad.vLeftRightTopBottom = vec4( -1.0f, 1.0f, 1.0f, -1.0f );
 			}
 			else
 			{
-				vLightToView = normalize( vLightToView );
+				const vec3 * pPoints = pLight->GetFarPlanePoints();
 
-				vec3 oShiftedPos = f3Pos + min( fLength, fRadius ) * vLightToView;
+				float fLeft, fRight, fBottom, fTop;
+				vec4 oScreenPos = mModelViewProjection * vec4(f3Pos.x, f3Pos.y, f3Pos.z, 1.0f );
+				oScreenPos = oScreenPos / abs(oScreenPos.w);
+				fLeft = fRight = oScreenPos.x;
+				fBottom = fTop = oScreenPos.y;
 
-				vec4 oScreenPos = mModelViewProjection * vec4(oShiftedPos.x, oShiftedPos.y, oShiftedPos.z, 1.0 );
-				oScreenPos = oScreenPos / oScreenPos.w;
+				for( unsigned int i = 0; i < 4; ++i )
+				{
+					oScreenPos = mModelViewProjection * vec4(pPoints[i].x, pPoints[i].y, pPoints[i].z, 1.0f );
+					oScreenPos = oScreenPos / abs(oScreenPos.w);
+					
+					fLeft = min(fLeft, oScreenPos.x);
+					fRight = max(fRight, oScreenPos.x);
 
-				vec3 vLightRight = oShiftedPos + fRadius * rCamera.GetRight();
-				vec4 oScreenRightPos = mModelViewProjection * vec4(vLightRight.x, vLightRight.y, vLightRight.z, 1.0 );
-				oScreenRightPos = oScreenRightPos / oScreenRightPos.w;
-
-				oQuad.vScreenSpaceQuadCenter = vec2( oScreenPos.x, oScreenPos.y );
-				oQuad.fHalfWidth = oScreenPos.x - oScreenRightPos.x;
+					fBottom = min(fBottom, oScreenPos.y);
+					fTop = max(fTop, oScreenPos.y);
+				}
+				oQuad.vLeftRightTopBottom = vec4( fLeft, fRight, fTop, fBottom );
 			}
 				m_vSpotLightQuads.push_back( oQuad );
 		}
@@ -624,7 +634,7 @@ void DeferredRenderer::Render()
 		RenderSpotLights( m_vSpotLightQuads );
 	}
 	m_pSpotLightShader->Desactivate();
-
+	
 	m_oLightBuffer->Desactivate();
 
 	glActiveTexture( GL_TEXTURE0 );
@@ -654,26 +664,49 @@ void DeferredRenderer::Render()
 	glActiveTexture( GL_TEXTURE6 );
 	Texture2D::Desactivate();
 	glActiveTexture( GL_TEXTURE0 );
-
+	
 	//Render lights bounding quads
 	if( m_iDebugFlag == 1 )
 	{
-		glColor4f(0.6f,0.0f,0.0f,0.3f);
+		glEnable(GL_BLEND);
+		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glColor4f(1.0f,0.0f,1.0f,0.5f);
+		std::vector< SpotLight* >::const_iterator oSpotIt =  rSceneGraph.GetSpotLights().begin();
+		while( oSpotIt != rSceneGraph.GetSpotLights().end() )
+		{
+			const vec3 * pPoints = (*oSpotIt)->GetFarPlanePoints();
+			vec3 f3Pos = (*oSpotIt)->GetPos();
+
+			glBegin( GL_LINES );
+			for(unsigned int i = 0; i < 4; ++i)
+			{
+				glVertex3f(f3Pos.x, f3Pos.y, f3Pos.z);
+				glVertex3f(pPoints[i].x, pPoints[i].y, pPoints[i].z);
+			}
+				
+			glVertex3f(pPoints[0].x, pPoints[0].y, pPoints[0].z);
+			glVertex3f(pPoints[1].x, pPoints[1].y, pPoints[1].z);
+
+
+			glVertex3f(pPoints[0].x, pPoints[0].y, pPoints[0].z);
+			glVertex3f(pPoints[2].x, pPoints[2].y, pPoints[2].z);
+
+			glVertex3f(pPoints[2].x, pPoints[2].y, pPoints[2].z);
+			glVertex3f(pPoints[3].x, pPoints[3].y, pPoints[3].z);
+
+			glVertex3f(pPoints[1].x, pPoints[1].y, pPoints[1].z);
+			glVertex3f(pPoints[3].x, pPoints[3].y, pPoints[3].z);
+
+			glEnd();
+			++oSpotIt;
+		}
+		glColor4f(0.0f,1.0f,0.0f,0.5f);
 		std::vector< OmniLight::OmniLightQuad >::iterator oOmniIt =  m_vOmniLightQuads.begin();
 		while( oOmniIt != m_vOmniLightQuads.end() )
 		{
 			vec3 vData = vec3( (*oOmniIt).vScreenSpaceQuadCenter.x,(*oOmniIt).vScreenSpaceQuadCenter.y, (*oOmniIt).fHalfWidth );
 			DrawScreenSpaceQuad( iWindowWidth, iWindowHeight, vData );
 			++oOmniIt;
-		}
-
-		glColor4f(0.0f,0.6f,0.0f,0.3f);
-		std::vector< SpotLight::SpotLightQuad >::iterator oSpotIt =  m_vSpotLightQuads.begin();
-		while( oSpotIt != m_vSpotLightQuads.end() )
-		{
-			vec3 vData = vec3( (*oSpotIt).vScreenSpaceQuadCenter.x,(*oSpotIt).vScreenSpaceQuadCenter.y, (*oSpotIt).fHalfWidth );
-			DrawScreenSpaceQuad( iWindowWidth, iWindowHeight, vData );
-			++oSpotIt;
 		}
 	}
 
@@ -691,6 +724,6 @@ void DeferredRenderer::Render()
 	DisplayText( oStream.str(), iWindowWidth - 200, 50);
 
 	std::stringstream oStream2;
-	oStream2 << "Displaying " << m_vOmniLightQuads.size() << " of " << rSceneGraph.GetOmniLights().size() << "omni lights.";
+	oStream2 << "Displaying " << m_vOmniLightQuads.size() << " of " << rSceneGraph.GetOmniLights().size() << " omni lights.";
 	DisplayText( oStream2.str(), iWindowWidth - 200, 70);
 }

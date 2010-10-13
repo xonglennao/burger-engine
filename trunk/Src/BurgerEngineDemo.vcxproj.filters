@@ -430,5 +430,8 @@
     <None Include="..\Data\Shaders\SpotLight.vert">
       <Filter>BurgerEngine\Data\Shaders</Filter>
     </None>
+    <None Include="..\Data\Materials\stoneFloorDiffuseBump.xml">
+      <Filter>BurgerEngine\Data\Materials</Filter>
+    </None>
   </ItemGroup>
 </Project>

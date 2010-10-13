@@ -52,7 +52,7 @@ void FBO::GenerateDepthOnly()
 	m_iType = 1;
 }
 
-void FBO::GenerateColorOnly(bool tex16f)
+void FBO::GenerateColorOnly( bool bTex16f )
 {
     Destroy();
 
@@ -77,12 +77,15 @@ void FBO::GenerateColorOnly(bool tex16f)
 		glTexImage2D( GL_TEXTURE_CUBE_MAP_NEGATIVE_Z , 0, GL_RGBA8, m_iWidth, m_iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 	}
 	else{
-		if(!tex16f)
-			glTexImage2D(m_eTextureType, 0, GL_RGBA8, m_iWidth, m_iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+
+		GLint iInternalFormat;
+		if(!bTex16f)
+			iInternalFormat = GL_RGBA8;
 		else
-			glTexImage2D(m_eTextureType, 0, GL_RGB16F_ARB, m_iWidth, m_iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+			iInternalFormat = GL_RGB16F_ARB;
+		glTexImage2D(m_eTextureType, 0, iInternalFormat, m_iWidth, m_iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 	}
-	
+
 	glBindTexture(m_eTextureType, 0);
 
 	//Generate renderbuffer
@@ -111,7 +114,7 @@ void FBO::GenerateColorOnly(bool tex16f)
 	m_iType = 0;
 }
 
-void FBO::Generate()
+void FBO::Generate( bool bTex16f )
 {
 	// create a texture object for the depthmap
     glGenTextures(1, &m_iTexDepthId);
@@ -131,8 +134,13 @@ void FBO::Generate()
     glTexParameterf(m_eTextureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    //glTexParameteri(m_eTextureType, GL_GENERATE_MIPMAP, GL_TRUE);
-    glTexImage2D(m_eTextureType, 0, GL_RGBA8, m_iWidth, m_iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+	
+	GLint iInternalFormat;
+	if(!bTex16f)
+		iInternalFormat = GL_RGBA8;
+	else
+		iInternalFormat = GL_RGB16F_ARB;
+    glTexImage2D(m_eTextureType, 0, iInternalFormat, m_iWidth, m_iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
     glBindTexture(m_eTextureType, 0);
 
     glGenFramebuffersEXT(1, &m_iId);
