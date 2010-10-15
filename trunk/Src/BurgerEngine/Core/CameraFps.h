@@ -20,7 +20,7 @@ class CameraFps: public AbstractCamera
 {
 public:
 	/// \brief constructor
-	CameraFps(){}
+	CameraFps( float fFOV, float fNear, float fFar );
 
 	/// \brief destructor
 	~CameraFps(){}

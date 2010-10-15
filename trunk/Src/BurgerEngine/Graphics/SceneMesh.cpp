@@ -17,7 +17,6 @@ SceneMesh::SceneMesh( StaticMesh * pMesh )
 //--------------------------------------------------------------------------------------------------------------------
 void SceneMesh::Draw( EffectTechnique::RenderingTechnique eTechnique )
 {
-
 	if( m_pMesh )
 	{
 		glPushMatrix();
@@ -30,16 +29,18 @@ void SceneMesh::Draw( EffectTechnique::RenderingTechnique eTechnique )
 
 		for( unsigned int i = 0; i < m_uPartCount; ++i )
 		{
-			if( m_vMaterials[ i ]->Activate( eTechnique ) )
+			if( eTechnique == EffectTechnique::E_RENDER_SHADOW_MAP )
+			{
+				m_pMesh->Render( i );
+			}
+			else if( m_vMaterials[ i ]->Activate( eTechnique ) )
 			{
 				m_pMesh->Render( i );
 				m_vMaterials[ i ]->Desactivate( eTechnique );
 			}
 		}
-
 		glPopMatrix();
 	}
-
 }
 
 

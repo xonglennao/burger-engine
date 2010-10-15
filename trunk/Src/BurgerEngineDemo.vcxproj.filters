@@ -136,6 +136,9 @@
     <ClCompile Include="BurgerEngine\Graphics\SpotLight.cpp">
       <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\SpotShadow.cpp">
+      <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -274,6 +277,9 @@
       <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
     </ClInclude>
     <ClInclude Include="BurgerEngine\Graphics\SpotLight.h">
+      <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\SpotShadow.h">
       <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
     </ClInclude>
   </ItemGroup>
@@ -432,6 +438,12 @@
     </None>
     <None Include="..\Data\Materials\stoneFloorDiffuseBump.xml">
       <Filter>BurgerEngine\Data\Materials</Filter>
+    </None>
+    <None Include="..\Data\Shaders\SpotShadow.frag">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\SpotShadow.vert">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

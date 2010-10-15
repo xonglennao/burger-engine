@@ -35,7 +35,8 @@ public:
 	void Terminate();
 
 	/// \brief	Upon resizing of the window
-	bool ReshapeGl(unsigned int a_uWidth, unsigned int a_uHeight);
+	bool ReshapeGl(unsigned int a_uWidth, unsigned int a_uHeight );
+	bool Reshape(unsigned int a_uWidth, unsigned int a_uHeight, float a_fFOV, float a_fNear, float a_fFar );
 
 	/// \brief	Check if the rendering context has errors of not and display a message
 	/// \return true if error, false otherwise
