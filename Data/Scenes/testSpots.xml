@@ -10,57 +10,74 @@
     </mesh>
   </sceneobject>
 
+  <!-- SPHERE   -->
+  <sceneobject x="-4.5" y="3.0" z="7.0" rX="0.0" rY="0.0" rZ="0.0" scale="2.0">
+    <mesh>
+      <file>../Data/Mesh/unit_sphere.obj</file>
+      <part>
+        <material>../Data/Materials/stoneFloorDiffuseBump.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>
+
+  <!-- SPHERE   -->
+  <sceneobject x="2.0" y="0.5" z="4.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">
+    <mesh>
+      <file>../Data/Mesh/unit_sphere.obj</file>
+      <part>
+        <material>../Data/Materials/stoneFloorDiffuseBump.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>
+
+  <!-- COLUMN   -->
+  <sceneobject x="0.0" y="0.0" z="5.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">
+    <mesh>
+      <file>../Data/Mesh/column.obj</file>
+      <part>
+        <material>../Data/Materials/stoneFloorDiffuseBump.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>
+
   <!-- LIGHT 1 -->
-  <sceneobject x="0.0" y="5.0" z="0.0">
+  <sceneobject x="0.0" y="20" z="10.0">
     <light type="omni">
-      <Multiplier value="0.4"/>
+      <Multiplier value="0.05"/>
       <Radius value="50"/>
-      <Color  r="1.0" g="1.0" b="1.0"/>
+      <Color  r="0.7" g="0.7" b="1.0"/>
     </light>
   </sceneobject>
 
   <!-- LIGHT 2 -->
-  <sceneobject x="0.0" y="10.0" z="10.0" rX="-50" rY="-90">
-    <light type="spot">
-      <Multiplier value="1.0"/>
-      <Radius value="40"/>
-      <InnerAngle value="35"/>
-      <OuterAngle value="40"/>
-      <Color  r="1.0" g="0.9" b="0.6"/>
+  <sceneobject x="0.0" y="20" z="-10.0">
+    <light type="omni">
+      <Multiplier value="0.05"/>
+      <Radius value="50"/>
+      <Color  r="0.7" g="0.7" b="1.0"/>
     </light>
   </sceneobject>
 
-  <!-- LIGHT 3 -->
-  <sceneobject x="-35.0" y="12.0" z="10.0" rX="-40" rY="45">
-    <light type="spot">
-      <Multiplier value="2.0"/>
-      <Radius value="22"/>
-      <InnerAngle value="5"/>
-      <OuterAngle value="20"/>
-      <Color  r="1.0" g="0.95" b="0.7"/>
-    </light>
-  </sceneobject>
-
-  <!-- LIGHT 4 -->
-  <sceneobject x="-15.0" y="15.0" z="-15.0" rX="-30" rY="0">
-    <light type="spot">
+  <!-- SPOT SHADOW 1  -->
+  <sceneobject x="10.0" y="7.0" z="13.0" rX="-30" rY="-45">
+    <light type="spotshadow">
       <Multiplier value="1.0"/>
-      <Radius value="40"/>
+      <Radius value="20"/>
       <InnerAngle value="15"/>
       <OuterAngle value="20"/>
-      <Color  r="1.0" g="0.9" b="0.8"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
     </light>
   </sceneobject>
 
-  <!-- LIGHT 5  -->
-  <sceneobject x="-12.0" y="15.0" z="-32.0" rX="-45" rY="180">
-    <light type="spot">
-      <Multiplier value="5.0"/>
-      <Radius value="40"/>
-      <InnerAngle value="5"/>
+  <!-- SPOT SHADOW 2  -->
+  <sceneobject x="-10.0" y="7.0" z="13.0" rX="-30" rY="45">
+    <light type="spotshadow">
+      <Multiplier value="1.0"/>
+      <Radius value="20"/>
+      <InnerAngle value="15"/>
       <OuterAngle value="20"/>
-      <Color  r="1.0" g="0.8" b="0.7"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
     </light>
   </sceneobject>
-  
+
 </scene>

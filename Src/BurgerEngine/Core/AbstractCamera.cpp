@@ -4,12 +4,14 @@
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-AbstractCamera::AbstractCamera()
+AbstractCamera::AbstractCamera( float fFOV, float fNear, float fFar )
+	: m_fFOV( fFOV )
+	, m_fNear( fNear )
+	, m_fFar( fFar )
 {
 	m_f3Pos = vec3( 0.0f, 15.0f, 2.0f );
 	m_f3Aim = vec3( 0.0f, 0.0f, 50.0f );
 	m_f3Up = vec3( 0.0f, 1.0f, 0.0f );
-
 }
 
 void AbstractCamera::LookAt()

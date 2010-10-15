@@ -9,6 +9,7 @@
 #include "BurgerEngine/Graphics/SceneLight.h"
 #include "BurgerEngine/Graphics/SpotLight.h"
 #include "BurgerEngine/Graphics/OmniLight.h"
+#include "BurgerEngine/Graphics/SpotShadow.h"
 
 #include "BurgerEngine/Graphics/MeshManager.h"
 #include "BurgerEngine/Graphics/MaterialManager.h"
@@ -22,6 +23,11 @@
 //--------------------------------------------------------------------------------------------------------------------
 SceneGraph::SceneGraph()
 {
+	m_eStringToLightTypeMap["omni"] = SceneLight::E_OMNI_LIGHT;
+	m_eStringToLightTypeMap["spot"] = SceneLight::E_SPOT_LIGHT;
+	m_eStringToLightTypeMap["spotshadow"] = SceneLight::E_SPOT_SHADOW;
+	m_eStringToLightTypeMap["directional"] = SceneLight::E_DIRECTIONAL;
+
 	LoadSceneXML( "../Data/Scenes/testSpots.xml" );
 }
 
@@ -59,6 +65,14 @@ void SceneGraph::Clear()
 		delete (*oSpotLightIt);
 		(*oSpotLightIt) = NULL;
 		++oSpotLightIt;
+	}
+
+	std::vector< SpotShadow* >::iterator oSpotShadowIt = m_oSpotShadows.begin();
+	while( oSpotShadowIt != m_oSpotShadows.end() )
+	{
+		delete (*oSpotShadowIt);
+		(*oSpotShadowIt) = NULL;
+		++oSpotShadowIt;
 	}
 }
 
@@ -164,54 +178,65 @@ void SceneGraph::LoadSceneXML( const char * sName )
 					}
 
 					std::string sType = pXmlLight->Attribute("type");
-					if( sType == "omni" || sType =="spot" )
+					SceneLight::LightType eType = m_eStringToLightTypeMap[ sType ];
+
+					SceneLight * pSceneLight;
+					if( (eType & SceneLight::E_OMNI_LIGHT) == SceneLight::E_OMNI_LIGHT )
 					{
 						float fRadius;
 						pXmlElement = pXmlLight->FirstChildElement("Radius");
 						if( pXmlElement )
 						{
-
 							pXmlElement->QueryFloatAttribute("value",&fRadius);
 						}
-						if( sType == "spot" )
+						if( (eType & SceneLight::E_SPOT_LIGHT) == SceneLight::E_SPOT_LIGHT )
 						{
-							SpotLight * pSpot = new SpotLight();
-							
-							pSpot->SetColor( vec3( r, g, b ) );
-							pSpot->SetMultiplier( fMultiplier );
-							pSpot->SetRadius( fRadius );
-							pSpot->SetPos( vec3( x, y, z ) );
-							pSpot->SetRotation( vec3( rX,rY, 0.0 ) );
-
 							pXmlElement = pXmlLight->FirstChildElement("InnerAngle");
+							float fInnerAngle;
 							if( pXmlElement )
 							{
-								float fValue;
-								pXmlElement->QueryFloatAttribute("value",&fValue);
-								pSpot->SetInnerAngle( fValue );
+								pXmlElement->QueryFloatAttribute("value",&fInnerAngle);
+
 							}
+
 							pXmlElement = pXmlLight->FirstChildElement("OuterAngle");
+							float fOuterAngle;
 							if( pXmlElement )
 							{
-								float fValue;
-								pXmlElement->QueryFloatAttribute("value",&fValue);
-								pSpot->SetOuterAngle( fValue );
+								pXmlElement->QueryFloatAttribute("value",&fOuterAngle);
 							}
-							pSpot->ComputeBoundingVolume();
-							m_oSpotLights.push_back( pSpot );
+
+							if( (eType & SceneLight::E_SPOT_SHADOW) == SceneLight::E_SPOT_SHADOW )
+							{
+								pSceneLight = new SpotShadow();	
+								m_oSpotShadows.push_back( static_cast< SpotShadow* >(pSceneLight) );
+							}
+							else
+							{
+								pSceneLight = new SpotLight();
+								m_oSpotLights.push_back( static_cast< SpotLight* >(pSceneLight) );
+							}
+
+							pSceneLight->SetRotation( vec3( rX,rY, 0.0 ) );
+							static_cast< SpotLight* >(pSceneLight)->SetOuterAngle( fOuterAngle );
+							static_cast< SpotLight* >(pSceneLight)->SetInnerAngle( fInnerAngle );
 						}
 						else
 						{
-							OmniLight * pOmni = new OmniLight();
-							pOmni->SetColor( vec3( r, g, b ) );
-							pOmni->SetMultiplier( fMultiplier );
-							pOmni->SetRadius( fRadius );
-							pOmni->SetPos( vec3( x, y, z ) );
-							m_oOmniLights.push_back( pOmni );
+							pSceneLight = new OmniLight();
+							m_oOmniLights.push_back( static_cast< OmniLight* >(pSceneLight) );
+						}
+
+						pSceneLight->SetColor( vec3( r, g, b ) );
+						pSceneLight->SetMultiplier( fMultiplier );
+						static_cast< OmniLight* >(pSceneLight)->SetRadius( fRadius );
+						pSceneLight->SetPos( vec3( x, y, z ) );
+						
+						if( (eType & SceneLight::E_SPOT_LIGHT) == SceneLight::E_SPOT_LIGHT )
+						{
+							static_cast< SpotLight* >(pSceneLight)->ComputeBoundingVolume();
 						}
 					}
-					
-
 				}
 			}
 			//moves on to the next object

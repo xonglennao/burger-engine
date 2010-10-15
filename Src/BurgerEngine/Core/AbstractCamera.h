@@ -29,7 +29,7 @@ public:
 
 public:
 	/// \brief constructor
-	AbstractCamera();
+	AbstractCamera( float fFOV, float fNear, float fFar );
 
 	/// \brief destructor
 	virtual ~AbstractCamera(){}
@@ -53,6 +53,11 @@ public:
 	vec3 const& GetAim() const {return m_f3Aim;}
 	vec3 const& GetUp() const {return m_f3Up;}
 	vec3 const& GetRight() const {return m_f3Right;}
+
+	float const& GetFOV() const {return m_fFOV;}
+	float const& GetNear() const {return m_fNear;}
+	float const& GetFar() const {return m_fFar;}
+	
 	void LookAt();
 
 protected:
@@ -73,6 +78,10 @@ protected:
 	vec3 m_f3Aim;
 	vec3 m_f3Up;
 	vec3 m_f3Right;
+
+	float	m_fFOV;
+	float	m_fNear;
+	float	m_fFar;
 
 };
 

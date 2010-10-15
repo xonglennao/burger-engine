@@ -63,15 +63,31 @@ void OpenGLContext::Terminate()
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-bool OpenGLContext::ReshapeGl(unsigned int a_uWidth, unsigned int a_uHeight)
+bool OpenGLContext::Reshape(unsigned int a_uWidth, unsigned int a_uHeight, float a_fFOV, float a_fNear, float a_fFar )
 {
 	float fRatio = static_cast<float>(a_uWidth)/static_cast<float>(a_uHeight);
 	glViewport(0, 0, static_cast<GLint>(a_uWidth), static_cast<GLint>(a_uHeight));
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	/// \todo hard coded value, but it will be camera class value
-	gluPerspective(45.0f, fRatio, 0.1f, 10000.0f);
+	gluPerspective( a_fFOV, fRatio, a_fNear, a_fFar );
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	return true;
+}
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+bool OpenGLContext::ReshapeGl(unsigned int a_uWidth, unsigned int a_uHeight )
+{
+	float fRatio = static_cast<float>(a_uWidth)/static_cast<float>(a_uHeight);
+	glViewport(0, 0, static_cast<GLint>(a_uWidth), static_cast<GLint>(a_uHeight));
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective( 45.0f, fRatio, 0.1f, 1000.0f );
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();

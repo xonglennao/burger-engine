@@ -49,6 +49,7 @@
     <ClInclude Include="BurgerEngine\Graphics\ShaderManager.h" />
     <ClInclude Include="BurgerEngine\Graphics\ShaderTool.h" />
     <ClInclude Include="BurgerEngine\Graphics\SpotLight.h" />
+    <ClInclude Include="BurgerEngine\Graphics\SpotShadow.h" />
     <ClInclude Include="BurgerEngine\Graphics\StaticMesh.h" />
     <ClInclude Include="BurgerEngine\Graphics\OpenGLContext.h" />
     <ClInclude Include="BurgerEngine\Graphics\Texture2D.h" />
@@ -96,6 +97,7 @@
     <ClCompile Include="BurgerEngine\Graphics\ShaderManager.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\ShaderTool.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\SpotLight.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\SpotShadow.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\StaticMesh.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\OpenGLContext.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\Texture2D.cpp" />
@@ -113,7 +115,9 @@
     <None Include="..\Data\Materials\rockDiffuseBump.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="..\Data\Materials\stoneFloorDiffuseBump.xml" />
+    <None Include="..\Data\Materials\stoneFloorDiffuseBump.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\Data\Materials\teaPotDiffuse.xml">
       <SubType>Designer</SubType>
     </None>
@@ -136,6 +140,8 @@
     <None Include="..\Data\Shaders\OmniLight.vert" />
     <None Include="..\Data\Shaders\SpotLight.frag" />
     <None Include="..\Data\Shaders\SpotLight.vert" />
+    <None Include="..\Data\Shaders\SpotShadow.frag" />
+    <None Include="..\Data\Shaders\SpotShadow.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{99D06A18-E064-414F-BBCC-CAE1EE67296F}</ProjectGuid>

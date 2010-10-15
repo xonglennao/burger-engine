@@ -14,13 +14,16 @@
 #define __SCENEGRAPH_H__
 
 #include "BurgerEngine/Graphics/CommonGraphics.h"
+#include "BurgerEngine/Graphics/SceneLight.h"
 
 #include <vector>
+#include <map>
 
 class AbstractMesh;
 class SceneMesh;
 class OmniLight;
 class SpotLight;
+class SpotShadow;
 
 /// \class	SceneGraph
 /// \brief	Used to display 3D scenes
@@ -37,6 +40,7 @@ public:
 	const std::vector< SceneMesh* >& GetSceneMeshes(){ return m_oSceneMeshes; };
 	const std::vector< OmniLight* >& GetOmniLights(){ return m_oOmniLights; };
 	const std::vector< SpotLight* >& GetSpotLights(){ return m_oSpotLights; };
+	const std::vector< SpotShadow* >& GetSpotShadows(){ return m_oSpotShadows; };
 private:
 /// \brief Clears object and light lists
 	void Clear();
@@ -48,6 +52,9 @@ private:
 	std::vector< SceneMesh* > m_oSceneMeshes;
 	std::vector< OmniLight* > m_oOmniLights;
 	std::vector< SpotLight* > m_oSpotLights;
+	std::vector< SpotShadow* > m_oSpotShadows;
+
+	std::map< std::string, SceneLight::LightType > m_eStringToLightTypeMap;
 };
 
 

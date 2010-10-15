@@ -27,7 +27,8 @@ public:
 	enum RenderingTechnique
 	{
 		E_RENDER_GBUFFER,
-		E_RENDER_OPAQUE
+		E_RENDER_OPAQUE,
+		E_RENDER_SHADOW_MAP = 100
 	};
 
 	EffectTechnique();
