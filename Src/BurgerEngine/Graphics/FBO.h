@@ -58,9 +58,8 @@ public:
 	~FBO(){ Destroy(); };
 
 	void GenerateDepthOnly();
-	void GenerateColorOnly(bool bTex16f = false);
-	void Generate( bool bTex16f = false );
-	void GenerateGBuffer();
+	void GenerateColorOnly( GLint iInternalFormat = GL_RGBA8, GLint iFormat = GL_RGBA );
+	void Generate( GLint iInternalFormat = GL_RGBA8, GLint iFormat = GL_RGBA );
 
 	//To activate the texture
 	void ActivateTexture();

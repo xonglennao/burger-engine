@@ -36,58 +36,17 @@ DeferredRenderer::DeferredRenderer()
 	unsigned int iWindowHeight = rEngine.GetWindowHeight();
 
 	m_oGBuffer = new FBO( iWindowWidth, iWindowHeight, FBO::E_FBO_2D );
-	m_oGBuffer->Generate();
+	m_oGBuffer->Generate( GL_RGBA16F_ARB );
 
 	m_oLightBuffer = new FBO( iWindowWidth, iWindowHeight, FBO::E_FBO_2D );
 	m_oLightBuffer->GenerateColorOnly();
 
+	m_oSpotShadowBlurBuffer = new FBO( 640, 640, FBO::E_FBO_2D );
+	m_oSpotShadowBlurBuffer->GenerateColorOnly( GL_RGB32F_ARB, GL_RGB );
+
 	//loading engine shaders
+	LoadEngineShaders();
 
-	m_pOmniLightShader = ShaderManager::GrabInstance().addShader( "OmniLightShader", "../Data/Shaders/OmniLight.vert", "../Data/Shaders/OmniLight.frag" );
-	m_pOmniLightShader->Activate();
-
-	m_pOmniLightShader->QueryStdUniforms();
-	m_iOmniLightShaderInvProjHandle = glGetUniformLocation( m_pOmniLightShader->getHandle(), "mInvProj" );
-	
-	m_iOmniLightShaderColorAndInverseRadiusHandle = glGetAttribLocation( m_pOmniLightShader->getHandle(),"vColorAndInverseRadius");
-	m_iOmniLightShaderViewSpacePosAndMultiplierHandle = glGetAttribLocation( m_pOmniLightShader->getHandle(),"vViewSpacePosAndMultiplier");
-
-	m_pOmniLightShader->setUniformTexture("sNormalSampler",0);
-	m_pOmniLightShader->setUniformTexture("sDepthSampler",1);
-
-	m_pOmniLightShader->Desactivate();
-
-	m_pSpotLightShader = ShaderManager::GrabInstance().addShader( "SpotLightShader", "../Data/Shaders/SpotLight.vert", "../Data/Shaders/SpotLight.frag" );
-	m_pSpotLightShader->Activate();
-
-	m_pSpotLightShader->QueryStdUniforms();
-	m_iSpotLightShaderInvProjHandle = glGetUniformLocation( m_pSpotLightShader->getHandle(), "mInvProj" );
-	m_iSpotLightShaderColorAndInverseRadiusHandle = glGetAttribLocation( m_pSpotLightShader->getHandle(),"vColorAndInverseRadius");
-	m_iSpotLightShaderViewSpacePosAndMultiplierHandle = glGetAttribLocation( m_pSpotLightShader->getHandle(),"vViewSpacePosAndMultiplier");
-	m_iSpotLightShaderViewSpaceDirHandle = glGetAttribLocation( m_pSpotLightShader->getHandle(),"vViewSpaceDir");
-	m_iSpotLightShaderCosInAndOutHandle = glGetAttribLocation( m_pSpotLightShader->getHandle(),"vCosInAndOut");
-	
-	m_pSpotLightShader->setUniformTexture("sNormalSampler",0);
-	m_pSpotLightShader->setUniformTexture("sDepthSampler",1);
-
-	m_pSpotLightShader->Desactivate();
-
-	m_pSpotShadowShader = ShaderManager::GrabInstance().addShader( "SpotShadowShader", "../Data/Shaders/SpotShadow.vert", "../Data/Shaders/SpotShadow.frag" );
-	m_pSpotShadowShader->Activate();
-
-	m_pSpotShadowShader->QueryStdUniforms();
-	m_iSpotShadowShaderInvProjHandle = glGetUniformLocation( m_pSpotShadowShader->getHandle(), "mInvProj" );
-	m_iSpotShadowShaderShadowMatrixHandle = glGetUniformLocation( m_pSpotShadowShader->getHandle(), "mShadowMatrix" );
-
-	m_iSpotShadowShaderColorAndInverseRadiusHandle = glGetAttribLocation( m_pSpotShadowShader->getHandle(),"vColorAndInverseRadius");
-	m_iSpotShadowShaderViewSpacePosAndMultiplierHandle = glGetAttribLocation( m_pSpotShadowShader->getHandle(),"vViewSpacePosAndMultiplier");
-	m_iSpotShadowShaderViewSpaceDirHandle = glGetAttribLocation( m_pSpotShadowShader->getHandle(),"vViewSpaceDir");
-	m_iSpotShadowShaderCosInAndOutHandle = glGetAttribLocation( m_pSpotShadowShader->getHandle(),"vCosInAndOut");
-	
-	m_pSpotShadowShader->setUniformTexture("sNormalSampler",0);
-	m_pSpotShadowShader->setUniformTexture("sDepthSampler",1);
-	m_pSpotShadowShader->setUniformTexture("sShadowMapSampler",2);
-	m_pSpotShadowShader->Desactivate();
 	
 	//loading font
 	GLuint iFontId;
@@ -115,6 +74,76 @@ DeferredRenderer::~DeferredRenderer()
 
 	delete m_oTimer;
 	m_oTimer = NULL;
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void DeferredRenderer::LoadEngineShaders()
+{
+	ShaderManager& rShaderManager = ShaderManager::GrabInstance();
+	
+	m_pOmniLightShader = rShaderManager.addShader( "OmniLightShader", "../Data/Shaders/OmniLight.vert", "../Data/Shaders/OmniLight.frag" );
+	m_pOmniLightShader->Activate();
+
+	m_pOmniLightShader->QueryStdUniforms();
+	m_iOmniLightShaderInvProjHandle = glGetUniformLocation( m_pOmniLightShader->getHandle(), "mInvProj" );
+	
+	m_iOmniLightShaderColorAndInverseRadiusHandle = glGetAttribLocation( m_pOmniLightShader->getHandle(),"vColorAndInverseRadius");
+	m_iOmniLightShaderViewSpacePosAndMultiplierHandle = glGetAttribLocation( m_pOmniLightShader->getHandle(),"vViewSpacePosAndMultiplier");
+
+	m_pOmniLightShader->setUniformTexture("sNormalSampler",0);
+	m_pOmniLightShader->setUniformTexture("sDepthSampler",1);
+
+	m_pOmniLightShader->Desactivate();
+
+	m_pSpotLightShader = rShaderManager.addShader( "SpotLightShader", "../Data/Shaders/SpotLight.vert", "../Data/Shaders/SpotLight.frag" );
+	m_pSpotLightShader->Activate();
+
+	m_pSpotLightShader->QueryStdUniforms();
+	m_iSpotLightShaderInvProjHandle = glGetUniformLocation( m_pSpotLightShader->getHandle(), "mInvProj" );
+	m_iSpotLightShaderColorAndInverseRadiusHandle = glGetAttribLocation( m_pSpotLightShader->getHandle(),"vColorAndInverseRadius");
+	m_iSpotLightShaderViewSpacePosAndMultiplierHandle = glGetAttribLocation( m_pSpotLightShader->getHandle(),"vViewSpacePosAndMultiplier");
+	m_iSpotLightShaderViewSpaceDirHandle = glGetAttribLocation( m_pSpotLightShader->getHandle(),"vViewSpaceDir");
+	m_iSpotLightShaderCosInAndOutHandle = glGetAttribLocation( m_pSpotLightShader->getHandle(),"vCosInAndOut");
+	
+	m_pSpotLightShader->setUniformTexture("sNormalSampler",0);
+	m_pSpotLightShader->setUniformTexture("sDepthSampler",1);
+
+	m_pSpotLightShader->Desactivate();
+
+	m_pSpotShadowShader = rShaderManager.addShader( "SpotShadowShader", "../Data/Shaders/SpotShadow.vert", "../Data/Shaders/SpotShadow.frag" );
+	m_pSpotShadowShader->Activate();
+
+	m_pSpotShadowShader->QueryStdUniforms();
+	m_iSpotShadowShaderInvProjHandle = glGetUniformLocation( m_pSpotShadowShader->getHandle(), "mInvProj" );
+	m_iSpotShadowShaderShadowMatrixHandle = glGetUniformLocation( m_pSpotShadowShader->getHandle(), "mShadowMatrix" );
+
+	m_iSpotShadowShaderColorAndInverseRadiusHandle = glGetAttribLocation( m_pSpotShadowShader->getHandle(),"vColorAndInverseRadius");
+	m_iSpotShadowShaderViewSpacePosAndMultiplierHandle = glGetAttribLocation( m_pSpotShadowShader->getHandle(),"vViewSpacePosAndMultiplier");
+	m_iSpotShadowShaderViewSpaceDirHandle = glGetAttribLocation( m_pSpotShadowShader->getHandle(),"vViewSpaceDir");
+	m_iSpotShadowShaderCosInAndOutHandle = glGetAttribLocation( m_pSpotShadowShader->getHandle(),"vCosInAndOut");
+	
+	m_pSpotShadowShader->setUniformTexture("sNormalSampler",0);
+	m_pSpotShadowShader->setUniformTexture("sDepthSampler",1);
+	m_pSpotShadowShader->setUniformTexture("sShadowMapSampler",2);
+	m_pSpotShadowShader->Desactivate();
+
+	m_pVarianceShadowMapShader = rShaderManager.addShader( "VarianceShadowMap", "../Data/Shaders/VarianceShadowMap.vert", "../Data/Shaders/VarianceShadowMap.frag" );
+
+	m_pBlurHShader = rShaderManager.addShader( "BlurH", "../Data/Shaders/BasicVertexShader.vert", "../Data/Shaders/BlurH.frag" ); 
+	
+	m_pBlurHShader->Activate();
+	m_pBlurHShader->QueryStdUniforms();
+	m_pBlurHShader->setUniformTexture("texture",0);
+	m_pBlurHShader->Desactivate();
+
+	m_pBlurVShader = rShaderManager.addShader( "BlurV", "../Data/Shaders/BasicVertexShader.vert", "../Data/Shaders/BlurV.frag" ); 
+
+	m_pBlurVShader->Activate();
+	m_pBlurVShader->QueryStdUniforms();
+	m_pBlurVShader->setUniformTexture("texture",0);
+	m_pBlurVShader->Desactivate();
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -620,17 +649,22 @@ bool DeferredRenderer::ComputeOneSpotBoundingQuad( SpotLight* pLight, AbstractCa
 void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oSceneMeshes, SceneGraph& rSceneGraph, OpenGLContext& rRenderingContext )
 {
 	glCullFace( GL_FRONT );
-	glColorMask( GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE );
+	glColorMask( GL_TRUE, GL_TRUE, GL_FALSE, GL_FALSE );
 
 	std::vector< SpotShadow* > oSpotShadows = rSceneGraph.GetSpotShadows();
 	std::vector< SpotShadow* >::iterator oSpotIt = oSpotShadows.begin();
+
 	while( oSpotIt != oSpotShadows.end() )
 	{
-		SpotShadow * oSPot = *oSpotIt;
+		m_pVarianceShadowMapShader->Activate();
+		SpotShadow * pSpot = *oSpotIt;
 		
-		vec3 oLightPos = oSPot->GetPos();
-		vec3 oLightRotation = oSPot->GetRotation();
-		rRenderingContext.Reshape( 512, 512, 2.0f * acosf( oSPot->GetCosOuterAngle()  ) / (float)M_PI * 180.0f, 0.15, oSPot->GetRadius() );
+		vec3 oLightPos = pSpot->GetPos();
+		vec3 oLightRotation = pSpot->GetRotation();
+
+		float fRadius = pSpot->GetRadius();
+
+		rRenderingContext.Reshape( 640, 640, 2.0f * acosf( pSpot->GetCosOuterAngle()  ) / (float)M_PI * 180.0f, 0.5, fRadius );
 		glRotatef( -oLightRotation.x, 1.0,0.0,0.0 );
 		glRotatef( oLightRotation.y, 0.0,1.0,0.0 );
 
@@ -640,11 +674,13 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 		glGetFloatv ( GL_PROJECTION_MATRIX, mLightProjection );
 		float4x4 mLightModelView;
 		glGetFloatv ( GL_MODELVIEW_MATRIX, mLightModelView );
-		oSPot->SetMatrix( transpose(transpose(mLightProjection) * transpose( mLightModelView ) ) );
+		pSpot->SetMatrix( transpose(transpose(mLightProjection) * transpose( mLightModelView ) ) );
 	
-		oSPot->ActivateBuffer();
-		glClear( GL_DEPTH_BUFFER_BIT );	
-		
+		pSpot->ActivateBuffer();
+		glClearColor( fRadius,fRadius,0.0f,0.0f );
+		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );	
+		glClearColor( 0.0f,0.0f,0.0f,0.0f );
+
 		std::vector< SceneMesh* >::const_iterator oShadowMeshIt = oSceneMeshes.begin();
 		while( oShadowMeshIt != oSceneMeshes.end() )
 		{
@@ -652,7 +688,31 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 			++oShadowMeshIt;
 		}
 
-		oSPot->DesactivateBuffer();
+		m_pVarianceShadowMapShader->Desactivate();
+		
+		pSpot->DesactivateBuffer();
+		if( m_iDebugFlag == 0 )
+		{
+			pSpot->ActivateDepthTexture();
+
+			m_pBlurHShader->Activate();
+			m_pBlurHShader->CommitStdUniforms();
+		
+			m_oSpotShadowBlurBuffer->Activate();
+			//glClear( GL_COLOR_BUFFER_BIT );
+			DrawFullScreenQuad(640,640);
+			m_oSpotShadowBlurBuffer->Desactivate();
+
+			m_oSpotShadowBlurBuffer->ActivateTexture();
+			m_pBlurVShader->Activate();
+
+			pSpot->ActivateBuffer();
+			//glClear( GL_COLOR_BUFFER_BIT );
+			DrawFullScreenQuad(640,640);
+			pSpot->DesactivateBuffer();
+			m_pBlurVShader->Desactivate();
+		}	
+
 		++oSpotIt;
 	}
 
@@ -679,7 +739,7 @@ void DeferredRenderer::Render()
 	OpenGLContext& rRenderingContext = rEngine.GrabRenderingContext(); 
 
 	RenderShadowMaps(oSceneMeshes,rSceneGraph,rRenderingContext);
-
+	
 	rRenderingContext.Reshape( iWindowWidth, iWindowHeight, rCamera.GetFOV(), rCamera.GetNear(), rCamera.GetFar() );	
 	rCamera.LookAt();
 
@@ -760,8 +820,6 @@ void DeferredRenderer::Render()
 		m_pSpotLightShader->Desactivate();
 	}
 
-
-
 	m_pSpotShadowShader->Activate();	
 	m_pSpotShadowShader->CommitStdUniforms();
 	m_pSpotShadowShader->setUniformMatrix4fv( m_iSpotShadowShaderInvProjHandle, mInvProjection );
@@ -770,7 +828,7 @@ void DeferredRenderer::Render()
 	
 	m_pSpotShadowShader->setUniformi( "iDebug", m_iDebugFlag );
 	PrepareAndRenderSpotShadows( rSceneGraph.GetSpotShadows(), rCamera, oViewFrustum, mModelView, mModelViewProjection );
-	m_pSpotShadowShader->Activate();	
+	m_pSpotShadowShader->Desactivate();	
 
 	Texture2D::Desactivate();
 
@@ -783,13 +841,14 @@ void DeferredRenderer::Render()
 
 	glDisable(GL_BLEND);
 	glEnable( GL_DEPTH_TEST );
-
+	
+	
 	//Material pass
 	//The material pass needs to fetch the light buffer
 	glActiveTexture( GL_TEXTURE6 );
 	m_oLightBuffer->ActivateTexture();
 	glActiveTexture( GL_TEXTURE0 );	
-
+	
 	//Restoring perspective view
 	rRenderingContext.Reshape( iWindowWidth, iWindowHeight, rCamera.GetFOV(), rCamera.GetNear(), rCamera.GetFar() );
 	rCamera.LookAt();
@@ -803,9 +862,9 @@ void DeferredRenderer::Render()
 	glActiveTexture( GL_TEXTURE6 );
 	Texture2D::Desactivate();
 	glActiveTexture( GL_TEXTURE0 );
-
+	
 	//Render lights bounding quads
-	if( m_iDebugFlag == 1 )
+	if( m_iDebugFlag == 1000 )
 	{
 		glEnable(GL_BLEND);
 		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -835,14 +894,14 @@ void DeferredRenderer::Render()
 		}
 	}
 
-	m_fFrameCount++;
+	++m_fFrameCount;
 	if( m_fFrameCount >= m_fMaxFrame )
 	{
 		m_fFrameTime = m_oTimer->Stop() / m_fMaxFrame;
 		m_fFrameCount = 0.0;
 		m_oTimer->Start();
 	}
-
+	
 	//Profiling infos
 	std::stringstream oStream;
 	oStream << "GPU:" << m_fFrameTime << "ms";

@@ -15,7 +15,7 @@
   </technique>
   <technique name="render_opaque">
     <shadername>DiffuseSpecStrength</shadername>
-    <vertexshader>../Data/Shaders/BasicVertexShader.vert</vertexshader>
+    <vertexshader>../Data/Shaders/BasicVertexShaderTile.vert</vertexshader>
     <pixelshader>../Data/Shaders/DiffuseSpecStrength.frag</pixelshader>
     <uniforms>
       <float value="4.0">fTileSize</float>

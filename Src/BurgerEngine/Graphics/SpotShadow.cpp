@@ -3,8 +3,8 @@
 
 SpotShadow::SpotShadow()
 {
-	m_oDepth = new FBO( 512, 512, FBO::E_FBO_2D );
-	m_oDepth->GenerateDepthOnly();
+	m_oDepth = new FBO( 640, 640, FBO::E_FBO_2D );
+	m_oDepth->GenerateColorOnly( GL_RGB32F_ARB, GL_RGB );
 }
 
 SpotShadow::~SpotShadow()
@@ -13,4 +13,4 @@ SpotShadow::~SpotShadow()
 
 void SpotShadow::ActivateBuffer(){ m_oDepth->Activate(); }
 void SpotShadow::DesactivateBuffer(){ m_oDepth->Desactivate(); }
-void SpotShadow::ActivateDepthTexture(){ m_oDepth->ActivateDepthTexture(); }
+void SpotShadow::ActivateDepthTexture(){ m_oDepth->ActivateTexture(); }

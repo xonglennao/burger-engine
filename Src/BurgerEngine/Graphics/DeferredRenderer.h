@@ -40,6 +40,10 @@ public:
 	void Render();
 
 private:
+
+	/// \brief Loads engine shaders such as lighting, shadow, blur etc.
+	void LoadEngineShaders();
+
 	/// \brief Display a full screen quad
 	/// this is temporary, we need a to use VBO
 	void DrawFullScreenQuad( int iWindowWidth, int iWindowHeight );
@@ -70,6 +74,7 @@ private:
 private:
 	FBO* m_oGBuffer;
 	FBO* m_oLightBuffer;
+	FBO* m_oSpotShadowBlurBuffer;
 
 	int m_iDebugFlag;
 
@@ -99,6 +104,10 @@ private:
 	unsigned int m_iSpotShadowShaderViewSpacePosAndMultiplierHandle;
 	unsigned int m_iSpotShadowShaderViewSpaceDirHandle;
 	unsigned int m_iSpotShadowShaderCosInAndOutHandle;
+
+	Shader* m_pVarianceShadowMapShader;
+	Shader* m_pBlurHShader;
+	Shader* m_pBlurVShader;
 
 	std::vector< OmniLight::OmniLightQuad > m_vOmniLightQuads;
 	std::vector< SpotLight::SpotLightQuad > m_vSpotLightQuads;
