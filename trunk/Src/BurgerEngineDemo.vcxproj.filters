@@ -424,9 +424,6 @@
     <None Include="..\Data\Shaders\DiffuseSpecStrength.frag">
       <Filter>BurgerEngine\Data\Shaders</Filter>
     </None>
-    <None Include="..\Data\Shaders\BasicVertexShader.vert">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
     <None Include="..\Data\Scenes\testSpots.xml">
       <Filter>BurgerEngine\Data\Scenes</Filter>
     </None>
@@ -443,6 +440,24 @@
       <Filter>BurgerEngine\Data\Shaders</Filter>
     </None>
     <None Include="..\Data\Shaders\SpotShadow.vert">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\VarianceShadowMap.frag">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\VarianceShadowMap.vert">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\BasicVertexShaderTile.vert">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\BasicVertexShader.vert">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\BlurH.frag">
+      <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Shaders\BlurV.frag">
       <Filter>BurgerEngine\Data\Shaders</Filter>
     </None>
   </ItemGroup>

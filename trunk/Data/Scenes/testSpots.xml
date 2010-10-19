@@ -1,9 +1,9 @@
 <scene>
   
   <!-- FLOOR   -->
-  <sceneobject x="0.0" y="0.0" z="0.0" rX="-90.0" rY="0.0" rZ="0.0" scale="30.0">
+  <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
     <mesh>
-      <file>../Data/Mesh/plane.obj</file>
+      <file>../Data/Mesh/truc.obj</file>
       <part>
         <material>../Data/Materials/stoneFloorDiffuseBump.xml</material>
       </part>
@@ -11,7 +11,7 @@
   </sceneobject>
 
   <!-- SPHERE   -->
-  <sceneobject x="-4.5" y="3.0" z="7.0" rX="0.0" rY="0.0" rZ="0.0" scale="2.0">
+  <sceneobject x="0.0" y="3" z="0" rX="0.0" rY="0.0" rZ="0.0" scale="6">
     <mesh>
       <file>../Data/Mesh/unit_sphere.obj</file>
       <part>
@@ -21,7 +21,77 @@
   </sceneobject>
 
   <!-- SPHERE   -->
-  <sceneobject x="2.0" y="0.5" z="4.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">
+  <sceneobject x="-10.0" y="8.5" z="0" rX="0.0" rY="0.0" rZ="0.0" scale="6">
+    <mesh>
+      <file>../Data/Mesh/unit_sphere.obj</file>
+      <part>
+        <material>../Data/Materials/stoneFloorDiffuseBump.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>
+
+  <!-- SPHERE   -->
+  <sceneobject x="10.0" y="8.5" z="0" rX="0.0" rY="0.0" rZ="0.0" scale="6">
+    <mesh>
+      <file>../Data/Mesh/unit_sphere.obj</file>
+      <part>
+        <material>../Data/Materials/stoneFloorDiffuseBump.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>
+
+  <!-- SPHERE   -->
+  <sceneobject x="0.0" y="16" z="10" rX="0.0" rY="0.0" rZ="0.0" scale="6">
+    <mesh>
+      <file>../Data/Mesh/unit_sphere.obj</file>
+      <part>
+        <material>../Data/Materials/stoneFloorDiffuseBump.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>
+
+  <!-- SPHERE   -->
+  <sceneobject x="-10" y="16" z="10" rX="0.0" rY="0.0" rZ="0.0" scale="6">
+    <mesh>
+      <file>../Data/Mesh/unit_sphere.obj</file>
+      <part>
+        <material>../Data/Materials/stoneFloorDiffuseBump.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>
+
+  <!-- SPHERE   -->
+  <sceneobject x="10" y="16" z="10" rX="0.0" rY="0.0" rZ="0.0" scale="6">
+    <mesh>
+      <file>../Data/Mesh/unit_sphere.obj</file>
+      <part>
+        <material>../Data/Materials/stoneFloorDiffuseBump.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>
+
+  <!-- SPHERE   -->
+  <sceneobject x="0.0" y="6" z="-10" rX="0.0" rY="0.0" rZ="0.0" scale="6">
+    <mesh>
+      <file>../Data/Mesh/unit_sphere.obj</file>
+      <part>
+        <material>../Data/Materials/stoneFloorDiffuseBump.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>
+
+  <!-- SPHERE   -->
+  <sceneobject x="-10" y="6" z="-10" rX="0.0" rY="0.0" rZ="0.0" scale="6">
+    <mesh>
+      <file>../Data/Mesh/unit_sphere.obj</file>
+      <part>
+        <material>../Data/Materials/stoneFloorDiffuseBump.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>
+
+  <!-- SPHERE   -->
+  <sceneobject x="10" y="6" z="-10" rX="0.0" rY="0.0" rZ="0.0" scale="6">
     <mesh>
       <file>../Data/Mesh/unit_sphere.obj</file>
       <part>
@@ -31,7 +101,7 @@
   </sceneobject>
 
   <!-- COLUMN   -->
-  <sceneobject x="0.0" y="0.0" z="5.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">
+  <sceneobject x="20" y="-1.5" z="-2" rX="0.0" rY="0.0" rZ="0.0" scale="10">
     <mesh>
       <file>../Data/Mesh/column.obj</file>
       <part>
@@ -40,42 +110,34 @@
     </mesh>
   </sceneobject>
 
-  <!-- LIGHT 1 -->
-  <sceneobject x="0.0" y="20" z="10.0">
-    <light type="omni">
-      <Multiplier value="0.05"/>
-      <Radius value="50"/>
-      <Color  r="0.7" g="0.7" b="1.0"/>
-    </light>
-  </sceneobject>
-
-  <!-- LIGHT 2 -->
-  <sceneobject x="0.0" y="20" z="-10.0">
-    <light type="omni">
-      <Multiplier value="0.05"/>
-      <Radius value="50"/>
-      <Color  r="0.7" g="0.7" b="1.0"/>
-    </light>
+  <!-- CUBE   -->
+  <sceneobject x="5" y="2" z="10" rX="0.0" rY="0.0" rZ="0.0" scale="3">
+    <mesh>
+      <file>../Data/Mesh/unit_cube.obj</file>
+      <part>
+        <material>../Data/Materials/stoneFloorDiffuseBump.xml</material>
+      </part>
+    </mesh>
   </sceneobject>
 
   <!-- SPOT SHADOW 1  -->
-  <sceneobject x="10.0" y="7.0" z="13.0" rX="-30" rY="-45">
+  <sceneobject x="0.0" y="30.0" z="-30.0" rX="-45" rY="180">
     <light type="spotshadow">
-      <Multiplier value="1.0"/>
-      <Radius value="20"/>
-      <InnerAngle value="15"/>
-      <OuterAngle value="20"/>
+      <Multiplier value="2"/>
+      <Radius value="75"/>
+      <InnerAngle value="20"/>
+      <OuterAngle value="45"/>
       <Color  r="1.0" g="1.0" b="1.0"/>
     </light>
   </sceneobject>
 
   <!-- SPOT SHADOW 2  -->
-  <sceneobject x="-10.0" y="7.0" z="13.0" rX="-30" rY="45">
+  <sceneobject x="0.0" y="30.0" z="30.0" rX="-45" rY="0">
     <light type="spotshadow">
-      <Multiplier value="1.0"/>
-      <Radius value="20"/>
-      <InnerAngle value="15"/>
-      <OuterAngle value="20"/>
+      <Multiplier value="2"/>
+      <Radius value="75"/>
+      <InnerAngle value="20"/>
+      <OuterAngle value="45"/>
       <Color  r="1.0" g="1.0" b="1.0"/>
     </light>
   </sceneobject>

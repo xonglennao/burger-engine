@@ -128,6 +128,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="..\Data\Shaders\BasicVertexShader.vert" />
+    <None Include="..\Data\Shaders\BasicVertexShaderTile.vert" />
+    <None Include="..\Data\Shaders\BlurH.frag" />
+    <None Include="..\Data\Shaders\BlurV.frag" />
     <None Include="..\Data\Shaders\DiffuseSpec.frag" />
     <None Include="..\Data\Shaders\DiffuseSpecStrength.frag" />
     <None Include="..\Data\Shaders\FillGBufferBasic.frag" />
@@ -142,6 +145,8 @@
     <None Include="..\Data\Shaders\SpotLight.vert" />
     <None Include="..\Data\Shaders\SpotShadow.frag" />
     <None Include="..\Data\Shaders\SpotShadow.vert" />
+    <None Include="..\Data\Shaders\VarianceShadowMap.frag" />
+    <None Include="..\Data\Shaders\VarianceShadowMap.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{99D06A18-E064-414F-BBCC-CAE1EE67296F}</ProjectGuid>

@@ -32,13 +32,29 @@ void main()
 	vec4 vViewSpaceVertex = mInvProj * vClipPos;
 	vViewSpaceVertex = vViewSpaceVertex / vViewSpaceVertex.w;
 
+	vec3 vVertexToLight = vVarLightPos.xyz - vViewSpaceVertex.xyz;
+	float fDistanceToLight = length( vVertexToLight );
+
 	vec4 vLightSpaceVertex = mShadowMatrix * vClipPos;
 	vLightSpaceVertex = ( vLightSpaceVertex / vLightSpaceVertex.w ) * 0.5 + 0.5;
 
-	vec4 vDistanceToLight = texture2D( sShadowMapSampler, vLightSpaceVertex.xy );
-	
-	float fShadow =  vDistanceToLight.x+0.000005 < vLightSpaceVertex.z ? 0.0 : 1.0;
+	vec2 vMoments = texture2D( sShadowMapSampler, vLightSpaceVertex.xy ).rg;
+		
+	bool bIsLit = ( fDistanceToLight <= vMoments.x );  
 
+	float fVariance = vMoments.y - ( vMoments.x * vMoments.x );
+
+	fVariance = max( fVariance, 0.00000001 );
+
+	float fDiff = fDistanceToLight - vMoments.x;  
+
+	float fPMax = fVariance / ( fVariance + fDiff * fDiff );
+
+	fPMax = clamp( (fPMax - 0.8 ) / ( 1.0 - 0.8 ), 0, 1);  
+	//fPMax = clamp( (fPMax - 0.6 ) / ( 1.0 - 0.6 ), 0, 1);  
+
+	float fShadow = max( (float)bIsLit, fPMax ); 
+	
 	if( vViewSpaceVertex.z > fZMin ) 
 	{
 		vec4 vNormalAndGloss = texture2D( sNormalSampler, vTexCoord );
@@ -48,8 +64,6 @@ void main()
 		vec3 N = normalize( vNormalAndGloss.xyz );	
 		vec3 E = normalize( -vViewSpaceVertex.xyz );
 
-		vec3 vVertexToLight = vVarLightPos.xyz - vViewSpaceVertex.xyz;
-					
 		//attenuation
 		float fDistSqr = dot( vVertexToLight, vVertexToLight );
 		float fAtt = clamp( 1.0 - fVarInverseRadius * sqrt(fDistSqr), 0.0, 1.0 );
@@ -67,12 +81,13 @@ void main()
 
 		vec3 diffuse = NDotLAtt * vVarColor;
 
-		float fSpecular = pow( max( dot( R, E ), 0.0 ), vNormalAndGloss.a * 250.0 );
+		float fSpecular = pow( max( dot( R, E ), 0.0 ), vNormalAndGloss.a * 250.0 ) * NDotLAtt;
 		float fSpecularLuminance = dot( vec3(fSpecular,0.0,0.0), vec3( 0.2126, 0.7152, 0.0722 ) );
 
 		//storing diffuse and specular on different channels (rgb = diffuse, a = lum(spec) ) 
-		finalColor += vec4(diffuse, fSpecularLuminance * NDotLAtt );
+		finalColor += vec4(diffuse, 4.0f * fSpecularLuminance );
 	}
-
+	
 	gl_FragColor = finalColor;
+	
 }

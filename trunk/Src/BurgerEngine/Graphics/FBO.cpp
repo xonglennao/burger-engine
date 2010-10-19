@@ -52,7 +52,7 @@ void FBO::GenerateDepthOnly()
 	m_iType = 1;
 }
 
-void FBO::GenerateColorOnly( bool bTex16f )
+void FBO::GenerateColorOnly( GLint iInternalFormat, GLint iFormat )
 {
     Destroy();
 
@@ -64,7 +64,7 @@ void FBO::GenerateColorOnly( bool bTex16f )
     glTexParameteri (m_eTextureType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(m_eTextureType, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(m_eTextureType, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	//glTexParameteri(m_eTextureType, GL_GENERATE_MIPMAP, GL_TRUE);
+	glTexParameteri(m_eTextureType, GL_GENERATE_MIPMAP, GL_TRUE);
 
 	///We need six Face for cube, or one for 2D
 	if (m_eTextureType == GL_TEXTURE_CUBE_MAP)
@@ -76,14 +76,9 @@ void FBO::GenerateColorOnly( bool bTex16f )
 		glTexImage2D( GL_TEXTURE_CUBE_MAP_NEGATIVE_Y , 0, GL_RGBA8, m_iWidth, m_iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 		glTexImage2D( GL_TEXTURE_CUBE_MAP_NEGATIVE_Z , 0, GL_RGBA8, m_iWidth, m_iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 	}
-	else{
-
-		GLint iInternalFormat;
-		if(!bTex16f)
-			iInternalFormat = GL_RGBA8;
-		else
-			iInternalFormat = GL_RGB16F_ARB;
-		glTexImage2D(m_eTextureType, 0, iInternalFormat, m_iWidth, m_iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+	else
+	{
+		glTexImage2D(m_eTextureType, 0, iInternalFormat, m_iWidth, m_iHeight, 0, iFormat, GL_UNSIGNED_BYTE, 0);
 	}
 
 	glBindTexture(m_eTextureType, 0);
@@ -114,7 +109,7 @@ void FBO::GenerateColorOnly( bool bTex16f )
 	m_iType = 0;
 }
 
-void FBO::Generate( bool bTex16f )
+void FBO::Generate( GLint iInternalFormat, GLint iFormat )
 {
 	// create a texture object for the depthmap
     glGenTextures(1, &m_iTexDepthId);
@@ -123,7 +118,7 @@ void FBO::Generate( bool bTex16f )
     glTexParameterf(m_eTextureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_T, GL_CLAMP);
-   // glTexParameteri(m_eTextureType, GL_GENERATE_MIPMAP, GL_TRUE);
+	glTexParameteri(m_eTextureType, GL_GENERATE_MIPMAP, GL_TRUE);
     glTexImage2D(m_eTextureType, 0, GL_DEPTH_COMPONENT24, m_iWidth, m_iHeight, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
     glBindTexture(m_eTextureType, 0);
 
@@ -135,12 +130,7 @@ void FBO::Generate( bool bTex16f )
     glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	
-	GLint iInternalFormat;
-	if(!bTex16f)
-		iInternalFormat = GL_RGBA8;
-	else
-		iInternalFormat = GL_RGB16F_ARB;
-    glTexImage2D(m_eTextureType, 0, iInternalFormat, m_iWidth, m_iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    glTexImage2D(m_eTextureType, 0, iInternalFormat, m_iWidth, m_iHeight, 0, iFormat, GL_UNSIGNED_BYTE, 0);
     glBindTexture(m_eTextureType, 0);
 
     glGenFramebuffersEXT(1, &m_iId);
@@ -149,58 +139,6 @@ void FBO::Generate( bool bTex16f )
     // attach a texture to FBO color attachement point
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, m_eTextureType, m_iTexDepthId, 0);
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, m_eTextureType, m_iTexId[0], 0);
-
-	Desactivate();
-	//Check FBO status
-	if(!CheckFramebufferStatus())
-		std::cerr<<"ERROR : FBO creation Fail "<<std::endl;
-	
-	//Color + Depth
-	m_iType = 2;
-}
-
-void FBO::GenerateGBuffer()
-{
-	// create a texture object for the depthmap
-    glGenTextures(1, &m_iTexDepthId);
-	glBindTexture(m_eTextureType, m_iTexDepthId);
-    glTexParameterf(m_eTextureType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameterf(m_eTextureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_T, GL_CLAMP);
-   // glTexParameteri(m_eTextureType, GL_GENERATE_MIPMAP, GL_TRUE);
-    glTexImage2D(m_eTextureType, 0, GL_DEPTH_COMPONENT24, m_iWidth, m_iHeight, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
-    glBindTexture(m_eTextureType, 0);
-
-    // create a texture object
-    glGenTextures(1, &m_iTexId[0]);
-    glBindTexture(m_eTextureType, m_iTexId[0]);
-    glTexParameterf(m_eTextureType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameterf(m_eTextureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-   // glTexParameteri(m_eTextureType, GL_GENERATE_MIPMAP, GL_TRUE);
-    glTexImage2D(m_eTextureType, 0, GL_RGBA8, m_iWidth, m_iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-    glBindTexture(m_eTextureType, 0);
-
-    // create a texture object
-    glGenTextures(1, &m_iTexId[1]);
-    glBindTexture(m_eTextureType, m_iTexId[1]);
-    glTexParameterf(m_eTextureType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameterf(m_eTextureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameterf(m_eTextureType, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-   // glTexParameteri(m_eTextureType, GL_GENERATE_MIPMAP, GL_TRUE);
-    glTexImage2D(m_eTextureType, 0, GL_RGBA8, m_iWidth, m_iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-    glBindTexture(m_eTextureType, 0);
-
-    glGenFramebuffersEXT(1, &m_iId);
-    Activate();
-
-    // attach a texture to FBO color attachement point
-    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, m_eTextureType, m_iTexDepthId, 0);
-    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, m_eTextureType, m_iTexId[0], 0);
-    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT1_EXT, m_eTextureType, m_iTexId[1], 0);
 
 	Desactivate();
 	//Check FBO status
