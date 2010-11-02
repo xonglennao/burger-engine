@@ -1,0 +1,190 @@
+<scene>
+  
+  <!-- ROOM  -->
+  <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
+    <mesh>
+      <file>../Data/Mesh/prison/prison.obj</file>
+      <part>
+        <material>../Data/Materials/prison/stoneFloorDiffuseBump.xml</material>
+      </part>
+      <part>
+        <material>../Data/Materials/prison/stoneWallDiffuseBump.xml</material>
+      </part>
+      <part>
+        <material>../Data/Materials/prison/rustDiffuseBump.xml</material>
+      </part>
+      <part>
+        <material>../Data/Materials/prison/crateDiffuseBump.xml</material>
+      </part>
+      <part>
+        <material>../Data/Materials/prison/woodDiffuseBump.xml</material>
+      </part>
+      <part>
+        <material>../Data/Materials/prison/woodDiffuseBump.xml</material>
+      </part>
+      <part>
+        <material>../Data/Materials/prison/woodDiffuseBump.xml</material>
+      </part>
+      <part>
+        <material>../Data/Materials/prison/brightWhite.xml</material>
+      </part>
+      <part>
+        <material>../Data/Materials/prison/boneDiffuse.xml</material>
+      </part>      
+    </mesh>
+  </sceneobject>
+
+  <!-- SPOT SHADOW  -->
+  <sceneobject x="30.0" y="20.0" z="100.0" rX="-30" rY="0">
+    <light type="spotshadow">
+      <Multiplier value="3"/>
+      <Radius value="70"/>
+      <InnerAngle value="10"/>
+      <OuterAngle value="25"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </light>
+  </sceneobject>
+
+  <!-- SPOT SHADOW  -->
+  <sceneobject x="30.0" y="25.0" z="95.0" rX="-110" rY="0">
+    <light type="spotshadow">
+      <Multiplier value="1"/>
+      <Radius value="30"/>
+      <InnerAngle value="10"/>
+      <OuterAngle value="35"/>
+      <Color  r="1.0" g="0.8" b="0.8"/>
+    </light>
+  </sceneobject>
+
+  <!-- SPOT SHADOW  -->
+  <sceneobject x="8.0" y="20.0" z="100.0" rX="-30" rY="0">
+    <light type="spotshadow">
+      <Multiplier value="3"/>
+      <Radius value="70"/>
+      <InnerAngle value="10"/>
+      <OuterAngle value="25"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </light>
+  </sceneobject>
+  <!-- OMNI  -->
+  <sceneobject x="8.0" y="10.0" z="90.0">
+    <light type="omni">
+      <Multiplier value="1"/>
+      <Radius value="15"/>
+      <Color  r="1.0" g="0.8" b="0.8"/>
+    </light>
+  </sceneobject>
+
+  <!-- SPOT SHADOW  -->
+  <sceneobject x="-85.0" y="30.0" z="65.0" rX="-15" rY="50">
+    <light type="spotshadow">
+      <Multiplier value="3"/>
+      <Radius value="140"/>
+      <InnerAngle value="10"/>
+      <OuterAngle value="25"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </light>
+  </sceneobject>
+
+  <!-- OMNI  -->
+  <sceneobject x="0.0" y="15.0" z="0.0">
+    <light type="omni">
+      <Multiplier value="1"/>
+      <Radius value="100"/>
+      <Color  r="0.6" g="0.3" b="0.1"/>
+    </light>
+  </sceneobject>
+
+  <!-- SPOT  -->
+  <sceneobject x="-65.0" y="25.0" z="0.0" rX ="-55" rY="-90">
+    <light type="spotshadow">
+      <Multiplier value="15"/>
+      <Radius value="30"/>
+      <InnerAngle value="10"/>
+      <OuterAngle value="35"/>
+      <Color  r="0.6" g="0.3" b="0.1"/>
+    </light>
+  </sceneobject>
+
+  <!-- OMNI  -->
+  <sceneobject x="-70.0" y="12.0" z="-55.0">
+    <light type="omni">
+      <Multiplier value="1"/>
+      <Radius value="30"/>
+      <Color  r="0.6" g="0.3" b="0.1"/>
+    </light>
+  </sceneobject>
+
+  <!-- OMNI  -->
+  <sceneobject x="-70.0" y="12.0" z="55.0">
+    <light type="omni">
+      <Multiplier value="1"/>
+      <Radius value="30"/>
+      <Color  r="0.6" g="0.3" b="0.1"/>
+    </light>
+  </sceneobject>
+
+  <!-- OMNI  -->
+  <sceneobject x="70.0" y="12.0" z="3.0">
+    <light type="omni">
+      <Multiplier value="1"/>
+      <Radius value="30"/>
+      <Color  r="0.6" g="0.3" b="0.1"/>
+    </light>
+  </sceneobject>
+
+  <!-- OMNI  -->
+  <sceneobject x="70.0" y="12.0" z="-55.0">
+    <light type="omni">
+      <Multiplier value="1"/>
+      <Radius value="30"/>
+      <Color  r="0.6" g="0.3" b="0.1"/>
+    </light>
+  </sceneobject>
+
+  <!-- OMNI  -->
+  <sceneobject x="0.0" y="12.0" z="-55.0">
+    <light type="omni">
+      <Multiplier value="1"/>
+      <Radius value="30"/>
+      <Color  r="0.6" g="0.3" b="0.1"/>
+    </light>
+  </sceneobject>
+
+  <!-- OMNI  -->
+  <sceneobject x="30.0" y="12.0" z="-55.0">
+    <light type="omni">
+      <Multiplier value="50"/>
+      <Radius value="30"/>
+      <Color  r="0.6" g="0.3" b="0.1"/>
+    </light>
+  </sceneobject>
+
+  <!-- OMNI  -->
+  <sceneobject x="-30.0" y="12.0" z="-55.0">
+    <light type="omni">
+      <Multiplier value="1"/>
+      <Radius value="30"/>
+      <Color  r="0.6" g="0.3" b="0.1"/>
+    </light>
+  </sceneobject>
+
+  <!-- OMNI  -->
+  <sceneobject x="70.0" y="12.0" z="55.0">
+    <light type="omni">
+      <Multiplier value="1"/>
+      <Radius value="30"/>
+      <Color  r="0.6" g="0.3" b="0.1"/>
+    </light>
+  </sceneobject>
+
+  <!-- OMNI  -->
+  <sceneobject x="70.0" y="30.0" z="-42.0">
+    <light type="omni">
+      <Multiplier value="1"/>
+      <Radius value="30"/>
+      <Color  r="0.6" g="0.3" b="0.1"/>
+    </light>
+  </sceneobject>
+
+</scene>

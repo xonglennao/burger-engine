@@ -2,14 +2,19 @@ varying vec4 vPos;
 
 void main()
 {
-	float fDepth = length( vPos ) -0.8;
+	float fDepth = ( length( vPos ) ) - 0.8;
+	
+	vec2 vMoments;
 		
-	float fMoment1 = fDepth;
+	vMoments.x = fDepth;
 	
 	float dx = dFdx( fDepth );
 	float dy = dFdy( fDepth );
+	vMoments.y = fDepth * fDepth + 0.25 * ( dx * dx + dy * dy );
+	
+	vec4 vFinalColor;
+	vFinalColor.rg = frac( vMoments * 64.0 ) / 64.0;
+	vFinalColor.ba = vMoments - vFinalColor.rg;
 
-	float fMoment2 = fDepth * fDepth + 0.25 * ( dx * dx + dy * dy );
-		
-	gl_FragColor = vec4( fMoment1,fMoment2,0.0, 0.0 );
+	gl_FragColor = vFinalColor;
 }

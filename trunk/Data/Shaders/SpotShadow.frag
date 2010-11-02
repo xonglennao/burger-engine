@@ -38,21 +38,19 @@ void main()
 	vec4 vLightSpaceVertex = mShadowMatrix * vClipPos;
 	vLightSpaceVertex = ( vLightSpaceVertex / vLightSpaceVertex.w ) * 0.5 + 0.5;
 
-	vec2 vMoments = texture2D( sShadowMapSampler, vLightSpaceVertex.xy ).rg;
+	vec4 vScaledMoments = texture2D( sShadowMapSampler, vLightSpaceVertex.xy );
+	vec2 vMoments = vScaledMoments.rg + vScaledMoments.ba;
 		
 	bool bIsLit = ( fDistanceToLight <= vMoments.x );  
 
 	float fVariance = vMoments.y - ( vMoments.x * vMoments.x );
-
 	fVariance = max( fVariance, 0.00000001 );
 
 	float fDiff = fDistanceToLight - vMoments.x;  
 
 	float fPMax = fVariance / ( fVariance + fDiff * fDiff );
 
-	fPMax = clamp( (fPMax - 0.8 ) / ( 1.0 - 0.8 ), 0, 1);  
-	//fPMax = clamp( (fPMax - 0.6 ) / ( 1.0 - 0.6 ), 0, 1);  
-
+	fPMax = clamp( (fPMax - 0.7 ) / ( 1.0 - 0.7 ), 0, 1);  
 	float fShadow = max( (float)bIsLit, fPMax ); 
 	
 	if( vViewSpaceVertex.z > fZMin ) 
@@ -85,7 +83,7 @@ void main()
 		float fSpecularLuminance = dot( vec3(fSpecular,0.0,0.0), vec3( 0.2126, 0.7152, 0.0722 ) );
 
 		//storing diffuse and specular on different channels (rgb = diffuse, a = lum(spec) ) 
-		finalColor += vec4(diffuse, 4.0f * fSpecularLuminance );
+		finalColor += vec4(diffuse, 4.0 * fSpecularLuminance );
 	}
 	
 	gl_FragColor = finalColor;

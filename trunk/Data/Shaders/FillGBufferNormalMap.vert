@@ -8,8 +8,7 @@ void main()
 	//Getting back the Tangent
 	vec3 T = normalize( gl_MultiTexCoord1.xyz ); 
 	
-	//We are putting those into the world space, int order to create a matrix
-	//that will convert light position and vertex position into the TBN space
+	//Creating TBN Matrix
 	T = normalize( gl_NormalMatrix * T );
 	vec3 N = normalize( gl_NormalMatrix * gl_Normal );
 	vec3 B = normalize( cross( N,  T ));

@@ -38,6 +38,7 @@ class Shader
 		//To communicate with the shader, but we should use some math class
 		void setUniformf(const std::string& sName, float fValue);
 		void setUniformf( int iUniformLocation, float fValue);
+		void setUniform2fv( int iUniformLocation, int iCount, float * pValue);
 
 		void setUniformi(const std::string& sName, int fValue);
 		void setUniformi( int iUniformLocation, int fValue);

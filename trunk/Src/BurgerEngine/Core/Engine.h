@@ -65,6 +65,7 @@ public:
 
 	const unsigned int GetWindowWidth() const { return m_iWindowWidth; }
 	const unsigned int GetWindowHeight() const { return m_iWindowHeight; }
+	void SetViewPort( unsigned int iWidth, unsigned int iHeight ){ m_iWindowWidth = iWidth; m_iWindowHeight = iHeight; };
 
 	/// \brief Setter
 	/// A bit dangerous as everyone can call the end...

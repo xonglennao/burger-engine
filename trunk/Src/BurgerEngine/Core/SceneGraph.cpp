@@ -28,7 +28,7 @@ SceneGraph::SceneGraph()
 	m_eStringToLightTypeMap["spotshadow"] = SceneLight::E_SPOT_SHADOW;
 	m_eStringToLightTypeMap["directional"] = SceneLight::E_DIRECTIONAL;
 
-	LoadSceneXML( "../Data/Scenes/testSpots.xml" );
+	LoadSceneXML( "../Data/Scenes/prison.xml" );
 }
 
 //--------------------------------------------------------------------------------------------------------------------
