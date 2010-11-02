@@ -94,6 +94,18 @@ bool OpenGLContext::ReshapeGl(unsigned int a_uWidth, unsigned int a_uHeight )
 
 	return true;
 }
+bool OpenGLContext::ReshapeGlOrtho(unsigned int a_uWidth, unsigned int a_uHeight )
+{
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	  
+	glViewport(0,0,a_uWidth,a_uHeight);
+	glOrtho(0,a_uWidth,0,a_uHeight,-0.2,0.2);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();	
+	
+	return true;
+}
 
 //--------------------------------------------------------------------------------------------------------------------
 //

@@ -98,9 +98,9 @@ void CameraFps::_InternalUpdate()
 {
 	vec3& rf3Direction = _GrabDirection();
 
-	rf3Direction.x = sinf(m_fPhi*M_PI/180.0f)*sinf(m_fAlpha*(float)M_PI/180.0f);
-	rf3Direction.y = cosf(m_fPhi*M_PI/180.0f);
-	rf3Direction.z = sinf(m_fPhi*M_PI/180.0f)*cosf(m_fAlpha*(float)M_PI/180.0f);
+	rf3Direction.x = sinf(m_fPhi*(float)M_PI/180.0f)*sinf(m_fAlpha*(float)M_PI/180.0f);
+	rf3Direction.y = cosf(m_fPhi*(float)M_PI/180.0f);
+	rf3Direction.z = sinf(m_fPhi*(float)M_PI/180.0f)*cosf(m_fAlpha*(float)M_PI/180.0f);
 
 	//Cross product
 	vec3& rf3Up = _GrabUp();

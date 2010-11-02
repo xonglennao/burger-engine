@@ -1,0 +1,33 @@
+<material>
+  <technique name="render_gbuffer">
+    <shadername>FillBGufferNorml</shadername>
+    <vertexshader>../Data/Shaders/FillGBufferNormalMap.vert</vertexshader>
+    <pixelshader>../Data/Shaders/FillGBufferNormalMap.frag</pixelshader>
+    <uniforms>
+      <float value="1.0">fTileSize</float>
+    </uniforms>
+    <samplers>
+      <sampler>
+        <uniformname unit="1">normalMap</uniformname>
+        <filename>../Data/Textures/prison/rust_normals.tga</filename>
+      </sampler>
+    </samplers>
+  </technique>
+  <technique name="render_opaque">
+    <shadername>DiffuseSpecStrength</shadername>
+    <vertexshader>../Data/Shaders/BasicVertexShaderTile.vert</vertexshader>
+    <pixelshader>../Data/Shaders/DiffuseSpecStrength.frag</pixelshader>
+    <uniforms>
+      <float value="1.0">fTileSize</float>
+    </uniforms>
+    <samplers>
+      <sampler>
+        <uniformname unit="0">diffuseMap</uniformname>
+        <filename>../Data/Textures/prison/rust_diffuse.tga</filename>
+      </sampler>
+      <sampler>
+        <uniformname unit="6">lightBuffer</uniformname>
+      </sampler>
+    </samplers>
+  </technique>
+</material>

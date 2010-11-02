@@ -1,0 +1,7 @@
+<material>
+  <technique name="render_opaque">
+    <shadername>BasicSelfIllum</shadername>
+    <vertexshader>../Data/Shaders/BasicVertexShader.vert</vertexshader>
+    <pixelshader>../Data/Shaders/BasicSelfIllum.frag</pixelshader>
+  </technique>
+</material>

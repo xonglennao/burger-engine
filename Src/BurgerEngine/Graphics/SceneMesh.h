@@ -41,13 +41,17 @@ public:
 	float const	GetScale() const { return m_fScale; }
 	unsigned int const GetPartCount( int iValue ) const { return m_uPartCount; }
 
+	bool	SetCastShadow( bool bValue ){ m_bCastShadow = bValue; };
+	bool	GetCastShadow(){ return m_bCastShadow; };
+
 	void AddMaterial( Material * pMaterial ){ m_vMaterials.push_back( pMaterial ); }
 
 private:	
 	std::vector<Material*>	m_vMaterials;
-	unsigned int m_uPartCount;
-	StaticMesh*	m_pMesh;
-	float	m_fScale;
+	unsigned int			m_uPartCount;
+	StaticMesh*				m_pMesh;
+	float					m_fScale;
+	bool					m_bCastShadow;
 };
 
 #endif //__SCENEMESH_H__

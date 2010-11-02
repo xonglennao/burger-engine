@@ -24,6 +24,8 @@ class SpotShadow
 {
 public:
 
+	const static int iShadowMapSize = 512;
+
 	struct SpotShadowQuad
 	: public SpotLightQuad
 	{
