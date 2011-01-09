@@ -57,11 +57,8 @@ private:
 	/// Mouse speed (sensibility)
 	float m_fMouseSpeed;
 
-	/// These booleans are set to true when the corresponding key is pressed, in order to avoid keyboard repeat delay
-	bool m_bForward;
-	bool m_bBackward;
-	bool m_bLeft;
-	bool m_bRight;
+	/// These flags are used when a key is pressed, in order to avoid keyboard repeat delay
+	int m_iFlags;
 
 };
 

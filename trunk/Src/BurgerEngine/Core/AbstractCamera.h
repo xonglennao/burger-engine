@@ -21,10 +21,12 @@ class AbstractCamera
 public:
 	enum CameraFlagEnum
 	{
-		 E_CAMERA_FORWARD
-		,E_CAMERA_BACKWARD
-		,E_CAMERA_LEFT
-		,E_CAMERA_RIGHT
+		 E_CAMERA_FORWARD		=	1
+		,E_CAMERA_BACKWARD		=	1 << 1 
+		,E_CAMERA_LEFT			=	1 << 2
+		,E_CAMERA_RIGHT			=	1 << 3
+		,E_DOF_NEAR_FORWARD		=	1 << 4
+		,E_DOF_NEAR_BACKWARD	=	1 << 5 
 	};
 
 public:
@@ -50,6 +52,7 @@ public:
 	virtual void UpdateAngles( float a_fAddToAlpha, float a_fAddToPhi ) = 0;
 
 	vec3 const& GetPos() const	{return m_f3Pos;}
+	vec3 & GetPos() {return m_f3Pos;}
 	vec3 const& GetAim() const {return m_f3Aim;}
 	vec3 const& GetUp() const {return m_f3Up;}
 	vec3 const& GetRight() const {return m_f3Right;}
@@ -57,6 +60,8 @@ public:
 	float const& GetFOV() const {return m_fFOV;}
 	float const& GetNear() const {return m_fNear;}
 	float const& GetFar() const {return m_fFar;}
+
+	vec4 const GetDofParams() const {return vec4( m_f3DofParams.x + m_fDofOffset, m_f3DofParams.y + m_fDofOffset,m_f3DofParams.z + m_fDofOffset, m_f3DofParams.w );}
 	
 	void LookAt();
 
@@ -82,6 +87,11 @@ protected:
 	float	m_fFOV;
 	float	m_fNear;
 	float	m_fFar;
+
+	/// Depth of Field parameters
+	/// x = near blur; y = focal plane; z = far blur; w = blurriness cutoff
+	vec4	m_f3DofParams;
+	float	m_fDofOffset;
 
 };
 

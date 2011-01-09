@@ -4,7 +4,8 @@ uniform sampler2D sLuminance;
 
 const float  BRIGHT_PASS_THRESHOLD = 0.5;
 const float  BRIGHT_PASS_OFFSET = 10.0;
-const float fKey = 0.05;
+
+const float fKey = 0.5;
 
 void main()
 {

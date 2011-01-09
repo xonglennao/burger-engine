@@ -380,62 +380,17 @@
     <Filter Include="BurgerEngine\Data\Materials\Prison">
       <UniqueIdentifier>{cf55197a-56b0-45ee-a510-69bede93c02e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="BurgerEngine\Data\Materials\test_dof">
+      <UniqueIdentifier>{993cc7bf-4915-401e-9cb8-7b74e9f23c13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Data\Shaders\Engine">
+      <UniqueIdentifier>{f582ca8e-3ce2-4dd4-98a7-54f6d80f7619}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Data\Shaders\Material">
+      <UniqueIdentifier>{3bf9a64e-8f42-4f65-a220-107ec262c01b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Data\Scenes\testScene.xml">
-      <Filter>BurgerEngine\Data\Scenes</Filter>
-    </None>
-    <None Include="..\Data\Shaders\FillGBufferBasic.frag">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\FillGBufferBasic.vert">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\FillGBufferNormalMap.frag">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\FillGBufferNormalMap.vert">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\OmniLight.frag">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\OmniLight.vert">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\DiffuseSpec.frag">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\DiffuseSpecStrength.frag">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Scenes\testSpots.xml">
-      <Filter>BurgerEngine\Data\Scenes</Filter>
-    </None>
-    <None Include="..\Data\Shaders\SpotLight.frag">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\SpotLight.vert">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\SpotShadow.frag">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\SpotShadow.vert">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\VarianceShadowMap.frag">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\VarianceShadowMap.vert">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\BasicVertexShaderTile.vert">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\BasicVertexShader.vert">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
     <None Include="..\Data\Scenes\prison.xml">
       <Filter>BurgerEngine\Data\Scenes</Filter>
     </None>
@@ -457,37 +412,91 @@
     <None Include="..\Data\Materials\prison\woodDiffuseBump.xml">
       <Filter>BurgerEngine\Data\Materials\Prison</Filter>
     </None>
-    <None Include="..\Data\Shaders\DownSample4x4.frag">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
+    <None Include="..\Data\Materials\prison\brightWhite.xml">
+      <Filter>BurgerEngine\Data\Materials\Prison</Filter>
     </None>
-    <None Include="..\Data\Shaders\AvgLumInit.frag">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
+    <None Include="..\Data\Scenes\test_dof.xml">
+      <Filter>BurgerEngine\Data\Scenes</Filter>
     </None>
-    <None Include="..\Data\Shaders\AvgLumFinal.frag">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
+    <None Include="..\Data\Materials\test_dof\floorDiffuseBump.xml">
+      <Filter>BurgerEngine\Data\Materials\test_dof</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\AvgLumFinal.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\AvgLumInit.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\BrightPass.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\DownSample4x4.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\GaussianBlur10.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\GaussianBlur6.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\LightAdaptation.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\OmniLight.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\OmniLight.vert">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\SpotLight.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\SpotLight.vert">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\SpotShadow.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\SpotShadow.vert">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\ToneMapping.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\VarianceShadowMap.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\VarianceShadowMap.vert">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Material\BasicSelfIllum.frag">
+      <Filter>BurgerEngine\Data\Shaders\Material</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Material\DiffuseSpec.frag">
+      <Filter>BurgerEngine\Data\Shaders\Material</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Material\DiffuseSpecStrength.frag">
+      <Filter>BurgerEngine\Data\Shaders\Material</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Material\FillGBufferBasic.frag">
+      <Filter>BurgerEngine\Data\Shaders\Material</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Material\FillGBufferBasic.vert">
+      <Filter>BurgerEngine\Data\Shaders\Material</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Material\FillGBufferNormalMap.frag">
+      <Filter>BurgerEngine\Data\Shaders\Material</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Material\FillGBufferNormalMap.vert">
+      <Filter>BurgerEngine\Data\Shaders\Material</Filter>
     </None>
     <None Include="..\Data\Shaders\BasicPixelShader.frag">
       <Filter>BurgerEngine\Data\Shaders</Filter>
     </None>
-    <None Include="..\Data\Shaders\ToneMapping.frag">
+    <None Include="..\Data\Shaders\BasicVertexShader.vert">
       <Filter>BurgerEngine\Data\Shaders</Filter>
     </None>
-    <None Include="..\Data\Shaders\LightAdaptation.frag">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\BrightPass.frag">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Materials\prison\brightWhite.xml">
-      <Filter>BurgerEngine\Data\Materials\Prison</Filter>
-    </None>
-    <None Include="..\Data\Shaders\GaussianBlur10.frag">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\GaussianBlur6.frag">
-      <Filter>BurgerEngine\Data\Shaders</Filter>
-    </None>
-    <None Include="..\Data\Shaders\BasicSelfIllum.frag">
+    <None Include="..\Data\Shaders\BasicVertexShaderTile.vert">
       <Filter>BurgerEngine\Data\Shaders</Filter>
     </None>
   </ItemGroup>

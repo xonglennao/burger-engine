@@ -59,9 +59,6 @@ StageMain3DScene::~StageMain3DScene()
 //--------------------------------------------------------------------------------------------------------------------
 bool StageMain3DScene::OnKeyDown(unsigned char a_cKey)
 {
-	
-	AbstractCamera::CameraFlagEnum e = AbstractCamera::E_CAMERA_LEFT;
-	
 	switch ( a_cKey )
 	{
 		case 35 :
@@ -75,6 +72,12 @@ bool StageMain3DScene::OnKeyDown(unsigned char a_cKey)
 		break;
 		case 38 :
 			Engine::GetInstance().GetCurrentCamera().SetFlag( AbstractCamera::E_CAMERA_BACKWARD, true );
+		break;
+		case 25 :
+			Engine::GetInstance().GetCurrentCamera().SetFlag( AbstractCamera::E_DOF_NEAR_FORWARD, true );
+		break;
+		case 26 :
+			Engine::GetInstance().GetCurrentCamera().SetFlag( AbstractCamera::E_DOF_NEAR_BACKWARD, true );
 		break;
 		case 40 :
 		case 'o':
@@ -116,6 +119,12 @@ bool StageMain3DScene::OnKeyUp(unsigned char a_cKey)
 		break;
 		case 38 :
 			Engine::GetInstance().GetCurrentCamera().SetFlag( AbstractCamera::E_CAMERA_BACKWARD, false );
+		break;
+		case 25 :
+			Engine::GetInstance().GetCurrentCamera().SetFlag( AbstractCamera::E_DOF_NEAR_FORWARD, false );
+		break;
+		case 26 :
+			Engine::GetInstance().GetCurrentCamera().SetFlag( AbstractCamera::E_DOF_NEAR_BACKWARD, false );
 		break;
 	}
 	return true;

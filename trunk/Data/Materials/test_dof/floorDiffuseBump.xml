@@ -1,29 +1,29 @@
 <material>
   <technique name="render_gbuffer">
     <shadername>FillBGufferNorml</shadername>
-    <vertexshader>../Data/Shaders/FillGBufferNormalMap.vert</vertexshader>
-    <pixelshader>../Data/Shaders/FillGBufferNormalMap.frag</pixelshader>
+    <vertexshader>../Data/Shaders/Material/FillGBufferNormalMap.vert</vertexshader>
+    <pixelshader>../Data/Shaders/Material/FillGBufferNormalMap.frag</pixelshader>
     <uniforms>
       <float value="10.0">fTileSize</float>
     </uniforms>
     <samplers>
       <sampler>
         <uniformname unit="1">normalMap</uniformname>
-        <filename>../Data/Textures/checkboard_normals.tga</filename>
+        <filename>../Data/Textures/test_dof/checkboard_normals.tga</filename>
       </sampler>
     </samplers>
   </technique>
   <technique name="render_opaque">
     <shadername>DiffuseSpec</shadername>
     <vertexshader>../Data/Shaders/BasicVertexShaderTile.vert</vertexshader>
-    <pixelshader>../Data/Shaders/DiffuseSpec.frag</pixelshader>
+    <pixelshader>../Data/Shaders/Material/DiffuseSpec.frag</pixelshader>
     <uniforms>
       <float value="10.0">fTileSize</float>
     </uniforms>
     <samplers>
       <sampler>
         <uniformname unit="0">diffuseMap</uniformname>
-        <filename>../Data/Textures/checkboard_diffuse.png</filename>
+        <filename>../Data/Textures/test_dof/checkboard_diffuse.tga</filename>
       </sampler>
       <sampler>
         <uniformname unit="6">lightBuffer</uniformname>
