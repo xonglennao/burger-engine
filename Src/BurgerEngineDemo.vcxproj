@@ -115,41 +115,39 @@
     <None Include="..\Data\Materials\prison\stoneFloorDiffuseBump.xml" />
     <None Include="..\Data\Materials\prison\stoneWallDiffuseBump.xml" />
     <None Include="..\Data\Materials\prison\woodDiffuseBump.xml" />
+    <None Include="..\Data\Materials\test_dof\floorDiffuseBump.xml" />
     <None Include="..\Data\Scenes\prison.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="..\Data\Scenes\testScene.xml">
+    <None Include="..\Data\Scenes\test_dof.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="..\Data\Scenes\testSpots.xml">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="..\Data\Shaders\AvgLumFinal.frag" />
-    <None Include="..\Data\Shaders\AvgLumInit.frag" />
     <None Include="..\Data\Shaders\BasicPixelShader.frag" />
-    <None Include="..\Data\Shaders\BasicSelfIllum.frag" />
     <None Include="..\Data\Shaders\BasicVertexShader.vert" />
     <None Include="..\Data\Shaders\BasicVertexShaderTile.vert" />
-    <None Include="..\Data\Shaders\BrightPass.frag" />
-    <None Include="..\Data\Shaders\DiffuseSpec.frag" />
-    <None Include="..\Data\Shaders\DiffuseSpecStrength.frag" />
-    <None Include="..\Data\Shaders\DownSample4x4.frag" />
-    <None Include="..\Data\Shaders\FillGBufferBasic.frag" />
-    <None Include="..\Data\Shaders\FillGBufferBasic.vert" />
-    <None Include="..\Data\Shaders\FillGBufferNormalMap.frag" />
-    <None Include="..\Data\Shaders\FillGBufferNormalMap.vert" />
-    <None Include="..\Data\Shaders\GaussianBlur10.frag" />
-    <None Include="..\Data\Shaders\GaussianBlur6.frag" />
-    <None Include="..\Data\Shaders\LightAdaptation.frag" />
-    <None Include="..\Data\Shaders\OmniLight.frag" />
-    <None Include="..\Data\Shaders\OmniLight.vert" />
-    <None Include="..\Data\Shaders\SpotLight.frag" />
-    <None Include="..\Data\Shaders\SpotLight.vert" />
-    <None Include="..\Data\Shaders\SpotShadow.frag" />
-    <None Include="..\Data\Shaders\SpotShadow.vert" />
-    <None Include="..\Data\Shaders\ToneMapping.frag" />
-    <None Include="..\Data\Shaders\VarianceShadowMap.frag" />
-    <None Include="..\Data\Shaders\VarianceShadowMap.vert" />
+    <None Include="..\Data\Shaders\Engine\AvgLumFinal.frag" />
+    <None Include="..\Data\Shaders\Engine\AvgLumInit.frag" />
+    <None Include="..\Data\Shaders\Engine\BrightPass.frag" />
+    <None Include="..\Data\Shaders\Engine\DownSample4x4.frag" />
+    <None Include="..\Data\Shaders\Engine\GaussianBlur10.frag" />
+    <None Include="..\Data\Shaders\Engine\GaussianBlur6.frag" />
+    <None Include="..\Data\Shaders\Engine\LightAdaptation.frag" />
+    <None Include="..\Data\Shaders\Engine\OmniLight.frag" />
+    <None Include="..\Data\Shaders\Engine\OmniLight.vert" />
+    <None Include="..\Data\Shaders\Engine\SpotLight.frag" />
+    <None Include="..\Data\Shaders\Engine\SpotLight.vert" />
+    <None Include="..\Data\Shaders\Engine\SpotShadow.frag" />
+    <None Include="..\Data\Shaders\Engine\SpotShadow.vert" />
+    <None Include="..\Data\Shaders\Engine\ToneMapping.frag" />
+    <None Include="..\Data\Shaders\Engine\VarianceShadowMap.frag" />
+    <None Include="..\Data\Shaders\Engine\VarianceShadowMap.vert" />
+    <None Include="..\Data\Shaders\Material\BasicSelfIllum.frag" />
+    <None Include="..\Data\Shaders\Material\DiffuseSpec.frag" />
+    <None Include="..\Data\Shaders\Material\DiffuseSpecStrength.frag" />
+    <None Include="..\Data\Shaders\Material\FillGBufferBasic.frag" />
+    <None Include="..\Data\Shaders\Material\FillGBufferBasic.vert" />
+    <None Include="..\Data\Shaders\Material\FillGBufferNormalMap.frag" />
+    <None Include="..\Data\Shaders\Material\FillGBufferNormalMap.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{99D06A18-E064-414F-BBCC-CAE1EE67296F}</ProjectGuid>

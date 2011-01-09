@@ -24,10 +24,10 @@ public:
 
 	enum LightType
 	{
-		E_DIRECTIONAL	= 1,
-		E_OMNI_LIGHT	= 1 << 1,
-		E_SPOT_LIGHT	= 1 << 2 | E_OMNI_LIGHT,
-		E_SPOT_SHADOW	= 1 << 3 | E_SPOT_LIGHT
+		 E_DIRECTIONAL	= 1
+		,E_OMNI_LIGHT	= 1 << 1
+		,E_SPOT_LIGHT	= 1 << 2 | E_OMNI_LIGHT
+		,E_SPOT_SHADOW	= 1 << 3 | E_SPOT_LIGHT
 	};
 
 	struct SceneLightQuad

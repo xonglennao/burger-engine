@@ -8,6 +8,7 @@
 
 	CameraFps::CameraFps( float fFOV, float fNear, float fFar )
 		: AbstractCamera( fFOV, fNear, fFar )
+		, m_iFlags( 0 )
 	{
 			
 	};
@@ -25,12 +26,6 @@ void CameraFps::Initialize()
 
 	m_fAlpha=0;
 	m_fPhi=-90;
-
-	m_bForward = false;
-	m_bBackward = false;
-	m_bLeft = false;
-	m_bRight = false;
-
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -49,27 +44,35 @@ void CameraFps::Update( float fDeltaTime )
 
 	float fMovingSpeed = m_fMovingSpeed * fDeltaTime;
 	
-	if( m_bForward )
+	if( m_iFlags & E_CAMERA_FORWARD)
 	{
 		rf3Pos.x += fMovingSpeed * m_f3Direction.x;
 		rf3Pos.y += fMovingSpeed * m_f3Direction.y;
 		rf3Pos.z += fMovingSpeed * m_f3Direction.z;
 	}
-	if( m_bBackward )
+	if( m_iFlags & E_CAMERA_BACKWARD )
 	{
 		rf3Pos.x -= fMovingSpeed * m_f3Direction.x;
 		rf3Pos.y -= fMovingSpeed * m_f3Direction.y;
 		rf3Pos.z -= fMovingSpeed * m_f3Direction.z;	
 	}
-	if( m_bLeft )
+	if( m_iFlags & E_CAMERA_LEFT )
 	{
 		rf3Pos.x += fMovingSpeed * m_f3Right.x;
 		rf3Pos.z += fMovingSpeed * m_f3Right.z;	
 	}
-	if( m_bRight )
+	if( m_iFlags & E_CAMERA_RIGHT )
 	{
 		rf3Pos.x -= fMovingSpeed * m_f3Right.x;
 		rf3Pos.z -= fMovingSpeed * m_f3Right.z;
+	}
+	if( m_iFlags & E_DOF_NEAR_FORWARD )
+	{
+		m_fDofOffset += fMovingSpeed;
+	}
+	if( m_iFlags & E_DOF_NEAR_BACKWARD )
+	{
+		m_fDofOffset -= fMovingSpeed;
 	}
 
 	_InternalUpdate();
@@ -117,20 +120,9 @@ void CameraFps::_InternalUpdate()
 
 void CameraFps::SetFlag( CameraFlagEnum eFlag, bool bValue )
 {
-	switch( eFlag )
-	{
-	case E_CAMERA_FORWARD:
-		m_bForward = bValue;
-		break;
-	case E_CAMERA_BACKWARD:
-		m_bBackward = bValue;	
-		break;
-	case E_CAMERA_LEFT:
-		m_bLeft = bValue;
-		break;
-	case E_CAMERA_RIGHT:
-		m_bRight = bValue;
-		break;
-	}
+	if( bValue )
+		m_iFlags |= eFlag;
+	else
+		m_iFlags ^= eFlag;
 }
 

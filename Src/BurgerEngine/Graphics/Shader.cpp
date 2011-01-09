@@ -2,6 +2,7 @@
 #include "shaderTool.h"
 
 #include "BurgerEngine/Core/Engine.h"
+#include "BurgerEngine/Core/AbstractCamera.h"
 
 #include "BurgerEngine/External/Math/Vector.h"
 
@@ -85,11 +86,11 @@ void Shader::setUniformi(const std::string& sName, int fValue)
 	glUniform1i(glGetUniformLocation(m_oProgram, sName.c_str()), fValue);
 }
 
-void Shader::setUniformi( int iUniformLocation, int fValue)
+void Shader::setUniformi( int iUniformLocation, int iValue)
 {
 	/// Need to Activate the shader before, but we are not doing it
 	/// in here to save computation time (if we are setting several variable at the same time)
-	glUniform1i( iUniformLocation, fValue);
+	glUniform1i( iUniformLocation, iValue);
 }
 
 void Shader::setUniformTexture(const std::string& sName, int iUnit)
@@ -120,16 +121,26 @@ GLhandleARB	Shader::getHandle()
 void Shader::QueryStdUniforms()
 {
 	m_oStdUniformsMap[ E_STD_INV_VIEWPORT ] = glGetUniformLocation( m_oProgram, "vInvViewport" );
+	m_oStdUniformsMap[ E_STD_DOF_PARAMS ] = glGetUniformLocation( m_oProgram, "vDofParams" );
 }
 
 void Shader::CommitStdUniforms()
 {
 	Engine const& rEngine = Engine::GetInstance();
 
-	vec2 vViewPort = vec2( 1.0f / (float)rEngine.GetWindowWidth(), 1.0f / (float)rEngine.GetWindowHeight());
-	
 	int iHandle;
+	
 	iHandle = m_oStdUniformsMap[ E_STD_INV_VIEWPORT ];
 	if( iHandle != -1 )
+	{
+		vec2 vViewPort = vec2( 1.0f / (float)rEngine.GetWindowWidth(), 1.0f / (float)rEngine.GetWindowHeight());
 		glUniform2fv( iHandle, 1, (float*)vViewPort );
+	}
+
+	iHandle = m_oStdUniformsMap[ E_STD_DOF_PARAMS ];
+	if( iHandle != -1 )
+	{
+		vec4 vDofParams = rEngine.GetCurrentCamera().GetDofParams();
+		glUniform4fv( iHandle, 1, (float*)vDofParams );
+	}
 }

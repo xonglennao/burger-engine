@@ -92,6 +92,9 @@ private:
 	FBO* m_pBrightPass1Buffer;
 	FBO* m_pBrightPass2Buffer;
 
+	FBO* m_pDOFBlur1Buffer;
+	FBO* m_pDOFBlur2Buffer;
+
 	int m_iDebugFlag;
 
 	PixelPerfectGLFont* m_oFont;

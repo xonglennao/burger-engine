@@ -23,7 +23,8 @@ class Shader
 	
 		enum StandardUniforms
 		{
-			E_STD_INV_VIEWPORT
+			 E_STD_INV_VIEWPORT
+			,E_STD_DOF_PARAMS
 		};
 
 		Shader(const std::string& sName);
@@ -40,8 +41,8 @@ class Shader
 		void setUniformf( int iUniformLocation, float fValue);
 		void setUniform2fv( int iUniformLocation, int iCount, float * pValue);
 
-		void setUniformi(const std::string& sName, int fValue);
-		void setUniformi( int iUniformLocation, int fValue);
+		void setUniformi(const std::string& sName, int iValue);
+		void setUniformi( int iUniformLocation, int iValue);
 
 		void setUniformTexture(const std::string& sName, int iUnit);
 		void setUniformTexture( int iUniformLocation, int iUnit);
