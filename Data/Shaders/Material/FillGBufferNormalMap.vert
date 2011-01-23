@@ -1,5 +1,6 @@
 varying mat3 mTBN;
 uniform float fTileSize ; //Used to scale texture coordinates
+
 void main()
 {
 	// texture coordinates

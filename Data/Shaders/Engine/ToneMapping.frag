@@ -54,7 +54,8 @@ void main()
 	pixelSizeLow = vInvViewport * 2.0;
 
 	// poisson-distributed positions
-	poisson = vec2[8](
+	poisson = vec2[8]
+	(
 	vec2( 0.0, 0.0),
 	vec2( 0.527837,-0.085868),
 	vec2(-0.040088, 0.536087),
