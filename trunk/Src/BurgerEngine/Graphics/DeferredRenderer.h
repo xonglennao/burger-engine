@@ -46,9 +46,10 @@ private:
 
 	void CreateFBO();
 
+	/// \brief Generate a VBO for the full screen quad
+	void GenFullScreenQuad();
 	/// \brief Display a full screen quad
-	/// this is temporary, we need a to use VBO
-	void DrawFullScreenQuad( int iWindowWidth, int iWindowHeight );
+	void DrawFullScreenQuad( int iWindowWidth, int iWindowHeight, bool bCCW = true );
 
 	/// \draw a quad on the screen
 	/// this is only for debug purpose
@@ -95,6 +96,8 @@ private:
 	FBO* m_pDOFBlur1Buffer;
 	FBO* m_pDOFBlur2Buffer;
 
+	GLuint m_iFullScreenQuadBufferId;
+	GLuint m_iFullScreenQuadBufferIdCW;
 	int m_iDebugFlag;
 
 	PixelPerfectGLFont* m_oFont;

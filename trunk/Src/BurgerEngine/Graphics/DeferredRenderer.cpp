@@ -22,6 +22,9 @@
 #include "BurgerEngine/Graphics/MeshManager.h"
 #include "BurgerEngine/Graphics/StaticMesh.h"
 
+
+#include "BurgerEngine/Graphics/TextureManager.h"
+
 //#define NO_MATERIAL_PASS
 
 const int GLOW_RATIO = 4;
@@ -49,7 +52,7 @@ DeferredRenderer::DeferredRenderer()
 	m_oTimer = new Timer();
 	m_fFrameCount = m_fMaxFrame;
 
-
+	GenFullScreenQuad();
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -107,6 +110,9 @@ DeferredRenderer::~DeferredRenderer()
 
 	delete m_oTimer;
 	m_oTimer = NULL;
+
+	glDeleteBuffers( 1, &m_iFullScreenQuadBufferId );
+	glDeleteBuffers( 1, &m_iFullScreenQuadBufferIdCW );
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -282,34 +288,90 @@ void DeferredRenderer::LoadEngineShaders()
 
 
 }
+
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void DeferredRenderer::DrawFullScreenQuad( int iWindowWidth, int iWindowHeight )
+void DeferredRenderer::GenFullScreenQuad()
+{
+	Engine const& rEngine = Engine::GetInstance();
+	unsigned int iWindowWidth = rEngine.GetWindowWidth();
+	unsigned int iWindowHeight = rEngine.GetWindowHeight();
+
+	glGenBuffers( 1,  &m_iFullScreenQuadBufferId );
+	glGenBuffers( 2,  &m_iFullScreenQuadBufferIdCW );
+
+	unsigned int iNbVertex = 4;
+
+	unsigned int iSizeVertex = ( iNbVertex * sizeof( vec2 ) );
+	vec2 * pVertex = new vec2[ iNbVertex ];
+	
+	pVertex[0] = vec2( 1.0f, 1.0f );
+	pVertex[1] = vec2( 0.0f, 1.0f );
+	pVertex[2] = vec2( 0.0f, 0.0f );
+	pVertex[3] = vec2( 1.0f, 0.0f );
+
+	glBindBuffer( GL_ARRAY_BUFFER, m_iFullScreenQuadBufferId );
+
+	glBufferData( GL_ARRAY_BUFFER, 2 * iSizeVertex, 0, GL_STATIC_DRAW );
+	glBufferSubData(GL_ARRAY_BUFFER, 0, iSizeVertex, pVertex );
+	glBufferSubData(GL_ARRAY_BUFFER, iSizeVertex, iSizeVertex, pVertex );
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0 );
+
+	pVertex[0] = vec2( 1.0f, 1.0f );
+	pVertex[3] = vec2( 0.0f, 1.0f );
+	pVertex[2] = vec2( 0.0f, 0.0f );
+	pVertex[1] = vec2( 1.0f, 0.0f );
+
+	glBindBuffer( GL_ARRAY_BUFFER, m_iFullScreenQuadBufferIdCW );
+
+	glBufferData( GL_ARRAY_BUFFER, 2 * iSizeVertex, 0, GL_STATIC_DRAW );
+	glBufferSubData(GL_ARRAY_BUFFER, 0, iSizeVertex, pVertex );
+	glBufferSubData(GL_ARRAY_BUFFER, iSizeVertex, iSizeVertex, pVertex );
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0 );
+
+	delete [] pVertex;
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void DeferredRenderer::DrawFullScreenQuad( int iWindowWidth, int iWindowHeight, bool bCCW )
 {
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
-
 	Engine::GetInstance().GrabRenderingContext().ReshapeGlOrtho( iWindowWidth, iWindowHeight );
-	  
-	glDisable(GL_CULL_FACE);
+	
+	glPushMatrix();
 
-	glBegin(GL_QUADS);
-	glColor3f(1.0f,1.0f,1.0f);
+	glScalef( iWindowWidth, iWindowHeight, 0.0f );
 	
-	glTexCoord2f(0.0f,0.0f);
-	glVertex2i(0,0);
-	
-	glTexCoord2f(0.0f,1.0f);
-	glVertex2i(0,iWindowHeight);
-	
-	glTexCoord2f(1.0f,1.0f);
-	glVertex2i(iWindowWidth,iWindowHeight);
-	
-	glTexCoord2f(1.0f,0.0f);
-	glVertex2i(iWindowWidth,0);
-	glEnd();
-	
-	glEnable(GL_CULL_FACE);
+	if( bCCW )
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, m_iFullScreenQuadBufferId);
+	}
+	else
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, m_iFullScreenQuadBufferIdCW);
+	}
+
+	glEnableClientState( GL_VERTEX_ARRAY );	
+	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+
+	glVertexPointer(2, GL_FLOAT, 0, 0);
+
+	glClientActiveTexture( GL_TEXTURE0 );
+	glTexCoordPointer(2, GL_FLOAT, 0, (void*)(4 * sizeof( vec2 ) ) );
+
+	glDrawArrays(GL_QUADS, 0, 4 );
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0 );
+
+	glPopMatrix();
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -320,8 +382,6 @@ void DeferredRenderer::RenderOmniLights( std::vector< OmniLight::OmniLightQuad >
 	Engine const& rEngine = Engine::GetInstance();
 	unsigned int iWindowWidth = rEngine.GetWindowWidth();
 	unsigned int iWindowHeight = rEngine.GetWindowHeight();
-	
-	//Engine::GetInstance().GrabRenderingContext().ReshapeGlOrtho( iWindowWidth, iWindowHeight );
 	
 	float fHalfWidth = iWindowWidth * 0.5f; 
 	float fHalfHeight = iWindowHeight * 0.5f; 
@@ -401,8 +461,6 @@ void DeferredRenderer::RenderSpotLights( std::vector< SpotLight::SpotLightQuad >
 	unsigned int iWindowWidth = rEngine.GetWindowWidth();
 	unsigned int iWindowHeight = rEngine.GetWindowHeight();
 
-	//Engine::GetInstance().GrabRenderingContext().ReshapeGlOrtho( iWindowWidth, iWindowHeight );
-	
 	float fHalfWidth = iWindowWidth * 0.5f;
 	float fHalfHeight = iWindowHeight * 0.5f; 
 
@@ -765,8 +823,6 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 	while( oSpotIt != oSpotShadows.end() )
 	{
 		SpotShadow * pSpot = *oSpotIt;
-
-		m_pVarianceShadowMapShader->Activate();
 		
 		vec3 oLightPos = pSpot->GetPos();
 		vec3 oLightRotation = pSpot->GetRotation();
@@ -784,8 +840,10 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 		float4x4 mLightModelView;
 		glGetFloatv ( GL_MODELVIEW_MATRIX, mLightModelView );
 		pSpot->SetMatrix( transpose(transpose(mLightProjection) * transpose( mLightModelView ) ) );
-	
+		
+		m_pVarianceShadowMapShader->Activate();
 		pSpot->ActivateBuffer();
+		
 		glClearColor( fRadius,fRadius*fRadius,0.0f,0.0f );
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );	
 		glClearColor( 0.0f,0.0f,0.0f,0.0f );
@@ -801,17 +859,18 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 		m_pVarianceShadowMapShader->Desactivate();
 		
 		pSpot->DesactivateBuffer();
-
+		
 		pSpot->ActivateDepthTexture();
-
+		
 		m_pBlur6Shader->Activate();
 		float pPixelSize[2] = { 1.0f/ SpotShadow::iShadowMapSize, 0.0f };
 		m_pBlur6Shader->setUniform2fv( m_iBlur6ShaderPixelSizeHandle, 1, pPixelSize);
 
 		m_pSpotShadowBlurBuffer->Activate();
-		DrawFullScreenQuad( SpotShadow::iShadowMapSize,SpotShadow::iShadowMapSize );
-		m_pSpotShadowBlurBuffer->Desactivate();
+		DrawFullScreenQuad( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, false );
 
+		m_pSpotShadowBlurBuffer->Desactivate();
+		
 		m_pSpotShadowBlurBuffer->ActivateTexture();
 
 		pPixelSize[0] = 0.0f;
@@ -819,7 +878,8 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 		m_pBlur6Shader->setUniform2fv( m_iBlur6ShaderPixelSizeHandle, 1, pPixelSize);
 			
 		pSpot->ActivateBuffer();
-		DrawFullScreenQuad( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize );
+		DrawFullScreenQuad( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, false );
+
 		pSpot->DesactivateBuffer();
 
 		m_pBlur6Shader->Desactivate();
@@ -1139,10 +1199,8 @@ void DeferredRenderer::Render()
 	m_pBrightPass1Buffer->ActivateTexture();
 
 	glActiveTexture( GL_TEXTURE3 );
-	if( m_iDebugFlag == 0 )
-		m_pDOFBlur2Buffer->ActivateTexture();
-	else
-		m_pDownSampledSceneBuffer->ActivateTexture();
+	m_pDOFBlur2Buffer->ActivateTexture();
+
 
 	DrawFullScreenQuad( iWindowWidth, iWindowHeight );
 	m_pToneMappingShader->Desactivate();
@@ -1155,10 +1213,11 @@ void DeferredRenderer::Render()
 	glActiveTexture( GL_TEXTURE0 );
 	Texture2D::Desactivate();
 #endif
-
+	
 	//Debug Render lights bounding quads
-	if( m_iDebugFlag == 1 )
+	if( m_iDebugFlag == 4 )
 	{
+		/*
 		glDisable( GL_DEPTH_TEST );
 		
 		glColor3f(1.0f,1.0f,1.0f);
@@ -1177,18 +1236,23 @@ void DeferredRenderer::Render()
 			DrawFrustum( (*oSpotShadowIt)->GetFarPlanePoints(), (*oSpotShadowIt)->GetPos() );
 			++oSpotShadowIt;
 		}
+		
 
-		/*glColor3f(0.0f,1.0f,0.0f);
+		glColor3f(0.0f,1.0f,0.0f);
 		std::vector< OmniLight::OmniLightQuad >::iterator oOmniIt =  m_vOmniLightQuads.begin();
 		while( oOmniIt != m_vOmniLightQuads.end() )
 		{
 			vec3 vData = vec3( (*oOmniIt).vScreenSpaceQuadCenter.x,(*oOmniIt).vScreenSpaceQuadCenter.y, (*oOmniIt).fHalfWidth );
 			DrawScreenSpaceQuad( iWindowWidth, iWindowHeight, vData );
 			++oOmniIt;
-		}*/
+		}
 
 		glEnable(GL_DEPTH_TEST);
+		*/
 	}
+
+	//Texture2D* pTexture2D = TextureManager::GrabInstance().getTexture2D( "../Data/Textures/prison/stonefloor_diffuse.tga" );
+	//pTexture2D->Activate();
 
 	++m_fFrameCount;
 	if( m_fFrameCount >= m_fMaxFrame )

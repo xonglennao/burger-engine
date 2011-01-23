@@ -15,7 +15,7 @@ vec4 gaussianFilter()
 		float fOffSet = (float) i - 2.5;
 		
 		vTexCoord = vec2( gl_TexCoord[0].x + fOffSet * vPixelSize.x, gl_TexCoord[0].y + fOffSet * vPixelSize.y );
-		finalColor += texture2D( sTexture, vTexCoord) * vGaussianBlur[i];
+		finalColor += texture2D( sTexture, vTexCoord ) * vGaussianBlur[i];
 	}
 	return finalColor;
 }

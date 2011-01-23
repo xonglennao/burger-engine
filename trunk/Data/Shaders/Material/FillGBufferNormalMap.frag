@@ -1,6 +1,6 @@
 varying mat3 mTBN;
-
 uniform sampler2D normalMap; // regular texture: texture unit 0
+
 void main()
 {
 	//getting back normal and gloss from normal map
