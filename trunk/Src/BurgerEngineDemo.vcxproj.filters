@@ -139,6 +139,9 @@
     <ClCompile Include="BurgerEngine\Graphics\SpotShadow.cpp">
       <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\External\GLee\GLee.c">
+      <Filter>BurgerEngine\External\GLee</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -282,6 +285,9 @@
     <ClInclude Include="BurgerEngine\Graphics\SpotShadow.h">
       <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
     </ClInclude>
+    <ClInclude Include="BurgerEngine\External\GLee\GLee.h">
+      <Filter>BurgerEngine\External\GLee</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="BurgerEngine">
@@ -388,6 +394,12 @@
     </Filter>
     <Filter Include="BurgerEngine\Data\Shaders\Material">
       <UniqueIdentifier>{3bf9a64e-8f42-4f65-a220-107ec262c01b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Data\Materials\test_transparency">
+      <UniqueIdentifier>{fb497a91-cba9-4df2-b2d9-5ca33a26af17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\External\GLee">
+      <UniqueIdentifier>{b99d550d-3385-47f3-a3b9-f2550e5b9518}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -498,6 +510,12 @@
     </None>
     <None Include="..\Data\Shaders\BasicVertexShaderTile.vert">
       <Filter>BurgerEngine\Data\Shaders</Filter>
+    </None>
+    <None Include="..\Data\Scenes\test_transparency.xml">
+      <Filter>BurgerEngine\Data\Scenes</Filter>
+    </None>
+    <None Include="..\Data\Materials\test_transparency\test_transparency.xml">
+      <Filter>BurgerEngine\Data\Materials\test_transparency</Filter>
     </None>
   </ItemGroup>
 </Project>

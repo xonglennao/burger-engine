@@ -16,8 +16,7 @@
 
 #include "BurgerEngine/External/TinyXml/TinyXml.h"
 
-#include <iostream>
-
+#include "BurgerEngine/Base/CommonBase.h"
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
@@ -28,7 +27,7 @@ SceneGraph::SceneGraph()
 	m_eStringToLightTypeMap["spotshadow"] = SceneLight::E_SPOT_SHADOW;
 	m_eStringToLightTypeMap["directional"] = SceneLight::E_DIRECTIONAL;
 
-	LoadSceneXML( "../Data/Scenes/prison.xml" );
+	LoadSceneXML( "../Data/Scenes/test_transparency.xml" );
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -122,7 +121,8 @@ void SceneGraph::LoadSceneXML( const char * sName )
 					std::string sMeshFileName( pXmlPoint->GetText() );
 					StaticMesh* pMesh = meshManager.loadMesh( sMeshFileName );
 						
-					if( pMesh ){
+					if( pMesh )
+					{
 
 						SceneMesh * pSceneMesh = new SceneMesh( pMesh );
 
@@ -134,7 +134,8 @@ void SceneGraph::LoadSceneXML( const char * sName )
 						unsigned int iPartCount = 0;
 
 						pXmlPoint = pXmlMesh->FirstChildElement( "part" );
-						while( pXmlPoint ){
+						while( pXmlPoint )
+						{
 							++iPartCount;
 							TiXmlElement * pXmlMaterial = pXmlPoint->FirstChildElement( "material" );
 							if( pXmlMaterial )
@@ -146,9 +147,12 @@ void SceneGraph::LoadSceneXML( const char * sName )
 							
 							pXmlPoint = pXmlPoint->NextSiblingElement( "part" );
 						}
-
+						
 						pSceneMesh->SetPartCount( iPartCount );
-						m_oSceneMeshes.push_back( pSceneMesh );
+						if( pSceneMesh->IsOpaque() )
+						{
+							m_oSceneMeshes.push_back( pSceneMesh );
+						}							
 					}
 
 				}

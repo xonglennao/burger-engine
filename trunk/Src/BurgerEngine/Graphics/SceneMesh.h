@@ -44,6 +44,8 @@ public:
 	bool	SetCastShadow( bool bValue ){ m_bCastShadow = bValue; };
 	bool	GetCastShadow(){ return m_bCastShadow; };
 
+	bool IsOpaque();
+
 	void AddMaterial( Material * pMaterial ){ m_vMaterials.push_back( pMaterial ); }
 
 private:	

@@ -26,7 +26,7 @@ Material::~Material()
 		(*it).second = NULL;
 		++it;
 	}
-};
+}
 
 //--------------------------------------------------------------------------------------------------------------------
 //
@@ -153,6 +153,11 @@ void Material::_LoadMaterialXML( const char * sName )
 			pXmlTechnique = pXmlTechnique->NextSiblingElement( "technique" );
 		}
 	}
+}
+
+bool Material::IsOpaque()
+{
+	return m_oTechniques.find( EffectTechnique::E_RENDER_OPAQUE ) != m_oTechniques.end();
 }
 
 

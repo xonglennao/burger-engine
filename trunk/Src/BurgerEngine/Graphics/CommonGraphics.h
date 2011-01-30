@@ -7,10 +7,12 @@
 *					Baptiste Malaga
 *		Contact :   shadervalouf@googlegroups.com
 *
-**************************************/
+***************F***********************/
 
 
-#include <GL/glew.h>
+//#include <GL/glew.h>
+
+#include "BurgerEngine/External/GLee/GLee.h"
 #include <GL/glu.h>
 
 #include "BurgerEngine/Base/CommonBase.h"

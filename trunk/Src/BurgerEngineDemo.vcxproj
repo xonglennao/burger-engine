@@ -23,6 +23,7 @@
     <ClInclude Include="BurgerEngine\Core\StageMain3DScene.h" />
     <ClInclude Include="BurgerEngine\Core\StageManager.h" />
     <ClInclude Include="BurgerEngine\Core\Timer.h" />
+    <ClInclude Include="BurgerEngine\External\GLee\GLee.h" />
     <ClInclude Include="BurgerEngine\External\GLFont\glfont.h" />
     <ClInclude Include="BurgerEngine\External\Math\Frustum.h" />
     <ClInclude Include="BurgerEngine\External\Math\MyMath.h" />
@@ -71,6 +72,7 @@
     <ClCompile Include="BurgerEngine\Core\StageMain3DScene.cpp" />
     <ClCompile Include="BurgerEngine\Core\StageManager.cpp" />
     <ClCompile Include="BurgerEngine\Core\Timer.cpp" />
+    <ClCompile Include="BurgerEngine\External\GLee\GLee.c" />
     <ClCompile Include="BurgerEngine\External\GLFont\glfont.cc" />
     <ClCompile Include="BurgerEngine\External\Math\Frustum.cpp" />
     <ClCompile Include="BurgerEngine\External\Math\Vector.cpp" />
@@ -116,12 +118,14 @@
     <None Include="..\Data\Materials\prison\stoneWallDiffuseBump.xml" />
     <None Include="..\Data\Materials\prison\woodDiffuseBump.xml" />
     <None Include="..\Data\Materials\test_dof\floorDiffuseBump.xml" />
+    <None Include="..\Data\Materials\test_transparency\test_transparency.xml" />
     <None Include="..\Data\Scenes\prison.xml">
       <SubType>Designer</SubType>
     </None>
     <None Include="..\Data\Scenes\test_dof.xml">
       <SubType>Designer</SubType>
     </None>
+    <None Include="..\Data\Scenes\test_transparency.xml" />
     <None Include="..\Data\Shaders\BasicPixelShader.frag" />
     <None Include="..\Data\Shaders\BasicVertexShader.vert" />
     <None Include="..\Data\Shaders\BasicVertexShaderTile.vert" />
@@ -219,7 +223,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glew32.lib;openGL32.lib;glu32.lib;sfml-window.lib;loki.lib;devIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;glu32.lib;openGL32.lib;sfml-window.lib;loki.lib;devIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

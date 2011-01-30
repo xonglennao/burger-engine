@@ -18,6 +18,7 @@
 #include "BurgerEngine/External/GLFont/glfont.h"
 
 #include <sstream>
+#include <algorithm>
 
 #include "BurgerEngine/Graphics/MeshManager.h"
 #include "BurgerEngine/Graphics/StaticMesh.h"
@@ -1154,6 +1155,7 @@ void DeferredRenderer::Render()
 	//Restoring perspective view
 	rRenderingContext.Reshape( iWindowWidth, iWindowHeight, rCamera.GetFOV(), rCamera.GetNear(), rCamera.GetFar() );
 	rCamera.LookAt();
+	
 	m_pHDRSceneBuffer->Activate();
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	
