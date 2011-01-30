@@ -1,0 +1,16 @@
+<material>
+  <technique name="render_transparency">
+    <shadername>DiffuseSpec</shadername>
+    <vertexshader>../Data/Shaders/BasicVertexShaderTile.vert</vertexshader>
+    <pixelshader>../Data/Shaders/Material/Transparency.frag</pixelshader>
+    <uniforms>
+      <float value="10.0">fTileSize</float>
+    </uniforms>
+    <samplers>
+      <sampler>
+        <uniformname unit="0">diffuseMap</uniformname>
+        <filename>../Data/Textures/test_dof/checkboard_diffuse.tga</filename>
+      </sampler>
+    </samplers>
+  </technique>
+</material>

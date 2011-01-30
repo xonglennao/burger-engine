@@ -1,0 +1,68 @@
+<scene>
+  
+  <!-- GROUND  -->
+  <sceneobject x="0.0" y="50.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="100">
+    <mesh>
+      <file>../Data/Mesh/inverted_cube.obj</file>
+      <part>
+        <material>../Data/Materials/test_dof/floorDiffuseBump.xml</material>
+      </part>      
+    </mesh>
+  </sceneobject>
+
+  <sceneobject x="0.0" y="5.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
+    <mesh>
+      <file>../Data/Mesh/unit_sphere.obj</file>
+      <part>
+        <material>../Data/Materials/test_dof/floorDiffuseBump.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>
+
+  <sceneobject x="15.0" y="5.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
+    <mesh>
+      <file>../Data/Mesh/unit_sphere.obj</file>
+      <part>
+        <material>../Data/Materials/test_transparency/test_transparency.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>
+
+  <sceneobject x="-15.0" y="5.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
+    <mesh>
+      <file>../Data/Mesh/unit_sphere.obj</file>
+      <part>
+        <material>../Data/Materials/test_dof/floorDiffuseBump.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>
+
+  <!-- OMNI  -->
+  <sceneobject x="35.0" y="30.0" z="35.0">
+    <light type="omni">
+      <Multiplier value="0.8"/>
+      <Radius value="90"/>
+      <Color  r="0.5" g="0.9" b="0.7"/>
+    </light>
+  </sceneobject>
+
+  <sceneobject x="0" y="10.0" z="50.0" rX="0" rY="0">
+    <light type="spotshadow">
+      <Multiplier value="8.0"/>
+      <Radius value="70"/>
+      <InnerAngle value="10"/>
+      <OuterAngle value="45"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </light>
+  </sceneobject>
+
+  <!-- OMNI  -->
+  <sceneobject x="-35.0" y="10.0" z="-35.0">
+    <light type="omni">
+      <Multiplier value="0.8"/>
+      <Radius value="90"/>
+      <Color  r="0.7" g="0.9" b="0.7"/>
+    </light>
+  </sceneobject>
+
+</scene>

@@ -6,6 +6,10 @@
 
 #include "shaderTool.h"
 
+#undef min
+#undef max
+
+#include <algorithm>
 const int MAX_LOG_STRING = 1024;
 char logstring[MAX_LOG_STRING];
 

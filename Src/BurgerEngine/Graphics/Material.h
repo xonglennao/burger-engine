@@ -29,6 +29,8 @@ public:
 	bool Activate( EffectTechnique::RenderingTechnique eTechnique );
 	void Desactivate( EffectTechnique::RenderingTechnique eTechnique );
 
+	bool IsOpaque();
+
 private:
 
 	void _LoadMaterialXML( const char * sName );

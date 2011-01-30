@@ -16,6 +16,7 @@ OpenGLContext::OpenGLContext()
 //--------------------------------------------------------------------------------------------------------------------
 bool OpenGLContext::Initialize( const unsigned int a_iWindowWidth, const unsigned int a_iWindowHeight )
 {
+	/*
 	///Initialisation of Glew
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
@@ -23,7 +24,7 @@ bool OpenGLContext::Initialize( const unsigned int a_iWindowWidth, const unsigne
 		std::cout << "Error : " << glewGetErrorString(err) << std::endl;
 		return false;
 	}
-
+	*/
 	//Set OpenGL parameter
 	/// \todo More flexible parameter??
 	glClearColor(0.f,0.f,0.f,0.f);
