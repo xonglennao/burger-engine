@@ -23,8 +23,10 @@ float ComputeDepthBlur( float fDepth )
 
 void main()
 {
+	//gl_FragColor = vec4( 10.0, 10.0, 10.0, ComputeDepthBlur( fDepth ) );
+	gl_FragData[0] = vec4( 10.0, 10.0, 10.0, 1.0 );
+
 	//Computing blur information for Depth of Field
 	float fDepth = gl_FragCoord.z / gl_FragCoord.w;	
-	
-	gl_FragColor = vec4( 10.0, 10.0, 10.0, ComputeDepthBlur( fDepth ) );
+	gl_FragData[1] = vec4( ComputeDepthBlur( fDepth ), 0.0, 0.0, 0.0);
 }

@@ -160,5 +160,10 @@ bool Material::IsOpaque()
 	return m_oTechniques.find( EffectTechnique::E_RENDER_OPAQUE ) != m_oTechniques.end();
 }
 
+bool Material::IsTransparent()
+{
+	return m_oTechniques.find( EffectTechnique::E_RENDER_TRANSPARENCY ) != m_oTechniques.end();
+}
+
 
 

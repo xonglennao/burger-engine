@@ -1,15 +1,15 @@
 uniform vec2 vInvViewport;
+
 uniform sampler2D sTexture;
 uniform sampler2D sLuminance;
 uniform sampler2D sBloom;
 uniform sampler2D sDownSampledTexture;
+uniform sampler2D sBlurData;
 
 vec2 poisson[8];
 vec2 maxCoC = vec2(5.0,10.0);
 float radiusScale = 0.5;
 vec2 pixelSizeHigh, pixelSizeLow;
-float depth;
-
 
 const float fKey = 0.5;
 
@@ -19,9 +19,9 @@ vec4 dof(vec2 coords)
 
 	float discRadius, discRadiusLow, centerDepth;
 
-	finalColor = texture2D( sTexture, coords );
-	centerDepth = finalColor.a;
-
+	//finalColor = texture2D( sTexture, coords );
+	//centerDepth = finalColor.a;
+	centerDepth = texture2D( sBlurData, coords ).r;
 	discRadius = abs( centerDepth * maxCoC.y - maxCoC.x );
 	discRadiusLow = discRadius * radiusScale;
 
@@ -33,7 +33,7 @@ vec4 dof(vec2 coords)
 		vec2 coordHigh = coords + (pixelSizeHigh * poisson[i] * discRadius);
 
 		vec4 tapLow = texture2D( sDownSampledTexture, coordLow );
-		vec4 tapHigh = texture2D( sTexture, coordHigh );
+		vec4 tapHigh = vec4( texture2D( sTexture, coordHigh ).rgb, texture2D( sBlurData, coordHigh ) );
 
 		float tapBlur = abs( tapHigh.a * 2.0 - 1.0 );
 		vec4 tap = mix( tapHigh, tapLow, tapBlur );
@@ -77,7 +77,7 @@ void main()
 	vColor.rgb *= fKey / ( fLuminance + 0.001 );
 	vColor.rgb /= ( 1.0 + vColor );
 
-	vColor += 1.0 * vBloom;
+	vColor += 2.0 * vBloom;
 
 	gl_FragColor = vec4( vColor, 1.0 );
 }

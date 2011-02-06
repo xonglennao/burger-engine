@@ -135,6 +135,7 @@
     <None Include="..\Data\Shaders\Engine\DownSample4x4.frag" />
     <None Include="..\Data\Shaders\Engine\GaussianBlur10.frag" />
     <None Include="..\Data\Shaders\Engine\GaussianBlur6.frag" />
+    <None Include="..\Data\Shaders\Engine\GaussianBlur6DofSpecial.frag" />
     <None Include="..\Data\Shaders\Engine\LightAdaptation.frag" />
     <None Include="..\Data\Shaders\Engine\OmniLight.frag" />
     <None Include="..\Data\Shaders\Engine\OmniLight.vert" />
@@ -152,6 +153,7 @@
     <None Include="..\Data\Shaders\Material\FillGBufferBasic.vert" />
     <None Include="..\Data\Shaders\Material\FillGBufferNormalMap.frag" />
     <None Include="..\Data\Shaders\Material\FillGBufferNormalMap.vert" />
+    <None Include="..\Data\Shaders\Material\Transparency.frag" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{99D06A18-E064-414F-BBCC-CAE1EE67296F}</ProjectGuid>

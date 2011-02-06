@@ -517,5 +517,11 @@
     <None Include="..\Data\Materials\test_transparency\test_transparency.xml">
       <Filter>BurgerEngine\Data\Materials\test_transparency</Filter>
     </None>
+    <None Include="..\Data\Shaders\Material\Transparency.frag">
+      <Filter>BurgerEngine\Data\Shaders\Material</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\GaussianBlur6DofSpecial.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
   </ItemGroup>
 </Project>

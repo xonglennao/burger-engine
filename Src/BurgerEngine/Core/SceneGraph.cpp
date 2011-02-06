@@ -50,6 +50,14 @@ void SceneGraph::Clear()
 		++oMeshIt;
 	}
 
+	std::vector< SceneMesh* >::iterator oTransparentMeshIt = m_oTransparentSceneMeshes.begin();
+	while( oTransparentMeshIt != m_oTransparentSceneMeshes.end() )
+	{
+		delete (*oTransparentMeshIt);
+		(*oTransparentMeshIt) = NULL;
+		++oTransparentMeshIt;
+	}
+
 	std::vector< OmniLight* >::iterator oLightIt = m_oOmniLights.begin();
 	while( oLightIt != m_oOmniLights.end() )
 	{
@@ -152,7 +160,11 @@ void SceneGraph::LoadSceneXML( const char * sName )
 						if( pSceneMesh->IsOpaque() )
 						{
 							m_oSceneMeshes.push_back( pSceneMesh );
-						}							
+						}
+						else if( pSceneMesh->IsTransparent() )
+						{
+							m_oTransparentSceneMeshes.push_back( pSceneMesh );
+						}
 					}
 
 				}
