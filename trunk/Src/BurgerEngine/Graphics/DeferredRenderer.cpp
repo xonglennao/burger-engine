@@ -133,7 +133,8 @@ void DeferredRenderer::CreateFBO()
 	m_pLightBuffer->GenerateColorOnly( GL_RGBA16F_ARB );
 
 	m_pHDRSceneBuffer = new FBO( iWindowWidth, iWindowHeight, FBO::E_FBO_2D );
-	m_pHDRSceneBuffer->GenerateColorOnly( GL_RGBA16F_ARB );
+	//m_pHDRSceneBuffer->GenerateColorOnly( GL_RGBA16F_ARB );
+	m_pHDRSceneBuffer->GenerateFinalHDRBuffer();
 
 	m_pSpotShadowBlurBuffer = new FBO( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, FBO::E_FBO_2D );
 	m_pSpotShadowBlurBuffer->GenerateColorOnly( GL_RGBA32F_ARB );
@@ -233,6 +234,13 @@ void DeferredRenderer::LoadEngineShaders()
 	m_pBlur6Shader->setUniformTexture("sTexture",0);
 	m_pBlur6Shader->Desactivate();
 
+	m_pBlur6DofSpecialShader = rShaderManager.addShader( "Blur6DofSpecial", "../Data/Shaders/BasicVertexShader.vert", "../Data/Shaders/Engine/GaussianBlur6DofSpecial.frag" );
+	m_pBlur6DofSpecialShader->Activate();
+	m_iBlur6DofSpecialShaderPixelSizeHandle = glGetUniformLocation( m_pBlur6DofSpecialShader->getHandle(), "vPixelSize" );
+	m_pBlur6DofSpecialShader->setUniformTexture("sTexture",0);
+	m_pBlur6DofSpecialShader->setUniformTexture("sBlurData",1);
+	m_pBlur6DofSpecialShader->Desactivate();
+
 	m_pBlur10Shader = rShaderManager.addShader( "Blur10", "../Data/Shaders/BasicVertexShader.vert", "../Data/Shaders/Engine/GaussianBlur10.frag" );
 	m_pBlur10Shader->Activate();
 	m_iBlur10ShaderPixelSizeHandle = glGetUniformLocation( m_pBlur10Shader->getHandle(), "vPixelSize" );
@@ -270,6 +278,7 @@ void DeferredRenderer::LoadEngineShaders()
 	m_pToneMappingShader->setUniformTexture("sLuminance",1);
 	m_pToneMappingShader->setUniformTexture("sBloom",2);
 	m_pToneMappingShader->setUniformTexture("sDownSampledTexture",3);
+	m_pToneMappingShader->setUniformTexture("sBlurData",4);
 	m_pToneMappingShader->Desactivate();
 
 	m_pLightAdaptationShader = rShaderManager.addShader( "LightAdaptation", "../Data/Shaders/BasicVertexShader.vert", "../Data/Shaders/Engine/LightAdaptation.frag" );
@@ -906,7 +915,7 @@ void DeferredRenderer::ComputeAvgLum()
 
 	glActiveTexture( GL_TEXTURE0 );
 	m_pHDRSceneBuffer->ActivateTexture();
-
+	
 	m_pDownSample4x4Shader->Activate();
 	
 	float pPixelSize[2] = { 1.0f/ ( iWindowWidth/GLOW_RATIO ), 1.0f / ( iWindowHeight/GLOW_RATIO ) };
@@ -1026,6 +1035,7 @@ void DeferredRenderer::Render()
 	
 	SceneGraph & rSceneGraph = Engine::GrabInstance().GrabSceneGraph();
 	const std::vector< SceneMesh* >& oSceneMeshes = rSceneGraph.GetSceneMeshes();
+	const std::vector< SceneMesh* >& oTransparentSceneMeshes = rSceneGraph.GetTransparentSceneMeshes();
 	
 	Engine const& rEngine = Engine::GetInstance();
 	
@@ -1157,14 +1167,36 @@ void DeferredRenderer::Render()
 	rCamera.LookAt();
 	
 	m_pHDRSceneBuffer->Activate();
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	
+	GLenum buffers[] = { GL_COLOR_ATTACHMENT0_EXT, GL_COLOR_ATTACHMENT1_EXT };
+	glDrawBuffers(2, buffers);
+	
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+	//rendering opaque objects
 	oMeshIt = oSceneMeshes.begin();	
 	while( oMeshIt != oSceneMeshes.end() )
 	{
 		(*oMeshIt)->Draw( EffectTechnique::E_RENDER_OPAQUE );
 		++oMeshIt;
 	}
+
+	glEnableIndexedEXT( GL_BLEND, 0 );
+	glDepthMask( GL_FALSE );
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	//rendering transparent objects
+	oMeshIt = oTransparentSceneMeshes.begin();	
+	while( oMeshIt != oTransparentSceneMeshes.end() )
+	{
+		(*oMeshIt)->Draw( EffectTechnique::E_RENDER_TRANSPARENCY );
+		++oMeshIt;
+	}
+	
+	glDepthMask( GL_TRUE );
+	glDisableIndexedEXT( GL_BLEND, 0 );
+
+	glDrawBuffers(1, buffers);
 
 	Texture2D::Desactivate();
 	glActiveTexture( GL_TEXTURE0 );
@@ -1173,14 +1205,21 @@ void DeferredRenderer::Render()
 
 	ComputeAvgLum();
 	
+	//Downsampling scene for DOF
 	m_pHDRSceneBuffer->ActivateTexture();
+	glActiveTexture( GL_TEXTURE1 );
+	m_pHDRSceneBuffer->ActivateTexture(1);
 	
 	m_pDOFBlur1Buffer->Activate();
-	m_pBlur6Shader->Activate();
+	m_pBlur6DofSpecialShader->Activate();
 	float pPixelSize[2] = { 1.0f/ (iWindowWidth/2), 0.0f };
-	m_pBlur6Shader->setUniform2fv( m_iBlur6ShaderPixelSizeHandle, 1, pPixelSize);
+	m_pBlur6DofSpecialShader->setUniform2fv( m_iBlur6DofSpecialShaderPixelSizeHandle, 1, pPixelSize);
 	DrawFullScreenQuad( iWindowWidth/2, iWindowHeight/2);
 	
+	Texture2D::Desactivate();
+	glActiveTexture( GL_TEXTURE0 );
+
+	m_pBlur6Shader->Activate();
 	m_pDOFBlur2Buffer->Activate();
 	m_pDOFBlur1Buffer->ActivateTexture();
 	pPixelSize[0] = 0.0;
@@ -1190,6 +1229,7 @@ void DeferredRenderer::Render()
 
 	m_pDOFBlur2Buffer->Desactivate();
 
+	//Tone mapping - Final Step
 	m_pToneMappingShader->Activate();
 	m_pToneMappingShader->CommitStdUniforms();
 
@@ -1202,11 +1242,15 @@ void DeferredRenderer::Render()
 
 	glActiveTexture( GL_TEXTURE3 );
 	m_pDOFBlur2Buffer->ActivateTexture();
-
+	
+	glActiveTexture( GL_TEXTURE4 );
+	m_pHDRSceneBuffer->ActivateTexture(1);
 
 	DrawFullScreenQuad( iWindowWidth, iWindowHeight );
 	m_pToneMappingShader->Desactivate();
 
+	Texture2D::Desactivate();
+	glActiveTexture( GL_TEXTURE3 );
 	Texture2D::Desactivate();
 	glActiveTexture( GL_TEXTURE2 );
 	Texture2D::Desactivate();
@@ -1216,46 +1260,6 @@ void DeferredRenderer::Render()
 	Texture2D::Desactivate();
 #endif
 	
-	//Debug Render lights bounding quads
-	if( m_iDebugFlag == 4 )
-	{
-		/*
-		glDisable( GL_DEPTH_TEST );
-		
-		glColor3f(1.0f,1.0f,1.0f);
-		rRenderingContext.Reshape( iWindowWidth, iWindowHeight, rCamera.GetFOV(), rCamera.GetNear(), rCamera.GetFar() );
-		rCamera.LookAt();
-		std::vector< SpotLight* >::const_iterator oSpotIt = rSceneGraph.GetSpotLights().begin();
-		while( oSpotIt != rSceneGraph.GetSpotLights().end() )
-		{
-			DrawFrustum( (*oSpotIt)->GetFarPlanePoints(), (*oSpotIt)->GetPos() );
-			++oSpotIt;
-		}
-
-		std::vector< SpotShadow* >::const_iterator oSpotShadowIt = rSceneGraph.GetSpotShadows().begin();
-		while( oSpotShadowIt != rSceneGraph.GetSpotShadows().end() )
-		{
-			DrawFrustum( (*oSpotShadowIt)->GetFarPlanePoints(), (*oSpotShadowIt)->GetPos() );
-			++oSpotShadowIt;
-		}
-		
-
-		glColor3f(0.0f,1.0f,0.0f);
-		std::vector< OmniLight::OmniLightQuad >::iterator oOmniIt =  m_vOmniLightQuads.begin();
-		while( oOmniIt != m_vOmniLightQuads.end() )
-		{
-			vec3 vData = vec3( (*oOmniIt).vScreenSpaceQuadCenter.x,(*oOmniIt).vScreenSpaceQuadCenter.y, (*oOmniIt).fHalfWidth );
-			DrawScreenSpaceQuad( iWindowWidth, iWindowHeight, vData );
-			++oOmniIt;
-		}
-
-		glEnable(GL_DEPTH_TEST);
-		*/
-	}
-
-	//Texture2D* pTexture2D = TextureManager::GrabInstance().getTexture2D( "../Data/Textures/prison/stonefloor_diffuse.tga" );
-	//pTexture2D->Activate();
-
 	++m_fFrameCount;
 	if( m_fFrameCount >= m_fMaxFrame )
 	{

@@ -45,6 +45,7 @@ public:
 	bool	GetCastShadow(){ return m_bCastShadow; };
 
 	bool IsOpaque();
+	bool IsTransparent();
 
 	void AddMaterial( Material * pMaterial ){ m_vMaterials.push_back( pMaterial ); }
 

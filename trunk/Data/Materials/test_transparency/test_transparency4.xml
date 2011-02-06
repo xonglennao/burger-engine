@@ -9,7 +9,7 @@
     <samplers>
       <sampler>
         <uniformname unit="0">diffuseMap</uniformname>
-        <filename>../Data/Textures/test_dof/checkboard_diffuse.tga</filename>
+        <filename>../Data/Textures/prison/crate_diffuse.tga</filename>
       </sampler>
     </samplers>
   </technique>

@@ -11,7 +11,8 @@ MaterialManager::MaterialManager()
 void MaterialManager::FillRenderingTechniqueMap()
 {
 	oTechniqueNameToIdMap[ "render_gbuffer"] = EffectTechnique::E_RENDER_GBUFFER; 
-	oTechniqueNameToIdMap[ "render_opaque"] = EffectTechnique::E_RENDER_OPAQUE; 
+	oTechniqueNameToIdMap[ "render_opaque"] = EffectTechnique::E_RENDER_OPAQUE;
+	oTechniqueNameToIdMap[ "render_transparency"] = EffectTechnique::E_RENDER_TRANSPARENCY;
 }
 
 void MaterialManager::clear()

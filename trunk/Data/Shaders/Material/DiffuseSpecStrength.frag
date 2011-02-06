@@ -41,8 +41,12 @@ void main()
 	vec4 vFinalColor = vec4( (vLighting.rgb + vChromacity * vLighting.a * vColor.a ),1.0) * vec4(vColor.rgb,1.0);
 
 	//Computing blur information for Depth of Field
-	float fDepth = gl_FragCoord.z / gl_FragCoord.w;	
-	vFinalColor.a = ComputeDepthBlur( fDepth );
+	//float fDepth = gl_FragCoord.z / gl_FragCoord.w;	
+	//vFinalColor.a = ComputeDepthBlur( fDepth );
 
 	gl_FragColor = vFinalColor;
+
+	//Computing blur information for Depth of Field
+	float fDepth = gl_FragCoord.z / gl_FragCoord.w;	
+	gl_FragData[1] = vec4( ComputeDepthBlur( fDepth ), 0.0, 0.0, 0.0);
 }

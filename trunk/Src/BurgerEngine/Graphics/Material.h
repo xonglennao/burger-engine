@@ -30,6 +30,7 @@ public:
 	void Desactivate( EffectTechnique::RenderingTechnique eTechnique );
 
 	bool IsOpaque();
+	bool IsTransparent();
 
 private:
 

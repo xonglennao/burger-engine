@@ -149,6 +149,62 @@ void FBO::Generate( GLint iInternalFormat, GLint iFormat )
 	m_iType = 2;
 }
 
+void FBO::GenerateFinalHDRBuffer( GLint iInternalFormat0, GLint iFormat0, GLint iInternalFormat1, GLint iFormat1 )
+{
+    Destroy();
+
+	//Generate the textures
+	glGenTextures(1, &m_iTexId[0]);
+	glBindTexture(m_eTextureType, m_iTexId[0]);
+
+    glTexParameteri (m_eTextureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri (m_eTextureType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(m_eTextureType, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(m_eTextureType, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(m_eTextureType, GL_GENERATE_MIPMAP, GL_TRUE);
+
+	glTexImage2D(m_eTextureType, 0, iInternalFormat0, m_iWidth, m_iHeight, 0, iFormat0, GL_UNSIGNED_BYTE, 0);
+
+	glGenTextures(1, &m_iTexId[1]);
+	glBindTexture(m_eTextureType, m_iTexId[1]);
+
+    glTexParameteri (m_eTextureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri (m_eTextureType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(m_eTextureType, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(m_eTextureType, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(m_eTextureType, GL_GENERATE_MIPMAP, GL_TRUE);
+
+	glTexImage2D(m_eTextureType, 0, iInternalFormat1, m_iWidth, m_iHeight, 0, iFormat1, GL_UNSIGNED_BYTE, 0);
+
+	glBindTexture(m_eTextureType, 0);
+
+	//Generate renderbuffer
+	glGenRenderbuffersEXT(1, &m_iRenderId);
+    glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, m_iRenderId);
+    glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24, m_iWidth, m_iHeight);
+    glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
+
+	//Generating ID
+	glGenFramebuffersEXT(1, &m_iId);
+	Activate();
+
+    // attach a texture to FBO color attachement point
+    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, m_eTextureType, m_iTexId[0], 0);
+    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT1_EXT, m_eTextureType, m_iTexId[1], 0);
+
+	// attach a renderbuffer to depth attachment point
+    glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, m_iRenderId);
+
+	Desactivate();
+
+	//Check FBO status
+	if(!CheckFramebufferStatus())
+		std::cerr<<"ERROR : FBO creation Fail "<<std::endl;
+	
+	//Color Only
+	m_iType = 0;
+}
+
 void FBO::ActivateTexture()
 {
 	if (m_iType == 0 || m_iType == 2)

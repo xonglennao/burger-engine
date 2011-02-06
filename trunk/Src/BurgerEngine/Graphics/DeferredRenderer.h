@@ -132,6 +132,9 @@ private:
 	Shader* m_pBlur6Shader;
 	unsigned int m_iBlur6ShaderPixelSizeHandle;
 
+	Shader* m_pBlur6DofSpecialShader;
+	unsigned int m_iBlur6DofSpecialShaderPixelSizeHandle;
+
 	Shader* m_pBlur10Shader;
 	unsigned int m_iBlur10ShaderPixelSizeHandle;
 

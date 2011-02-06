@@ -60,6 +60,7 @@ public:
 	void GenerateDepthOnly();
 	void GenerateColorOnly( GLint iInternalFormat = GL_RGBA8, GLint iFormat = GL_RGBA );
 	void Generate( GLint iInternalFormat = GL_RGBA8, GLint iFormat = GL_RGBA );
+	void GenerateFinalHDRBuffer( GLint iInternalFormat0 = GL_RGBA16F_ARB, GLint iFormat0 = GL_RGBA, GLint iInternalFormat1 = GL_R8, GLint iFormat1 = GL_RED );
 
 	//To activate the texture
 	void ActivateTexture();

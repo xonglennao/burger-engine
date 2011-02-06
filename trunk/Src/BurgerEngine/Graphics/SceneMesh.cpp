@@ -56,6 +56,17 @@ bool SceneMesh::IsOpaque()
 	return true;
 }
 
+bool SceneMesh::IsTransparent()
+{
+	std::vector<Material*>::iterator oIt = 	m_vMaterials.begin();
+	while ( oIt != m_vMaterials.end() )
+	{
+		if( (*oIt)->IsTransparent() )
+			return true;
+		++oIt;
+	}	
+	return false;
+}
 
 
 

@@ -38,6 +38,7 @@ public:
 	bool Init();
 
 	const std::vector< SceneMesh* >& GetSceneMeshes(){ return m_oSceneMeshes; };
+	const std::vector< SceneMesh* >& GetTransparentSceneMeshes(){ return m_oTransparentSceneMeshes; };
 	const std::vector< OmniLight* >& GetOmniLights(){ return m_oOmniLights; };
 	const std::vector< SpotLight* >& GetSpotLights(){ return m_oSpotLights; };
 	const std::vector< SpotShadow* >& GetSpotShadows(){ return m_oSpotShadows; };
@@ -50,6 +51,7 @@ private:
 private:
 	///lists of renderable objects and lights
 	std::vector< SceneMesh* > m_oSceneMeshes;
+	std::vector< SceneMesh* > m_oTransparentSceneMeshes;
 	std::vector< OmniLight* > m_oOmniLights;
 	std::vector< SpotLight* > m_oSpotLights;
 	std::vector< SpotShadow* > m_oSpotShadows;
