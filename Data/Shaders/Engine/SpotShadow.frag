@@ -4,9 +4,7 @@ uniform sampler2D sNormalSampler;
 uniform sampler2D sDepthSampler;
 uniform sampler2D sShadowMapSampler;
 uniform mat4 mInvProj;
-uniform mat4 mInvViewProj;
 uniform mat4 mShadowMatrix;
-uniform int iDebug;
 
 varying vec3 vVarColor;
 varying vec3 vVarLightPos;

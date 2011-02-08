@@ -1114,7 +1114,6 @@ void DeferredRenderer::Render()
 		m_pOmniLightShader->Activate();	
 		m_pOmniLightShader->CommitStdUniforms();
 		m_pOmniLightShader->setUniformMatrix4fv( m_iOmniLightShaderInvProjHandle, mInvProjection );
-		m_pOmniLightShader->setUniformi( "iDebug", m_iDebugFlag );
 
 		RenderOmniLights( m_vOmniLightQuads );
 		
@@ -1126,7 +1125,6 @@ void DeferredRenderer::Render()
 		m_pSpotLightShader->Activate();	
 		m_pSpotLightShader->CommitStdUniforms();
 		m_pSpotLightShader->setUniformMatrix4fv( m_iSpotLightShaderInvProjHandle, mInvProjection );
-		m_pSpotLightShader->setUniformi( "iDebug", m_iDebugFlag );
 		RenderSpotLights( m_vSpotLightQuads, m_iSpotLightShaderColorAndInverseRadiusHandle, m_iSpotLightShaderViewSpacePosAndMultiplierHandle, m_iSpotLightShaderViewSpaceDirHandle, m_iSpotLightShaderCosInAndOutHandle );
 		m_pSpotLightShader->Desactivate();
 	}
@@ -1137,7 +1135,6 @@ void DeferredRenderer::Render()
 
 	glActiveTexture( GL_TEXTURE2 );
 	
-	m_pSpotShadowShader->setUniformi( "iDebug", m_iDebugFlag );
 	PrepareAndRenderSpotShadows( rSceneGraph.GetSpotShadows(), rCamera, oViewFrustum, mModelView, mModelViewProjection );
 	m_pSpotShadowShader->Desactivate();	
 
