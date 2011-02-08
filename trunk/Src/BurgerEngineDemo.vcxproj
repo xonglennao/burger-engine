@@ -118,7 +118,9 @@
     <None Include="..\Data\Materials\prison\stoneWallDiffuseBump.xml" />
     <None Include="..\Data\Materials\prison\woodDiffuseBump.xml" />
     <None Include="..\Data\Materials\test_dof\floorDiffuseBump.xml" />
-    <None Include="..\Data\Materials\test_transparency\test_transparency.xml" />
+    <None Include="..\Data\Materials\test_transparency\test_transparency.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\Data\Scenes\prison.xml">
       <SubType>Designer</SubType>
     </None>

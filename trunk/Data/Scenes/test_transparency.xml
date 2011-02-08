@@ -55,6 +55,15 @@
       </part>
     </mesh>
   </sceneobject>
+
+  <sceneobject x="25.0" y="15.0" z="35.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
+    <mesh>
+      <file>../Data/Mesh/unit_cube.obj</file>
+      <part>
+        <material>../Data/Materials/test_transparency/test_transparency4.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>
   <!-- END TRANSPARENT OBJECTS -->
   
   <sceneobject x="-15.0" y="5.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">

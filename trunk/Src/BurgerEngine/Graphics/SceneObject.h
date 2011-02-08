@@ -33,6 +33,8 @@ public:
 	void SetPosX ( float fValue ) { m_f3Position.x = fValue; }
 	void SetPosY ( float fValue ) { m_f3Position.y = fValue; }
 	void SetPosZ ( float fValue ) { m_f3Position.z = fValue; }
+
+	void SetViewZ( float vValue ){ m_fViewZ = vValue; }
 	
 	void SetRotation( vec3 vValue ){ m_f3Rotation = vValue; }
 	void SetRX ( float fValue ) { m_f3Rotation.x = fValue; }
@@ -40,13 +42,15 @@ public:
 	void SetRZ ( float fValue ) { m_f3Rotation.z = fValue; }
 
 	vec3 const&  GetPos() const { return m_f3Position; }
+	float const&  GetViewZ() const { return m_fViewZ; }
 	vec3 const&  GetRotation() const { return m_f3Rotation; }
 
 protected:
 
 	/// Position
 	vec3	m_f3Position;
-
+	// view space position on z axis
+	float	m_fViewZ;
 	/// Rotation
 	vec3	m_f3Rotation;
 };
