@@ -4,7 +4,6 @@ uniform sampler2D sNormalSampler;
 uniform sampler2D sDepthSampler;
 
 uniform mat4 mInvProj;
-uniform int iDebug;
 
 varying vec3 vVarColor;
 varying vec3 vVarLightPos;

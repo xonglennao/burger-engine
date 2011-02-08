@@ -1,7 +1,6 @@
 //vertex attributes
 attribute vec4 vColorAndInverseRadius;
 attribute vec4 vViewSpacePosAndMultiplier;
-attribute float fInverseRadius;
 attribute vec3 vViewSpaceDir;
 attribute vec2 vCosInAndOut;
 

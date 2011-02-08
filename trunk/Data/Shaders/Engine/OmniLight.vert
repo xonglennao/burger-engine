@@ -1,7 +1,6 @@
 //vertex attributes
 attribute vec4 vColorAndInverseRadius;
 attribute vec4 vViewSpacePosAndMultiplier;
-attribute float fInverseRadius;
 
 varying vec3 vVarColor;
 varying vec3 vVarLightPos;
