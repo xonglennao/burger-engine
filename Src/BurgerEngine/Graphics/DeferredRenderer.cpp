@@ -5,7 +5,6 @@
 
 #include "BurgerEngine/Core/AbstractCamera.h"
 #include "BurgerEngine/Graphics/OpenGLContext.h"
-#include "BurgerEngine/Graphics/SceneMesh.h"
 #include "BurgerEngine/Graphics/FBO.h"
 #include "BurgerEngine/Graphics/ShaderManager.h"
 #include "BurgerEngine/Graphics/Shader.h"
@@ -309,7 +308,7 @@ void DeferredRenderer::GenFullScreenQuad()
 	unsigned int iWindowHeight = rEngine.GetWindowHeight();
 
 	glGenBuffers( 1,  &m_iFullScreenQuadBufferId );
-	glGenBuffers( 2,  &m_iFullScreenQuadBufferIdCW );
+	glGenBuffers( 1,  &m_iFullScreenQuadBufferIdCW );
 
 	unsigned int iNbVertex = 4;
 
@@ -1035,7 +1034,7 @@ void DeferredRenderer::Render()
 	
 	SceneGraph & rSceneGraph = Engine::GrabInstance().GrabSceneGraph();
 	const std::vector< SceneMesh* >& oSceneMeshes = rSceneGraph.GetSceneMeshes();
-	const std::vector< SceneMesh* >& oTransparentSceneMeshes = rSceneGraph.GetTransparentSceneMeshes();
+	std::vector< SceneMesh* >& oTransparentSceneMeshes = rSceneGraph.GetTransparentSceneMeshes();
 	
 	Engine const& rEngine = Engine::GetInstance();
 	
@@ -1045,7 +1044,7 @@ void DeferredRenderer::Render()
 	AbstractCamera & rCamera = rEngine.GetCurrentCamera();
 	OpenGLContext& rRenderingContext = rEngine.GrabRenderingContext(); 
 
-	RenderShadowMaps(oSceneMeshes,rSceneGraph,rRenderingContext);
+	RenderShadowMaps( oSceneMeshes,rSceneGraph,rRenderingContext );
 	
 	rRenderingContext.Reshape( iWindowWidth, iWindowHeight, rCamera.GetFOV(), rCamera.GetNear(), rCamera.GetFar() );	
 	rCamera.LookAt();
@@ -1186,7 +1185,29 @@ void DeferredRenderer::Render()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	//rendering transparent objects
+	
+	//we need to sort the object from back to front
 	oMeshIt = oTransparentSceneMeshes.begin();	
+	while( oMeshIt != oTransparentSceneMeshes.end() )
+	{
+		vec3 f3Pos = (*oMeshIt)->GetPos();
+		float fViewZ = ( mModelView * vec4( f3Pos.x, f3Pos.y, f3Pos.z, 1.0 ) ).z;
+		(*oMeshIt)->SetViewZ( fViewZ );
+		++oMeshIt;
+	}
+	std::sort( oTransparentSceneMeshes.begin(), oTransparentSceneMeshes.end(), BackToFrontComp );
+
+	
+	oMeshIt = oTransparentSceneMeshes.begin();
+	glCullFace( GL_FRONT );
+	while( oMeshIt != oTransparentSceneMeshes.end() )
+	{
+		(*oMeshIt)->Draw( EffectTechnique::E_RENDER_TRANSPARENCY );
+		++oMeshIt;
+	}
+
+	oMeshIt = oTransparentSceneMeshes.begin();
+	glCullFace( GL_BACK );
 	while( oMeshIt != oTransparentSceneMeshes.end() )
 	{
 		(*oMeshIt)->Draw( EffectTechnique::E_RENDER_TRANSPARENCY );

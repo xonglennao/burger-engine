@@ -17,12 +17,12 @@
 #include "BurgerEngine/Graphics/OmniLight.h"
 #include "BurgerEngine/Graphics/SpotLight.h"
 #include "BurgerEngine/Graphics/SpotShadow.h"
+#include "BurgerEngine/Graphics/SceneMesh.h"
 
 #include "BurgerEngine/External/Math/Vector.h"
 
 #include <vector>
 
-class SceneMesh;
 class SceneGraph;
 class OpenGLContext;
 
@@ -30,11 +30,16 @@ class DeferredRenderer
 {
 public:
 
+	struct sBackToFrontComp
+	{
+		bool operator() ( SceneMesh * i , SceneMesh * j ) { return ( i->GetViewZ() < j->GetViewZ() ); }
+	} BackToFrontComp;
+	
 	/// \brief default constructor
 	DeferredRenderer();
 	~DeferredRenderer();
 
-	void SetDebugFlag( int i){ m_iDebugFlag = i; }
+	void SetDebugFlag( int i ){ m_iDebugFlag = i; }
 
 	/// \brief strats rendering process
 	void Render();
