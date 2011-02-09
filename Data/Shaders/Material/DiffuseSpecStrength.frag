@@ -44,7 +44,7 @@ void main()
 	//float fDepth = gl_FragCoord.z / gl_FragCoord.w;	
 	//vFinalColor.a = ComputeDepthBlur( fDepth );
 
-	gl_FragColor = vFinalColor;
+	gl_FragData[0] = vFinalColor;
 
 	//Computing blur information for Depth of Field
 	float fDepth = gl_FragCoord.z / gl_FragCoord.w;	
