@@ -12,4 +12,6 @@ Here's some tasks to do.
 - Try to have transparent object with shadow
 
 === Materials ===
-- Add a new xml type container the shader name, the fragment shader and the vertex shader
+- Put 
+_<shadername>FillBGufferBasic</shadername>    <vertexshader>../Data/Shaders/Material/FillGBufferBasic.vert</vertexshader> <pixelshader>../Data/Shaders/Material/FillGBufferBasic.frag</pixelshader>_
+in a separate xml
