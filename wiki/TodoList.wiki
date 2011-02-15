@@ -13,5 +13,9 @@ Here's some tasks to do.
 
 === Materials ===
 - Put 
-_<shadername>FillBGufferBasic</shadername>    <vertexshader>../Data/Shaders/Material/FillGBufferBasic.vert</vertexshader> <pixelshader>../Data/Shaders/Material/FillGBufferBasic.frag</pixelshader>_
+{{{
+<shadername>FillBGufferBasic</shadername>
+<vertexshader>../Data/Shaders/Material/FillGBufferBasic.vert</vertexshader>
+<pixelshader>../Data/Shaders/Material/FillGBufferBasic.frag</pixelshader>
+}}}
 in a separate xml
