@@ -1,13 +1,15 @@
 #summary What to do next
 
-= Introduction =
+= To do list =
 
-Here's some tasks to do :
+Here's some tasks to do.
 
 
-= Details =
+== Tasks ==
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+=== Shadows ===
+- Cull lights that are not visible when rendering shadowmap
+- Try to have transparent object with shadow
+
+=== Material ===
+- Add a new xml type container the shader name, the fragment shader and the vertex shader
