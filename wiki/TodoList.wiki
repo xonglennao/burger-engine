@@ -11,5 +11,5 @@ Here's some tasks to do.
 - Cull lights that are not visible when rendering shadowmap
 - Try to have transparent object with shadow
 
-=== Material ===
+=== Materials ===
 - Add a new xml type container the shader name, the fragment shader and the vertex shader
