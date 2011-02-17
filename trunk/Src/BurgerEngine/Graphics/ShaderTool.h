@@ -3,7 +3,7 @@
 
 //#define USE_GEOMETRY_SHADER
 
-#include "CommonGraphics.h"
+#include "BurgerEngine/Graphics/CommonGraphics.h"
 
 // filename : name of the file contening a shader
 // return : a program object

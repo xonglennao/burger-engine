@@ -28,14 +28,14 @@
 //#define NO_MATERIAL_PASS
 
 const int GLOW_RATIO = 4;
-
+const float MAX_FRAME = 15.0;
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
 DeferredRenderer::DeferredRenderer()
 	: m_iDebugFlag(0)
-	, m_fMaxFrame( 15.0 )
 	, m_fFrameTime( 10.0 )
+	, m_bShowDebugMenu( false )
 {
 
 	CreateFBO();
@@ -46,13 +46,34 @@ DeferredRenderer::DeferredRenderer()
 	//loading font
 	GLuint iFontId;
 	glGenTextures(1, &iFontId);
-	m_oFont = new PixelPerfectGLFont();
-	m_oFont->Create("../Data/Fonts/lucida_sans.glf", iFontId);
+	m_pFont = new PixelPerfectGLFont();
+	m_pFont->Create("../Data/Fonts/lucida_sans.glf", iFontId);
+
+	GLuint iFontId2;
+	glGenTextures(1, &iFontId2);
+	m_pFont2 = new PixelPerfectGLFont();
+	m_pFont2->Create("../Data/Fonts/lucida_sans_bold.glf", iFontId2);
 
 	m_oTimer = new Timer();
-	m_fFrameCount = m_fMaxFrame;
+	m_fFrameCount = MAX_FRAME;
 
 	GenFullScreenQuad();
+
+	m_fToneMappingKey = 0.5f;
+	m_fGlowMultiplier = 1.0f;
+	m_fBrightPassThreshold = 0.5f;
+	m_fBrightPassOffset = 10.0f;
+	m_fAdaptationBaseTime = 0.5f;
+	
+	DebugMenu& oDebugMenu = Engine::GrabInstance().GrabSceneGraph().GetDebugMenu();
+
+	oDebugMenu.AddEntry( "ToneMappingKey", m_fToneMappingKey, 0.0f, 1.0f, 0.1f );
+	oDebugMenu.AddEntry( "Glow Multiplier", m_fGlowMultiplier, 0.0f, 10.0f, 0.5f );
+	oDebugMenu.AddEntry( "BrightPass Threshold", m_fBrightPassThreshold, 0.0f, 10.0f, 0.5f );
+	oDebugMenu.AddEntry( "BrightPass Offset", m_fBrightPassOffset, 0.0f, 10.0f, 0.5f );
+	oDebugMenu.AddEntry( "Adaptation Base Time", m_fAdaptationBaseTime, 0.0f, 1.0f, 0.02f );
+	oDebugMenu.AddEntry( "DebugFlag", m_iDebugFlag, 0, 100, 1 );
+
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -105,8 +126,11 @@ DeferredRenderer::~DeferredRenderer()
 	delete m_pDOFBlur2Buffer;
 	m_pDOFBlur2Buffer = NULL;
 
-	delete m_oFont;
-	m_oFont = NULL;
+	delete m_pFont;
+	m_pFont = NULL;
+
+	delete m_pFont2;
+	m_pFont2 = NULL;
 
 	delete m_oTimer;
 	m_oTimer = NULL;
@@ -278,6 +302,7 @@ void DeferredRenderer::LoadEngineShaders()
 	m_pToneMappingShader->setUniformTexture("sBloom",2);
 	m_pToneMappingShader->setUniformTexture("sDownSampledTexture",3);
 	m_pToneMappingShader->setUniformTexture("sBlurData",4);
+	m_iToneMappingShaderKeyAndMultiplierHandle = glGetUniformLocation( m_pToneMappingShader->getHandle(), "fGlowMultiplierAndKey" );
 	m_pToneMappingShader->Desactivate();
 
 	m_pLightAdaptationShader = rShaderManager.addShader( "LightAdaptation", "../Data/Shaders/BasicVertexShader.vert", "../Data/Shaders/Engine/LightAdaptation.frag" );
@@ -285,14 +310,15 @@ void DeferredRenderer::LoadEngineShaders()
 	m_pLightAdaptationShader->QueryStdUniforms();
 	m_pLightAdaptationShader->setUniformTexture("sAvgLuminance",0);
 	m_pLightAdaptationShader->setUniformTexture("sAdaptedLuminance",1);
-	m_iAdaptationShaderTimeHandle = glGetUniformLocation( m_pLightAdaptationShader->getHandle(), "fElapsedTime" );
+	m_iAdaptationShaderTimeHandle = glGetUniformLocation( m_pLightAdaptationShader->getHandle(), "fElapsedAndBaseTime" );
 	m_pLightAdaptationShader->Desactivate();
 
 	m_pBrightPassShader = rShaderManager.addShader( "BrightPass", "../Data/Shaders/BasicVertexShader.vert", "../Data/Shaders/Engine/BrightPass.frag" );
 	m_pBrightPassShader->Activate();
 	m_iBrightPassShaderInvViewPortHandle = glGetUniformLocation( m_pBrightPassShader->getHandle(), "vInvViewport" );
+	m_iBrightPassShaderThresholdOffsetKeyHandle = glGetUniformLocation( m_pBrightPassShader->getHandle(), "fThresholdOffSetKey" );
 	m_pBrightPassShader->setUniformTexture("sTexture",0);
-	m_pBrightPassShader->setUniformTexture("sLuminance",1);
+	m_pBrightPassShader->setUniformTexture("sLuminance",1);	
 	m_pBrightPassShader->Desactivate();
 
 
@@ -354,7 +380,7 @@ void DeferredRenderer::DrawFullScreenQuad( int iWindowWidth, int iWindowHeight, 
 	
 	glPushMatrix();
 
-	glScalef( iWindowWidth, iWindowHeight, 0.0f );
+	glScalef( static_cast<float>(iWindowWidth), static_cast<float>(iWindowHeight), 0.0f );
 	
 	if( bCCW )
 	{
@@ -622,7 +648,7 @@ void DeferredRenderer::DrawFrustum( const vec3 * pPoints, const vec3& f3Pos )
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void DeferredRenderer::DisplayText( const std::string& sText, int iPosX, int iPosY )
+void DeferredRenderer::DisplayText( const std::string& sText, int iPosX, int iPosY, PixelPerfectGLFont* oFont )
 {
 	Engine const& rEngine = Engine::GetInstance();
 	unsigned int iWindowWidth = rEngine.GetWindowWidth();
@@ -645,8 +671,8 @@ void DeferredRenderer::DisplayText( const std::string& sText, int iPosX, int iPo
 	glEnable(GL_TEXTURE_2D);
 	glColor3f(1.0f, 1.0f, 1.0f);
 
-	m_oFont->Begin();
-	m_oFont->TextOut( sText, iPosX, iPosY, 0);
+	oFont->Begin();
+	oFont->TextOut( sText, iPosX, iPosY, 0);
 
 	Texture2D::Desactivate();
 	glDisable(GL_BLEND);
@@ -654,6 +680,24 @@ void DeferredRenderer::DisplayText( const std::string& sText, int iPosX, int iPo
 	glEnable(GL_DEPTH_TEST);
 }
 
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void DeferredRenderer::DisplayDebugMenu()
+{
+	const DebugMenu& oDebugMenu = Engine::GrabInstance().GrabSceneGraph().GetDebugMenu();
+	const std::pair< std::string, DebugMenuEntryBase* > oEntryPair = oDebugMenu.GetEntry();
+	
+	std::stringstream oStream;
+	oStream << "Debug Menu ";
+	DisplayText( oStream.str(), 200, 70, m_pFont2 );
+
+	DebugMenuEntryBase* oEntry = oEntryPair.second;
+
+	std::stringstream oStream2;
+	oStream2 << oEntryPair.first << ": " << oEntry->GetValue();
+	DisplayText( oStream2.str(), 200, 90, m_pFont);
+}
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
@@ -873,7 +917,7 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 		
 		m_pBlur6Shader->Activate();
 		float pPixelSize[2] = { 1.0f/ SpotShadow::iShadowMapSize, 0.0f };
-		m_pBlur6Shader->setUniform2fv( m_iBlur6ShaderPixelSizeHandle, 1, pPixelSize);
+		m_pBlur6Shader->setUniform2fv( m_iBlur6ShaderPixelSizeHandle, 1, pPixelSize );
 
 		m_pSpotShadowBlurBuffer->Activate();
 		DrawFullScreenQuad( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, false );
@@ -892,7 +936,7 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 		pSpot->DesactivateBuffer();
 
 		m_pBlur6Shader->Desactivate();
-
+		
 		++oSpotIt;
 	}
 
@@ -974,7 +1018,8 @@ void DeferredRenderer::ComputeAvgLum()
 	m_pCurrentAdaptationBuffer->Activate();
 	m_pLightAdaptationShader->Activate();
 	
-	m_pLightAdaptationShader->setUniformf( m_iAdaptationShaderTimeHandle, m_fFrameTime * 0.0001f );
+	float fTimes[2] = { m_fFrameTime * 0.0001f, m_fAdaptationBaseTime };
+	m_pLightAdaptationShader->setUniform2fv( m_iAdaptationShaderTimeHandle, 1, fTimes );
 
 	m_p1x1LumBuffer->ActivateTexture();
 	glActiveTexture( GL_TEXTURE1 );
@@ -995,6 +1040,10 @@ void DeferredRenderer::ComputeAvgLum()
 	pPixelSize[0] = 1.0f / ( iWindowWidth / GLOW_RATIO );
 	pPixelSize[1] = 1.0f /( iWindowHeight / GLOW_RATIO );
 	m_pBrightPassShader->setUniform2fv( m_iBrightPassShaderInvViewPortHandle, 1, pPixelSize);
+
+	float pBrightPassUniforms[3] = { m_fBrightPassThreshold, m_fBrightPassOffset, m_fToneMappingKey };
+	m_pBrightPassShader->setUniform3fv( m_iBrightPassShaderThresholdOffsetKeyHandle, 1, pBrightPassUniforms);
+
 	m_pHDRSceneBuffer->ActivateTexture();
 	glActiveTexture( GL_TEXTURE1 );
 	m_pLastAdaptationBuffer->ActivateTexture();
@@ -1192,7 +1241,8 @@ void DeferredRenderer::Render()
 		(*oMeshIt)->SetViewZ( fViewZ );
 		++oMeshIt;
 	}
-	std::sort( oTransparentSceneMeshes.begin(), oTransparentSceneMeshes.end(), BackToFrontComp );
+	BackToFrontComp Comp;
+	std::sort( oTransparentSceneMeshes.begin(), oTransparentSceneMeshes.end(), Comp );
 
 	
 	oMeshIt = oTransparentSceneMeshes.begin();
@@ -1231,7 +1281,7 @@ void DeferredRenderer::Render()
 	m_pDOFBlur1Buffer->Activate();
 	m_pBlur6DofSpecialShader->Activate();
 	float pPixelSize[2] = { 1.0f/ (iWindowWidth/2), 0.0f };
-	m_pBlur6DofSpecialShader->setUniform2fv( m_iBlur6DofSpecialShaderPixelSizeHandle, 1, pPixelSize);
+	m_pBlur6DofSpecialShader->setUniform2fv( m_iBlur6DofSpecialShaderPixelSizeHandle, 1, pPixelSize );
 	DrawFullScreenQuad( iWindowWidth/2, iWindowHeight/2);
 	
 	Texture2D::Desactivate();
@@ -1242,7 +1292,7 @@ void DeferredRenderer::Render()
 	m_pDOFBlur1Buffer->ActivateTexture();
 	pPixelSize[0] = 0.0;
 	pPixelSize[1] = 1.0f / (iWindowHeight/2);
-	m_pBlur6Shader->setUniform2fv( m_iBlur6ShaderPixelSizeHandle, 1, pPixelSize);
+	m_pBlur6Shader->setUniform2fv( m_iBlur6ShaderPixelSizeHandle, 1, pPixelSize );
 	DrawFullScreenQuad( iWindowWidth/2, iWindowHeight/2);
 
 	m_pDOFBlur2Buffer->Desactivate();
@@ -1250,7 +1300,10 @@ void DeferredRenderer::Render()
 	//Tone mapping - Final Step
 	m_pToneMappingShader->Activate();
 	m_pToneMappingShader->CommitStdUniforms();
-
+	
+	float fToneMappingShaderUniform[2] = { m_fGlowMultiplier, m_fToneMappingKey };
+	m_pToneMappingShader->setUniform2fv( m_iToneMappingShaderKeyAndMultiplierHandle, 1, fToneMappingShaderUniform );
+	
 	m_pHDRSceneBuffer->ActivateTexture();
 	glActiveTexture( GL_TEXTURE1 );
 	m_pLastAdaptationBuffer->ActivateTexture();
@@ -1279,19 +1332,23 @@ void DeferredRenderer::Render()
 #endif
 	
 	++m_fFrameCount;
-	if( m_fFrameCount >= m_fMaxFrame )
+	if( m_fFrameCount >= MAX_FRAME )
 	{
-		m_fFrameTime = m_oTimer->Stop() / m_fMaxFrame;
+		m_fFrameTime = m_oTimer->Stop() / MAX_FRAME;
 		m_fFrameCount = 0.0;
 		m_oTimer->Start();
 	}
-	
-	//Profiling infos
-	std::stringstream oStream;
-	oStream << "GPU:" << m_fFrameTime << "ms";
-	DisplayText( oStream.str(), iWindowWidth - 200, 50);
+	if( m_bShowDebugMenu )	
+	{
+		//Profiling infos
+		std::stringstream oStream;
+		oStream << "GPU:" << m_fFrameTime << "ms";
+		DisplayText( oStream.str(), iWindowWidth - 250, 50, m_pFont );
 
-	std::stringstream oStream2;
-	oStream2 << "Displaying " << m_vOmniLightQuads.size() << " of " << rSceneGraph.GetOmniLights().size() << " omni lights.";
-	DisplayText( oStream2.str(), iWindowWidth - 200, 70);
+		std::stringstream oStream2;
+		oStream2 << "Displaying " << m_vOmniLightQuads.size() << " of " << rSceneGraph.GetOmniLights().size() << " omni lights.";
+		DisplayText( oStream2.str(), iWindowWidth - 250, 70, m_pFont );
+		
+		DisplayDebugMenu();
+	}
 }

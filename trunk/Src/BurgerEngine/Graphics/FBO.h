@@ -15,7 +15,7 @@
 /// \name	FBO.h
 /// \brief	OpenGL FrameBufferObjects
 
-#include "CommonGraphics.h"
+#include "BurgerEngine/Graphics/CommonGraphics.h"
 
 class FBO
 {

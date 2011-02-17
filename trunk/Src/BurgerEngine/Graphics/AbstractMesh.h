@@ -12,7 +12,7 @@
 #ifndef __ABSTRACTMESH_H__
 #define __ABSTRACTMESH_H__
 
-#include "CommonGraphics.h"
+#include "BurgerEngine/Graphics/CommonGraphics.h"
 
 /// \class AbstractMesh
 /// \brief Interface for meshes

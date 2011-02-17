@@ -12,7 +12,7 @@
 #ifndef __DEFERREDRENDERER_H__
 #define __DEFERREDRENDERER_H__
 
-#include "CommonGraphics.h"
+#include "BurgerEngine/Graphics/CommonGraphics.h"
 #include "BurgerEngine/Graphics/EffectTechnique.h"
 #include "BurgerEngine/Graphics/OmniLight.h"
 #include "BurgerEngine/Graphics/SpotLight.h"
@@ -30,16 +30,18 @@ class DeferredRenderer
 {
 public:
 
-	struct sBackToFrontComp
+	struct BackToFrontComp
 	{
 		bool operator() ( SceneMesh * i , SceneMesh * j ) { return ( i->GetViewZ() < j->GetViewZ() ); }
-	} BackToFrontComp;
+	};
 	
 	/// \brief default constructor
 	DeferredRenderer();
 	~DeferredRenderer();
 
 	void SetDebugFlag( int i ){ m_iDebugFlag = i; }
+	void SwitchShowDebugMenu(){ m_bShowDebugMenu = !m_bShowDebugMenu; }
+	bool GetShowDebugMenu(){ return m_bShowDebugMenu; }
 
 	/// \brief strats rendering process
 	void Render();
@@ -79,7 +81,9 @@ private:
 	void ComputeAvgLum();
 
 	/// \brief Display 2D text on the screen
-	void DisplayText( std::string const& sText, int iPosX, int iPosY );
+	void DisplayText( std::string const& sText, int iPosX, int iPosY, PixelPerfectGLFont* pFont );
+
+	void DisplayDebugMenu();
 
 private:
 	FBO* m_pGBuffer;
@@ -103,64 +107,79 @@ private:
 
 	GLuint m_iFullScreenQuadBufferId;
 	GLuint m_iFullScreenQuadBufferIdCW;
-	int m_iDebugFlag;
+	
+	//Debug flags
+	int		m_iDebugFlag;
+	bool	m_bShowDebugMenu;
 
-	PixelPerfectGLFont* m_oFont;
+	//Fonts used to display text on screen
+	PixelPerfectGLFont* m_pFont;
+	PixelPerfectGLFont* m_pFont2;
 
+	//Profiler variables
 	Timer*	m_oTimer;
 	float	m_fFrameCount;
-	float	m_fMaxFrame;
 	float	m_fFrameTime;
 
-	Shader* m_pOmniLightShader;
-	unsigned int m_iOmniLightShaderInvProjHandle;
-	unsigned int m_iOmniLightShaderColorAndInverseRadiusHandle;
-	unsigned int m_iOmniLightShaderViewSpacePosAndMultiplierHandle;
+	//Shader pointers and handles for uniform variables
+	Shader*			m_pOmniLightShader;
+	unsigned int	m_iOmniLightShaderInvProjHandle;
+	unsigned int	m_iOmniLightShaderColorAndInverseRadiusHandle;
+	unsigned int	m_iOmniLightShaderViewSpacePosAndMultiplierHandle;
 
-	Shader* m_pSpotLightShader;
-	unsigned int m_iSpotLightShaderInvProjHandle;
-	unsigned int m_iSpotLightShaderColorAndInverseRadiusHandle;
-	unsigned int m_iSpotLightShaderViewSpacePosAndMultiplierHandle;
-	unsigned int m_iSpotLightShaderViewSpaceDirHandle;
-	unsigned int m_iSpotLightShaderCosInAndOutHandle;
+	Shader*			m_pSpotLightShader;
+	unsigned int	m_iSpotLightShaderInvProjHandle;
+	unsigned int	m_iSpotLightShaderColorAndInverseRadiusHandle;
+	unsigned int	m_iSpotLightShaderViewSpacePosAndMultiplierHandle;
+	unsigned int	m_iSpotLightShaderViewSpaceDirHandle;
+	unsigned int	m_iSpotLightShaderCosInAndOutHandle;
 
-	Shader* m_pSpotShadowShader;
-	unsigned int m_iSpotShadowShaderInvProjHandle;
-	unsigned int m_iSpotShadowShaderShadowMatrixHandle;
-	unsigned int m_iSpotShadowShaderColorAndInverseRadiusHandle;
-	unsigned int m_iSpotShadowShaderViewSpacePosAndMultiplierHandle;
-	unsigned int m_iSpotShadowShaderViewSpaceDirHandle;
-	unsigned int m_iSpotShadowShaderCosInAndOutHandle;
+	Shader*			m_pSpotShadowShader;
+	unsigned int	m_iSpotShadowShaderInvProjHandle;
+	unsigned int	m_iSpotShadowShaderShadowMatrixHandle;
+	unsigned int	m_iSpotShadowShaderColorAndInverseRadiusHandle;
+	unsigned int	m_iSpotShadowShaderViewSpacePosAndMultiplierHandle;
+	unsigned int	m_iSpotShadowShaderViewSpaceDirHandle;
+	unsigned int	m_iSpotShadowShaderCosInAndOutHandle;
 
-	Shader* m_pVarianceShadowMapShader;
+	Shader*			m_pVarianceShadowMapShader;
 	
-	Shader* m_pBlur6Shader;
-	unsigned int m_iBlur6ShaderPixelSizeHandle;
+	Shader*			m_pBlur6Shader;
+	unsigned int	m_iBlur6ShaderPixelSizeHandle;
 
-	Shader* m_pBlur6DofSpecialShader;
-	unsigned int m_iBlur6DofSpecialShaderPixelSizeHandle;
+	Shader*			m_pBlur6DofSpecialShader;
+	unsigned int	m_iBlur6DofSpecialShaderPixelSizeHandle;
 
-	Shader* m_pBlur10Shader;
-	unsigned int m_iBlur10ShaderPixelSizeHandle;
+	Shader*			m_pBlur10Shader;
+	unsigned int	m_iBlur10ShaderPixelSizeHandle;
 
-	Shader* m_pDownSample4x4Shader;
-	unsigned int m_iDownSampleShaderPixelSizeHandle;
+	Shader*			m_pDownSample4x4Shader;
+	unsigned int	m_iDownSampleShaderPixelSizeHandle;
 
-	Shader* m_pAvgLumInitShader;
-	unsigned int m_iAvgLumInitShaderPixelSizeHandle;
+	Shader*			m_pAvgLumInitShader;
+	unsigned int	m_iAvgLumInitShaderPixelSizeHandle;
 
-	Shader* m_pAvgLumFinalShader;
-	unsigned int m_iAvgLumFinalShaderPixelSizeHandle;
+	Shader*			m_pAvgLumFinalShader;
+	unsigned int	m_iAvgLumFinalShaderPixelSizeHandle;
 
-	Shader* m_pBasicPixelShader;
+	Shader*			m_pBasicPixelShader;
 
-	Shader* m_pToneMappingShader;
+	Shader*			m_pToneMappingShader;
+	unsigned int	m_iToneMappingShaderKeyAndMultiplierHandle;
 
-	Shader* m_pLightAdaptationShader;
-	unsigned int m_iAdaptationShaderTimeHandle;
+	Shader*			m_pLightAdaptationShader;
+	unsigned int	m_iAdaptationShaderTimeHandle;
 
-	Shader* m_pBrightPassShader;
-	unsigned int m_iBrightPassShaderInvViewPortHandle;
+	Shader*			m_pBrightPassShader;
+	unsigned int	m_iBrightPassShaderInvViewPortHandle;
+	unsigned int	m_iBrightPassShaderThresholdOffsetKeyHandle;
+
+	//Post-process settings
+	float m_fToneMappingKey;
+	float m_fGlowMultiplier;
+	float m_fBrightPassThreshold;
+	float m_fBrightPassOffset;
+	float m_fAdaptationBaseTime;
 
 	std::vector< OmniLight::OmniLightQuad > m_vOmniLightQuads;
 	std::vector< SpotLight::SpotLightQuad > m_vSpotLightQuads;

@@ -16,7 +16,7 @@
 /// \brief	The application of the window
 
 /// TODO dirty
-#include "CommonGraphics.h"
+#include "BurgerEngine/Graphics/CommonGraphics.h"
 #include "BurgerEngine/External/Math/Vector.h"
 #include "BurgerEngine/External/SFML/Window.hpp"
 
