@@ -15,7 +15,7 @@
 #include <string>
 #include <iostream>
 
-#include "CommonGraphics.h"
+#include "BurgerEngine/Graphics/CommonGraphics.h"
 
 class AbstractTexture
 {

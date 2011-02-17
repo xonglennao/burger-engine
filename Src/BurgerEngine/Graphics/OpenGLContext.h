@@ -12,7 +12,7 @@
 #ifndef __OPENGLCONTEXT_H__
 #define __OPENGLCONTEXT_H__
 
-#include "CommonGraphics.h"
+#include "BurgerEngine/Graphics/CommonGraphics.h"
 
 /// \name	OpenGLContext.h
 /// \brief	With this class you can Init the GL param. So far the context is shared between all window

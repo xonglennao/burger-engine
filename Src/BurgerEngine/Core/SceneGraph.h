@@ -16,6 +16,8 @@
 #include "BurgerEngine/Graphics/CommonGraphics.h"
 #include "BurgerEngine/Graphics/SceneLight.h"
 
+#include "BurgerEngine/GUI/DebugMenu.h"
+
 #include <vector>
 #include <map>
 
@@ -37,12 +39,20 @@ public:
 
 	bool Init();
 
-	const std::vector< SceneMesh* >& GetSceneMeshes(){ return m_oSceneMeshes; };
+	const std::vector< SceneMesh* >& GetSceneMeshes() const { return m_oSceneMeshes; };
+	
 	const std::vector< SceneMesh* >& GetTransparentSceneMeshes() const { return m_oTransparentSceneMeshes; };
-	std::vector< SceneMesh* >& GetTransparentSceneMeshes(){ return m_oTransparentSceneMeshes; };
-	const std::vector< OmniLight* >& GetOmniLights(){ return m_oOmniLights; };
-	const std::vector< SpotLight* >& GetSpotLights(){ return m_oSpotLights; };
-	const std::vector< SpotShadow* >& GetSpotShadows(){ return m_oSpotShadows; };
+	std::vector< SceneMesh* >& GetTransparentSceneMeshes() { return m_oTransparentSceneMeshes; };
+	
+	const std::vector< OmniLight* >& GetOmniLights() const { return m_oOmniLights; };
+	
+	const std::vector< SpotLight* >& GetSpotLights()const { return m_oSpotLights; };
+	
+	const std::vector< SpotShadow* >& GetSpotShadows() const{ return m_oSpotShadows; };
+
+	const DebugMenu& GetDebugMenu() const { return m_oDebugMenu; };
+	DebugMenu& GetDebugMenu() { return m_oDebugMenu; };
+
 private:
 /// \brief Clears object and light lists
 	void Clear();
@@ -58,6 +68,8 @@ private:
 	std::vector< SpotShadow* > m_oSpotShadows;
 
 	std::map< std::string, SceneLight::LightType > m_eStringToLightTypeMap;
+
+	DebugMenu m_oDebugMenu;
 };
 
 

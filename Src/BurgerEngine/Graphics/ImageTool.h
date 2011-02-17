@@ -13,7 +13,7 @@
 #define __IMAGETOOL_H__
 
 #include <string>
-#include "CommonGraphics.h"
+#include "BurgerEngine/Graphics/CommonGraphics.h"
 
 class ImageTool
 {

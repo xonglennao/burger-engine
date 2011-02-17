@@ -1,9 +1,10 @@
-#include "ObjetFactory.h"
+#include "ObjectFactory.h"
 #include <assert.h>
 
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
+/*
 void ObjectFactory::Terminate()
 {
 	for (std::map<std::string , CompositeComponent*>::iterator iter = m_mObjects.begin() ; iter != m_mObjects.end() ; ++iter)
@@ -39,3 +40,4 @@ CompositeComponent* ObjectFactory::CreateObject(std::string const& a_rsID)
 		assert(false);
 	}
 }
+*/

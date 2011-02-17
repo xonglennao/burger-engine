@@ -14,7 +14,7 @@
 
 #include <string>
 
-#include "CommonGraphics.h"
+#include "BurgerEngine/Graphics/CommonGraphics.h"
 #include <map>
 
 class Shader
@@ -40,6 +40,7 @@ class Shader
 		void setUniformf(const std::string& sName, float fValue);
 		void setUniformf( int iUniformLocation, float fValue);
 		void setUniform2fv( int iUniformLocation, int iCount, float * pValue);
+		void setUniform3fv( int iUniformLocation, int iCount, float * pValue);
 
 		void setUniformi(const std::string& sName, int iValue);
 		void setUniformi( int iUniformLocation, int iValue);

@@ -1,13 +1,12 @@
 #include "BurgerEngine/Core/StageMain3DScene.h"
+#include "BurgerEngine/Core/SceneGraph.h"
 #include "BurgerEngine/Core/Engine.h"
 #include "BurgerEngine/Core/AbstractCamera.h"
 #include "BurgerEngine/Core/Timer.h"
 
 #include "BurgerEngine/Input/EventManager.h"
-
+#include "BurgerEngine/GUI/DebugMenu.h"
 #include "BurgerEngine/Graphics/DeferredRenderer.h"
-
-//#include <iostream>
 
 //--------------------------------------------------------------------------------------------------------------------
 //
@@ -79,29 +78,21 @@ bool StageMain3DScene::OnKeyDown(unsigned char a_cKey)
 		case 26 :
 			Engine::GetInstance().GetCurrentCamera().SetFlag( AbstractCamera::E_DOF_NEAR_BACKWARD, true );
 		break;
-
-		case 39 :
-		case 'o':
-			m_pDeferredRenderer->SetDebugFlag(0);
-			break;
-
-		case 40 :
-		
-		case 'p':
-			m_pDeferredRenderer->SetDebugFlag(1);
-			break;
-		
-		case 41 :
-			m_pDeferredRenderer->SetDebugFlag(2);
-			break;
-		
-		case 42 :
-			m_pDeferredRenderer->SetDebugFlag(3);
-			break;
-		
-		case 43 :
-			m_pDeferredRenderer->SetDebugFlag(4);
-			break;
+		case 27 :
+			if( m_pDeferredRenderer->GetShowDebugMenu() )
+				Engine::GrabInstance().GrabSceneGraph().GetDebugMenu().SetFlag( DebugMenu::E_PREVIOUS, true );
+		break;
+		case 28 :
+			if( m_pDeferredRenderer->GetShowDebugMenu() )
+				Engine::GrabInstance().GrabSceneGraph().GetDebugMenu().SetFlag( DebugMenu::E_NEXT, true );
+		break;
+		case 31 :
+			if( m_pDeferredRenderer->GetShowDebugMenu() )
+				Engine::GrabInstance().GrabSceneGraph().GetDebugMenu().SetFlag( DebugMenu::E_INCREMENT, true );
+		break;
+		case 32 :
+			if( m_pDeferredRenderer->GetShowDebugMenu() )
+				Engine::GrabInstance().GrabSceneGraph().GetDebugMenu().SetFlag( DebugMenu::E_DECREMENT, true );
 		break;
 	}
 	return true;
@@ -132,6 +123,25 @@ bool StageMain3DScene::OnKeyUp(unsigned char a_cKey)
 		case 26 :
 			Engine::GetInstance().GetCurrentCamera().SetFlag( AbstractCamera::E_DOF_NEAR_BACKWARD, false );
 		break;
+		case 27 :
+			if( m_pDeferredRenderer->GetShowDebugMenu() )
+				Engine::GrabInstance().GrabSceneGraph().GetDebugMenu().SetFlag( DebugMenu::E_PREVIOUS, false );
+		break;
+		case 28 :
+			if( m_pDeferredRenderer->GetShowDebugMenu() )
+				Engine::GrabInstance().GrabSceneGraph().GetDebugMenu().SetFlag( DebugMenu::E_NEXT, false );
+		break;
+		case 31 :
+			if( m_pDeferredRenderer->GetShowDebugMenu() )
+				Engine::GrabInstance().GrabSceneGraph().GetDebugMenu().SetFlag( DebugMenu::E_INCREMENT, false );
+		break;
+		case 32 :
+			if( m_pDeferredRenderer->GetShowDebugMenu() )
+				Engine::GrabInstance().GrabSceneGraph().GetDebugMenu().SetFlag( DebugMenu::E_DECREMENT, false );
+		break;
+		case 21 :
+			m_pDeferredRenderer->SwitchShowDebugMenu();
+		break;
 	}
 	return true;
 }
@@ -156,7 +166,6 @@ void StageMain3DScene::_Render()
 	float fDeltaTime = m_oTimer->Stop();
 	m_oTimer->Start();
 	Engine::GetInstance().GetCurrentCamera().Update( fDeltaTime );
+	Engine::GrabInstance().GrabSceneGraph().GetDebugMenu().Update( fDeltaTime );
 	m_pDeferredRenderer->Render();
-
-
 }
