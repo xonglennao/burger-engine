@@ -10,6 +10,18 @@ Here's some tasks to do.
 === Shadows ===
 - Cull lights that are not visible when rendering shadowmap
 - Try to have transparent object with shadow
+- VSM still need some tuning
+
+=== Scene Object / Renderable Entity ===
+- cubemap (skybox)
+- particle system
+
+=== Deferred Rendering ===
+- Add directionnal lights
+- new rendering technique : Refraction / distortion
+
+=== Post process===
+- Color correction using 3D LUT
 
 === Materials ===
 - Put 
