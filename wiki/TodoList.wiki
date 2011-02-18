@@ -8,26 +8,25 @@ Here's some tasks to do.
 == Tasks ==
 
 === Shadows ===
-- Cull lights that are not visible when rendering shadowmap
-- Try to have transparent object with shadow
-- VSM still need some tuning
+ * Cull lights that are not visible when rendering shadowmap
+ * Try to have transparent object with shadow
+ * VSM still need some tuning
 
 === Scene Object / Renderable Entity ===
-- cubemap (skybox)
-- particle system
+ * cubemap (skybox)
+ * particle system
 
 === Deferred Rendering ===
-- Add directionnal lights
-- new rendering technique : Refraction / distortion
+ * Add directionnal lights
+ * new rendering technique : Refraction / distortion
 
 === Post process===
-- Color correction using 3D LUT
+ * Color correction using 3D LUT
 
 === Materials ===
-- Put 
+ * Put this in a separate xml:
 {{{
 <shadername>FillBGufferBasic</shadername>
 <vertexshader>../Data/Shaders/Material/FillGBufferBasic.vert</vertexshader>
 <pixelshader>../Data/Shaders/Material/FillGBufferBasic.frag</pixelshader>
 }}}
-in a separate xml
