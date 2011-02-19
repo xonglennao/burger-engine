@@ -61,6 +61,9 @@
     <ClInclude Include="BurgerEngine\Graphics\TextureCubeMap.h" />
     <ClInclude Include="BurgerEngine\Graphics\TextureManager.h" />
     <ClInclude Include="BurgerEngine\Graphics\Window.h" />
+    <ClInclude Include="BurgerEngine\GUI\DebugMenu.h" />
+    <ClInclude Include="BurgerEngine\GUI\DebugMenuEntry.h" />
+    <ClInclude Include="BurgerEngine\GUI\DebugMenuEntryBase.h" />
     <ClInclude Include="BurgerEngine\Input\EventManager.h" />
     <ClInclude Include="BurgerEngine\Input\SFMLInputManager.h" />
   </ItemGroup>
@@ -114,6 +117,9 @@
     <ClCompile Include="BurgerEngine\Graphics\TextureCubeMap.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\TextureManager.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\Window.cpp" />
+    <ClCompile Include="BurgerEngine\GUI\DebugMenu.cpp" />
+    <ClCompile Include="BurgerEngine\GUI\DebugMenuEntry.cpp" />
+    <ClCompile Include="BurgerEngine\GUI\DebugMenuEntryBase.cpp" />
     <ClCompile Include="BurgerEngine\Input\EventManager.cpp" />
     <ClCompile Include="BurgerEngine\Input\SFMLInputManager.cpp" />
   </ItemGroup>

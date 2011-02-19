@@ -9,14 +9,28 @@ uniform sampler2D sBlurData;
 vec2 poisson[8];
 vec2 maxCoC = vec2(5.0,10.0);
 float radiusScale = 0.5;
-vec2 pixelSizeHigh, pixelSizeLow;
 
-const float fKey = 0.5;
+uniform vec2 fGlowMultiplierAndKey;
 
 vec4 dof(vec2 coords)
 {
+	// poisson-distributed positions
+	poisson = vec2[8]
+	(
+		vec2( 0.0, 0.0),
+		vec2( 0.527837,-0.085868),
+		vec2(-0.040088, 0.536087),
+		vec2(-0.670445,-0.179949),
+		vec2(-0.419418,-0.616039),
+		vec2( 0.440453,-0.639399),
+		vec2(-0.757088, 0.349334),
+		vec2( 0.574619, 0.685879)
+	);
+	
 	vec4 finalColor;
 
+	vec2 pixelSizeLow = vInvViewport * 2.0;
+	
 	float discRadius, discRadiusLow, centerDepth;
 
 	//finalColor = texture2D( sTexture, coords );
@@ -30,7 +44,7 @@ vec4 dof(vec2 coords)
 	for( int i = 0; i < 8; i++ )
 	{
 		vec2 coordLow = coords + (pixelSizeLow * poisson[i] * discRadiusLow);
-		vec2 coordHigh = coords + (pixelSizeHigh * poisson[i] * discRadius);
+		vec2 coordHigh = coords + ( vInvViewport * poisson[i] * discRadius);
 
 		vec4 tapLow = texture2D( sDownSampledTexture, coordLow );
 		vec4 tapHigh = vec4( texture2D( sTexture, coordHigh ).rgb, texture2D( sBlurData, coordHigh ) );
@@ -44,29 +58,12 @@ vec4 dof(vec2 coords)
 		finalColor.a += tap.a;
 	}
 
-	return finalColor/finalColor.a;
+	return finalColor / finalColor.a;
 }
 
 
 void main()
 {
-	pixelSizeHigh = vInvViewport;
-	pixelSizeLow = vInvViewport * 2.0;
-
-	// poisson-distributed positions
-	poisson = vec2[8]
-	(
-	vec2( 0.0, 0.0),
-	vec2( 0.527837,-0.085868),
-	vec2(-0.040088, 0.536087),
-	vec2(-0.670445,-0.179949),
-	vec2(-0.419418,-0.616039),
-	vec2( 0.440453,-0.639399),
-	vec2(-0.757088, 0.349334),
-	vec2( 0.574619, 0.685879)
-	);
-	
-	
 	vec2 vTexCoord = vec2( gl_FragCoord.x * vInvViewport.x, gl_FragCoord.y * vInvViewport.y );
 
 	vec3 vColor = dof( vTexCoord ).rgb;
@@ -74,10 +71,10 @@ void main()
 	vec3 vBloom = texture2D( sBloom, vTexCoord ).rgb;
 	float fLuminance = texture2D( sLuminance, vec2( 0.5, 0.5 ) ).x;
 
-	vColor.rgb *= fKey / ( fLuminance + 0.001 );
+	vColor.rgb *= fGlowMultiplierAndKey.y / ( fLuminance + 0.001 );
 	vColor.rgb /= ( 1.0 + vColor );
 
-	vColor += 2.0 * vBloom;
+	vColor += fGlowMultiplierAndKey.x * vBloom;
 
 	gl_FragColor = vec4( vColor, 1.0 );
 }

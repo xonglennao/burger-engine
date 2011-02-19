@@ -149,8 +149,8 @@
   <!-- OMNI  -->
   <sceneobject x="35.0" y="30.0" z="35.0">
     <light type="omni">
-      <Multiplier value="1.0"/>
-      <Radius value="90"/>
+      <Multiplier value="0.1"/>
+      <Radius value="100"/>
       <Color  r="0.9" g="0.9" b="1.2"/>
     </light>
   </sceneobject>
@@ -158,9 +158,19 @@
   <!-- OMNI  -->
   <sceneobject x="-35.0" y="10.0" z="-35.0">
     <light type="omni">
-      <Multiplier value="1.0"/>
-      <Radius value="90"/>
+      <Multiplier value="0.1"/>
+      <Radius value="100"/>
       <Color  r="0.9" g="0.9" b="1.2"/>
+    </light>
+  </sceneobject>
+
+  <sceneobject x="-50.0" y="20.0" z="50.0" rX="-30" rY="45">
+    <light type="spotshadow">
+      <Multiplier value="2"/>
+      <Radius value="120"/>
+      <InnerAngle value="10"/>
+      <OuterAngle value="35"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
     </light>
   </sceneobject>
 
