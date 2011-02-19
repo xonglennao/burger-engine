@@ -154,6 +154,15 @@
     <ClCompile Include="BurgerEngine\Core\AbtractComponent.cpp">
       <Filter>BurgerEngine\Core\Component</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\GUI\DebugMenuEntryBase.cpp">
+      <Filter>BurgerEngine\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\GUI\DebugMenuEntry.cpp">
+      <Filter>BurgerEngine\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\GUI\DebugMenu.cpp">
+      <Filter>BurgerEngine\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -312,6 +321,15 @@
     <ClInclude Include="BurgerEngine\Core\RenderComponent.h">
       <Filter>BurgerEngine\Core\Component</Filter>
     </ClInclude>
+    <ClInclude Include="BurgerEngine\GUI\DebugMenuEntryBase.h">
+      <Filter>BurgerEngine\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\GUI\DebugMenuEntry.h">
+      <Filter>BurgerEngine\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\GUI\DebugMenu.h">
+      <Filter>BurgerEngine\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="BurgerEngine">
@@ -427,6 +445,9 @@
     </Filter>
     <Filter Include="BurgerEngine\Core\Component">
       <UniqueIdentifier>{d49d521a-16b5-4ab3-83d4-7c4a76a0018f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\GUI">
+      <UniqueIdentifier>{36d9a728-46ae-4f4e-a352-825746d99328}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
