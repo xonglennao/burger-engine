@@ -5,6 +5,7 @@
 #include "BurgerEngine/Input/EventManager.h"
 
 #include "BurgerEngine/Graphics/SceneMesh.h"
+#include "BurgerEngine/Graphics/SkyBox.h"
 
 #include "BurgerEngine/Graphics/SceneLight.h"
 #include "BurgerEngine/Graphics/SpotLight.h"
@@ -21,11 +22,12 @@
 //
 //--------------------------------------------------------------------------------------------------------------------
 SceneGraph::SceneGraph()
+	: m_pSkyBox( NULL )
 {
-	m_eStringToLightTypeMap["omni"] = SceneLight::E_OMNI_LIGHT;
-	m_eStringToLightTypeMap["spot"] = SceneLight::E_SPOT_LIGHT;
-	m_eStringToLightTypeMap["spotshadow"] = SceneLight::E_SPOT_SHADOW;
-	m_eStringToLightTypeMap["directional"] = SceneLight::E_DIRECTIONAL;
+	m_oStringToLightTypeMap["omni"] = SceneLight::E_OMNI_LIGHT;
+	m_oStringToLightTypeMap["spot"] = SceneLight::E_SPOT_LIGHT;
+	m_oStringToLightTypeMap["spotshadow"] = SceneLight::E_SPOT_SHADOW;
+	m_oStringToLightTypeMap["directional"] = SceneLight::E_DIRECTIONAL;
 
 	LoadSceneXML( "../Data/Scenes/test_dof.xml" );
 }
@@ -81,6 +83,9 @@ void SceneGraph::Clear()
 		(*oSpotShadowIt) = NULL;
 		++oSpotShadowIt;
 	}
+
+	delete m_pSkyBox;
+	m_pSkyBox = NULL;
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -119,11 +124,11 @@ void SceneGraph::LoadSceneXML( const char * sName )
 			pXmlObject->QueryFloatAttribute("scale",&scale);
 
 			//checks if the current sceneobject is a mesh
-			TiXmlElement * pXmlMesh = pXmlObject->FirstChildElement( "mesh" );
-			if( pXmlMesh )
+			TiXmlElement * pCurrentXmlObject;// = pXmlObject->FirstChildElement( "mesh" );
+			if( pCurrentXmlObject = pXmlObject->FirstChildElement( "mesh" ) )
 			{
 				//checks for the filename
-				TiXmlElement * pXmlPoint = pXmlMesh->FirstChildElement( "file" );
+				TiXmlElement * pXmlPoint = pCurrentXmlObject->FirstChildElement( "file" );
 				if( pXmlPoint )
 				{
 					std::string sMeshFileName( pXmlPoint->GetText() );
@@ -131,7 +136,6 @@ void SceneGraph::LoadSceneXML( const char * sName )
 						
 					if( pMesh )
 					{
-
 						SceneMesh * pSceneMesh = new SceneMesh( pMesh );
 
 						pSceneMesh->SetPos( vec3( x, y, z ) );
@@ -141,7 +145,7 @@ void SceneGraph::LoadSceneXML( const char * sName )
 						//checks for materials used on different parts of the mesh
 						unsigned int iPartCount = 0;
 
-						pXmlPoint = pXmlMesh->FirstChildElement( "part" );
+						pXmlPoint = pCurrentXmlObject->FirstChildElement( "part" );
 						while( pXmlPoint )
 						{
 							++iPartCount;
@@ -170,93 +174,100 @@ void SceneGraph::LoadSceneXML( const char * sName )
 				}
 
 			}
-			else
+			else if( pCurrentXmlObject = pXmlObject->FirstChildElement( "light" ) )
 			{
-				TiXmlElement * pXmlLight = pXmlObject->FirstChildElement( "light" );
-				if( pXmlLight )
+				TiXmlElement * pXmlElement;
+				float r, g, b;
+				pXmlElement = pCurrentXmlObject->FirstChildElement("Color");
+				if( pXmlElement )
 				{
-					TiXmlElement * pXmlElement;
-
-					float r, g, b;
-					pXmlElement = pXmlLight->FirstChildElement("Color");
-					if( pXmlElement )
-					{
-						pXmlElement->QueryFloatAttribute("r",&r);
-						pXmlElement->QueryFloatAttribute("g",&g);
-						pXmlElement->QueryFloatAttribute("b",&b);
-					}
+					pXmlElement->QueryFloatAttribute("r",&r);
+					pXmlElement->QueryFloatAttribute("g",&g);
+					pXmlElement->QueryFloatAttribute("b",&b);
+				}
 					
-					float fMultiplier;
-					pXmlElement = pXmlLight->FirstChildElement("Multiplier");
+				float fMultiplier;
+				pXmlElement = pCurrentXmlObject->FirstChildElement("Multiplier");
+				if( pXmlElement )
+				{
+					pXmlElement->QueryFloatAttribute("value",&fMultiplier);
+				}
+
+				std::string sType = pCurrentXmlObject->Attribute("type");
+				SceneLight::LightType eType = m_oStringToLightTypeMap[ sType ];
+
+				SceneLight * pSceneLight;
+				if( (eType & SceneLight::E_OMNI_LIGHT) == SceneLight::E_OMNI_LIGHT )
+				{
+					float fRadius;
+					pXmlElement = pCurrentXmlObject->FirstChildElement("Radius");
 					if( pXmlElement )
 					{
-						pXmlElement->QueryFloatAttribute("value",&fMultiplier);
+						pXmlElement->QueryFloatAttribute("value",&fRadius);
 					}
-
-					std::string sType = pXmlLight->Attribute("type");
-					SceneLight::LightType eType = m_eStringToLightTypeMap[ sType ];
-
-					SceneLight * pSceneLight;
-					if( (eType & SceneLight::E_OMNI_LIGHT) == SceneLight::E_OMNI_LIGHT )
+					if( (eType & SceneLight::E_SPOT_LIGHT) == SceneLight::E_SPOT_LIGHT )
 					{
-						float fRadius;
-						pXmlElement = pXmlLight->FirstChildElement("Radius");
+						pXmlElement = pCurrentXmlObject->FirstChildElement("InnerAngle");
+						float fInnerAngle;
 						if( pXmlElement )
 						{
-							pXmlElement->QueryFloatAttribute("value",&fRadius);
+							pXmlElement->QueryFloatAttribute("value",&fInnerAngle);
+
 						}
-						if( (eType & SceneLight::E_SPOT_LIGHT) == SceneLight::E_SPOT_LIGHT )
+
+						pXmlElement = pCurrentXmlObject->FirstChildElement("OuterAngle");
+						float fOuterAngle;
+						if( pXmlElement )
 						{
-							pXmlElement = pXmlLight->FirstChildElement("InnerAngle");
-							float fInnerAngle;
-							if( pXmlElement )
-							{
-								pXmlElement->QueryFloatAttribute("value",&fInnerAngle);
+							pXmlElement->QueryFloatAttribute("value",&fOuterAngle);
+						}
 
-							}
-
-							pXmlElement = pXmlLight->FirstChildElement("OuterAngle");
-							float fOuterAngle;
-							if( pXmlElement )
-							{
-								pXmlElement->QueryFloatAttribute("value",&fOuterAngle);
-							}
-
-							if( (eType & SceneLight::E_SPOT_SHADOW) == SceneLight::E_SPOT_SHADOW )
-							{
-								pSceneLight = new SpotShadow();	
-								m_oSpotShadows.push_back( static_cast< SpotShadow* >(pSceneLight) );
-							}
-							else
-							{
-								pSceneLight = new SpotLight();
-								m_oSpotLights.push_back( static_cast< SpotLight* >(pSceneLight) );
-							}
-
-							pSceneLight->SetRotation( vec3( rX,rY, 0.0 ) );
-							static_cast< SpotLight* >(pSceneLight)->SetOuterAngle( fOuterAngle );
-							static_cast< SpotLight* >(pSceneLight)->SetInnerAngle( fInnerAngle );
+						if( (eType & SceneLight::E_SPOT_SHADOW) == SceneLight::E_SPOT_SHADOW )
+						{
+							pSceneLight = new SpotShadow();	
+							m_oSpotShadows.push_back( static_cast< SpotShadow* >(pSceneLight) );
 						}
 						else
 						{
-							pSceneLight = new OmniLight();
-							m_oOmniLights.push_back( static_cast< OmniLight* >(pSceneLight) );
+							pSceneLight = new SpotLight();
+							m_oSpotLights.push_back( static_cast< SpotLight* >(pSceneLight) );
 						}
 
-						pSceneLight->SetColor( vec3( r, g, b ) );
-						pSceneLight->SetMultiplier( fMultiplier );
-						static_cast< OmniLight* >(pSceneLight)->SetRadius( fRadius );
-						pSceneLight->SetPos( vec3( x, y, z ) );
-						
-						if( (eType & SceneLight::E_SPOT_LIGHT) == SceneLight::E_SPOT_LIGHT )
-						{
-							static_cast< SpotLight* >(pSceneLight)->ComputeBoundingVolume();
-						}
+						pSceneLight->SetRotation( vec3( rX,rY, 0.0 ) );
+						static_cast< SpotLight* >(pSceneLight)->SetOuterAngle( fOuterAngle );
+						static_cast< SpotLight* >(pSceneLight)->SetInnerAngle( fInnerAngle );
 					}
+					else
+					{
+						pSceneLight = new OmniLight();
+						m_oOmniLights.push_back( static_cast< OmniLight* >(pSceneLight) );
+					}
+
+					pSceneLight->SetColor( vec3( r, g, b ) );
+					pSceneLight->SetMultiplier( fMultiplier );
+					static_cast< OmniLight* >(pSceneLight)->SetRadius( fRadius );
+					pSceneLight->SetPos( vec3( x, y, z ) );
+						
+					if( (eType & SceneLight::E_SPOT_LIGHT) == SceneLight::E_SPOT_LIGHT )
+					{
+						static_cast< SpotLight* >(pSceneLight)->ComputeBoundingVolume();
+					}
+				}
+			}
+			else if( pCurrentXmlObject = pXmlObject->FirstChildElement( "skybox" ) )
+			{
+				TiXmlElement * pXmlMaterial = pCurrentXmlObject->FirstChildElement( "material" );
+				m_pSkyBox = new SkyBox( scale );
+				if( pXmlMaterial )
+				{
+					Material * pMaterial = MaterialManager::GrabInstance().addMaterial( pXmlMaterial->GetText() );
+					if( pMaterial )
+						m_pSkyBox->SetMaterial( pMaterial );
 				}
 			}
 			//moves on to the next object
 			pXmlObject = pXmlObject->NextSiblingElement( "sceneobject" );
+
 		}
 
 		/*//check if there's water on the level

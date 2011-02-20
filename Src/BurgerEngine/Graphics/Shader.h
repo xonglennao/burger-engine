@@ -31,7 +31,7 @@ class Shader
 		~Shader() {};
 
 		void Activate();
-		void Desactivate();
+		void Deactivate();
 
 		///Load/Compile and link the shader;
 		bool loadAndCompile(const std::string& sVert, const std::string& sFrag);

@@ -42,7 +42,7 @@ void FBO::GenerateDepthOnly()
 	glDrawBuffer(GL_NONE);
 	glReadBuffer(GL_NONE);
 
-	Desactivate();
+	Deactivate();
 
 	//Check FBO status
 	if(!CheckFramebufferStatus())
@@ -99,7 +99,7 @@ void FBO::GenerateColorOnly( GLint iInternalFormat, GLint iFormat )
 	// attach a renderbuffer to depth attachment point
     glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, m_iRenderId);
 
-	Desactivate();
+	Deactivate();
 
 	//Check FBO status
 	if(!CheckFramebufferStatus())
@@ -140,7 +140,7 @@ void FBO::Generate( GLint iInternalFormat, GLint iFormat )
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, m_eTextureType, m_iTexDepthId, 0);
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, m_eTextureType, m_iTexId[0], 0);
 
-	Desactivate();
+	Deactivate();
 	//Check FBO status
 	if(!CheckFramebufferStatus())
 		std::cerr<<"ERROR : FBO creation Fail "<<std::endl;
@@ -195,7 +195,7 @@ void FBO::GenerateFinalHDRBuffer( GLint iInternalFormat0, GLint iFormat0, GLint 
 	// attach a renderbuffer to depth attachment point
     glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, m_iRenderId);
 
-	Desactivate();
+	Deactivate();
 
 	//Check FBO status
 	if(!CheckFramebufferStatus())
@@ -224,7 +224,7 @@ void FBO::ActivateTexture( unsigned int i )
 	}
 }
 
-void FBO::DesactivateTexture()
+void FBO::DeactivateTexture()
 {
 	glBindTexture(m_eTextureType,0);
 	glDisable(m_eTextureType);
@@ -238,9 +238,9 @@ void FBO::ActivateDepthTexture()
 		glBindTexture(m_eTextureType,m_iTexDepthId);
 	}
 }
-void FBO::DesactivateDepthTexture()
+void FBO::DeactivateDepthTexture()
 {
-	DesactivateTexture();
+	DeactivateTexture();
 }
 
 void FBO::Activate()
@@ -257,7 +257,7 @@ void FBO::Activate(unsigned int iFace)
 		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_CUBE_MAP_POSITIVE_X+iFace, m_iTexId[0], 0);
 }
 
-void FBO::Desactivate()
+void FBO::Deactivate()
 {
 	m_bIsActivated = false;
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);

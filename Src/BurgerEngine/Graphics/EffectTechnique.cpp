@@ -1,5 +1,6 @@
 #include "EffectTechnique.h"
 #include "BurgerEngine/Graphics/Shader.h"
+#include "BurgerEngine/Graphics/AbstractTexture.h"
 #include "BurgerEngine/Graphics/Texture2D.h"
 
 EffectTechnique::EffectTechnique()
@@ -32,7 +33,7 @@ void EffectTechnique::CommitUniformFloats()
 
 void EffectTechnique::ActivateTextures()
 {
-	std::map< int, Texture2D* >::iterator it = m_oUniformTextures2DMap.begin();
+	std::map< int, AbstractTexture* >::iterator it = m_oUniformTextures2DMap.begin();
 	while( it != m_oUniformTextures2DMap.end() )
 	{
 		glActiveTexture( GL_TEXTURE0 + (*it).first );

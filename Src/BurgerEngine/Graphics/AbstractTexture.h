@@ -30,7 +30,6 @@ class AbstractTexture
 		*	@brief load all the data
 		*/
 		virtual bool loadTexture(const std::string& name) = 0;
-		virtual bool loadTexture(GLenum target, const std::string& name) = 0;
 		virtual void Activate() = 0;
 
 		virtual GLubyte* loadData();

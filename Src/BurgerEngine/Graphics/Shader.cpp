@@ -53,7 +53,7 @@ void Shader::Activate()
 		glUseProgramObjectARB(m_oProgram);
 }
 
-void Shader::Desactivate()
+void Shader::Deactivate()
 {
 	glUseProgramObjectARB(0);
 }

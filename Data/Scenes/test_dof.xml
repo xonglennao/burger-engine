@@ -5,17 +5,17 @@
     <mesh>
       <file>../Data/Mesh/inverted_cube.obj</file>
       <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.xml</material>
+        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
       </part>      
     </mesh>
   </sceneobject>
 
-  <!-- COLUMN  -->
+  <!-- COLUMN -->
   <sceneobject x="28.0" y="0.0" z="28.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
     <mesh>
       <file>../Data/Mesh/column.obj</file>
       <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.xml</material>
+        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -24,7 +24,7 @@
     <mesh>
       <file>../Data/Mesh/column.obj</file>
       <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.xml</material>
+        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -33,7 +33,7 @@
     <mesh>
       <file>../Data/Mesh/column.obj</file>
       <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.xml</material>
+        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -42,7 +42,7 @@
     <mesh>
       <file>../Data/Mesh/column.obj</file>
       <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.xml</material>
+        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -51,7 +51,7 @@
     <mesh>
       <file>../Data/Mesh/column.obj</file>
       <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.xml</material>
+        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -60,7 +60,7 @@
     <mesh>
       <file>../Data/Mesh/column.obj</file>
       <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.xml</material>
+        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -69,7 +69,7 @@
     <mesh>
       <file>../Data/Mesh/column.obj</file>
       <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.xml</material>
+        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -78,7 +78,7 @@
     <mesh>
       <file>../Data/Mesh/column.obj</file>
       <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.xml</material>
+        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -87,7 +87,7 @@
     <mesh>
       <file>../Data/Mesh/column.obj</file>
       <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.xml</material>
+        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -96,7 +96,7 @@
     <mesh>
       <file>../Data/Mesh/column.obj</file>
       <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.xml</material>
+        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -105,7 +105,7 @@
     <mesh>
       <file>../Data/Mesh/column.obj</file>
       <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.xml</material>
+        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -114,7 +114,7 @@
     <mesh>
       <file>../Data/Mesh/column.obj</file>
       <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.xml</material>
+        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -123,7 +123,7 @@
     <mesh>
       <file>../Data/Mesh/column.obj</file>
       <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.xml</material>
+        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -132,7 +132,7 @@
     <mesh>
       <file>../Data/Mesh/column.obj</file>
       <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.xml</material>
+        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -141,12 +141,12 @@
     <mesh>
       <file>../Data/Mesh/column.obj</file>
       <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.xml</material>
+        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
 
-  <!-- OMNI  -->
+<!-- OMNI  -->
   <sceneobject x="35.0" y="30.0" z="35.0">
     <light type="omni">
       <Multiplier value="0.1"/>
@@ -173,5 +173,9 @@
       <Color  r="1.0" g="1.0" b="1.0"/>
     </light>
   </sceneobject>
-
+  <sceneobject scale="250">
+    <skybox>
+      <material>../Data/Materials/test_dof/BasicSkyBox.bma.xml</material>
+    </skybox>
+  </sceneobject>
 </scene>

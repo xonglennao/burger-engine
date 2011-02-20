@@ -52,7 +52,7 @@ bool Texture2D::loadTexture(const std::string &name)
 	else
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_iWidth, m_iHeight, 0, GL_RGB, GL_UNSIGNED_BYTE , data );
 	
-	Desactivate();
+	Deactivate();
 	delete[] data;
 
 	return true;
@@ -65,7 +65,7 @@ void Texture2D::Activate()
 	glBindTexture(GL_TEXTURE_2D,m_iId);
 }
 
-void Texture2D::Desactivate()
+void Texture2D::Deactivate()
 {
 	glBindTexture(GL_TEXTURE_2D,0);
 }

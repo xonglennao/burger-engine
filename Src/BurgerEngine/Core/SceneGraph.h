@@ -26,6 +26,7 @@ class SceneMesh;
 class OmniLight;
 class SpotLight;
 class SpotShadow;
+class SkyBox;
 
 /// \class	SceneGraph
 /// \brief	Used to display 3D scenes
@@ -48,7 +49,9 @@ public:
 	
 	const std::vector< SpotLight* >& GetSpotLights()const { return m_oSpotLights; };
 	
-	const std::vector< SpotShadow* >& GetSpotShadows() const{ return m_oSpotShadows; };
+	const std::vector< SpotShadow* >& GetSpotShadows() const { return m_oSpotShadows; };
+
+	const SkyBox* GetSkyBox() const { return m_pSkyBox; };
 
 	const DebugMenu& GetDebugMenu() const { return m_oDebugMenu; };
 	DebugMenu& GetDebugMenu() { return m_oDebugMenu; };
@@ -61,13 +64,15 @@ private:
 
 private:
 	///lists of renderable objects and lights
-	std::vector< SceneMesh* > m_oSceneMeshes;
-	std::vector< SceneMesh* > m_oTransparentSceneMeshes;
-	std::vector< OmniLight* > m_oOmniLights;
-	std::vector< SpotLight* > m_oSpotLights;
-	std::vector< SpotShadow* > m_oSpotShadows;
+	std::vector< SceneMesh* >		m_oSceneMeshes;
+	std::vector< SceneMesh* >		m_oTransparentSceneMeshes;
+	std::vector< OmniLight* >		m_oOmniLights;
+	std::vector< SpotLight* >		m_oSpotLights;
+	std::vector< SpotShadow* >		m_oSpotShadows;
 
-	std::map< std::string, SceneLight::LightType > m_eStringToLightTypeMap;
+	SkyBox *						m_pSkyBox;
+
+	std::map< std::string, SceneLight::LightType > m_oStringToLightTypeMap;
 
 	DebugMenu m_oDebugMenu;
 };
