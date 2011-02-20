@@ -4,6 +4,10 @@
 #include "BurgerEngine/Graphics/Shader.h"
 #include "BurgerEngine/Graphics/MaterialManager.h"
 
+#include "BurgerEngine/Graphics/AbstractTexture.h"
+#include "BurgerEngine/Graphics/Texture2D.h"
+#include "BurgerEngine/Graphics/TextureCubeMap.h"
+
 #include "BurgerEngine/External/TinyXml/TinyXml.h"
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -45,12 +49,12 @@ bool Material::Activate( EffectTechnique::RenderingTechnique eTechnique )
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void Material::Desactivate( EffectTechnique::RenderingTechnique eTechnique )
+void Material::Deactivate( EffectTechnique::RenderingTechnique eTechnique )
 {
 	std::map< EffectTechnique::RenderingTechnique, EffectTechnique* >::iterator oIt = m_oTechniques.find(eTechnique);
 	if (oIt != m_oTechniques.end())
 	{
-		oIt->second->Desactivate();
+		oIt->second->Deactivate();
 	}
 }
 
@@ -126,6 +130,26 @@ void Material::_LoadMaterialXML( const char * sName )
 
 					pXmlSampler = pXmlSampler->NextSiblingElement( "sampler" );
 				}
+
+				TiXmlElement * pXmlSamplerCube = pXmlSamplers->FirstChildElement( "samplercube" );
+				while ( pXmlSamplerCube )
+				{
+					int iUnit;
+					TiXmlElement * pXmlParam = pXmlSamplerCube->FirstChildElement( "uniformname" );
+					if( pXmlParam )
+					{
+						pXmlParam->QueryIntAttribute("unit",&iUnit);
+						pShader->setUniformTexture( pXmlParam->GetText(), iUnit );
+					}
+					TiXmlElement * pXmlFileName = pXmlSamplerCube->FirstChildElement( "filename" );
+					if( pXmlFileName )
+					{
+						TextureCubeMap* pTextureCubeMap = textureManager.getTextureCubeMap( pXmlFileName->GetText() );
+						pTechnique->AddUniformTexture( iUnit, pTextureCubeMap );
+					}
+
+					pXmlSamplerCube = pXmlSamplerCube->NextSiblingElement( "samplercube" );
+				}
 			}
 
 			//gets uniform float variables
@@ -145,7 +169,7 @@ void Material::_LoadMaterialXML( const char * sName )
 			}
 			
 			pShader->QueryStdUniforms();
-			pShader->Desactivate();
+			pShader->Deactivate();
 			pTechnique->SetShader( pShader );
 
 			m_oTechniques[ MaterialManager::GrabInstance().GetTechniqueID( sTechniqueName ) ] = pTechnique;

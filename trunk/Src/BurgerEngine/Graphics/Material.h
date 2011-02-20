@@ -27,7 +27,7 @@ public:
 	~Material();
 
 	bool Activate( EffectTechnique::RenderingTechnique eTechnique );
-	void Desactivate( EffectTechnique::RenderingTechnique eTechnique );
+	void Deactivate( EffectTechnique::RenderingTechnique eTechnique );
 
 	bool IsOpaque();
 	bool IsTransparent();

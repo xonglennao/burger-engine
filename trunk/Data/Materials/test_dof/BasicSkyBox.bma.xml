@@ -1,0 +1,13 @@
+<material>
+  <technique name="render_opaque">
+    <shadername>DiffuseSpecStrength</shadername>
+    <vertexshader>../Data/Shaders/Material/BasicSkyBox.vert</vertexshader>
+    <pixelshader>../Data/Shaders/Material/BasicSkyBox.frag</pixelshader>
+    <samplers>
+      <samplercube>
+        <uniformname unit="0">sCube</uniformname>
+        <filename>../Data/Textures/test_dof/Cube/Cube</filename>
+      </samplercube>
+    </samplers>
+  </technique>
+</material>

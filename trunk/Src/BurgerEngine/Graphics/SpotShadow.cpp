@@ -12,5 +12,5 @@ SpotShadow::~SpotShadow()
 }
 
 void SpotShadow::ActivateBuffer(){ m_oDepth->Activate(); }
-void SpotShadow::DesactivateBuffer(){ m_oDepth->Desactivate(); }
+void SpotShadow::DeactivateBuffer(){ m_oDepth->Deactivate(); }
 void SpotShadow::ActivateDepthTexture(){ m_oDepth->ActivateTexture(); }

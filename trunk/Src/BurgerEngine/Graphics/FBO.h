@@ -64,16 +64,16 @@ public:
 
 	//To activate the texture
 	void ActivateTexture();
-	void DesactivateTexture();
+	void DeactivateTexture();
 	void ActivateTexture( unsigned int i );
 
 	//To activate the depth texture
 	void ActivateDepthTexture();
-	void DesactivateDepthTexture();
+	void DeactivateDepthTexture();
 
 	//To activate the FBO (in order to write)
 	void Activate();
-	void Desactivate();
+	void Deactivate();
 	//To choose a face for the cube 
 	void Activate(unsigned int iFace);
 

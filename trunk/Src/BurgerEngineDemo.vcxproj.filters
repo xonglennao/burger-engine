@@ -163,6 +163,9 @@
     <ClCompile Include="BurgerEngine\GUI\DebugMenu.cpp">
       <Filter>BurgerEngine\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\Skybox.cpp">
+      <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -329,6 +332,9 @@
     </ClInclude>
     <ClInclude Include="BurgerEngine\GUI\DebugMenu.h">
       <Filter>BurgerEngine\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\Skybox.h">
+      <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

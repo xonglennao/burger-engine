@@ -1,8 +1,8 @@
 #include "textureManager.h"
 
-#include "abstractTexture.h"
-#include "texture2D.h"
-#include "textureCubeMap.h"
+#include "BurgerEngine/Graphics/AbstractTexture.h"
+#include "BurgerEngine/Graphics/Texture2D.h"
+#include "BurgerEngine/Graphics/TextureCubeMap.h"
 TextureManager::TextureManager()
 {
 	//Devil initialization
@@ -30,7 +30,6 @@ Texture2D* TextureManager::getTexture2D(const std::string& name, const bool useM
 	//Check if the texture is already loaded or not
 	std::map<std::string , AbstractTexture*>::iterator iter = m_mTextures.find(name);
 	if (iter == m_mTextures.end())
-	//if (m_mTextures[name] == NULL)
 	{
 		Texture2D* pTex = new Texture2D(useMipmap);
 		if (!pTex->loadTexture(name))
@@ -43,14 +42,18 @@ Texture2D* TextureManager::getTexture2D(const std::string& name, const bool useM
 	return static_cast<Texture2D*>(m_mTextures[name]);
 }
 
-TextureCubeMap* TextureManager::getTextureCubeMap(const std::string& name)
+TextureCubeMap* TextureManager::getTextureCubeMap( const std::string& sName )
 {
-	std::map<std::string , AbstractTexture*>::iterator iter = m_mTextures.find(name);
+	std::map<std::string , AbstractTexture*>::iterator iter = m_mTextures.find( sName );
 	if (iter == m_mTextures.end())
-	//if (m_mTextures[name] == NULL)
 	{
 		TextureCubeMap* pTex = new TextureCubeMap();
-		m_mTextures[name] = pTex;
+		if (!pTex->loadTexture( sName ) )
+		{
+			std::cerr << "WARNING: cannot load texture: " << sName << std::endl;
+			return NULL;
+		}
+		m_mTextures[ sName ] = pTex;
 	}
-	return static_cast<TextureCubeMap*>(m_mTextures[name]);
+	return static_cast<TextureCubeMap*>(m_mTextures[ sName ]);
 }

@@ -37,7 +37,7 @@ void Engine::Init()
 
 	// Creation of the camera
 	/// \todo this is temporary, we should use a better camera system
-	m_pCurrentCamera = new CameraFps( 45.0f, 0.1f, 1000.0f );
+	m_pCurrentCamera = new CameraFps( 45.0f, 0.1f, 2000.0f );
 	m_pCurrentCamera->Initialize();
 
 	//Create the Rendering Context

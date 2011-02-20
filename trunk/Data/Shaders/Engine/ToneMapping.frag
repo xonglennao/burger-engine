@@ -33,8 +33,6 @@ vec4 dof(vec2 coords)
 	
 	float discRadius, discRadiusLow, centerDepth;
 
-	//finalColor = texture2D( sTexture, coords );
-	//centerDepth = finalColor.a;
 	centerDepth = texture2D( sBlurData, coords ).r;
 	discRadius = abs( centerDepth * maxCoC.y - maxCoC.x );
 	discRadiusLow = discRadius * radiusScale;

@@ -53,6 +53,7 @@
     <ClInclude Include="BurgerEngine\Graphics\Shader.h" />
     <ClInclude Include="BurgerEngine\Graphics\ShaderManager.h" />
     <ClInclude Include="BurgerEngine\Graphics\ShaderTool.h" />
+    <ClInclude Include="BurgerEngine\Graphics\Skybox.h" />
     <ClInclude Include="BurgerEngine\Graphics\SpotLight.h" />
     <ClInclude Include="BurgerEngine\Graphics\SpotShadow.h" />
     <ClInclude Include="BurgerEngine\Graphics\StaticMesh.h" />
@@ -109,6 +110,7 @@
     <ClCompile Include="BurgerEngine\Graphics\Shader.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\ShaderManager.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\ShaderTool.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\Skybox.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\SpotLight.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\SpotShadow.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\StaticMesh.cpp" />

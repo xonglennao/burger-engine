@@ -40,7 +40,7 @@ public:
 	~SpotShadow();
 
 	void ActivateBuffer();
-	void DesactivateBuffer();
+	void DeactivateBuffer();
 	void ActivateDepthTexture();
 
 	void			SetMatrix( const float4x4& mMatrix){ m_mViewProjMatrix = mMatrix; };

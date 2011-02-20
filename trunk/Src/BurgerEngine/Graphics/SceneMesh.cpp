@@ -37,7 +37,7 @@ void SceneMesh::Draw( EffectTechnique::RenderingTechnique eTechnique )
 			else if( m_vMaterials[ i ]->Activate( eTechnique ) )
 			{
 				m_pMesh->Render( i );
-				m_vMaterials[ i ]->Desactivate( eTechnique );
+				m_vMaterials[ i ]->Deactivate( eTechnique );
 			}
 		}
 		glPopMatrix();

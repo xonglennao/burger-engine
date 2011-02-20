@@ -65,9 +65,6 @@ private:
 	void Bind();
 	void Unbind();
 
-	/// Total number of vertex
-	unsigned int		m_iNbVertex;
-
 	/// Id of the buffer
 	unsigned int		m_iBufferId;
 
