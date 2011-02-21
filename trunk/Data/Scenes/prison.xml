@@ -5,31 +5,31 @@
     <mesh>
       <file>../Data/Mesh/prison/prison.obj</file>
       <part>
-        <material>../Data/Materials/prison/stoneFloorDiffuseBump.xml</material>
+        <material>../Data/Materials/prison/stoneFloorDiffuseBump.bma.xml</material>
       </part>
       <part>
-        <material>../Data/Materials/prison/stoneWallDiffuseBump.xml</material>
+        <material>../Data/Materials/prison/stoneWallDiffuseBump.bma.xml</material>
       </part>
       <part>
-        <material>../Data/Materials/prison/rustDiffuseBump.xml</material>
+        <material>../Data/Materials/prison/rustDiffuseBump.bma.xml</material>
       </part>
       <part>
-        <material>../Data/Materials/prison/crateDiffuseBump.xml</material>
+        <material>../Data/Materials/prison/crateDiffuseBump.bma.xml</material>
       </part>
       <part>
-        <material>../Data/Materials/prison/woodDiffuseBump.xml</material>
+        <material>../Data/Materials/prison/woodDiffuseBump.bma.xml</material>
       </part>
       <part>
-        <material>../Data/Materials/prison/woodDiffuseBump.xml</material>
+        <material>../Data/Materials/prison/woodDiffuseBump.bma.xml</material>
       </part>
       <part>
-        <material>../Data/Materials/prison/woodDiffuseBump.xml</material>
+        <material>../Data/Materials/prison/woodDiffuseBump.bma.xml</material>
       </part>
       <part>
-        <material>../Data/Materials/prison/brightWhite.xml</material>
+        <material>../Data/Materials/prison/brightWhite.bma.xml</material>
       </part>
       <part>
-        <material>../Data/Materials/prison/boneDiffuse.xml</material>
+        <material>../Data/Materials/prison/boneDiffuse.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
