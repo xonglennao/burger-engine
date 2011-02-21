@@ -5,7 +5,7 @@
     <mesh>
       <file>../Data/Mesh/inverted_cube.obj</file>
       <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.xml</material>
+        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
       </part>      
     </mesh>
   </sceneobject>
@@ -14,7 +14,7 @@
     <mesh>
       <file>../Data/Mesh/unit_sphere.obj</file>
       <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.xml</material>
+        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -24,7 +24,7 @@
     <mesh>
       <file>../Data/Mesh/unit_sphere.obj</file>
       <part>
-        <material>../Data/Materials/test_transparency/test_transparency.xml</material>
+        <material>../Data/Materials/test_transparency/test_transparency.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -33,7 +33,7 @@
     <mesh>
       <file>../Data/Mesh/unit_sphere.obj</file>
       <part>
-        <material>../Data/Materials/test_transparency/test_transparency2.xml</material>
+        <material>../Data/Materials/test_transparency/test_transparency2.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -42,7 +42,7 @@
     <mesh>
       <file>../Data/Mesh/unit_sphere.obj</file>
       <part>
-        <material>../Data/Materials/test_transparency/test_transparency3.xml</material>
+        <material>../Data/Materials/test_transparency/test_transparency3.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -51,7 +51,7 @@
     <mesh>
       <file>../Data/Mesh/unit_sphere.obj</file>
       <part>
-        <material>../Data/Materials/test_transparency/test_transparency4.xml</material>
+        <material>../Data/Materials/test_transparency/test_transparency4.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -60,7 +60,7 @@
     <mesh>
       <file>../Data/Mesh/unit_cube.obj</file>
       <part>
-        <material>../Data/Materials/test_transparency/test_transparency4.xml</material>
+        <material>../Data/Materials/test_transparency/test_transparency4.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
@@ -70,7 +70,7 @@
     <mesh>
       <file>../Data/Mesh/unit_sphere.obj</file>
       <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.xml</material>
+        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
