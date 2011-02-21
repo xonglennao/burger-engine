@@ -25,7 +25,6 @@ class SkyBox: public SceneObject
 public:
 
 	/// \brief Constructor
-	/// \param[in] pMesh Pointer to the actual mesh?
 	SkyBox( float fSize );
 	~SkyBox(){}
 
@@ -36,14 +35,15 @@ public:
 
 private:
 	void BuildCube( float fSize );
-	//the sphere has glitches, I need to debug it
+	//we might want to use a sphere for the sky, I keep this code just in case.
 	//void BuildSphere( float fSize, unsigned int iSlices, unsigned int iStacks );
 
 private:	
 	Material *	m_pMaterial;
 	GLuint		m_iBufferID;
-	GLuint		m_iBufferID2;
-	unsigned int m_iVertexCount;
+	//we might want to use a sphere for the sky, I keep this code just in case.
+	//GLuint		m_iBufferID2;
+	//unsigned int m_iVertexCount;
 };
 
 #endif //__SKYBOX_H__

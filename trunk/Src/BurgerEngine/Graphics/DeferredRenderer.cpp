@@ -1237,8 +1237,6 @@ void DeferredRenderer::Render()
 	glEnableIndexedEXT( GL_BLEND, 0 );
 	glDepthMask( GL_FALSE );
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-
 	
 	//we need to sort the object from back to front
 	oMeshIt = oTransparentSceneMeshes.begin();	

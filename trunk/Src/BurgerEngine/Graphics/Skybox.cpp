@@ -9,7 +9,7 @@ const int I_SIZE_VERTEX = sizeof(vec3);
 //--------------------------------------------------------------------------------------------------------------------
 SkyBox::SkyBox( float fSize )
 {
-	//BuildCube( fSize );
+	//we might want to use a sphere for the sky, I keep this code just in case.
 	//BuildSphere(fSize, 100, 100 );
 	BuildCube( fSize );
 }
@@ -91,17 +91,18 @@ void SkyBox::BuildCube( float fSize )
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
+//we might want to use a sphere for the sky, I keep this code just in case.
 /*
 void SkyBox::BuildSphere( float fSize, unsigned int iSlices, unsigned int iStacks )
 {
 	glGenBuffers(1, &m_iBufferID2 );
 
-	unsigned int iVertexCount = m_iVertexCount = (iSlices * 4 ) * iStacks / 2;
+	unsigned int iVertexCount = m_iVertexCount = (iSlices * 2 ) * iStacks / 2;
 
 	unsigned int iSizeVertex = iVertexCount * sizeof(vec3);
 	vec3 * pVertex = new vec3[ iVertexCount ];
 
-	float fAngleY = 2.0 * M_PI / iSlices;
+	float fAngleY = -(2.0 * M_PI / iSlices);
 	float fAngleX = 2.0 * M_PI / iStacks;
 
 	for( unsigned int i = 0; i < iStacks/2; ++i )
@@ -109,17 +110,15 @@ void SkyBox::BuildSphere( float fSize, unsigned int iSlices, unsigned int iStack
 		for(unsigned int j = 0; j < iSlices; ++j )
 		{
 			float fAngleY1 = j * fAngleY;
-			float fAngleY2 = fAngleY1 + fAngleY;
+			float fAngleY2 = fAngleY1 - fAngleY;
 
 			float fAngleX1 = -M_PI * 0.5f + i * fAngleX;
 			float fAngleX2 = fAngleX1 + fAngleX;
 			
-			int iOffset = i*(iSlices*4);
+			int iOffset = i*(iSlices*2);
 			
-			pVertex[j*4+iOffset] = vec3( cosf(fAngleX1)*cosf(fAngleY1), sinf(fAngleX1), cosf(fAngleX1)*sinf(fAngleY1) ) * fSize;
-			pVertex[j*4+1+iOffset] = vec3( cosf(fAngleX2)*cosf(fAngleY1), sinf(fAngleX2), cosf(fAngleX2)*sinf(fAngleY1) ) * fSize;
-			pVertex[j*4+2+iOffset] = vec3( cosf(fAngleX1)*cosf(fAngleY2), sinf(fAngleX1), cosf(fAngleX1)*sinf(fAngleY2) ) * fSize;
-			pVertex[j*4+3+iOffset] = vec3( cosf(fAngleX2)*cosf(fAngleY2), sinf(fAngleX2), cosf(fAngleX2)*sinf(fAngleY2) ) * fSize;
+			pVertex[j*2+iOffset] = vec3( cosf(fAngleX1)*cosf(fAngleY1), sinf(fAngleX1), cosf(fAngleX1)*sinf(fAngleY1) ) * fSize;
+			pVertex[j*2+1+iOffset] = vec3( cosf(fAngleX2)*cosf(fAngleY1), sinf(fAngleX2), cosf(fAngleX2)*sinf(fAngleY1) ) * fSize;
 		}
 	}
 
@@ -153,6 +152,7 @@ void SkyBox::Draw( const vec3& f3Position, unsigned int iFlag ) const
 	
 			glBindBuffer(GL_ARRAY_BUFFER, 0 );
 		}
+		//we might want to use a sphere for the sky, I keep this code just in case.
 		/*
 		else
 		{
@@ -162,7 +162,6 @@ void SkyBox::Draw( const vec3& f3Position, unsigned int iFlag ) const
 			glVertexPointer(3, GL_FLOAT, 0, 0);
 			glDrawArrays( GL_TRIANGLE_STRIP, 0, m_iVertexCount );
 			glDisableClientState(GL_VERTEX_ARRAY); 
-	
 			glBindBuffer(GL_ARRAY_BUFFER, 0 );
 		}
 		*/
