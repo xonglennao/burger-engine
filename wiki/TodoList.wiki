@@ -24,9 +24,12 @@ Here's some tasks to do.
  * Color correction using 3D LUT
 
 === Materials ===
- * Put this in a separate xml:
+ * Put this in a separate xml (.bfx.xml):
 {{{
 <shadername>FillBGufferBasic</shadername>
 <vertexshader>../Data/Shaders/Material/FillGBufferBasic.vert</vertexshader>
 <pixelshader>../Data/Shaders/Material/FillGBufferBasic.frag</pixelshader>
 }}}
+
+=== Textures ===
+ * .btx.xml file, so that we can specify the parameters (clamp/repeat, filtering etc.) for each texture
