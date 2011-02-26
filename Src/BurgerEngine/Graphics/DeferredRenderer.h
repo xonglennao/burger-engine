@@ -25,6 +25,7 @@
 
 class SceneGraph;
 class OpenGLContext;
+class Texture3D;
 
 class DeferredRenderer
 {
@@ -183,6 +184,8 @@ private:
 
 	std::vector< OmniLight::OmniLightQuad > m_vOmniLightQuads;
 	std::vector< SpotLight::SpotLightQuad > m_vSpotLightQuads;
+
+	Texture3D * m_pLUT;
 };
 
 #endif //__DEFERREDRENDERER_H__

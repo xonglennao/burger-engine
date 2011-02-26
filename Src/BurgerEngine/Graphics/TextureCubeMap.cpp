@@ -1,20 +1,29 @@
 #include "BurgerEngine/Graphics/TextureCubeMap.h"
 
 const std::string oTextureName[6] = { "PosX", "NegX", "PosY", "NegY", "PosZ", "NegZ" };
-
+/*
 #define GL_TEXTURE_CUBE_MAP_POSITIVE_X                     0x8515
 #define GL_TEXTURE_CUBE_MAP_NEGATIVE_X                     0x8516
 #define GL_TEXTURE_CUBE_MAP_POSITIVE_Y                     0x8517
 #define GL_TEXTURE_CUBE_MAP_NEGATIVE_Y                     0x8518
 #define GL_TEXTURE_CUBE_MAP_POSITIVE_Z                     0x8519
 #define GL_TEXTURE_CUBE_MAP_NEGATIVE_Z                     0x851A
+*/
 
-
-TextureCubeMap::TextureCubeMap():
-AbstractTexture()
+TextureCubeMap::TextureCubeMap()
+	: AbstractTexture()
 {
-	m_bFirstInit = false;
 }
+
+TextureCubeMap::TextureCubeMap(  bool bUseMipMaps, bool bLinearFiltering, bool bClampS, bool bClampT, bool bClampR )
+	: AbstractTexture( bUseMipMaps, bLinearFiltering, bClampS, bClampT )
+{
+	if( bClampR )
+	{
+		m_eWrapR = GL_CLAMP_TO_EDGE;
+	}
+}
+
 bool TextureCubeMap::loadTexture( const std::string &sName )
 {
 	GLubyte *data = NULL; 
@@ -24,12 +33,13 @@ bool TextureCubeMap::loadTexture( const std::string &sName )
 
 	Activate();
 
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, m_eGenerateMipMap );
+	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, m_eFilteringMin );
+	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, m_eFilteringMag );
 
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, m_eWrapS );
+	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, m_eWrapT );
+	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, m_eWrapR );
 
 	GLenum eTarget = GL_TEXTURE_CUBE_MAP_POSITIVE_X;
 

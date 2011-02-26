@@ -20,6 +20,7 @@ class TextureCubeMap: public AbstractTexture
 	public:
 
 		TextureCubeMap ();
+		TextureCubeMap( bool bUseMipMaps, bool bLinearFiltering, bool bClampS, bool bClampT, bool bClampR );
 		virtual ~TextureCubeMap () {};
 
 		/**
@@ -34,8 +35,7 @@ class TextureCubeMap: public AbstractTexture
 
 
 	protected:
-
-		bool m_bFirstInit;
+		GLenum	m_eWrapR;
 		
 
 };

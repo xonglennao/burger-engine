@@ -22,6 +22,7 @@
 #include "BurgerEngine/Graphics/AbstractTexture.h"
 #include "BurgerEngine/Graphics/Texture2D.h"
 #include "BurgerEngine/Graphics/TextureCubeMap.h"
+#include "BurgerEngine/Graphics/Texture3D.h"
 
 class EffectTechnique
 {
@@ -41,7 +42,7 @@ public:
 	void Activate();
 	inline void Deactivate(){ m_pShader->Deactivate(); }
 
-	void AddUniformTexture( int iUnit, AbstractTexture* pTexture2D ){ m_oUniformTextures2DMap[ iUnit ] = pTexture2D; };
+	void AddUniformTexture( int iUnit, AbstractTexture* pTexture ){ m_oUniformTextures2DMap[ iUnit ] = pTexture; };
 	//void AddUniformTextureCubeMap( int iUnit, TextureCubeMap* pTextureCube ){ m_oUniformTextures2DMap[ iUnit ] = pTextureCube; };
 	void AddUniformFloat( int iUniformLocation, float fValue ){ m_oUniformFloatsMap[ iUniformLocation ] = fValue; };
 	void SetShader( Shader* pShader ){ m_pShader = pShader; };

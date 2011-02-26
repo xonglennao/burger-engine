@@ -5,6 +5,7 @@ uniform sampler2D sLuminance;
 uniform sampler2D sBloom;
 uniform sampler2D sDownSampledTexture;
 uniform sampler2D sBlurData;
+uniform sampler3D sLUT;
 
 vec2 poisson[8];
 vec2 maxCoC = vec2(5.0,10.0);
@@ -73,6 +74,7 @@ void main()
 	vColor.rgb /= ( 1.0 + vColor );
 
 	vColor += fGlowMultiplierAndKey.x * vBloom;
-
-	gl_FragColor = vec4( vColor, 1.0 );
+	
+	//gl_FragColor = vec4( vColor, 1.0 );
+	gl_FragColor = vec4( texture3D( sLUT, vColor ).rgb, 1.0 );
 }

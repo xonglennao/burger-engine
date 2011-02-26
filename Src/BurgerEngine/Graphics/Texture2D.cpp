@@ -1,16 +1,13 @@
 #include "texture2D.h"
 
-Texture2D::Texture2D():
-AbstractTexture()
+Texture2D::Texture2D()
+	: AbstractTexture()
 {
-	m_bMipMaps = true;
 }
 
-Texture2D::Texture2D (bool bMipMaps):
-AbstractTexture(),
-m_bMipMaps(bMipMaps)
+Texture2D::Texture2D ( bool bUseMipMaps, bool bLinearFiltering, bool bClampS, bool bClampT )
+	: AbstractTexture( bUseMipMaps, bLinearFiltering, bClampS, bClampT )
 {
-
 }
 
 bool Texture2D::loadTexture(const std::string &name)
@@ -30,21 +27,13 @@ bool Texture2D::loadTexture(const std::string &name)
 
 	Activate();
 	
-	if (!m_bMipMaps)
-	{
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		
-	}
-	else
-	{
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
-	}
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, m_eFilteringMin );
+	glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, m_eGenerateMipMap );
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, m_eFilteringMag );
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_eWrapS );
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_eWrapT );
 
 	//RGB or RGBA
 	if (m_iChanel == 4)

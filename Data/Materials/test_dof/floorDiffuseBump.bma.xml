@@ -4,30 +4,30 @@
     <vertexshader>../Data/Shaders/Material/FillGBufferNormalMap.vert</vertexshader>
     <pixelshader>../Data/Shaders/Material/FillGBufferNormalMap.frag</pixelshader>
     <uniforms>
-      <float value="10.0">fTileSize</float>
+      <float value="20.0">fTileSize</float>
     </uniforms>
-    <samplers>
-      <sampler>
+    <textures>
+      <texture>
         <uniformname unit="1">normalMap</uniformname>
-        <filename>../Data/Textures/test_dof/checkboard_normals.tga</filename>
-      </sampler>
-    </samplers>
+        <filename>../Data/Textures/test_dof/xml/checkboard_normals.btx.xml</filename>
+      </texture>
+    </textures>
   </technique>
   <technique name="render_opaque">
     <shadername>DiffuseSpec</shadername>
     <vertexshader>../Data/Shaders/BasicVertexShaderTile.vert</vertexshader>
     <pixelshader>../Data/Shaders/Material/DiffuseSpec.frag</pixelshader>
     <uniforms>
-      <float value="10.0">fTileSize</float>
+      <float value="20.0">fTileSize</float>
     </uniforms>
-    <samplers>
-      <sampler>
+    <textures>
+      <texture>
         <uniformname unit="0">diffuseMap</uniformname>
-        <filename>../Data/Textures/test_dof/checkboard_diffuse.tga</filename>
-      </sampler>
-      <sampler>
+        <filename>../Data/Textures/test_dof/xml/checkboard_diffuse.btx.xml</filename>
+      </texture>
+      <texture>
         <uniformname unit="6">lightBuffer</uniformname>
-      </sampler>
-    </samplers>
+      </texture>
+    </textures>
   </technique>
 </material>

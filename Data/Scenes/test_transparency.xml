@@ -14,7 +14,16 @@
     <mesh>
       <file>../Data/Mesh/unit_sphere.obj</file>
       <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+        <material>../Data/Materials/test_dof/tex3D.bma.xml</material>
+      </part>
+    </mesh>
+  </sceneobject>
+
+  <sceneobject x="-20.0" y="10.0" z="30.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
+    <mesh>
+      <file>../Data/Mesh/pyramid.obj</file>
+      <part>
+        <material>../Data/Materials/test_dof/tex3D.bma.xml</material>
       </part>
     </mesh>
   </sceneobject>
