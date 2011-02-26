@@ -23,6 +23,7 @@ class AbstractTexture
 	public:
 
 		AbstractTexture ();
+		AbstractTexture( bool bUseMipMaps, bool bLinearFiltering, bool bClampS, bool bClampT );
 		virtual ~AbstractTexture ();
 
 		/**
@@ -38,13 +39,17 @@ class AbstractTexture
 	
 	protected:
 
-		std::string	m_sName;
+		std::string		m_sName;
 		unsigned int	m_iWidth;
 		unsigned int	m_iHeight;
 		unsigned int	m_iChanel;
 		GLuint			m_iId;
 		
-
+		GLenum			m_eFilteringMin;
+		GLenum			m_eFilteringMag;
+		GLenum			m_eWrapS;
+		GLenum			m_eWrapT;
+		GLenum			m_eGenerateMipMap;
 };
 
 #endif //__ABSTRACTTEXTURE_H__

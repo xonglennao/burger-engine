@@ -166,6 +166,9 @@
     <ClCompile Include="BurgerEngine\Graphics\Skybox.cpp">
       <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\Texture3D.cpp">
+      <Filter>BurgerEngine\Graphics\Textures</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -336,6 +339,9 @@
     <ClInclude Include="BurgerEngine\Graphics\Skybox.h">
       <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
     </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\Texture3D.h">
+      <Filter>BurgerEngine\Graphics\Textures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="BurgerEngine">
@@ -422,29 +428,17 @@
     <Filter Include="BurgerEngine\Data\Scenes">
       <UniqueIdentifier>{c217b7c8-a3d8-41c2-854d-ae7f3fd39063}</UniqueIdentifier>
     </Filter>
-    <Filter Include="BurgerEngine\Data\Materials">
-      <UniqueIdentifier>{8e9c4298-7d5f-4ee5-adeb-85b4bbda4162}</UniqueIdentifier>
-    </Filter>
     <Filter Include="BurgerEngine\External\GLFont">
       <UniqueIdentifier>{fabbe29f-086e-4748-955a-20e26f0cd0aa}</UniqueIdentifier>
     </Filter>
     <Filter Include="BurgerEngine\Core\Timer">
       <UniqueIdentifier>{54b98ab8-d31b-4d13-bc12-2ed8e3a44ac5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="BurgerEngine\Data\Materials\Prison">
-      <UniqueIdentifier>{cf55197a-56b0-45ee-a510-69bede93c02e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="BurgerEngine\Data\Materials\test_dof">
-      <UniqueIdentifier>{993cc7bf-4915-401e-9cb8-7b74e9f23c13}</UniqueIdentifier>
-    </Filter>
     <Filter Include="BurgerEngine\Data\Shaders\Engine">
       <UniqueIdentifier>{f582ca8e-3ce2-4dd4-98a7-54f6d80f7619}</UniqueIdentifier>
     </Filter>
     <Filter Include="BurgerEngine\Data\Shaders\Material">
       <UniqueIdentifier>{3bf9a64e-8f42-4f65-a220-107ec262c01b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="BurgerEngine\Data\Materials\test_transparency">
-      <UniqueIdentifier>{fb497a91-cba9-4df2-b2d9-5ca33a26af17}</UniqueIdentifier>
     </Filter>
     <Filter Include="BurgerEngine\External\GLee">
       <UniqueIdentifier>{b99d550d-3385-47f3-a3b9-f2550e5b9518}</UniqueIdentifier>
@@ -455,37 +449,22 @@
     <Filter Include="BurgerEngine\GUI">
       <UniqueIdentifier>{36d9a728-46ae-4f4e-a352-825746d99328}</UniqueIdentifier>
     </Filter>
+    <Filter Include="BurgerEngine\Data\Prison">
+      <UniqueIdentifier>{142a8b53-5c32-4944-9266-848a9f63c4f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Data\test_dof">
+      <UniqueIdentifier>{48885bc8-57ac-477b-a0c7-cbe33c2c8e14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Data\test_transparency">
+      <UniqueIdentifier>{4cfbde5a-6649-44dc-89bc-69d3c53f5f2d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\Scenes\prison.xml">
       <Filter>BurgerEngine\Data\Scenes</Filter>
     </None>
-    <None Include="..\Data\Materials\prison\boneDiffuse.xml">
-      <Filter>BurgerEngine\Data\Materials\Prison</Filter>
-    </None>
-    <None Include="..\Data\Materials\prison\crateDiffuseBump.xml">
-      <Filter>BurgerEngine\Data\Materials\Prison</Filter>
-    </None>
-    <None Include="..\Data\Materials\prison\rustDiffuseBump.xml">
-      <Filter>BurgerEngine\Data\Materials\Prison</Filter>
-    </None>
-    <None Include="..\Data\Materials\prison\stoneFloorDiffuseBump.xml">
-      <Filter>BurgerEngine\Data\Materials\Prison</Filter>
-    </None>
-    <None Include="..\Data\Materials\prison\stoneWallDiffuseBump.xml">
-      <Filter>BurgerEngine\Data\Materials\Prison</Filter>
-    </None>
-    <None Include="..\Data\Materials\prison\woodDiffuseBump.xml">
-      <Filter>BurgerEngine\Data\Materials\Prison</Filter>
-    </None>
-    <None Include="..\Data\Materials\prison\brightWhite.xml">
-      <Filter>BurgerEngine\Data\Materials\Prison</Filter>
-    </None>
     <None Include="..\Data\Scenes\test_dof.xml">
       <Filter>BurgerEngine\Data\Scenes</Filter>
-    </None>
-    <None Include="..\Data\Materials\test_dof\floorDiffuseBump.xml">
-      <Filter>BurgerEngine\Data\Materials\test_dof</Filter>
     </None>
     <None Include="..\Data\Shaders\Engine\AvgLumFinal.frag">
       <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
@@ -568,14 +547,59 @@
     <None Include="..\Data\Scenes\test_transparency.xml">
       <Filter>BurgerEngine\Data\Scenes</Filter>
     </None>
-    <None Include="..\Data\Materials\test_transparency\test_transparency.xml">
-      <Filter>BurgerEngine\Data\Materials\test_transparency</Filter>
-    </None>
     <None Include="..\Data\Shaders\Material\Transparency.frag">
       <Filter>BurgerEngine\Data\Shaders\Material</Filter>
     </None>
     <None Include="..\Data\Shaders\Engine\GaussianBlur6DofSpecial.frag">
       <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Material\tex3D.frag">
+      <Filter>BurgerEngine\Data\Shaders\Material</Filter>
+    </None>
+    <None Include="..\Data\Materials\prison\boneDiffuse.bma.xml">
+      <Filter>BurgerEngine\Data\Prison</Filter>
+    </None>
+    <None Include="..\Data\Materials\prison\brightWhite.bma.xml">
+      <Filter>BurgerEngine\Data\Prison</Filter>
+    </None>
+    <None Include="..\Data\Materials\prison\crateDiffuseBump.bma.xml">
+      <Filter>BurgerEngine\Data\Prison</Filter>
+    </None>
+    <None Include="..\Data\Materials\prison\rustDiffuseBump.bma.xml">
+      <Filter>BurgerEngine\Data\Prison</Filter>
+    </None>
+    <None Include="..\Data\Materials\prison\stoneFloorDiffuseBump.bma.xml">
+      <Filter>BurgerEngine\Data\Prison</Filter>
+    </None>
+    <None Include="..\Data\Materials\prison\stoneWallDiffuseBump.bma.xml">
+      <Filter>BurgerEngine\Data\Prison</Filter>
+    </None>
+    <None Include="..\Data\Materials\prison\wood2DiffuseBump.bma.xml">
+      <Filter>BurgerEngine\Data\Prison</Filter>
+    </None>
+    <None Include="..\Data\Materials\prison\woodDiffuseBump.bma.xml">
+      <Filter>BurgerEngine\Data\Prison</Filter>
+    </None>
+    <None Include="..\Data\Materials\test_dof\BasicSkyBox.bma.xml">
+      <Filter>BurgerEngine\Data\test_dof</Filter>
+    </None>
+    <None Include="..\Data\Materials\test_dof\floorDiffuseBump.bma.xml">
+      <Filter>BurgerEngine\Data\test_dof</Filter>
+    </None>
+    <None Include="..\Data\Materials\test_dof\tex3D.bma.xml">
+      <Filter>BurgerEngine\Data\test_dof</Filter>
+    </None>
+    <None Include="..\Data\Materials\test_transparency\test_transparency.bma.xml">
+      <Filter>BurgerEngine\Data\test_transparency</Filter>
+    </None>
+    <None Include="..\Data\Materials\test_transparency\test_transparency2.bma.xml">
+      <Filter>BurgerEngine\Data\test_transparency</Filter>
+    </None>
+    <None Include="..\Data\Materials\test_transparency\test_transparency3.bma.xml">
+      <Filter>BurgerEngine\Data\test_transparency</Filter>
+    </None>
+    <None Include="..\Data\Materials\test_transparency\test_transparency4.bma.xml">
+      <Filter>BurgerEngine\Data\test_transparency</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -7,6 +7,7 @@
 #include "BurgerEngine/Graphics/OpenGLContext.h"
 #include "BurgerEngine/Graphics/FBO.h"
 #include "BurgerEngine/Graphics/ShaderManager.h"
+#include "BurgerEngine/Graphics/TextureManager.h"
 #include "BurgerEngine/Graphics/Shader.h"
 #include "BurgerEngine/Graphics/Texture2D.h"
 
@@ -36,13 +37,20 @@ DeferredRenderer::DeferredRenderer()
 	: m_iDebugFlag(0)
 	, m_fFrameTime( 10.0 )
 	, m_bShowDebugMenu( false )
+	, m_fToneMappingKey( 0.5f )
+	, m_fGlowMultiplier( 1.0f )
+	, m_fBrightPassThreshold( 0.5f )
+	, m_fBrightPassOffset( 10.0f )
+	, m_fAdaptationBaseTime( 0.5f )
 {
-
 	CreateFBO();
 	
 	//loading engine shaders
 	LoadEngineShaders();
 	
+	//loading LUT (temporary, this should be loaded by the scene .xml
+	m_pLUT  = TextureManager::GrabInstance().getTexture3DFrom2DFile("../Data/Textures/neutral_lut.png", 16, 16, 16, false, true, true, true, true );
+
 	//loading font
 	GLuint iFontId;
 	glGenTextures(1, &iFontId);
@@ -59,12 +67,6 @@ DeferredRenderer::DeferredRenderer()
 
 	GenFullScreenQuad();
 
-	m_fToneMappingKey = 0.5f;
-	m_fGlowMultiplier = 1.0f;
-	m_fBrightPassThreshold = 0.5f;
-	m_fBrightPassOffset = 10.0f;
-	m_fAdaptationBaseTime = 0.5f;
-	
 	DebugMenu& oDebugMenu = Engine::GrabInstance().GrabSceneGraph().GetDebugMenu();
 
 	oDebugMenu.AddEntry( "ToneMappingKey", m_fToneMappingKey, 0.0f, 1.0f, 0.1f );
@@ -73,7 +75,6 @@ DeferredRenderer::DeferredRenderer()
 	oDebugMenu.AddEntry( "BrightPass Offset", m_fBrightPassOffset, 0.0f, 10.0f, 0.5f );
 	oDebugMenu.AddEntry( "Adaptation Base Time", m_fAdaptationBaseTime, 0.0f, 1.0f, 0.02f );
 	oDebugMenu.AddEntry( "DebugFlag", m_iDebugFlag, 0, 100, 1 );
-
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -302,6 +303,7 @@ void DeferredRenderer::LoadEngineShaders()
 	m_pToneMappingShader->setUniformTexture("sBloom",2);
 	m_pToneMappingShader->setUniformTexture("sDownSampledTexture",3);
 	m_pToneMappingShader->setUniformTexture("sBlurData",4);
+	m_pToneMappingShader->setUniformTexture("sLUT",5);
 	m_iToneMappingShaderKeyAndMultiplierHandle = glGetUniformLocation( m_pToneMappingShader->getHandle(), "fGlowMultiplierAndKey" );
 	m_pToneMappingShader->Deactivate();
 
@@ -1323,9 +1325,14 @@ void DeferredRenderer::Render()
 	glActiveTexture( GL_TEXTURE4 );
 	m_pHDRSceneBuffer->ActivateTexture(1);
 
+	glActiveTexture( GL_TEXTURE5 );
+	m_pLUT->Activate();
+
 	DrawFullScreenQuad( iWindowWidth, iWindowHeight );
 	m_pToneMappingShader->Deactivate();
-
+	
+	//Texture3D::Deactivate();
+	glActiveTexture( GL_TEXTURE4 );
 	Texture2D::Deactivate();
 	glActiveTexture( GL_TEXTURE3 );
 	Texture2D::Deactivate();

@@ -59,6 +59,7 @@
     <ClInclude Include="BurgerEngine\Graphics\StaticMesh.h" />
     <ClInclude Include="BurgerEngine\Graphics\OpenGLContext.h" />
     <ClInclude Include="BurgerEngine\Graphics\Texture2D.h" />
+    <ClInclude Include="BurgerEngine\Graphics\Texture3D.h" />
     <ClInclude Include="BurgerEngine\Graphics\TextureCubeMap.h" />
     <ClInclude Include="BurgerEngine\Graphics\TextureManager.h" />
     <ClInclude Include="BurgerEngine\Graphics\Window.h" />
@@ -116,6 +117,7 @@
     <ClCompile Include="BurgerEngine\Graphics\StaticMesh.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\OpenGLContext.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\Texture2D.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\Texture3D.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\TextureCubeMap.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\TextureManager.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\Window.cpp" />
@@ -126,17 +128,21 @@
     <ClCompile Include="BurgerEngine\Input\SFMLInputManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Data\Materials\prison\boneDiffuse.xml" />
-    <None Include="..\Data\Materials\prison\brightWhite.xml" />
-    <None Include="..\Data\Materials\prison\crateDiffuseBump.xml" />
-    <None Include="..\Data\Materials\prison\rustDiffuseBump.xml" />
-    <None Include="..\Data\Materials\prison\stoneFloorDiffuseBump.xml" />
-    <None Include="..\Data\Materials\prison\stoneWallDiffuseBump.xml" />
-    <None Include="..\Data\Materials\prison\woodDiffuseBump.xml" />
-    <None Include="..\Data\Materials\test_dof\floorDiffuseBump.xml" />
-    <None Include="..\Data\Materials\test_transparency\test_transparency.xml">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="..\Data\Materials\prison\boneDiffuse.bma.xml" />
+    <None Include="..\Data\Materials\prison\brightWhite.bma.xml" />
+    <None Include="..\Data\Materials\prison\crateDiffuseBump.bma.xml" />
+    <None Include="..\Data\Materials\prison\rustDiffuseBump.bma.xml" />
+    <None Include="..\Data\Materials\prison\stoneFloorDiffuseBump.bma.xml" />
+    <None Include="..\Data\Materials\prison\stoneWallDiffuseBump.bma.xml" />
+    <None Include="..\Data\Materials\prison\wood2DiffuseBump.bma.xml" />
+    <None Include="..\Data\Materials\prison\woodDiffuseBump.bma.xml" />
+    <None Include="..\Data\Materials\test_dof\BasicSkyBox.bma.xml" />
+    <None Include="..\Data\Materials\test_dof\floorDiffuseBump.bma.xml" />
+    <None Include="..\Data\Materials\test_dof\tex3D.bma.xml" />
+    <None Include="..\Data\Materials\test_transparency\test_transparency.bma.xml" />
+    <None Include="..\Data\Materials\test_transparency\test_transparency2.bma.xml" />
+    <None Include="..\Data\Materials\test_transparency\test_transparency3.bma.xml" />
+    <None Include="..\Data\Materials\test_transparency\test_transparency4.bma.xml" />
     <None Include="..\Data\Scenes\prison.xml">
       <SubType>Designer</SubType>
     </None>
@@ -171,6 +177,7 @@
     <None Include="..\Data\Shaders\Material\FillGBufferBasic.vert" />
     <None Include="..\Data\Shaders\Material\FillGBufferNormalMap.frag" />
     <None Include="..\Data\Shaders\Material\FillGBufferNormalMap.vert" />
+    <None Include="..\Data\Shaders\Material\tex3D.frag" />
     <None Include="..\Data\Shaders\Material\Transparency.frag" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
