@@ -449,13 +449,16 @@
     <Filter Include="BurgerEngine\GUI">
       <UniqueIdentifier>{36d9a728-46ae-4f4e-a352-825746d99328}</UniqueIdentifier>
     </Filter>
-    <Filter Include="BurgerEngine\Data\Prison">
+    <Filter Include="BurgerEngine\Data\Materials">
+      <UniqueIdentifier>{17d2d7a8-7bf4-41a4-9289-e89c7ecc4d51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Data\Materials\Prison">
       <UniqueIdentifier>{142a8b53-5c32-4944-9266-848a9f63c4f8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="BurgerEngine\Data\test_dof">
+    <Filter Include="BurgerEngine\Data\Materials\test_dof">
       <UniqueIdentifier>{48885bc8-57ac-477b-a0c7-cbe33c2c8e14}</UniqueIdentifier>
     </Filter>
-    <Filter Include="BurgerEngine\Data\test_transparency">
+    <Filter Include="BurgerEngine\Data\Materials\test_transparency">
       <UniqueIdentifier>{4cfbde5a-6649-44dc-89bc-69d3c53f5f2d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -557,49 +560,55 @@
       <Filter>BurgerEngine\Data\Shaders\Material</Filter>
     </None>
     <None Include="..\Data\Materials\prison\boneDiffuse.bma.xml">
-      <Filter>BurgerEngine\Data\Prison</Filter>
+      <Filter>BurgerEngine\Data\Materials\Prison</Filter>
     </None>
     <None Include="..\Data\Materials\prison\brightWhite.bma.xml">
-      <Filter>BurgerEngine\Data\Prison</Filter>
+      <Filter>BurgerEngine\Data\Materials\Prison</Filter>
     </None>
     <None Include="..\Data\Materials\prison\crateDiffuseBump.bma.xml">
-      <Filter>BurgerEngine\Data\Prison</Filter>
+      <Filter>BurgerEngine\Data\Materials\Prison</Filter>
     </None>
     <None Include="..\Data\Materials\prison\rustDiffuseBump.bma.xml">
-      <Filter>BurgerEngine\Data\Prison</Filter>
+      <Filter>BurgerEngine\Data\Materials\Prison</Filter>
     </None>
     <None Include="..\Data\Materials\prison\stoneFloorDiffuseBump.bma.xml">
-      <Filter>BurgerEngine\Data\Prison</Filter>
+      <Filter>BurgerEngine\Data\Materials\Prison</Filter>
     </None>
     <None Include="..\Data\Materials\prison\stoneWallDiffuseBump.bma.xml">
-      <Filter>BurgerEngine\Data\Prison</Filter>
+      <Filter>BurgerEngine\Data\Materials\Prison</Filter>
     </None>
     <None Include="..\Data\Materials\prison\wood2DiffuseBump.bma.xml">
-      <Filter>BurgerEngine\Data\Prison</Filter>
+      <Filter>BurgerEngine\Data\Materials\Prison</Filter>
     </None>
     <None Include="..\Data\Materials\prison\woodDiffuseBump.bma.xml">
-      <Filter>BurgerEngine\Data\Prison</Filter>
+      <Filter>BurgerEngine\Data\Materials\Prison</Filter>
     </None>
     <None Include="..\Data\Materials\test_dof\BasicSkyBox.bma.xml">
-      <Filter>BurgerEngine\Data\test_dof</Filter>
+      <Filter>BurgerEngine\Data\Materials\test_dof</Filter>
     </None>
     <None Include="..\Data\Materials\test_dof\floorDiffuseBump.bma.xml">
-      <Filter>BurgerEngine\Data\test_dof</Filter>
+      <Filter>BurgerEngine\Data\Materials\test_dof</Filter>
     </None>
     <None Include="..\Data\Materials\test_dof\tex3D.bma.xml">
-      <Filter>BurgerEngine\Data\test_dof</Filter>
+      <Filter>BurgerEngine\Data\Materials\test_dof</Filter>
     </None>
     <None Include="..\Data\Materials\test_transparency\test_transparency.bma.xml">
-      <Filter>BurgerEngine\Data\test_transparency</Filter>
+      <Filter>BurgerEngine\Data\Materials\test_transparency</Filter>
     </None>
     <None Include="..\Data\Materials\test_transparency\test_transparency2.bma.xml">
-      <Filter>BurgerEngine\Data\test_transparency</Filter>
+      <Filter>BurgerEngine\Data\Materials\test_transparency</Filter>
     </None>
     <None Include="..\Data\Materials\test_transparency\test_transparency3.bma.xml">
-      <Filter>BurgerEngine\Data\test_transparency</Filter>
+      <Filter>BurgerEngine\Data\Materials\test_transparency</Filter>
     </None>
     <None Include="..\Data\Materials\test_transparency\test_transparency4.bma.xml">
-      <Filter>BurgerEngine\Data\test_transparency</Filter>
+      <Filter>BurgerEngine\Data\Materials\test_transparency</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Material\BasicSkyBox.frag">
+      <Filter>BurgerEngine\Data\Shaders\Material</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Material\BasicSkyBox.vert">
+      <Filter>BurgerEngine\Data\Shaders\Material</Filter>
     </None>
   </ItemGroup>
 </Project>

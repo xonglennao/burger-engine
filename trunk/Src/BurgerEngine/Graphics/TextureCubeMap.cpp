@@ -17,6 +17,7 @@ TextureCubeMap::TextureCubeMap()
 
 TextureCubeMap::TextureCubeMap(  bool bUseMipMaps, bool bLinearFiltering, bool bClampS, bool bClampT, bool bClampR )
 	: AbstractTexture( bUseMipMaps, bLinearFiltering, bClampS, bClampT )
+	,  m_eWrapR( GL_REPEAT )
 {
 	if( bClampR )
 	{
@@ -33,7 +34,7 @@ bool TextureCubeMap::loadTexture( const std::string &sName )
 
 	Activate();
 
-	glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, m_eGenerateMipMap );
+	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_GENERATE_MIPMAP, m_eGenerateMipMap );
 	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, m_eFilteringMin );
 	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, m_eFilteringMag );
 

@@ -4,6 +4,11 @@
 #include "BurgerEngine/Core/CameraFps.h"
 #include "BurgerEngine/Core/SceneGraph.h"
 
+#include "BurgerEngine/Graphics/MeshManager.h"
+#include "BurgerEngine/Graphics/MaterialManager.h"
+#include "BurgerEngine/Graphics/TextureManager.h"
+#include "BurgerEngine/Graphics/ShaderManager.h"
+
 #include "BurgerEngine/Input/EventManager.h"
 
 #include "BurgerEngine/Graphics/Window.h"
@@ -62,6 +67,11 @@ void Engine::Terminate()
 	m_pCurrentCamera->Terminate();
 	delete m_pCurrentCamera;
 	m_pCurrentCamera = NULL;
+
+	MaterialManager::KillInstance();
+	MeshManager::KillInstance();
+	ShaderManager::KillInstance();
+	TextureManager::KillInstance();
 
 	/// Since Event depends on the window, window should be the last to be destroyed, and Event second to last
 	m_pEventManager->Clear();

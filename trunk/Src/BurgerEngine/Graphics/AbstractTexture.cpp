@@ -34,6 +34,7 @@ AbstractTexture::AbstractTexture( bool bUseMipMaps, bool bLinearFiltering, bool 
 
 AbstractTexture::~AbstractTexture()
 {
+	destroyID();
 }
 
 GLubyte* AbstractTexture::loadData()

@@ -173,10 +173,10 @@
       <Color  r="1.0" g="1.0" b="1.0"/>
     </light>
   </sceneobject>
-  <!--<sceneobject scale="250">
+  <sceneobject scale="250">
     <skybox>
       <material>../Data/Materials/test_dof/BasicSkyBox.bma.xml</material>
     </skybox>
   </sceneobject>
-  -->
+  
 </scene>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual C++ Express 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BurgerEngineDemo", "BurgerEngineDemo.vcxproj", "{99D06A18-E064-414F-BBCC-CAE1EE67296F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BurgerEngine", "BurgerEngineDemo.vcxproj", "{99D06A18-E064-414F-BBCC-CAE1EE67296F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

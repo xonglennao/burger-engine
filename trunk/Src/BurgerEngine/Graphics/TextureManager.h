@@ -62,7 +62,7 @@ class TextureManager: public Singleton<TextureManager>
 		//std::map<std::string,int/*TextureCUBE* class*/>	m_mTexturesCubeMap;
 
 		TextureManager();
-		virtual ~TextureManager(){clear();};
+		virtual ~TextureManager(){ clear(); };
 };
 
 
