@@ -33,3 +33,7 @@ Here's some tasks to do.
 
 === Textures ===
  * .btx.xml file, so that we can specify the parameters (clamp/repeat, filtering etc.) for each texture
+
+=== Tools ===
+ * A macro to display error or info message Ex: ADD_LOG_MESSAGE() ADD_ERROR_MESSAGE()...
+ * A macro to control return value RETURN_FALSE_IF_FALSE() or RETURN_NULL_IF_FALSE()
