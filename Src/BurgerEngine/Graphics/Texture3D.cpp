@@ -41,7 +41,7 @@ bool Texture3D::loadTexture(const std::string &name)
 
 	Activate();
 
-	glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, m_eGenerateMipMap );
+	glTexParameteri( GL_TEXTURE_3D, GL_GENERATE_MIPMAP, m_eGenerateMipMap );
 
 	glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, m_eFilteringMin );
 	glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, m_eFilteringMag );

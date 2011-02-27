@@ -6,11 +6,11 @@
     <uniforms>
       <float value="5.0">fTileSize</float>
     </uniforms>
-    <samplers>
-      <sampler3D>
+    <textures>
+      <texture>
         <uniformname unit="0">diffuseMap</uniformname>
-        <filename>../Data/Textures/neutral_lut.png</filename>
-      </sampler3D>
-    </samplers>
+        <filename>../Data/Textures/xml/neutral_lut.btx.xml</filename>
+      </texture>
+    </textures>
   </technique>
 </material>

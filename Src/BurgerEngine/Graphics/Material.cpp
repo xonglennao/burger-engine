@@ -199,9 +199,9 @@ AbstractTexture* Material::_LoadTextureXML( const char * sName )
 			{
 				int iClampR;
 				pRoot->QueryIntAttribute( "clampr", &iClampR );
-				if(sTextureType == "textureCube")
+				if(sTextureType == "texturecube")
 				{
-					pTexture = TextureManager::GrabInstance().getTextureCubeMap( pXmlFileName->GetText(), iUseMipMap != 0 , iLinearFiltering != 0, iClampS != 0, iClampT != 0 );
+					pTexture = TextureManager::GrabInstance().getTextureCubeMap( pXmlFileName->GetText(), iUseMipMap != 0 , iLinearFiltering != 0, iClampS != 0, iClampT != 0, iClampR != 0 );
 				}
 				else if(sTextureType == "texture3D")
 				{
@@ -209,7 +209,7 @@ AbstractTexture* Material::_LoadTextureXML( const char * sName )
 					pRoot->QueryIntAttribute( "width", &iWidth );
 					pRoot->QueryIntAttribute( "height", &iHeight );
 					pRoot->QueryIntAttribute( "depth", &iDepth );
-					pTexture = TextureManager::GrabInstance().getTexture3DFrom2DFile( pXmlFileName->GetText(), iUseMipMap != 0 , iLinearFiltering != 0, iClampS != 0, iClampT != 0, iClampR != 0 );
+					pTexture = TextureManager::GrabInstance().getTexture3DFrom2DFile( pXmlFileName->GetText(), iWidth, iHeight, iDepth,iUseMipMap != 0 , iLinearFiltering != 0, iClampS != 0, iClampT != 0, iClampR != 0 );
 				}
 			}
 			return pTexture;

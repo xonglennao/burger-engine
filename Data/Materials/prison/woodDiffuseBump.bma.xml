@@ -6,12 +6,12 @@
     <uniforms>
       <float value="1.0">fTileSize</float>
     </uniforms>
-    <samplers>
-      <sampler>
+    <textures>
+      <texture>
         <uniformname unit="1">normalMap</uniformname>
-        <filename>../Data/Textures/prison/wood_normals.tga</filename>
-      </sampler>
-    </samplers>
+        <filename>../Data/Textures/prison/xml/wood_normals.btx.xml</filename>
+      </texture>
+    </textures>
   </technique>
   <technique name="render_opaque">
     <shadername>DiffuseSpecStrength</shadername>
@@ -20,14 +20,14 @@
     <uniforms>
       <float value="1.0">fTileSize</float>
     </uniforms>
-    <samplers>
-      <sampler>
+    <textures>
+      <texture>
         <uniformname unit="0">diffuseMap</uniformname>
-        <filename>../Data/Textures/prison/wood_diffuse.tga</filename>
-      </sampler>
-      <sampler>
+        <filename>../Data/Textures/prison/xml/wood_diffuse.btx.xml</filename>
+      </texture>
+      <texture>
         <uniformname unit="6">lightBuffer</uniformname>
-      </sampler>
-    </samplers>
+      </texture>
+    </textures>
   </technique>
 </material>

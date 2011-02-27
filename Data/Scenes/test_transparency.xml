@@ -19,15 +19,6 @@
     </mesh>
   </sceneobject>
 
-  <sceneobject x="-20.0" y="10.0" z="30.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
-    <mesh>
-      <file>../Data/Mesh/pyramid.obj</file>
-      <part>
-        <material>../Data/Materials/test_dof/tex3D.bma.xml</material>
-      </part>
-    </mesh>
-  </sceneobject>
-
   <!-- TRANSPARENT OBJECTS -->
   <sceneobject x="15.0" y="10.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
     <mesh>
@@ -72,7 +63,7 @@
         <material>../Data/Materials/test_transparency/test_transparency4.bma.xml</material>
       </part>
     </mesh>
-  </sceneobject>
+  </sceneobject>-->
   <!-- END TRANSPARENT OBJECTS -->
   
   <sceneobject x="-15.0" y="5.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">

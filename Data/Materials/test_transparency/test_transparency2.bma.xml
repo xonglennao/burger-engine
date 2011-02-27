@@ -6,11 +6,11 @@
     <uniforms>
       <float value="10.0">fTileSize</float>
     </uniforms>
-    <samplers>
-      <sampler>
+    <textures>
+      <texture>
         <uniformname unit="0">diffuseMap</uniformname>
-        <filename>../Data/Textures/prison/wood_diffuse.tga</filename>
-      </sampler>
-    </samplers>
+        <filename>../Data/Textures/prison/xml/wood_diffuse.btx.xml</filename>
+      </texture>
+    </textures>
   </technique>
 </material>
