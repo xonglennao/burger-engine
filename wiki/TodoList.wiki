@@ -15,10 +15,11 @@ Here's some tasks to do.
 === Scene Object / Renderable Entity ===
  * cubemap (skybox)
  * particle system
+ * bounding volume in order to do frustum culling
 
 === Deferred Rendering ===
  * Add directionnal lights
- * new rendering technique : Refraction / distortion
+ * ~~new rendering technique : Refraction / distortion~~
 
 === Post process===
  * Color correction using 3D LUT
@@ -33,6 +34,9 @@ Here's some tasks to do.
 
 === Textures ===
  * .btx.xml file, so that we can specify the parameters (clamp/repeat, filtering etc.) for each texture
+
+=== Misc ===
+ * Use default shaders/texture when there's a loading error 
 
 === Tools ===
  * A macro to display error or info message Ex: ADD_LOG_MESSAGE() ADD_ERROR_MESSAGE()...
