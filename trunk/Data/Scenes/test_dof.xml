@@ -10,115 +10,11 @@
     </mesh>
   </sceneobject>
 
-  <!-- COLUMN -->
+  <!-- COMPONENT TEST -->
   <sceneobject x="28.0" y="0.0" z="28.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
-    <mesh>
-      <file>../Data/Mesh/column.obj</file>
-      <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-      </part>
-    </mesh>
+	<ressourcecomponent>../Data/Objects/Ball.bcp.xml</ressourcecomponent>
   </sceneobject>
-
-  <sceneobject x="24.0" y="0.0" z="24.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
-    <mesh>
-      <file>../Data/Mesh/column.obj</file>
-      <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-      </part>
-    </mesh>
-  </sceneobject>
-
-  <sceneobject x="20.0" y="0.0" z="20.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
-    <mesh>
-      <file>../Data/Mesh/column.obj</file>
-      <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-      </part>
-    </mesh>
-  </sceneobject>
-
-  <sceneobject x="16.0" y="0.0" z="16.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
-    <mesh>
-      <file>../Data/Mesh/column.obj</file>
-      <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-      </part>
-    </mesh>
-  </sceneobject>
-
-  <sceneobject x="12.0" y="0.0" z="12.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
-    <mesh>
-      <file>../Data/Mesh/column.obj</file>
-      <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-      </part>
-    </mesh>
-  </sceneobject>
-
-  <sceneobject x="8.0" y="0.0" z="8.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
-    <mesh>
-      <file>../Data/Mesh/column.obj</file>
-      <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-      </part>
-    </mesh>
-  </sceneobject>
-
-  <sceneobject x="4.0" y="0.0" z="4.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
-    <mesh>
-      <file>../Data/Mesh/column.obj</file>
-      <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-      </part>
-    </mesh>
-  </sceneobject>
-
-  <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
-    <mesh>
-      <file>../Data/Mesh/column.obj</file>
-      <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-      </part>
-    </mesh>
-  </sceneobject>
-
-  <sceneobject x="-28.0" y="0.0" z="-28.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
-    <mesh>
-      <file>../Data/Mesh/column.obj</file>
-      <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-      </part>
-    </mesh>
-  </sceneobject>
-
-  <sceneobject x="-24.0" y="0.0" z="-24.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
-    <mesh>
-      <file>../Data/Mesh/column.obj</file>
-      <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-      </part>
-    </mesh>
-  </sceneobject>
-
-  <sceneobject x="-20.0" y="0.0" z="-20.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
-    <mesh>
-      <file>../Data/Mesh/column.obj</file>
-      <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-      </part>
-    </mesh>
-  </sceneobject>
-
-  <sceneobject x="-16.0" y="0.0" z="-16.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
-    <mesh>
-      <file>../Data/Mesh/column.obj</file>
-      <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-      </part>
-    </mesh>
-  </sceneobject>
-
+  
   <sceneobject x="-12.0" y="0.0" z="-12.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
     <mesh>
       <file>../Data/Mesh/column.obj</file>

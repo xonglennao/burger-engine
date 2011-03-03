@@ -44,6 +44,9 @@ void SceneMesh::Draw( EffectTechnique::RenderingTechnique eTechnique )
 	}
 }
 
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
 bool SceneMesh::IsOpaque()
 {
 	std::vector<Material*>::iterator oIt = 	m_vMaterials.begin();

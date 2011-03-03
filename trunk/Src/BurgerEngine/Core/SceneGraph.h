@@ -17,6 +17,7 @@
 #include "BurgerEngine/Graphics/SceneLight.h"
 
 #include "BurgerEngine/GUI/DebugMenu.h"
+#include "BurgerEngine/Core/ObjectFactory.h"
 
 #include <vector>
 #include <map>
@@ -34,7 +35,7 @@ class SceneGraph
 {
 public:
 
-	/// \brief Constuctor, call parent
+	/// \brief Constuctor
 	SceneGraph();
 	~SceneGraph();
 
@@ -62,6 +63,9 @@ private:
 /// \brief Loads objects, light etc. from a XML file
 	void LoadSceneXML( const char * sName );
 
+	/// \brief Load all components ressource (not instance) to the componenents manager
+	void _LoadComponentsXML( const char * sName );
+
 private:
 	///lists of renderable objects and lights
 	std::vector< SceneMesh* >		m_oSceneMeshes;
@@ -75,6 +79,9 @@ private:
 	std::map< std::string, SceneLight::LightType > m_oStringToLightTypeMap;
 
 	DebugMenu m_oDebugMenu;
+
+	/// The Factory which can create object depending on the string griven
+	ObjectFactory m_oFactory;
 };
 
 
