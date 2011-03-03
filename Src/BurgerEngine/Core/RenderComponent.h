@@ -13,6 +13,8 @@
 
 #include "BurgerEngine/Core/AbstractComponent.h"
 
+class SceneMesh;
+
 class RenderComponent : public AbstractComponent
 {
 public:
@@ -25,11 +27,17 @@ public:
 	/// \brief Destructor
 	~RenderComponent();
 
+	/// \brief Load the component using a XML Node
+	/// override
+	void Initialize(TiXmlElement const& a_rParameters);
 
 protected:
 	/// \brief Inner update
 	void _Update();
 
+private:
+	/// Own a Scene mesh object
+	SceneMesh* m_pMesh;
 };
 
 #endif //__RENDERCOMPONENT_H__

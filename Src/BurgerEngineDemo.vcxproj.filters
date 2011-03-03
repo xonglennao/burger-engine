@@ -151,9 +151,6 @@
     <ClCompile Include="BurgerEngine\Core\RenderComponent.cpp">
       <Filter>BurgerEngine\Core\Component</Filter>
     </ClCompile>
-    <ClCompile Include="BurgerEngine\Core\AbtractComponent.cpp">
-      <Filter>BurgerEngine\Core\Component</Filter>
-    </ClCompile>
     <ClCompile Include="BurgerEngine\GUI\DebugMenuEntryBase.cpp">
       <Filter>BurgerEngine\GUI</Filter>
     </ClCompile>
@@ -168,6 +165,9 @@
     </ClCompile>
     <ClCompile Include="BurgerEngine\Graphics\Texture3D.cpp">
       <Filter>BurgerEngine\Graphics\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Core\AbstractComponent.cpp">
+      <Filter>BurgerEngine\Core\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

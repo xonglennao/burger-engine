@@ -75,7 +75,7 @@
     <ClCompile Include="BurgerEngine\Base\Functor.cpp" />
     <ClCompile Include="BurgerEngine\Core\AbstractCamera.cpp" />
     <ClCompile Include="BurgerEngine\Core\AbstractStage.cpp" />
-    <ClCompile Include="BurgerEngine\Core\AbtractComponent.cpp" />
+    <ClCompile Include="BurgerEngine\Core\AbstractComponent.cpp" />
     <ClCompile Include="BurgerEngine\Core\CameraFps.cpp" />
     <ClCompile Include="BurgerEngine\Core\CompositeComponent.cpp" />
     <ClCompile Include="BurgerEngine\Core\Engine.cpp" />

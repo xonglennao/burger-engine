@@ -44,6 +44,7 @@ SceneGraph::~SceneGraph()
 //--------------------------------------------------------------------------------------------------------------------
 void SceneGraph::Clear()
 {
+	// Okay so I need to delete thos myself, in the components
 	std::vector< SceneMesh* >::iterator oMeshIt = m_oSceneMeshes.begin();
 	while( oMeshIt != m_oSceneMeshes.end() )
 	{
@@ -91,7 +92,6 @@ void SceneGraph::Clear()
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-
 void SceneGraph::LoadSceneXML( const char * sName )
 {
 	TiXmlDocument * pDocument = new TiXmlDocument( sName );
@@ -122,6 +122,18 @@ void SceneGraph::LoadSceneXML( const char * sName )
 			pXmlObject->QueryFloatAttribute("rZ",&rZ);
 
 			pXmlObject->QueryFloatAttribute("scale",&scale);
+
+
+			//Check for the current object
+			/*TiXmlElement * pCurrentXmlObject;
+			if( pCurrentXmlObject = pXmlObject->FirstChildElement( "ressourcecomponent" ) )
+			{
+				//check object
+				AbstractComponent& rComponent = m_oFactory.CreateComponentInstance();
+
+				//If already laoded, then we create the instance
+				//store the isntance into the scene graph
+			}*/
 
 			//checks if the current sceneobject is a mesh
 			TiXmlElement * pCurrentXmlObject;// = pXmlObject->FirstChildElement( "mesh" );
@@ -279,4 +291,96 @@ void SceneGraph::LoadSceneXML( const char * sName )
 		}*/
 
 	}
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void SceneGraph::_LoadComponentsXML( const char * sName )
+{
+	/*TiXmlDocument * pDocument = new TiXmlDocument( sName );
+
+	if(!pDocument->LoadFile())
+	{
+		std::cerr << "[_LoadComponentsXML] Loading Error : " << pDocument->ErrorDesc() << std::endl;
+	}
+
+	TiXmlElement * pRoot = pDocument->FirstChildElement("component_ressource");
+
+	if( pRoot )
+	{
+		//We are going to ADD all the components ressource (commons) to the ObjectFactory
+		TiXmlElement * pXmlObject = pRoot->FirstChildElement("object");
+
+		while ( pXmlObject )
+		{
+			float x, y, z, rX, rY, rZ, scale;
+
+			//gets position & bounded volume information 
+			pXmlObject->QueryFloatAttribute("x",&x);
+			pXmlObject->QueryFloatAttribute("y",&y);
+			pXmlObject->QueryFloatAttribute("z",&z);
+
+			pXmlObject->QueryFloatAttribute("rX",&rX);
+			pXmlObject->QueryFloatAttribute("rY",&rY);
+			pXmlObject->QueryFloatAttribute("rZ",&rZ);
+
+			pXmlObject->QueryFloatAttribute("scale",&scale);
+
+
+
+			//checks if the current sceneobject is a mesh
+			TiXmlElement * pCurrentXmlObject;// = pXmlObject->FirstChildElement( "mesh" );
+			if( pCurrentXmlObject = pXmlObject->FirstChildElement( "mesh" ) )
+			{
+				//checks for the filename
+				TiXmlElement * pXmlPoint = pCurrentXmlObject->FirstChildElement( "file" );
+				if( pXmlPoint )
+				{
+					std::string sMeshFileName( pXmlPoint->GetText() );
+					StaticMesh* pMesh = meshManager.loadMesh( sMeshFileName );
+
+					if( pMesh )
+					{
+						SceneMesh * pSceneMesh = new SceneMesh( pMesh );
+
+						pSceneMesh->SetPos( vec3( x, y, z ) );
+						pSceneMesh->SetRotation( vec3( rX, rY, rZ ));
+						pSceneMesh->SetScale( scale );
+
+						//checks for materials used on different parts of the mesh
+						unsigned int iPartCount = 0;
+
+						pXmlPoint = pCurrentXmlObject->FirstChildElement( "part" );
+						while( pXmlPoint )
+						{
+							++iPartCount;
+							TiXmlElement * pXmlMaterial = pXmlPoint->FirstChildElement( "material" );
+							if( pXmlMaterial )
+							{
+								Material * pMaterial = MaterialManager::GrabInstance().addMaterial( pXmlMaterial->GetText() );
+								if( pMaterial )
+									pSceneMesh->AddMaterial( pMaterial );
+							}			
+
+							pXmlPoint = pXmlPoint->NextSiblingElement( "part" );
+						}
+
+						pSceneMesh->SetPartCount( iPartCount );
+						if( pSceneMesh->IsOpaque() )
+						{
+							m_oSceneMeshes.push_back( pSceneMesh );
+						}
+						else if( pSceneMesh->IsTransparent() )
+						{
+							m_oTransparentSceneMeshes.push_back( pSceneMesh );
+						}
+					}
+
+				}
+
+			}
+		}
+
+	}*/
 }

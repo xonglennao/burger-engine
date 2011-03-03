@@ -11,17 +11,24 @@
 #ifndef __ABSTRACTCOMPONENT_H__
 #define __ABSTRACTCOMPONENT_H__
 
+//Forward declaration
+class TiXmlElement;
+
 class AbstractComponent
 {
 public:
 	/// \brief constructor
-	AbstractComponent();
+	AbstractComponent(){}
 
 	/// \brief Copy constructor
-	AbstractComponent(AbstractComponent const& a_rToCopy);
+	AbstractComponent(AbstractComponent const& a_rToCopy){}
 
 	/// \brief Destructor
-	virtual ~AbstractComponent();
+	virtual ~AbstractComponent(){}
+
+	/// \brief Load the component using a XML Node
+	/// \todo Shoudl not be an xml node (maybe a InitParam or something)
+	virtual void Initialize(TiXmlElement const& a_rParameters) = 0;
 
 	///\brief Update
 	void Update();
