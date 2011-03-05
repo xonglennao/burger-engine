@@ -1,8 +1,6 @@
 <material>
   <technique name="render_gbuffer">
-    <shadername>FillBGufferNorml</shadername>
-    <vertexshader>../Data/Shaders/FillGBufferNormalMap.vert</vertexshader>
-    <pixelshader>../Data/Shaders/FillGBufferNormalMap.frag</pixelshader>
+    <shader>../Data/Shaders/Material/xml/FillGBufferNormal.bfx.xml</shader>
     <uniforms>
       <float value="1.0">fTileSize</float>
     </uniforms>
@@ -14,9 +12,7 @@
     </textures>
   </technique>
   <technique name="render_opaque">
-    <shadername>DiffuseSpecStrength</shadername>
-    <vertexshader>../Data/Shaders/BasicVertexShaderTile.vert</vertexshader>
-    <pixelshader>../Data/Shaders/DiffuseSpecStrength.frag</pixelshader>
+    <shader>../Data/Shaders/Material/xml/DiffuseSpecStrength.bfx.xml</shader>
     <uniforms>
       <float value="1.0">fTileSize</float>
     </uniforms>

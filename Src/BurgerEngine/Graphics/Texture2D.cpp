@@ -10,11 +10,11 @@ Texture2D::Texture2D ( bool bUseMipMaps, bool bLinearFiltering, bool bClampS, bo
 {
 }
 
-bool Texture2D::loadTexture(const std::string &name)
+bool Texture2D::LoadTexture( const std::string &name )
 {
 	m_sName = name;
     GLubyte *data = NULL; 
-	data = AbstractTexture::loadData();
+	data = AbstractTexture::LoadData();
 
 	if (data == NULL)
 	{

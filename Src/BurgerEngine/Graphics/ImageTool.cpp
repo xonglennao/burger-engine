@@ -6,7 +6,7 @@
 
 #undef _UNICODE
 
-GLubyte* ImageTool::loadImage(const std::string& sName, unsigned int& iWidthOut,unsigned int& iHeightOut, unsigned int& iChannelOut)
+GLubyte* ImageTool::LoadImage(const std::string& sName, unsigned int& iWidthOut,unsigned int& iHeightOut, unsigned int& iChannelOut)
 {
 	std::cout<<"LOADING : " <<sName<<std::endl;
 	/// we are using DevIL just as a img loader, just for the data, we'll handle the rest
@@ -45,7 +45,7 @@ GLubyte* ImageTool::loadImage(const std::string& sName, unsigned int& iWidthOut,
 
 }
 
-GLubyte* ImageTool::load3DFrom2DImage( const std::string& sName, unsigned int iWidth,unsigned int iHeight, unsigned int iDepth, unsigned int& iChannelOut )
+GLubyte* ImageTool::Load3DFrom2DImage( const std::string& sName, unsigned int iWidth,unsigned int iHeight, unsigned int iDepth, unsigned int& iChannelOut )
 {
 	std::cout<<"LOADING : " <<sName<<std::endl;
 	/// we are using DevIL just as a img loader, just for the data, we'll handle the rest

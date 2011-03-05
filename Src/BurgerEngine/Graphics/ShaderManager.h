@@ -26,8 +26,8 @@ class ShaderManager:public Singleton<ShaderManager>
 	friend class Singleton<ShaderManager>;
 
 	public:
-		Shader*	getShader(const std::string& name);
-		Shader* addShader(const std::string& name,const std::string& sVert,const std::string& sFrag);
+		Shader*	GetShader(const std::string& name);
+		Shader* AddShader(const char* sName );
 
 		void clear();
 		inline bool isSupported(const std::string& ext){
@@ -38,7 +38,6 @@ class ShaderManager:public Singleton<ShaderManager>
 
 		ShaderManager();
 		virtual ~ShaderManager(){clear();};
-
 };
 
 #endif //__SHADERMANAGER_H__

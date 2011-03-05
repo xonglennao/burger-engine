@@ -19,16 +19,16 @@ Texture3D::Texture3D ( unsigned int iWidth, unsigned int iHeight, unsigned int i
 	}
 }
 
-GLubyte* Texture3D::loadData()
+GLubyte* Texture3D::LoadData()
 {
-	return ImageTool::load3DFrom2DImage( m_sName, m_iWidth, m_iHeight, m_iDepth, m_iChanel );
+	return ImageTool::Load3DFrom2DImage( m_sName, m_iWidth, m_iHeight, m_iDepth, m_iChanel );
 }
 
-bool Texture3D::loadTexture(const std::string &name)
+bool Texture3D::LoadTexture( const std::string &name )
 {
 	m_sName = name;
     GLubyte *data = NULL; 
-	data = loadData();
+	data = LoadData();
 
 	if (data == NULL)
 	{

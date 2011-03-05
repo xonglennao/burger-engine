@@ -1,0 +1,4 @@
+<shader>
+  <vertexshader>../Data/Shaders/Engine/SpotLight.vert</vertexshader>
+  <pixelshader>../Data/Shaders/Engine/SpotLight.frag</pixelshader>
+</shader>

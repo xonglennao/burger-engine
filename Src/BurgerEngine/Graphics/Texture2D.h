@@ -23,7 +23,7 @@ class Texture2D: public AbstractTexture
 		Texture2D ( bool bUseMipMaps, bool bLinearFiltering, bool bClampS, bool bClampT );
 		virtual ~Texture2D () {};
 
-		virtual bool loadTexture(const std::string &name);
+		virtual bool LoadTexture(const std::string &name);
 		virtual void Activate();	
 		//virtual void Deactivate();	
 

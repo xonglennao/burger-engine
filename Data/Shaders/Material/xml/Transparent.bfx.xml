@@ -1,0 +1,4 @@
+<shader>
+    <vertexshader>../Data/Shaders/BasicVertexShaderTile.vert</vertexshader>
+    <pixelshader>../Data/Shaders/Material/Transparency.frag</pixelshader>
+</shader>

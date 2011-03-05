@@ -25,7 +25,7 @@ TextureCubeMap::TextureCubeMap(  bool bUseMipMaps, bool bLinearFiltering, bool b
 	}
 }
 
-bool TextureCubeMap::loadTexture( const std::string &sName )
+bool TextureCubeMap::LoadTexture( const std::string &sName )
 {
 	GLubyte *data = NULL; 
 	
@@ -47,7 +47,7 @@ bool TextureCubeMap::loadTexture( const std::string &sName )
 	for( unsigned int i = 0; i < 6; ++i )
 	{
 		m_sName = sName + oTextureName[i] + ".png";
-		data = AbstractTexture::loadData();
+		data = AbstractTexture::LoadData();
 		if (data != NULL)
 		{
 			glTexImage2D ( eTarget, 0, GL_RGB,m_iWidth, m_iHeight, 0, GL_RGB,GL_UNSIGNED_BYTE, data );

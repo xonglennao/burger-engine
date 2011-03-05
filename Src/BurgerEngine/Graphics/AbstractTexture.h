@@ -30,10 +30,10 @@ class AbstractTexture
 		*	@name loadTexture
 		*	@brief load all the data
 		*/
-		virtual bool loadTexture(const std::string& name) = 0;
+		virtual bool LoadTexture(const std::string& name) = 0;
 		virtual void Activate() = 0;
 
-		virtual GLubyte* loadData();
+		virtual GLubyte* LoadData();
 		void generateID();
 		void destroyID();
 	

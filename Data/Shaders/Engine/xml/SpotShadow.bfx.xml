@@ -1,0 +1,4 @@
+<shader>
+  <vertexshader>../Data/Shaders/Engine/SpotShadow.vert</vertexshader>
+  <pixelshader>../Data/Shaders/Engine/SpotShadow.frag</pixelshader>
+</shader>

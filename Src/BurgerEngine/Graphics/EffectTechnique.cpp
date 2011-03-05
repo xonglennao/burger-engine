@@ -20,13 +20,19 @@ void EffectTechnique::Activate()
 	CommitUniformFloats();
 }
 
-void EffectTechnique::CommitUniformFloats()
+void EffectTechnique::CommitUniforms()
 {
-	std::map< int, float >::iterator it = m_oUniformFloatsMap.begin();
-	while( it != m_oUniformFloatsMap.end() )
+	std::map< int, float >::iterator FloatIt = m_oUniformFloatsMap.begin();
+	while( FloatIt != m_oUniformFloatsMap.end() )
 	{
-		m_pShader->setUniformf( (*it).first, (*it).second );
-		++it;
+		m_pShader->setUniformf( (*FloatIt).first, (*FloatIt).second );
+		++FloatIt;
+	}
+	std::map< int, vec4 >::iterator Vec4It = m_oUniformVec4Map.begin();
+	while( Vec4It != m_oUniformVec4Map.end() )
+	{
+		m_pShader->setUniform4fv( (*Vec4It).first, 1, (*Vec4It).second );
+		++Vec4It;
 	}
 
 }

@@ -1,0 +1,4 @@
+<shader>
+    <vertexshader>../Data/Shaders/Material/FillGBufferBasic.vert</vertexshader>
+    <pixelshader>../Data/Shaders/Material/FillGBufferBasic.frag</pixelshader>
+</shader>

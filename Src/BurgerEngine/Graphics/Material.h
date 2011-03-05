@@ -34,9 +34,7 @@ public:
 
 private:
 
-	void				_LoadMaterialXML( const char * sName );
-	AbstractTexture*	_LoadTextureXML( const char * sName );
-	void				_LoadShaderXML( const char * sName );
+	void _LoadMaterialXML( const char * sName );
 
 private:		
 	std::map< EffectTechnique::RenderingTechnique, EffectTechnique* > m_oTechniques;

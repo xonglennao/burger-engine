@@ -19,10 +19,10 @@ class ImageTool
 {
 	public:
 		//Load an Image, and return the image data + Width, Height and chanel
-		static GLubyte* loadImage(const std::string& sName, unsigned int& iWidthOut,unsigned int& iHeightOut, unsigned int& iChannelOut);
+		static GLubyte* LoadImage(const std::string& sName, unsigned int& iWidthOut,unsigned int& iHeightOut, unsigned int& iChannelOut);
 
 		//Load a 2D Image and convert the data in order to use it as a 3D texture
-		static GLubyte* load3DFrom2DImage( const std::string& sName, unsigned int iWidth,unsigned int iHeight, unsigned int iDepth, unsigned int& iChannelOut );
+		static GLubyte* Load3DFrom2DImage( const std::string& sName, unsigned int iWidth,unsigned int iHeight, unsigned int iDepth, unsigned int& iChannelOut );
 };
 
 
