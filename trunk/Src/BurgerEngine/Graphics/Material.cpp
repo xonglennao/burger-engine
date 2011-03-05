@@ -10,6 +10,7 @@
 
 #include "BurgerEngine/External/TinyXml/TinyXml.h"
 
+#include "BurgerEngine/External/Math/Vector.h"
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
@@ -81,28 +82,14 @@ void Material::_LoadMaterialXML( const char * sName )
 			EffectTechnique* pTechnique = new EffectTechnique();
 			std::string sTechniqueName = pXmlTechnique->Attribute("name");
 			
-			std::string sName, sVertexShader, sPixelShader;
-		
 			//loads shader program
-			TiXmlElement * pXmlName = pXmlTechnique->FirstChildElement( "shadername" );
+			Shader* pShader = NULL;
+			TiXmlElement * pXmlName = pXmlTechnique->FirstChildElement( "shader" );
 			if( pXmlName )
 			{
-				sName = std::string( pXmlName->GetText() );
+				pShader = ShaderManager::GrabInstance().AddShader( pXmlName->GetText() );
 			}
 
-			TiXmlElement * pXmlVertex = pXmlTechnique->FirstChildElement( "vertexshader" );
-			if( pXmlVertex )
-			{
-				sVertexShader = std::string( pXmlVertex->GetText() );
-			}
-
-			TiXmlElement * pXmlPixel = pXmlTechnique->FirstChildElement( "pixelshader" );
-			if( pXmlPixel )
-			{
-				sPixelShader = std::string( pXmlPixel->GetText() );
-			}
-		
-			Shader* pShader = ShaderManager::GrabInstance().addShader( sName, sVertexShader, sPixelShader );
 			pShader->Activate();
 
 			//gets the textures used by the material
@@ -123,15 +110,10 @@ void Material::_LoadMaterialXML( const char * sName )
 						TiXmlElement * pXmlFileName = pXmlTexture->FirstChildElement( "filename" );
 						if( pXmlFileName )
 						{
-							AbstractTexture* pTexture = _LoadTextureXML( pXmlFileName->GetText() );
-							
-							if( pTexture )
-							{
-								pTechnique->AddUniformTexture( iUnit, pTexture );
-							}
+							AbstractTexture* pTexture = TextureManager::GrabInstance().AddTexture( pXmlFileName->GetText() );//_LoadTextureXML( pXmlFileName->GetText() );
+							pTechnique->AddUniformTexture( iUnit, pTexture );
 						}
 					}
-
 					pXmlTexture = pXmlTexture->NextSiblingElement( "texture" );
 				}
 			}
@@ -150,6 +132,19 @@ void Material::_LoadMaterialXML( const char * sName )
 					pTechnique->AddUniformFloat( iUniformLocation, fValue );
 					pXmlFloat = pXmlFloat->NextSiblingElement( "float" );
 				}
+				TiXmlElement * pXmlVec4 = pXmlUniforms->FirstChildElement( "vec4" );
+				while ( pXmlVec4 )
+				{
+					float x,y,z,w;
+					pXmlVec4->QueryFloatAttribute("x",&x);
+					pXmlVec4->QueryFloatAttribute("y",&y);
+					pXmlVec4->QueryFloatAttribute("z",&z);
+					pXmlVec4->QueryFloatAttribute("w",&w);
+
+					int iUniformLocation = glGetUniformLocation( pShader->getHandle(), pXmlVec4->GetText() );
+					pTechnique->AddUniformVec4( iUniformLocation, vec4(x,y,z,x) );
+					pXmlVec4 = pXmlVec4->NextSiblingElement( "vec4" );
+				}
 			}
 			
 			pShader->QueryStdUniforms();
@@ -161,62 +156,6 @@ void Material::_LoadMaterialXML( const char * sName )
 			pXmlTechnique = pXmlTechnique->NextSiblingElement( "technique" );
 		}
 	}
-}
-
-//--------------------------------------------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------------------------------------------
-AbstractTexture* Material::_LoadTextureXML( const char * sName )
-{
-	TiXmlDocument * pDocument = new TiXmlDocument( sName );
-
-	if(!pDocument->LoadFile())
-	{
-  		std::cerr << "[ReadXML] Loading Error : " << pDocument->ErrorDesc() << std::endl;
-	}
-	
-	TiXmlElement * pRoot = pDocument->FirstChildElement( "texture" );
-
-	if( pRoot )
-	{
-		int iUseMipMap = 0, iLinearFiltering = 0, iClampS = 0, iClampT = 0;
-		pRoot->QueryIntAttribute( "mipmap", &iUseMipMap );
-		pRoot->QueryIntAttribute( "linear", &iLinearFiltering );
-		pRoot->QueryIntAttribute( "clamps", &iClampS );
-		pRoot->QueryIntAttribute( "clampt", &iClampT );
-
-		std::string sTextureType = pRoot->Attribute("type");
-		
-		TiXmlElement * pXmlFileName = pRoot->FirstChildElement( "filename" );
-		if( pXmlFileName )
-		{
-			AbstractTexture * pTexture = NULL;
-			if( sTextureType == "texture2D" )
-			{
-				pTexture = TextureManager::GrabInstance().getTexture2D( pXmlFileName->GetText(), iUseMipMap != 0 , iLinearFiltering != 0, iClampS != 0, iClampT != 0 );
-			}
-			else
-			{
-				int iClampR;
-				pRoot->QueryIntAttribute( "clampr", &iClampR );
-				if(sTextureType == "texturecube")
-				{
-					pTexture = TextureManager::GrabInstance().getTextureCubeMap( pXmlFileName->GetText(), iUseMipMap != 0 , iLinearFiltering != 0, iClampS != 0, iClampT != 0, iClampR != 0 );
-				}
-				else if(sTextureType == "texture3D")
-				{
-					int iWidth, iHeight, iDepth;
-					pRoot->QueryIntAttribute( "width", &iWidth );
-					pRoot->QueryIntAttribute( "height", &iHeight );
-					pRoot->QueryIntAttribute( "depth", &iDepth );
-					pTexture = TextureManager::GrabInstance().getTexture3DFrom2DFile( pXmlFileName->GetText(), iWidth, iHeight, iDepth,iUseMipMap != 0 , iLinearFiltering != 0, iClampS != 0, iClampT != 0, iClampR != 0 );
-				}
-			}
-			return pTexture;
-		}
-	}
-
-	return NULL;
 }
 
 bool Material::IsOpaque()

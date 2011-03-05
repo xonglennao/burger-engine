@@ -1,23 +1,19 @@
 <material>
   <technique name="render_gbuffer">
-    <shadername>FillBGufferBasic</shadername>
-    <vertexshader>../Data/Shaders/Material/FillGBufferBasic.vert</vertexshader>
-    <pixelshader>../Data/Shaders/Material/FillGBufferBasic.frag</pixelshader>
+    <shader>../Data/Shaders/Material/xml/FillGBufferBasic.bfx.xml</shader>
     <uniforms>
       <float value="1.0">fTileSize</float>
     </uniforms>
   </technique>
   <technique name="render_opaque">
-    <shadername>DiffuseSpecStrength</shadername>
-    <vertexshader>../Data/Shaders/BasicVertexShaderTile.vert</vertexshader>
-    <pixelshader>../Data/Shaders/Material/DiffuseSpecStrength.frag</pixelshader>
+    <shader>../Data/Shaders/Material/xml/DiffuseSpecStrength.bfx.xml</shader>
     <uniforms>
       <float value="1.0">fTileSize</float>
     </uniforms>
     <textures>
       <texture>
         <uniformname unit="0">diffuseMap</uniformname>
-        <filename>../Data/Textures/prison/xml/bone_diffuse.btx.tga</filename>
+        <filename>../Data/Textures/prison/xml/bone_diffuse.btx.xml</filename>
       </texture>
       <texture>
         <uniformname unit="6">lightBuffer</uniformname>

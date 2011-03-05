@@ -8,13 +8,12 @@
 
 #include <iostream>
 
-Shader::Shader(const std::string& sName):
-m_sName(sName)
+Shader::Shader()
 {
 	m_bIsReady = false;
 }
 
-bool Shader::loadAndCompile(const std::string& sVert, const std::string& sFrag)
+bool Shader::LoadAndCompile(const std::string& sVert, const std::string& sFrag)
 {
 	GLhandleARB so[2]; 
 	memset(so, 0, sizeof(GLhandleARB)*2);
@@ -84,6 +83,13 @@ void Shader::setUniform3fv( int iUniformLocation, int iCount, float * pValue)
 	/// Need to Activate the shader before, but we are not doing it
 	/// in here to save computation time (if we are setting several variable at the same time)
 	glUniform3fv( iUniformLocation, iCount, pValue);
+}
+
+void Shader::setUniform4fv( int iUniformLocation, int iCount, float * pValue)
+{
+	/// Need to Activate the shader before, but we are not doing it
+	/// in here to save computation time (if we are setting several variable at the same time)
+	glUniform4fv( iUniformLocation, iCount, pValue);
 }
 
 void Shader::setUniformi(const std::string& sName, int fValue)

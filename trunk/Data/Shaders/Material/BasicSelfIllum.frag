@@ -1,6 +1,8 @@
 uniform vec4 vDofParams;
 //x = near blur; y = focal plane; z = far blur; w = blurriness cutoff
 
+uniform vec4 vColor;
+
 float ComputeDepthBlur( float fDepth )
 {
 
@@ -23,8 +25,7 @@ float ComputeDepthBlur( float fDepth )
 
 void main()
 {
-	//gl_FragColor = vec4( 10.0, 10.0, 10.0, ComputeDepthBlur( fDepth ) );
-	gl_FragData[0] = vec4( 10.0, 10.0, 10.0, 1.0 );
+	gl_FragData[0] = vec4( vColor );
 
 	//Computing blur information for Depth of Field
 	float fDepth = gl_FragCoord.z / gl_FragCoord.w;	

@@ -1,8 +1,6 @@
 <material>
   <technique name="render_transparency">
-    <shadername>Transparent</shadername>
-    <vertexshader>../Data/Shaders/BasicVertexShaderTile.vert</vertexshader>
-    <pixelshader>../Data/Shaders/Material/Transparency.frag</pixelshader>
+    <shader>../Data/Shaders/Material/xml/Transparent.bfx.xml</shader>
     <uniforms>
       <float value="10.0">fTileSize</float>
     </uniforms>

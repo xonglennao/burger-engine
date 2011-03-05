@@ -163,8 +163,6 @@ private:
 	Shader*			m_pAvgLumFinalShader;
 	unsigned int	m_iAvgLumFinalShaderPixelSizeHandle;
 
-	Shader*			m_pBasicPixelShader;
-
 	Shader*			m_pToneMappingShader;
 	unsigned int	m_iToneMappingShaderKeyAndMultiplierHandle;
 

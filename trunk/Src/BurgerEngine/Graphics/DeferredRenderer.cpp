@@ -49,7 +49,8 @@ DeferredRenderer::DeferredRenderer()
 	LoadEngineShaders();
 	
 	//loading LUT (temporary, this should be loaded by the scene .xml
-	m_pLUT  = TextureManager::GrabInstance().getTexture3DFrom2DFile("../Data/Textures/neutral_lut.png", 16, 16, 16, false, true, true, true, true );
+	//m_pLUT  = TextureManager::GrabInstance().getTexture3DFrom2DFile("../Data/Textures/neutral_lut.png", 16, 16, 16, false, true, true, true, true );
+	m_pLUT = static_cast< Texture3D* >( TextureManager::GrabInstance().AddTexture( "../Data/Textures/xml/neutral_lut.btx.xml" ) );
 
 	//loading font
 	GLuint iFontId;
@@ -204,7 +205,7 @@ void DeferredRenderer::LoadEngineShaders()
 {
 	ShaderManager& rShaderManager = ShaderManager::GrabInstance();
 	
-	m_pOmniLightShader = rShaderManager.addShader( "OmniLightShader", "../Data/Shaders/Engine/OmniLight.vert", "../Data/Shaders/Engine/OmniLight.frag" );
+	m_pOmniLightShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/OmniLight.bfx.xml" );
 	m_pOmniLightShader->Activate();
 
 	m_pOmniLightShader->QueryStdUniforms();
@@ -218,7 +219,7 @@ void DeferredRenderer::LoadEngineShaders()
 
 	m_pOmniLightShader->Deactivate();
 
-	m_pSpotLightShader = rShaderManager.addShader( "SpotLightShader", "../Data/Shaders/Engine/SpotLight.vert", "../Data/Shaders/Engine/SpotLight.frag" );
+	m_pSpotLightShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/SpotLight.bfx.xml" );
 	m_pSpotLightShader->Activate();
 
 	m_pSpotLightShader->QueryStdUniforms();
@@ -233,7 +234,7 @@ void DeferredRenderer::LoadEngineShaders()
 
 	m_pSpotLightShader->Deactivate();
 
-	m_pSpotShadowShader = rShaderManager.addShader( "SpotShadowShader", "../Data/Shaders/Engine/SpotShadow.vert", "../Data/Shaders/Engine/SpotShadow.frag" );
+	m_pSpotShadowShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/SpotShadow.bfx.xml" );
 	m_pSpotShadowShader->Activate();
 
 	m_pSpotShadowShader->QueryStdUniforms();
@@ -250,52 +251,46 @@ void DeferredRenderer::LoadEngineShaders()
 	m_pSpotShadowShader->setUniformTexture("sShadowMapSampler",2);
 	m_pSpotShadowShader->Deactivate();
 
-	m_pVarianceShadowMapShader = rShaderManager.addShader( "VarianceShadowMap", "../Data/Shaders/Engine/VarianceShadowMap.vert", "../Data/Shaders/Engine/VarianceShadowMap.frag" );
+	m_pVarianceShadowMapShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/VarianceShadowMap.bfx.xml" );
 
-	m_pBlur6Shader = rShaderManager.addShader( "Blur6", "../Data/Shaders/BasicVertexShader.vert", "../Data/Shaders/Engine/GaussianBlur6.frag" );
+	m_pBlur6Shader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/GaussianBlur6.bfx.xml" );
 	m_pBlur6Shader->Activate();
 	m_iBlur6ShaderPixelSizeHandle = glGetUniformLocation( m_pBlur6Shader->getHandle(), "vPixelSize" );
 	m_pBlur6Shader->setUniformTexture("sTexture",0);
 	m_pBlur6Shader->Deactivate();
 
-	m_pBlur6DofSpecialShader = rShaderManager.addShader( "Blur6DofSpecial", "../Data/Shaders/BasicVertexShader.vert", "../Data/Shaders/Engine/GaussianBlur6DofSpecial.frag" );
+	m_pBlur6DofSpecialShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/GaussianBlur6DofSpecial.bfx.xml" );
 	m_pBlur6DofSpecialShader->Activate();
 	m_iBlur6DofSpecialShaderPixelSizeHandle = glGetUniformLocation( m_pBlur6DofSpecialShader->getHandle(), "vPixelSize" );
 	m_pBlur6DofSpecialShader->setUniformTexture("sTexture",0);
 	m_pBlur6DofSpecialShader->setUniformTexture("sBlurData",1);
 	m_pBlur6DofSpecialShader->Deactivate();
 
-	m_pBlur10Shader = rShaderManager.addShader( "Blur10", "../Data/Shaders/BasicVertexShader.vert", "../Data/Shaders/Engine/GaussianBlur10.frag" );
+	m_pBlur10Shader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/GaussianBlur10.bfx.xml" );
 	m_pBlur10Shader->Activate();
 	m_iBlur10ShaderPixelSizeHandle = glGetUniformLocation( m_pBlur10Shader->getHandle(), "vPixelSize" );
 	m_pBlur10Shader->setUniformTexture("sTexture",0);
 	m_pBlur10Shader->Deactivate();
 
-	m_pDownSample4x4Shader = rShaderManager.addShader( "DownSample4x4", "../Data/Shaders/BasicVertexShader.vert", "../Data/Shaders/Engine/DownSample4x4.frag" );
+	m_pDownSample4x4Shader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/DownSample4x4.bfx.xml" );
 	m_pDownSample4x4Shader->Activate();
 	m_pDownSample4x4Shader->setUniformTexture("sTexture",0);
 	m_iDownSampleShaderPixelSizeHandle = glGetUniformLocation( m_pDownSample4x4Shader->getHandle(), "vPixelSize" );
 	m_pDownSample4x4Shader->Deactivate();
 
-	m_pAvgLumInitShader = rShaderManager.addShader( "AvgLumInit", "../Data/Shaders/BasicVertexShader.vert", "../Data/Shaders/Engine/AvgLumInit.frag" );
+	m_pAvgLumInitShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/AvgLumInit.bfx.xml" );
 	m_pAvgLumInitShader->Activate();
 	m_pAvgLumInitShader->setUniformTexture("sTexture",0);
 	m_iAvgLumInitShaderPixelSizeHandle = glGetUniformLocation( m_pAvgLumInitShader->getHandle(), "vPixelSize" );
 	m_pAvgLumInitShader->Deactivate();
 
-	m_pAvgLumFinalShader = rShaderManager.addShader( "AvgLumFinal", "../Data/Shaders/BasicVertexShader.vert", "../Data/Shaders/Engine/AvgLumFinal.frag" );
+	m_pAvgLumFinalShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/AvgLumFinal.bfx.xml" );
 	m_pAvgLumFinalShader->Activate();
 	m_pAvgLumFinalShader->setUniformTexture("sTexture",0);
 	m_iAvgLumFinalShaderPixelSizeHandle = glGetUniformLocation( m_pAvgLumFinalShader->getHandle(), "vPixelSize" );
 	m_pAvgLumFinalShader->Deactivate();
 
-	m_pBasicPixelShader = rShaderManager.addShader( "Basic", "../Data/Shaders/BasicVertexShader.vert", "../Data/Shaders/BasicPixelShader.frag" );
-	m_pBasicPixelShader->Activate();
-	m_pBasicPixelShader->QueryStdUniforms();
-	m_pBasicPixelShader->setUniformTexture("sTexture",0);
-	m_pBasicPixelShader->Deactivate();
-
-	m_pToneMappingShader = rShaderManager.addShader( "ToneMapping", "../Data/Shaders/BasicVertexShader.vert", "../Data/Shaders/Engine/ToneMapping.frag" );
+	m_pToneMappingShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/ToneMapping.bfx.xml" );
 	m_pToneMappingShader->Activate();
 	m_pToneMappingShader->QueryStdUniforms();
 	m_pToneMappingShader->setUniformTexture("sTexture",0);
@@ -307,7 +302,7 @@ void DeferredRenderer::LoadEngineShaders()
 	m_iToneMappingShaderKeyAndMultiplierHandle = glGetUniformLocation( m_pToneMappingShader->getHandle(), "fGlowMultiplierAndKey" );
 	m_pToneMappingShader->Deactivate();
 
-	m_pLightAdaptationShader = rShaderManager.addShader( "LightAdaptation", "../Data/Shaders/BasicVertexShader.vert", "../Data/Shaders/Engine/LightAdaptation.frag" );
+	m_pLightAdaptationShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/LightAdaptation.bfx.xml" );
 	m_pLightAdaptationShader->Activate();
 	m_pLightAdaptationShader->QueryStdUniforms();
 	m_pLightAdaptationShader->setUniformTexture("sAvgLuminance",0);
@@ -315,7 +310,7 @@ void DeferredRenderer::LoadEngineShaders()
 	m_iAdaptationShaderTimeHandle = glGetUniformLocation( m_pLightAdaptationShader->getHandle(), "fElapsedAndBaseTime" );
 	m_pLightAdaptationShader->Deactivate();
 
-	m_pBrightPassShader = rShaderManager.addShader( "BrightPass", "../Data/Shaders/BasicVertexShader.vert", "../Data/Shaders/Engine/BrightPass.frag" );
+	m_pBrightPassShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/BrightPass.bfx.xml" );
 	m_pBrightPassShader->Activate();
 	m_iBrightPassShaderInvViewPortHandle = glGetUniformLocation( m_pBrightPassShader->getHandle(), "vInvViewport" );
 	m_iBrightPassShaderThresholdOffsetKeyHandle = glGetUniformLocation( m_pBrightPassShader->getHandle(), "fThresholdOffSetKey" );

@@ -1,8 +1,6 @@
 <material>
   <technique name="render_opaque">
-    <shadername>tex3D</shadername>
-    <vertexshader>../Data/Shaders/Material/BasicSkyBox.vert</vertexshader>
-    <pixelshader>../Data/Shaders/Material/tex3D.frag</pixelshader>
+    <shader>../Data/Shaders/Material/xml/Tex3D.bfx.xml</shader>
     <uniforms>
       <float value="5.0">fTileSize</float>
     </uniforms>

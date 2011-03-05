@@ -27,7 +27,7 @@ class TextureCubeMap: public AbstractTexture
 		*	@name loadTexture
 		*	@brief load all the data
 		*/
-		virtual bool loadTexture(const std::string &name);
+		virtual bool LoadTexture( const std::string &name );
 		virtual void Activate();	
 		virtual void Deactivate();	
 

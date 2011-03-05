@@ -37,9 +37,9 @@ AbstractTexture::~AbstractTexture()
 	destroyID();
 }
 
-GLubyte* AbstractTexture::loadData()
+GLubyte* AbstractTexture::LoadData()
 {
-	return ImageTool::loadImage(m_sName,m_iWidth,m_iHeight,m_iChanel);
+	return ImageTool::LoadImage( m_sName,m_iWidth,m_iHeight,m_iChanel );
 }
 
 void AbstractTexture::generateID()

@@ -1,6 +1,8 @@
 #include "shaderManager.h"
 #include "shader.h"
 
+#include "BurgerEngine/External/TinyXml/TinyXml.h"
+
 #include <iostream>
 
 ShaderManager::ShaderManager()
@@ -14,7 +16,7 @@ void ShaderManager::clear()
 	m_mShaders.clear();
 }
 
-Shader*	ShaderManager::getShader(const std::string& name)
+Shader*	ShaderManager::GetShader(const std::string& name)
 {
 	std::map<std::string,Shader*>::iterator iter = m_mShaders.find(name);
 	if (iter == m_mShaders.end())
@@ -25,24 +27,49 @@ Shader*	ShaderManager::getShader(const std::string& name)
 	return (*iter).second;
 }
 
-Shader * ShaderManager::addShader(const std::string& name,const std::string& sVert,const std::string& sFrag)
+Shader * ShaderManager::AddShader(const char * sName )
 {
-	std::map<std::string,Shader*>::iterator iter = m_mShaders.find(name);
-	if (iter == m_mShaders.end())
+	std::map<std::string,Shader*>::iterator iter = m_mShaders.find( sName );
+	if ( iter == m_mShaders.end() )
 	{
-		Shader* pShader	 =	new Shader(name);
-		std::cout << "LOADING SHADER : "<<sFrag<<" - "<<sVert<< std::endl;
-		if (pShader->loadAndCompile(sVert,sFrag))
+		TiXmlDocument * pDocument = new TiXmlDocument( sName );
+
+		if(!pDocument->LoadFile())
 		{
-			m_mShaders[name] =	pShader;
-			return pShader;
-		}
-		else
+  			std::cerr << "[ReadXML] Loading Error : " << pDocument->ErrorDesc() << std::endl;
 			return NULL;
+		}
+	
+		TiXmlElement * pRoot = pDocument->FirstChildElement( "shader" );	
+		if( pRoot )
+		{
+			std::string sShaderName, sVertexShader, sPixelShader;
+			//loads shader program
+			TiXmlElement * pXmlVertex = pRoot->FirstChildElement( "vertexshader" );
+			if( pXmlVertex )
+			{
+				sVertexShader = std::string( pXmlVertex->GetText() );
+			}
+
+			TiXmlElement * pXmlPixel = pRoot->FirstChildElement( "pixelshader" );
+			if( pXmlPixel )
+			{
+				sPixelShader = std::string( pXmlPixel->GetText() );
+			}
+
+			Shader* pShader	 =	new Shader();
+			std::cout << "LOADING SHADER : "<< sVertexShader <<" - "<< sPixelShader << std::endl << std::endl;
+			if ( pShader->LoadAndCompile( sVertexShader, sPixelShader ) )
+			{
+				return m_mShaders[ sName ] = pShader;
+			}
+			else
+			{
+				delete pShader;
+				return NULL;
+			}
+		}
+		return NULL;
 	}
-	else
-	{
-		std::cerr << "INFO : " << name << " already loadded "<<std::endl;
-		return m_mShaders[name];
-	}
+	return m_mShaders[ sName ];
 }

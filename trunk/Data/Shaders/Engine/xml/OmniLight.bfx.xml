@@ -1,0 +1,4 @@
+<shader>
+  <vertexshader>../Data/Shaders/Engine/OmniLight.vert</vertexshader>
+  <pixelshader>../Data/Shaders/Engine/OmniLight.frag</pixelshader>
+</shader>

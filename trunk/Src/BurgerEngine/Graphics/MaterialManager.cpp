@@ -38,7 +38,7 @@ Material * MaterialManager::addMaterial( const char * sName )
 	std::map<std::string,Material*>::iterator iter = m_oMaterials.find( sName );
 	if (iter == m_oMaterials.end())
 	{
-		Material* pMaterial	 =	new Material(sName);
+		Material* pMaterial	 =	new Material( sName );
 		m_oMaterials[ sName ] =	pMaterial;
 		return pMaterial;
 	}

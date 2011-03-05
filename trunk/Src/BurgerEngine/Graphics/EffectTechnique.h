@@ -24,6 +24,8 @@
 #include "BurgerEngine/Graphics/TextureCubeMap.h"
 #include "BurgerEngine/Graphics/Texture3D.h"
 
+#include "BurgerEngine/External/Math/Vector.h"
+
 class EffectTechnique
 {
 public:
@@ -45,16 +47,18 @@ public:
 	void AddUniformTexture( int iUnit, AbstractTexture* pTexture ){ m_oUniformTextures2DMap[ iUnit ] = pTexture; };
 	//void AddUniformTextureCubeMap( int iUnit, TextureCubeMap* pTextureCube ){ m_oUniformTextures2DMap[ iUnit ] = pTextureCube; };
 	void AddUniformFloat( int iUniformLocation, float fValue ){ m_oUniformFloatsMap[ iUniformLocation ] = fValue; };
+	void AddUniformVec4( int iUniformLocation, vec4 vValue ){ m_oUniformVec4Map[ iUniformLocation ] = vValue; };
 	void SetShader( Shader* pShader ){ m_pShader = pShader; };
 
 private:
 	void ActivateTextures();
-	void CommitUniformFloats();
-
+	void CommitUniforms();
+	
 private:
 	Shader * m_pShader;
 	std::map< int, AbstractTexture* > m_oUniformTextures2DMap;
 	std::map< int, float > m_oUniformFloatsMap;
+	std::map< int, vec4 > m_oUniformVec4Map;
 };
 
 #endif //__EFFECT_TECHNIQUE_H__

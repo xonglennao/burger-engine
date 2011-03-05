@@ -1,0 +1,4 @@
+<shader>
+    <vertexshader>../Data/Shaders/Material/BasicSkyBox.vert</vertexshader>
+    <pixelshader>../Data/Shaders/Material/Tex3D.frag</pixelshader>
+</shader>

@@ -23,18 +23,18 @@ class Texture3D: public AbstractTexture
 		Texture3D ( unsigned int iWidth, unsigned int iHeight, unsigned int iDepth, bool bUseMipMaps, bool bLinearFiltering, bool bClampS, bool bClampT, bool bClampR );
 		virtual ~Texture3D () {};
 
-		virtual bool loadTexture(const std::string &name);
+		virtual bool LoadTexture(const std::string &name);
 		virtual void Activate();	
 		
-		virtual GLubyte* loadData();
+		virtual GLubyte* LoadData();
 		
 		static void Deactivate();
 
 	protected:
 		GLenum			m_eWrapR;
-		 unsigned int	m_iWidth;
-		 unsigned int	m_iHeight;
-		 unsigned int	m_iDepth; 
+		unsigned int	m_iWidth;
+		unsigned int	m_iHeight;
+		unsigned int	m_iDepth; 
 
 };
 

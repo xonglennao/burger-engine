@@ -27,20 +27,21 @@ class Shader
 			,E_STD_DOF_PARAMS
 		};
 
-		Shader(const std::string& sName);
+		Shader();
 		~Shader() {};
 
 		void Activate();
 		void Deactivate();
 
 		///Load/Compile and link the shader;
-		bool loadAndCompile(const std::string& sVert, const std::string& sFrag);
+		bool LoadAndCompile(const std::string& sVert, const std::string& sFrag);
 
 		//To communicate with the shader, but we should use some math class
 		void setUniformf(const std::string& sName, float fValue);
 		void setUniformf( int iUniformLocation, float fValue);
 		void setUniform2fv( int iUniformLocation, int iCount, float * pValue);
 		void setUniform3fv( int iUniformLocation, int iCount, float * pValue);
+		void setUniform4fv( int iUniformLocation, int iCount, float * pValue);
 
 		void setUniformi(const std::string& sName, int iValue);
 		void setUniformi( int iUniformLocation, int iValue);
@@ -58,7 +59,6 @@ class Shader
 
 private:
 		GLhandleARB		m_oProgram;
-		std::string		m_sName;
 		bool			m_bIsReady;
 
 		std::map< StandardUniforms, int > m_oStdUniformsMap;

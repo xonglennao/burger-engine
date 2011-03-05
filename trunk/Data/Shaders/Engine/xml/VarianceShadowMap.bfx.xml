@@ -1,0 +1,4 @@
+<shader>
+  <vertexshader>../Data/Shaders/Engine/VarianceShadowMap.vert</vertexshader>
+  <pixelshader>../Data/Shaders/Engine/VarianceShadowMap.frag</pixelshader>
+</shader>
