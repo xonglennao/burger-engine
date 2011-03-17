@@ -57,7 +57,7 @@ void main()
 
 		vec3 diffuse = NDotLAtt * vVarColor;
 
-		float fSpecular = pow( max( dot( R, E ), 0.0 ), vNormalAndGloss.a * 250.0 ) * NDotLAtt;
+		float fSpecular = pow( max( dot( R, E ), 0.0 ), vNormalAndGloss.a * 256.0 ) * NDotLAtt;
 		float fSpecularLuminance = dot( vec3(fSpecular,0.0,0.0), vec3( 0.2126, 0.7152, 0.0722 ) );
 
 		//storing diffuse and specular on different channels (rgb = diffuse, a = lum(spec) ) 

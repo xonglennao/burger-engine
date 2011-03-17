@@ -46,6 +46,8 @@ public:
 	const std::vector< SceneMesh* >& GetTransparentSceneMeshes() const { return m_oTransparentSceneMeshes; };
 	std::vector< SceneMesh* >& GetTransparentSceneMeshes() { return m_oTransparentSceneMeshes; };
 	
+	const std::vector< SceneLight* >& GetDirectionalLights() const { return m_oDirectionalLights; };
+
 	const std::vector< OmniLight* >& GetOmniLights() const { return m_oOmniLights; };
 	
 	const std::vector< SpotLight* >& GetSpotLights()const { return m_oSpotLights; };
@@ -72,6 +74,7 @@ private:
 	std::vector< SceneMesh* >		m_oTransparentSceneMeshes;
 	std::vector< OmniLight* >		m_oOmniLights;
 	std::vector< SpotLight* >		m_oSpotLights;
+	std::vector< SceneLight* >		m_oDirectionalLights;
 	std::vector< SpotShadow* >		m_oSpotShadows;
 
 	SkyBox *						m_pSkyBox;

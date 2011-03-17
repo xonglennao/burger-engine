@@ -88,7 +88,7 @@ bool OpenGLContext::ReshapeGl(unsigned int a_uWidth, unsigned int a_uHeight )
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective( 45.0f, fRatio, 0.1f, 1000.0f );
+	gluPerspective( 45.0f, fRatio, 0.1f, 10000.0f );
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();

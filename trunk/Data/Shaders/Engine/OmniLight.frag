@@ -31,10 +31,9 @@ void main()
 	{
 		vec4 vNormalAndGloss = texture2D( sNormalSampler, vTexCoord );
 		vNormalAndGloss.xyz = vNormalAndGloss.xyz * 2.0 - 1.0;	
-		//vec3 N = vNormalAndGloss.xyz * 2.0 - 1.0;
+
 		//Phong Lighting
 		vec3 N = normalize( vNormalAndGloss.xyz );
-		//N = N * 2.0 - 1.0;	
 		vec3 E = normalize( -vViewSpaceVertex.xyz );
 
 		vec3 vVertexToLight = vVarLightPos.xyz - vViewSpaceVertex.xyz;
@@ -50,7 +49,7 @@ void main()
 
 		vec3 diffuse = NDotLAtt * vVarColor;
 
-		float fSpecular = pow( max( dot( R, E ), 0.0 ), 0.1 * 256.0 ) * NDotLAtt;
+		float fSpecular = pow( max( dot( R, E ), 0.0 ), vNormalAndGloss.w * 256.0 ) * NDotLAtt;
 		float fSpecularLuminance = dot( vec3(fSpecular,0.0,0.0), vec3( 0.2126, 0.7152, 0.0722 ) );
 
 		//storing diffuse and specular on different channels (rgb = diffuse, a = lum(spec) ) 

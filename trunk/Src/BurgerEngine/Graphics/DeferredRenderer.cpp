@@ -205,6 +205,22 @@ void DeferredRenderer::LoadEngineShaders()
 {
 	ShaderManager& rShaderManager = ShaderManager::GrabInstance();
 	
+	//Directional light shader
+	m_pDirectionalLightShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/DirectionalLight.bfx.xml" );
+	m_pDirectionalLightShader->Activate();
+
+	m_pDirectionalLightShader->QueryStdUniforms();
+	m_iDirectionalLightShaderInvProjHandle = glGetUniformLocation( m_pDirectionalLightShader->getHandle(), "mInvProj" );
+	
+	m_iDirectionalLightShaderColor = glGetAttribLocation( m_pDirectionalLightShader->getHandle(),"vColor");
+	m_iDirectionalLightShaderViewSpacePosAndMultiplierHandle = glGetAttribLocation( m_pDirectionalLightShader->getHandle(),"vViewSpacePosAndMultiplier");
+
+	m_pDirectionalLightShader->setUniformTexture("sNormalSampler",0);
+	m_pDirectionalLightShader->setUniformTexture("sDepthSampler",1);
+
+	m_pDirectionalLightShader->Deactivate();
+
+	//Omni light shader
 	m_pOmniLightShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/OmniLight.bfx.xml" );
 	m_pOmniLightShader->Activate();
 
@@ -219,6 +235,7 @@ void DeferredRenderer::LoadEngineShaders()
 
 	m_pOmniLightShader->Deactivate();
 
+	//Spot light shader
 	m_pSpotLightShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/SpotLight.bfx.xml" );
 	m_pSpotLightShader->Activate();
 
@@ -234,6 +251,7 @@ void DeferredRenderer::LoadEngineShaders()
 
 	m_pSpotLightShader->Deactivate();
 
+	//Spot shadow shader
 	m_pSpotShadowShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/SpotShadow.bfx.xml" );
 	m_pSpotShadowShader->Activate();
 
@@ -251,14 +269,17 @@ void DeferredRenderer::LoadEngineShaders()
 	m_pSpotShadowShader->setUniformTexture("sShadowMapSampler",2);
 	m_pSpotShadowShader->Deactivate();
 
+	//Variance ShadowMap Shader
 	m_pVarianceShadowMapShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/VarianceShadowMap.bfx.xml" );
 
+	//Blur 6 shader
 	m_pBlur6Shader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/GaussianBlur6.bfx.xml" );
 	m_pBlur6Shader->Activate();
 	m_iBlur6ShaderPixelSizeHandle = glGetUniformLocation( m_pBlur6Shader->getHandle(), "vPixelSize" );
 	m_pBlur6Shader->setUniformTexture("sTexture",0);
 	m_pBlur6Shader->Deactivate();
 
+	//Blur 6 used with multiple render targets
 	m_pBlur6DofSpecialShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/GaussianBlur6DofSpecial.bfx.xml" );
 	m_pBlur6DofSpecialShader->Activate();
 	m_iBlur6DofSpecialShaderPixelSizeHandle = glGetUniformLocation( m_pBlur6DofSpecialShader->getHandle(), "vPixelSize" );
@@ -266,18 +287,21 @@ void DeferredRenderer::LoadEngineShaders()
 	m_pBlur6DofSpecialShader->setUniformTexture("sBlurData",1);
 	m_pBlur6DofSpecialShader->Deactivate();
 
+	//Blur 10 shader
 	m_pBlur10Shader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/GaussianBlur10.bfx.xml" );
 	m_pBlur10Shader->Activate();
 	m_iBlur10ShaderPixelSizeHandle = glGetUniformLocation( m_pBlur10Shader->getHandle(), "vPixelSize" );
 	m_pBlur10Shader->setUniformTexture("sTexture",0);
 	m_pBlur10Shader->Deactivate();
 
+	//Downsample shader
 	m_pDownSample4x4Shader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/DownSample4x4.bfx.xml" );
 	m_pDownSample4x4Shader->Activate();
 	m_pDownSample4x4Shader->setUniformTexture("sTexture",0);
 	m_iDownSampleShaderPixelSizeHandle = glGetUniformLocation( m_pDownSample4x4Shader->getHandle(), "vPixelSize" );
 	m_pDownSample4x4Shader->Deactivate();
 
+	//Average Luminance shaders
 	m_pAvgLumInitShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/AvgLumInit.bfx.xml" );
 	m_pAvgLumInitShader->Activate();
 	m_pAvgLumInitShader->setUniformTexture("sTexture",0);
@@ -290,6 +314,7 @@ void DeferredRenderer::LoadEngineShaders()
 	m_iAvgLumFinalShaderPixelSizeHandle = glGetUniformLocation( m_pAvgLumFinalShader->getHandle(), "vPixelSize" );
 	m_pAvgLumFinalShader->Deactivate();
 
+	//Post process shaders
 	m_pToneMappingShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/ToneMapping.bfx.xml" );
 	m_pToneMappingShader->Activate();
 	m_pToneMappingShader->QueryStdUniforms();
@@ -404,6 +429,78 @@ void DeferredRenderer::DrawFullScreenQuad( int iWindowWidth, int iWindowHeight, 
 	glBindBuffer(GL_ARRAY_BUFFER, 0 );
 
 	glPopMatrix();
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void DeferredRenderer::RenderDirectionalLights( std::vector< SceneLight::SceneLightQuad > vDirectionalLightQuads )
+{
+	Engine const& rEngine = Engine::GetInstance();
+	unsigned int iWindowWidth = rEngine.GetWindowWidth();
+	unsigned int iWindowHeight = rEngine.GetWindowHeight();
+	
+	float fHalfWidth = iWindowWidth * 0.5f; 
+	float fHalfHeight = iWindowHeight * 0.5f; 
+
+	GLuint iVertexBufferId;	
+	glGenBuffers(1,  &iVertexBufferId);
+
+	unsigned int iVertexCount = vDirectionalLightQuads.size() * 4;
+	unsigned int iSizeOfDirectionalVertex = sizeof(SceneLight::DirectionalLightVertex);
+
+	unsigned int iSizeDirectionalVertex = ( iVertexCount * iSizeOfDirectionalVertex );
+	SceneLight::DirectionalLightVertex * pDirectionalVertex = new SceneLight::DirectionalLightVertex[ iVertexCount ];
+
+	for(unsigned int i = 0; i < vDirectionalLightQuads.size(); ++i )
+	{
+		float fRight = (float)iWindowWidth;
+		float fLeft = 0.0f;
+		float fTop = (float)iWindowHeight;
+		float fBottom = 0.0f;
+
+		SceneLight::DirectionalLightVertex oTopRight, oBottomRight, oBottomLeft, oTopLeft;
+		
+		oTopRight.vColor = vec3( vDirectionalLightQuads[i].vColor.x, vDirectionalLightQuads[i].vColor.y, vDirectionalLightQuads[i].vColor.z );
+		oTopRight.vViewSpaceLightPos = vec3( vDirectionalLightQuads[i].vViewSpaceLightPos.x, vDirectionalLightQuads[i].vViewSpaceLightPos.y, vDirectionalLightQuads[i].vViewSpaceLightPos.z );
+		oTopRight.fMultiplier = vDirectionalLightQuads[i].fMultiplier;
+
+		oBottomRight = oBottomLeft = oTopLeft = oTopRight;
+
+		oBottomRight.vScreenSpaceVertexPos = vec2( fRight, fBottom );
+		oBottomLeft.vScreenSpaceVertexPos = vec2( fLeft, fBottom );
+		oTopLeft.vScreenSpaceVertexPos = vec2( fLeft, fTop);
+		oTopRight.vScreenSpaceVertexPos = vec2( fRight, fTop );
+
+		pDirectionalVertex[i*4] = oTopRight;
+		pDirectionalVertex[i*4+1] = oTopLeft;
+		pDirectionalVertex[i*4+2] = oBottomLeft;
+		pDirectionalVertex[i*4+3] = oBottomRight;
+	}
+	
+	glBindBuffer(GL_ARRAY_BUFFER, iVertexBufferId);
+	glBufferData(GL_ARRAY_BUFFER, iSizeDirectionalVertex, pDirectionalVertex, GL_STATIC_DRAW);
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableVertexAttribArray(m_iDirectionalLightShaderColor);
+	glEnableVertexAttribArray(m_iDirectionalLightShaderViewSpacePosAndMultiplierHandle);
+
+	glVertexPointer(2, GL_FLOAT, iSizeOfDirectionalVertex, 0);
+
+	glVertexAttribPointer(m_iDirectionalLightShaderColor, 3, GL_FLOAT, GL_FALSE, iSizeOfDirectionalVertex, (void*)( 2 * sizeof(float) ) );	
+	glVertexAttribPointer(m_iDirectionalLightShaderViewSpacePosAndMultiplierHandle, 4, GL_FLOAT, GL_FALSE, iSizeOfDirectionalVertex, (void*)( 5 * sizeof(float) ) );	
+
+	glDrawArrays(GL_QUADS, 0, iVertexCount );
+
+	glDisableClientState(GL_VERTEX_ARRAY); 
+	glDisableVertexAttribArray(m_iDirectionalLightShaderColor);
+	glDisableVertexAttribArray(m_iDirectionalLightShaderViewSpacePosAndMultiplierHandle);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0 );
+
+	glDeleteBuffers(1, &iVertexBufferId);
+
+	delete [] pDirectionalVertex;
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -695,6 +792,35 @@ void DeferredRenderer::DisplayDebugMenu()
 	oStream2 << oEntryPair.first << ": " << oEntry->GetValue();
 	DisplayText( oStream2.str(), 200, 90, m_pFont);
 }
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void DeferredRenderer::PrepareDirectionalLights( std::vector< SceneLight* > const& oSceneLights, AbstractCamera const& rCamera, float4x4 const& mModelView )
+{
+	m_vDirectionalLightQuads.clear();
+	std::vector< SceneLight* >::const_iterator oLightIt = oSceneLights.begin();
+	std::vector< SceneLight* >::const_iterator oLightItEnd = oSceneLights.end();
+
+	while( oLightIt != oLightItEnd )
+	{
+		SceneLight * pLight = (*oLightIt);
+		
+		vec3 f3Pos = pLight->GetPos();
+
+		SceneLight::SceneLightQuad oQuad;
+
+		//computing view space position
+		vec4 vViewSpacePos = mModelView * vec4( f3Pos.x, f3Pos.y, f3Pos.z, 0.0 );
+		oQuad.vViewSpaceLightPos = vec3( vViewSpacePos.x, vViewSpacePos.y, vViewSpacePos.z );
+		oQuad.vColor = pLight->GetColor();
+		oQuad.fMultiplier = pLight->GetMultiplier();
+
+		m_vDirectionalLightQuads.push_back( oQuad );
+		++oLightIt;
+	}
+}
+
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
@@ -1131,6 +1257,9 @@ void DeferredRenderer::Render()
 	//Lighting pass
 
 	//creates one quad per omni light
+	PrepareDirectionalLights( rSceneGraph.GetDirectionalLights(), rCamera, mModelView );
+	
+	//creates one quad per omni light
 	PrepareOmniLights( rSceneGraph.GetOmniLights(), rCamera, oViewFrustum, mModelView, mModelViewProjection );
 
 	//creates one quad per spot light
@@ -1155,6 +1284,17 @@ void DeferredRenderer::Render()
 
 	Engine::GetInstance().GrabRenderingContext().ReshapeGlOrtho( iWindowWidth, iWindowHeight );
 
+	if( !m_vDirectionalLightQuads.empty() )
+	{
+		m_pDirectionalLightShader->Activate();	
+		m_pDirectionalLightShader->CommitStdUniforms();
+		m_pDirectionalLightShader->setUniformMatrix4fv( m_iDirectionalLightShaderInvProjHandle, mInvProjection );		
+		
+		RenderDirectionalLights( m_vDirectionalLightQuads );
+
+		m_pDirectionalLightShader->Deactivate();
+	}
+	
 	//Render Omni Lights
 	if( !m_vOmniLightQuads.empty() )
 	{

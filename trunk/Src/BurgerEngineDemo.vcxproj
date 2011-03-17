@@ -136,6 +136,8 @@
     <None Include="..\Data\Materials\prison\stoneWallDiffuseBump.bma.xml" />
     <None Include="..\Data\Materials\prison\wood2DiffuseBump.bma.xml" />
     <None Include="..\Data\Materials\prison\woodDiffuseBump.bma.xml" />
+    <None Include="..\Data\Materials\test_directional\GlossyWhite.bma.xml" />
+    <None Include="..\Data\Materials\test_directional\MattWhite.bma.xml" />
     <None Include="..\Data\Materials\test_dof\BasicSkyBox.bma.xml">
       <SubType>Designer</SubType>
     </None>
@@ -148,6 +150,7 @@
     <None Include="..\Data\Scenes\prison.xml">
       <SubType>Designer</SubType>
     </None>
+    <None Include="..\Data\Scenes\test_directional.xml" />
     <None Include="..\Data\Scenes\test_dof.xml">
       <SubType>Designer</SubType>
     </None>
