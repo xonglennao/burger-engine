@@ -29,7 +29,7 @@ SceneGraph::SceneGraph()
 	m_oStringToLightTypeMap["spotshadow"] = SceneLight::E_SPOT_SHADOW;
 	m_oStringToLightTypeMap["directional"] = SceneLight::E_DIRECTIONAL;
 
-	LoadSceneXML( "../Data/Scenes/prison.xml" );
+	LoadSceneXML( "../Data/Scenes/test_directional.xml" );
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -61,6 +61,14 @@ void SceneGraph::Clear()
 		++oTransparentMeshIt;
 	}
 
+	std::vector< SceneLight* >::iterator oDirectionalLightIt = m_oDirectionalLights.begin();
+	while( oDirectionalLightIt != m_oDirectionalLights.end() )
+	{
+		delete (*oDirectionalLightIt);
+		(*oDirectionalLightIt) = NULL;
+		++oDirectionalLightIt;
+	}	
+	
 	std::vector< OmniLight* >::iterator oLightIt = m_oOmniLights.begin();
 	while( oLightIt != m_oOmniLights.end() )
 	{
@@ -264,6 +272,14 @@ void SceneGraph::LoadSceneXML( const char * sName )
 					{
 						static_cast< SpotLight* >(pSceneLight)->ComputeBoundingVolume();
 					}
+				}
+				else if( ( eType & SceneLight::E_DIRECTIONAL) == SceneLight::E_DIRECTIONAL )
+				{
+					pSceneLight = new SceneLight();
+					pSceneLight->SetColor( vec3( r, g, b ) );
+					pSceneLight->SetMultiplier( fMultiplier );
+					pSceneLight->SetPos( vec3( x, y, z ) );
+					m_oDirectionalLights.push_back( pSceneLight );
 				}
 			}
 			else if( pCurrentXmlObject = pXmlObject->FirstChildElement( "skybox" ) )

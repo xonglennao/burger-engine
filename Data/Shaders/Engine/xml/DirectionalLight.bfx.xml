@@ -1,0 +1,4 @@
+<shader>
+  <vertexshader>../Data/Shaders/Engine/DirectionalLight.vert</vertexshader>
+  <pixelshader>../Data/Shaders/Engine/DirectionalLight.frag</pixelshader>
+</shader>

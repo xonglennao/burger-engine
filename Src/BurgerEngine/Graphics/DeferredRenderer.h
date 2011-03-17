@@ -64,12 +64,17 @@ private:
 	void DrawScreenSpaceQuad( int iWindowWidth, int iWindowHeight, vec3 vData );
 	void DrawFrustum( const vec3 * pPoints, const vec3& f3Pos );
 
-	/// \brief draw Creates and stores 1 screen space quad per omni light
+	/// \brief Creates and stores 1 screen space quad per directional light
+	void PrepareDirectionalLights( std::vector< SceneLight* > const& oSceneLights, AbstractCamera const& rCamera, float4x4 const& mModelView );
+	/// \brief Displays 1 full screen quad per Directional Light
+	void RenderDirectionalLights( std::vector< SceneLight::SceneLightQuad > vDirectionalLightQuads );
+	
+	/// \brief Creates and stores 1 screen space quad per omni light
 	void PrepareOmniLights( std::vector< OmniLight* > const& oOmniLights, AbstractCamera const& rCamera, Frustum const& oViewFrustum, float4x4 const& mModelView, float4x4 const& mModelViewProjection );
 	/// \brief Displays previously created quads using 1 VBO
 	void RenderOmniLights( std::vector< OmniLight::OmniLightQuad > vOmniLightQuads );	
 
-	/// \brief draw Creates and stores 1 screen space quad per spot light
+	/// \brief Creates and stores 1 screen space quad per spot light
 	void PrepareSpotLights( std::vector< SpotLight* > const& oSpotLights, AbstractCamera const& rCamera, Frustum const& oViewFrustum, float4x4 const& mModelView, float4x4 const& mModelViewProjection );
 	bool ComputeOneSpotBoundingQuad( SpotLight* pLight, AbstractCamera const& rCamera, Frustum const& oViewFrustum, float4x4 const& mModelView, float4x4 const& mModelViewProjection, SpotLight::SpotLightQuad& oQuad );
 	/// \brief Displays previously created quads using 1 VBO
@@ -123,6 +128,11 @@ private:
 	float	m_fFrameTime;
 
 	//Shader pointers and handles for uniform variables
+	Shader*			m_pDirectionalLightShader;
+	unsigned int	m_iDirectionalLightShaderInvProjHandle;
+	unsigned int	m_iDirectionalLightShaderColor;
+	unsigned int	m_iDirectionalLightShaderViewSpacePosAndMultiplierHandle;
+
 	Shader*			m_pOmniLightShader;
 	unsigned int	m_iOmniLightShaderInvProjHandle;
 	unsigned int	m_iOmniLightShaderColorAndInverseRadiusHandle;
@@ -180,6 +190,7 @@ private:
 	float m_fBrightPassOffset;
 	float m_fAdaptationBaseTime;
 
+	std::vector< SceneLight::SceneLightQuad > m_vDirectionalLightQuads;
 	std::vector< OmniLight::OmniLightQuad > m_vOmniLightQuads;
 	std::vector< SpotLight::SpotLightQuad > m_vSpotLightQuads;
 

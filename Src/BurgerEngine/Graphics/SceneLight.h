@@ -37,6 +37,14 @@ public:
 		float	fMultiplier;
 	};
 
+	struct DirectionalLightVertex
+	{
+		vec2	vScreenSpaceVertexPos;
+		vec3	vColor;
+		vec3	vViewSpaceLightPos;
+		float	fMultiplier;
+	};
+
 	SceneLight();
 	~SceneLight();
 

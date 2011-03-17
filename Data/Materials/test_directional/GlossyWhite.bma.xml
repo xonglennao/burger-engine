@@ -2,19 +2,15 @@
   <technique name="render_gbuffer">
     <shader>../Data/Shaders/Material/xml/FillGBufferBasic.bfx.xml</shader>
     <uniforms>
-      <float value="0.005">fGloss</float>
+      <float value="0.6">fGloss</float>
     </uniforms>
   </technique>
   <technique name="render_opaque">
-    <shader>../Data/Shaders/Material/xml/DiffuseSpecStrength.bfx.xml</shader>
+    <shader>../Data/Shaders/Material/xml/LightedColor.bfx.xml</shader>
     <uniforms>
-      <float value="1.0">fTileSize</float>
+      <vec4 x="1.0" y="1.0" z="1.0" w="0.0">vColor</vec4>
     </uniforms>
     <textures>
-      <texture>
-        <uniformname unit="0">diffuseMap</uniformname>
-        <filename>../Data/Textures/prison/xml/bone_diffuse.btx.xml</filename>
-      </texture>
       <texture>
         <uniformname unit="6">lightBuffer</uniformname>
       </texture>

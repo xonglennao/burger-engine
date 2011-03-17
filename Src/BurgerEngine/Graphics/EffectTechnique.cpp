@@ -17,7 +17,7 @@ void EffectTechnique::Activate()
 	m_pShader->Activate();
 	ActivateTextures();
 	m_pShader->CommitStdUniforms();
-	CommitUniformFloats();
+	CommitUniforms();
 }
 
 void EffectTechnique::CommitUniforms()

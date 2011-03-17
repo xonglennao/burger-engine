@@ -461,6 +461,9 @@
     <Filter Include="BurgerEngine\Data\Materials\test_transparency">
       <UniqueIdentifier>{4cfbde5a-6649-44dc-89bc-69d3c53f5f2d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="BurgerEngine\Data\Materials\test_directional">
+      <UniqueIdentifier>{495b06e3-3ce4-4b9f-9b24-5e36a7611703}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\Scenes\prison.xml">
@@ -609,6 +612,15 @@
     </None>
     <None Include="..\Data\Shaders\Material\BasicSkyBox.vert">
       <Filter>BurgerEngine\Data\Shaders\Material</Filter>
+    </None>
+    <None Include="..\Data\Scenes\test_directional.xml">
+      <Filter>BurgerEngine\Data\Scenes</Filter>
+    </None>
+    <None Include="..\Data\Materials\test_directional\GlossyWhite.bma.xml">
+      <Filter>BurgerEngine\Data\Materials\test_directional</Filter>
+    </None>
+    <None Include="..\Data\Materials\test_directional\MattWhite.bma.xml">
+      <Filter>BurgerEngine\Data\Materials\test_directional</Filter>
     </None>
   </ItemGroup>
 </Project>
