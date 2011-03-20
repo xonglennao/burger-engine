@@ -30,7 +30,7 @@ public:
 	/// \param[in] pMesh Pointer to the actual mesh?
 	SceneMesh( StaticMesh* pMesh );
 
-	~SceneMesh(){}
+	~SceneMesh();
 
 public: 
 	void Draw( EffectTechnique::RenderingTechnique eTechnique );
@@ -48,6 +48,7 @@ public:
 	bool IsTransparent();
 
 	void AddMaterial( Material * pMaterial ){ m_vMaterials.push_back( pMaterial ); }
+	virtual void	ComputeBoundingBox();
 
 private:	
 	std::vector<Material*>	m_vMaterials;

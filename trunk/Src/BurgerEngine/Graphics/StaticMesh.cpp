@@ -107,6 +107,7 @@ bool StaticMesh::LoadFromFile(std::string const& a_sFilename)
 			{	
 				// Found a Vertex
 				sscanf(&sBuffer[2],"%f%f%f",&f3TemporaryVertex.x,&f3TemporaryVertex.y,&f3TemporaryVertex.z);
+
 				vf3TempPosition.push_back(f3TemporaryVertex);
 			}
 			else if(sTempBuffer == "vt") 
@@ -281,16 +282,7 @@ bool StaticMesh::LoadFromFile(std::string const& a_sFilename)
 	vf3TempNormal.clear();
 	vf2TempTexcoord.clear();
 
-	/// \todo Useless??
-	unsigned int uNbFaces = 0;
-	/// \todo Add const
-	for(std::vector<sMeshGroup>::iterator it = m_vGroup.begin(); it != m_vGroup.end(); ++it)
-	{
-		uNbFaces += (*it).m_vsTriangle.size();
-	}
-
 	return true;
-
 }
 
 //--------------------------------------------------------------------------------------------------------------------

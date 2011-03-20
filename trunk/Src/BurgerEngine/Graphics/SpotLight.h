@@ -42,16 +42,15 @@ public:
 	~SpotLight();
 
 public:
-	void ComputeBoundingVolume();
+	virtual void	ComputeBoundingBox();
 
-	void SetInnerAngle( float fValue ){ m_fCosIn = cosf( fValue * (float)M_PI / 180.0f ); };
-	void SetOuterAngle( float fValue){ m_fCosOut = cosf( fValue * (float)M_PI / 180.0f ); };
+	void SetInnerAngle( float fValue ){ m_fCosIn = cosf( fValue * DEG_TO_RAD ); };
+	void SetOuterAngle( float fValue){ m_fCosOut = cosf( fValue * DEG_TO_RAD ); };
 
 	float GetCosInnerAngle(){ return m_fCosIn; };
 	float GetCosOuterAngle(){ return m_fCosOut; };
 
 	const vec3* GetFarPlanePoints(){ return m_pFarPlanePoints; };
-	const float* GetBoundingBox(){ return m_pBoundingBox; };
 
 private:
 
@@ -59,7 +58,6 @@ private:
 	float		m_fCosOut;
 
 	vec3		m_pFarPlanePoints[4];
-	float		m_pBoundingBox[6];
 };
 
 #endif //__SPOTLIGHT_H__

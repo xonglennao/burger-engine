@@ -43,6 +43,8 @@ public:
 	/// \brief Free buffer
 	void Destroy();
 
+	const std::vector<vec3>& GetVertex() const { return m_vf3Position; };
+
 private:
 
 	/// \brief Load the file
@@ -54,10 +56,6 @@ private:
 
 	/// \brief Compute trangent from the model
 	void ComputeTangents();
-
-	/// \brief Compute Bounding Box
-	/// \todo Create a class bounding box
-	void ComputeBoundingBox();
 
 	/// \brief Fill buffer
 	bool BuildBuffer();

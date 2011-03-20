@@ -63,6 +63,7 @@ private:
 	/// this is only for debug purpose
 	void DrawScreenSpaceQuad( int iWindowWidth, int iWindowHeight, vec3 vData );
 	void DrawFrustum( const vec3 * pPoints, const vec3& f3Pos );
+	void DrawCube( const vec3 * pPoints );
 
 	/// \brief Creates and stores 1 screen space quad per directional light
 	void PrepareDirectionalLights( std::vector< SceneLight* > const& oSceneLights, AbstractCamera const& rCamera, float4x4 const& mModelView );

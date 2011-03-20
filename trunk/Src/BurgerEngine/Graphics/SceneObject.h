@@ -36,23 +36,33 @@ public:
 
 	void SetViewZ( float vValue ){ m_fViewZ = vValue; }
 	
-	void SetRotation( vec3 vValue ){ m_f3Rotation = vValue; }
-	void SetRX ( float fValue ) { m_f3Rotation.x = fValue; }
-	void SetRY ( float fValue ) { m_f3Rotation.y = fValue; }
-	void SetRZ ( float fValue ) { m_f3Rotation.z = fValue; }
+	void SetRotation( vec3 vValue ){ m_f3Rotation = vValue; UpdateRotationMatrix(); }
+	void SetRX ( float fValue ) { m_f3Rotation.x = fValue; UpdateRotationMatrix(); }
+	void SetRY ( float fValue ) { m_f3Rotation.y = fValue; UpdateRotationMatrix(); }
+	void SetRZ ( float fValue ) { m_f3Rotation.z = fValue; UpdateRotationMatrix(); }
 
-	vec3 const&  GetPos() const { return m_f3Position; }
-	float const&  GetViewZ() const { return m_fViewZ; }
-	vec3 const&  GetRotation() const { return m_f3Rotation; }
+	vec3 const&		GetPos() const { return m_f3Position; }
+	float const&	GetViewZ() const { return m_fViewZ; }
+	vec3 const&		GetRotation() const { return m_f3Rotation; }
+
+	virtual void	ComputeBoundingBox(){};
+	const float*	GetBoundingBox(){ return m_pBoundingBox; };
 
 protected:
+	void UpdateRotationMatrix() { m_mRotationMatrix = rotateZ( m_f3Rotation.z * DEG_TO_RAD ) * rotateY( m_f3Rotation.y * DEG_TO_RAD ) * rotateX( m_f3Rotation.x * DEG_TO_RAD ); };
 
 	/// Position
-	vec3	m_f3Position;
+	vec3		m_f3Position;
+	
 	// view space position on z axis
-	float	m_fViewZ;
+	float		m_fViewZ;
+	
 	/// Rotation
-	vec3	m_f3Rotation;
+	vec3		m_f3Rotation;
+		
+	float *		m_pBoundingBox;
+
+	float4x4	m_mRotationMatrix;
 };
 
 #endif //__SCENEOBJECT_H__

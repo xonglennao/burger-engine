@@ -4,15 +4,18 @@
 
 SpotLight::SpotLight()
 {
+	m_pBoundingBox = new float[6];
 }
 
 SpotLight::~SpotLight()
 {
+	delete [] m_pBoundingBox;
+	m_pBoundingBox = NULL;
 }
 
-void SpotLight::ComputeBoundingVolume()
+void SpotLight::ComputeBoundingBox()
 {
-	float4x4 mRotation = rotateY( m_f3Rotation.y * (float)M_PI / 180.0f ) * rotateX( m_f3Rotation.x * (float)M_PI / 180.0f );
+	float4x4 mRotation = rotateY( m_f3Rotation.y * DEG_TO_RAD ) * rotateX( m_f3Rotation.x * DEG_TO_RAD );
 	vec4 vWorldSpaceRight = mRotation * vec4( 1.0f, 0.0f, 0.0f, 0.0f );
 	vec4 vWorldSpaceUp = mRotation * vec4( 0.0f, 1.0f, 0.0f, 0.0f );
 	vec4 vWorldSpaceDir = mRotation * vec4( 0.0f, 0.0f, -1.0f, 0.0f );
