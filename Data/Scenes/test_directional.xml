@@ -1,48 +1,28 @@
 <scene>
   <!-- GROUND  -->
-  <sceneobject x="0.0" y="500.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1000">
-    <mesh>
-      <file>../Data/Mesh/inverted_cube.obj</file>
-      <part>
-        <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
-      </part>      
-    </mesh>
+   <sceneobject x="0.0" y="500.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1000">
+    <ressourcecomponent>TestDirectional/InvertedCube</ressourcecomponent>
+	<instance name= "Cube"/>
   </sceneobject>
 
   <sceneobject x="0.0" y="10.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
-    <mesh>
-      <file>../Data/Mesh/unit_sphere.obj</file>
-      <part>
-        <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
-      </part>
-    </mesh>
+    <ressourcecomponent>TestDirectional/GlossyBall</ressourcecomponent>
+	<instance name= "Ball01"/>
   </sceneobject>
 
   <sceneobject x="0.0" y="10.0" z="30.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
-    <mesh>
-      <file>../Data/Mesh/unit_sphere.obj</file>
-      <part>
-        <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
-      </part>
-    </mesh>
+    <ressourcecomponent>TestDirectional/GlossyBall</ressourcecomponent>
+	<instance name= "Ball02"/>
   </sceneobject>
 
   <sceneobject x="30.0" y="10.0" z="30.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
-    <mesh>
-      <file>../Data/Mesh/unit_sphere.obj</file>
-      <part>
-        <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
-      </part>
-    </mesh>
+    <ressourcecomponent>TestDirectional/MattBall</ressourcecomponent>
+	<instance name= "Ball03"/>
   </sceneobject>
 
   <sceneobject x="20.0" y="10.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
-    <mesh>
-      <file>../Data/Mesh/unit_sphere.obj</file>
-      <part>
-        <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
-      </part>
-    </mesh>
+    <ressourcecomponent>TestDirectional/MattBall</ressourcecomponent>
+	<instance name= "Ball04"/>
   </sceneobject>
 
   <sceneobject x="1.0" y="1.0" z="1.0" rX="0" rY="0">

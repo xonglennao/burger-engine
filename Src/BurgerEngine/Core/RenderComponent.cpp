@@ -1,16 +1,20 @@
 #include "BurgerEngine/Core/RenderComponent.h"
 #include "BurgerEngine/Core/ObjectFactory.h"
+#include "BurgerEngine/Core/Engine.h"
+#include "BurgerEngine/Core/CompositeComponent.h"
 
 #include "BurgerEngine/External/TinyXml/TinyXml.h"
 
 #include "BurgerEngine/Graphics/SceneMesh.h"
 #include "BurgerEngine/Graphics/MeshManager.h"
 #include "BurgerEngine/Graphics/MaterialManager.h"
+#include "BurgerEngine/Graphics/RenderingContext.h"
 
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-RenderComponent::RenderComponent():
+RenderComponent::RenderComponent(CompositeComponent* a_pParent):
+	AbstractComponent(RENDER, a_pParent),
 	m_pMesh(NULL)
 {
 }
@@ -18,7 +22,16 @@ RenderComponent::RenderComponent():
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-RenderComponent::RenderComponent(AbstractComponent const& a_rToCopy)
+RenderComponent::RenderComponent(AbstractComponent const& a_rToCopy):
+	AbstractComponent(RENDER)
+{
+
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+RenderComponent::~RenderComponent()
 {
 	//Maybe will be deleted by someone else
 	delete m_pMesh;
@@ -27,18 +40,29 @@ RenderComponent::RenderComponent(AbstractComponent const& a_rToCopy)
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-RenderComponent::~RenderComponent()
-{
-}
-
-//--------------------------------------------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------------------------------------------
 void RenderComponent::Initialize(TiXmlElement const& a_rParameters)
 {
-	//Find a way to retrieve position from the composite
+	//Retrieve position
+	//First we should check is there is not an desc offset
+	//to the parent node
+	float x, y, z, rX, rY, rZ, scale;
 
+	TiXmlElement const* pPositionXml = a_rParameters.FirstChildElement( "position" );
+	if(pPositionXml)
+	{
+		//gets position & bounded volume information 
+		pPositionXml->QueryFloatAttribute("x",&x);
+		pPositionXml->QueryFloatAttribute("y",&y);
+		pPositionXml->QueryFloatAttribute("z",&z);
+
+		pPositionXml->QueryFloatAttribute("rX",&rX);
+		pPositionXml->QueryFloatAttribute("rY",&rY);
+		pPositionXml->QueryFloatAttribute("rZ",&rZ);
+
+		pPositionXml->QueryFloatAttribute("scale",&scale);
+	}
 	
+	//Find a way to retrieve position from the composite
 	TiXmlElement const* pMeshXml = a_rParameters.FirstChildElement( "mesh" );
 	if(pMeshXml)
 	{
@@ -51,11 +75,20 @@ void RenderComponent::Initialize(TiXmlElement const& a_rParameters)
 
 			if( pMesh )
 			{
-				SceneMesh * pSceneMesh = new SceneMesh( pMesh );
+				m_pMesh = new SceneMesh( pMesh );
+				
+				vec3 f3OffsetedPos(x,y,z);
+				//Get the parent node transformation
+				CompositeComponent const* pParent = GetParent();
+				if (pParent)
+				{
+					f3OffsetedPos += pParent->GetPos();
+					//pSceneMesh->SetPos( pParent->GetPos());
+				}
 
-				/*pSceneMesh->SetPos( vec3( x, y, z ) );
-				pSceneMesh->SetRotation( vec3( rX, rY, rZ ));
-				pSceneMesh->SetScale( scale );*/
+				m_pMesh->SetPos(f3OffsetedPos);
+				m_pMesh->SetRotation( vec3( rX, rY, rZ ));
+				m_pMesh->SetScale( scale);
 
 				//checks for materials used on different parts of the mesh
 				unsigned int iPartCount = 0;
@@ -70,29 +103,22 @@ void RenderComponent::Initialize(TiXmlElement const& a_rParameters)
 						Material * pMaterial = MaterialManager::GrabInstance().addMaterial( pXmlMaterial->GetText() );
 						if( pMaterial )
 						{
-							pSceneMesh->AddMaterial( pMaterial );
+							m_pMesh->AddMaterial( pMaterial );
 						}
 					}			
 
 					pPart = pPart->NextSiblingElement( "part" );
 				}
 
-				pSceneMesh->SetPartCount( iPartCount );
+				m_pMesh->SetPartCount( iPartCount );
 
-				// Hum how will we do this??
-				/*if( pSceneMesh->IsOpaque() )
-				{
-					m_oSceneMeshes.push_back( pSceneMesh );
-				}
-				else if( pSceneMesh->IsTransparent() )
-				{
-					m_oTransparentSceneMeshes.push_back( pSceneMesh );
-				}*/
+				//Add itsefl to the render context
+				//Or maybe juste the mesh should register?? Or To the rendering pipeline( which does not exist so far)
+				Engine::GrabInstance().GrabRenderContext().AddMesh(*m_pMesh);
 			}
 
 		}
-		//Add itsefl to the render context
-		//Or maybe juste the mesh should register?? Or To the rendering pipeline( which does not exist so far)
+		
 	}
 }
 

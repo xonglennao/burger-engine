@@ -18,5 +18,9 @@
 #define M_PI	3.141592
 #endif //M_PI
 
+/// \breif Reference to itsefl
+#define rThis *this;
 #include <iostream>
 #include <assert.h>
+
+#include "BurgerEngine/Base/BaseMacro.h"

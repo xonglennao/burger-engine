@@ -1,6 +1,8 @@
 #include "BurgerEngine/Core/SceneGraph.h"
 #include "BurgerEngine/Core/Engine.h"
 #include "BurgerEngine/Core/AbstractCamera.h"
+#include "BurgerEngine/Core/CompositeComponent.h"
+#include "BurgerEngine/Core/RenderComponent.h"
 
 #include "BurgerEngine/Input/EventManager.h"
 
@@ -14,22 +16,24 @@
 
 #include "BurgerEngine/Graphics/MeshManager.h"
 #include "BurgerEngine/Graphics/MaterialManager.h"
+#include "BurgerEngine/Graphics/RenderingContext.h"
 
 #include "BurgerEngine/External/TinyXml/TinyXml.h"
 
 #include "BurgerEngine/Base/CommonBase.h"
+
+
+
+
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
 SceneGraph::SceneGraph()
-	: m_pSkyBox( NULL )
 {
-	m_oStringToLightTypeMap["omni"] = SceneLight::E_OMNI_LIGHT;
-	m_oStringToLightTypeMap["spot"] = SceneLight::E_SPOT_LIGHT;
-	m_oStringToLightTypeMap["spotshadow"] = SceneLight::E_SPOT_SHADOW;
-	m_oStringToLightTypeMap["directional"] = SceneLight::E_DIRECTIONAL;
-
-	LoadSceneXML( "../Data/Scenes/test_directional.xml" );
+	m_oFactory.Init();
+	//LoadSceneXML( "../Data/Scenes/test_component.xml" );
+	//LoadSceneXML( "../Data/Scenes/test_directional.xml" );
+	LoadSceneXML( "../Data/Scenes/test_transparency.xml" );
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -37,6 +41,7 @@ SceneGraph::SceneGraph()
 //--------------------------------------------------------------------------------------------------------------------
 SceneGraph::~SceneGraph()
 {
+	m_oFactory.Terminate();
 	Clear();
 }
 //--------------------------------------------------------------------------------------------------------------------
@@ -44,57 +49,23 @@ SceneGraph::~SceneGraph()
 //--------------------------------------------------------------------------------------------------------------------
 void SceneGraph::Clear()
 {
-	// Okay so I need to delete thos myself, in the components
-	std::vector< SceneMesh* >::iterator oMeshIt = m_oSceneMeshes.begin();
-	while( oMeshIt != m_oSceneMeshes.end() )
+	FOR_EACH_IT(ComponentCollection, m_vComponentCollection, oComponentIt)
 	{
-		delete (*oMeshIt);
-		(*oMeshIt) = NULL;
-		++oMeshIt;
+		delete (*oComponentIt);
+		(*oComponentIt) = NULL;
 	}
+}
 
-	std::vector< SceneMesh* >::iterator oTransparentMeshIt = m_oTransparentSceneMeshes.begin();
-	while( oTransparentMeshIt != m_oTransparentSceneMeshes.end() )
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void SceneGraph::Update()
+{
+	FOR_EACH_IT(ComponentCollection, m_vComponentCollection, oComponentIt)
 	{
-		delete (*oTransparentMeshIt);
-		(*oTransparentMeshIt) = NULL;
-		++oTransparentMeshIt;
+		//Should check if need to be updated??? (think about render and phys)
+		(*oComponentIt)->Update();
 	}
-
-	std::vector< SceneLight* >::iterator oDirectionalLightIt = m_oDirectionalLights.begin();
-	while( oDirectionalLightIt != m_oDirectionalLights.end() )
-	{
-		delete (*oDirectionalLightIt);
-		(*oDirectionalLightIt) = NULL;
-		++oDirectionalLightIt;
-	}	
-	
-	std::vector< OmniLight* >::iterator oLightIt = m_oOmniLights.begin();
-	while( oLightIt != m_oOmniLights.end() )
-	{
-		delete (*oLightIt);
-		(*oLightIt) = NULL;
-		++oLightIt;
-	}
-
-	std::vector< SpotLight* >::iterator oSpotLightIt = m_oSpotLights.begin();
-	while( oSpotLightIt != m_oSpotLights.end() )
-	{
-		delete (*oSpotLightIt);
-		(*oSpotLightIt) = NULL;
-		++oSpotLightIt;
-	}
-
-	std::vector< SpotShadow* >::iterator oSpotShadowIt = m_oSpotShadows.begin();
-	while( oSpotShadowIt != m_oSpotShadows.end() )
-	{
-		delete (*oSpotShadowIt);
-		(*oSpotShadowIt) = NULL;
-		++oSpotShadowIt;
-	}
-
-	delete m_pSkyBox;
-	m_pSkyBox = NULL;
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -102,13 +73,27 @@ void SceneGraph::Clear()
 //--------------------------------------------------------------------------------------------------------------------
 void SceneGraph::LoadSceneXML( const char * sName )
 {
+	/// \TEMP FRANCK : retrieve light vector 
+	std::vector< SpotShadow* >& rShadowVector = Engine::GrabInstance().GrabRenderContext().GrabSpotShadows();
+	std::vector< SpotLight* >& rSpotVector = Engine::GrabInstance().GrabRenderContext().GrabSpotLights();
+	std::vector< SceneLight* >& rDirectionalVector = Engine::GrabInstance().GrabRenderContext().GrabDirectionalLights();
+
+	/// \temp also
+	std::map< std::string, SceneLight::LightType > mStringToLightTypeMap;
+	mStringToLightTypeMap["omni"] = SceneLight::E_OMNI_LIGHT;
+	mStringToLightTypeMap["spot"] = SceneLight::E_SPOT_LIGHT;
+	mStringToLightTypeMap["spotshadow"] = SceneLight::E_SPOT_SHADOW;
+	mStringToLightTypeMap["directional"] = SceneLight::E_DIRECTIONAL;
+
+
 	TiXmlDocument * pDocument = new TiXmlDocument( sName );
 
 	if(!pDocument->LoadFile())
 	{
-  		std::cerr << "[ReadXML] Loading Error : " << pDocument->ErrorDesc() << std::endl;
+  		ADD_ERROR_MESSAGE(" Loading : " << pDocument->ErrorDesc());
 	}
-	
+
+	//Get the scene
 	TiXmlElement * pRoot = pDocument->FirstChildElement( "scene" );
 
 	if( pRoot )
@@ -133,67 +118,41 @@ void SceneGraph::LoadSceneXML( const char * sName )
 
 
 			//Check for the current object
-			/*TiXmlElement * pCurrentXmlObject;
+			// Right now only static mesh are suported by the component system
+			TiXmlElement * pCurrentXmlObject;
 			if( pCurrentXmlObject = pXmlObject->FirstChildElement( "ressourcecomponent" ) )
 			{
-				//check object
-				AbstractComponent& rComponent = m_oFactory.CreateComponentInstance();
-
-				//If already laoded, then we create the instance
-				//store the isntance into the scene graph
-			}*/
-
-			//checks if the current sceneobject is a mesh
-			TiXmlElement * pCurrentXmlObject;// = pXmlObject->FirstChildElement( "mesh" );
-			if( pCurrentXmlObject = pXmlObject->FirstChildElement( "mesh" ) )
-			{
-				//checks for the filename
-				TiXmlElement * pXmlPoint = pCurrentXmlObject->FirstChildElement( "file" );
-				if( pXmlPoint )
+				// What is the component file
+				CompositeComponent* pComponent = NULL;
+				pComponent = m_oFactory.LoadObject(pCurrentXmlObject->GetText());
+				
+				// Add the instance position to the root component
+				// and the ortation and scale
+				// the problem here is that we should override every
+				// instance proprety, like skin color for a player etc...
+				if (pComponent != NULL)
 				{
-					std::string sMeshFileName( pXmlPoint->GetText() );
-					StaticMesh* pMesh = meshManager.loadMesh( sMeshFileName );
-						
-					if( pMesh )
+					pComponent->SetPos(vec3(x,y,z));
+
+					/// HACK : we set directly the position/rot/scale to the mesh
+					RenderComponent* pRenderComponent = static_cast<RenderComponent*>(pComponent->TryGrabComponentByType(RENDER));
+					if (pRenderComponent)
 					{
-						SceneMesh * pSceneMesh = new SceneMesh( pMesh );
-
-						pSceneMesh->SetPos( vec3( x, y, z ) );
-						pSceneMesh->SetRotation( vec3( rX, rY, rZ ));
-						pSceneMesh->SetScale( scale );
-
-						//checks for materials used on different parts of the mesh
-						unsigned int iPartCount = 0;
-
-						pXmlPoint = pCurrentXmlObject->FirstChildElement( "part" );
-						while( pXmlPoint )
-						{
-							++iPartCount;
-							TiXmlElement * pXmlMaterial = pXmlPoint->FirstChildElement( "material" );
-							if( pXmlMaterial )
-							{
-								Material * pMaterial = MaterialManager::GrabInstance().addMaterial( pXmlMaterial->GetText() );
-								if( pMaterial )
-									pSceneMesh->AddMaterial( pMaterial );
-							}			
-							
-							pXmlPoint = pXmlPoint->NextSiblingElement( "part" );
-						}
-						
-						pSceneMesh->SetPartCount( iPartCount );
-						if( pSceneMesh->IsOpaque() )
-						{
-							m_oSceneMeshes.push_back( pSceneMesh );
-						}
-						else if( pSceneMesh->IsTransparent() )
-						{
-							m_oTransparentSceneMeshes.push_back( pSceneMesh );
-						}
+						pRenderComponent->SetPos(vec3(x,y,z));
+						pRenderComponent->GrabInternalMesh().SetPos(vec3(x,y,z));
+						pRenderComponent->GrabInternalMesh().SetRotation(vec3(rX,rY,rZ));
+						pRenderComponent->GrabInternalMesh().SetScale(scale);
 					}
-
 				}
 
+				//Ad instance name
+
+				//Add directly to the graph, this might change
+				//Now every load create an instance
+				m_vComponentCollection.push_back(pComponent);
+		
 			}
+			// \todo make light as component
 			else if( pCurrentXmlObject = pXmlObject->FirstChildElement( "light" ) )
 			{
 				TiXmlElement * pXmlElement;
@@ -214,7 +173,7 @@ void SceneGraph::LoadSceneXML( const char * sName )
 				}
 
 				std::string sType = pCurrentXmlObject->Attribute("type");
-				SceneLight::LightType eType = m_oStringToLightTypeMap[ sType ];
+				SceneLight::LightType eType = mStringToLightTypeMap[ sType ];
 
 				SceneLight * pSceneLight;
 				if( (eType & SceneLight::E_OMNI_LIGHT) == SceneLight::E_OMNI_LIGHT )
@@ -245,12 +204,12 @@ void SceneGraph::LoadSceneXML( const char * sName )
 						if( (eType & SceneLight::E_SPOT_SHADOW) == SceneLight::E_SPOT_SHADOW )
 						{
 							pSceneLight = new SpotShadow();	
-							m_oSpotShadows.push_back( static_cast< SpotShadow* >(pSceneLight) );
+							rShadowVector.push_back( static_cast< SpotShadow* >(pSceneLight) );
 						}
 						else
 						{
 							pSceneLight = new SpotLight();
-							m_oSpotLights.push_back( static_cast< SpotLight* >(pSceneLight) );
+							rSpotVector.push_back( static_cast< SpotLight* >(pSceneLight) );
 						}
 
 						pSceneLight->SetRotation( vec3( rX,rY, 0.0 ) );
@@ -260,7 +219,7 @@ void SceneGraph::LoadSceneXML( const char * sName )
 					else
 					{
 						pSceneLight = new OmniLight();
-						m_oOmniLights.push_back( static_cast< OmniLight* >(pSceneLight) );
+						Engine::GrabInstance().GrabRenderContext().AddOmniLight(static_cast< OmniLight& >(*pSceneLight));
 					}
 
 					pSceneLight->SetColor( vec3( r, g, b ) );
@@ -279,32 +238,26 @@ void SceneGraph::LoadSceneXML( const char * sName )
 					pSceneLight->SetColor( vec3( r, g, b ) );
 					pSceneLight->SetMultiplier( fMultiplier );
 					pSceneLight->SetPos( vec3( x, y, z ) );
-					m_oDirectionalLights.push_back( pSceneLight );
+					rDirectionalVector.push_back( pSceneLight );
 				}
 			}
 			else if( pCurrentXmlObject = pXmlObject->FirstChildElement( "skybox" ) )
 			{
-				TiXmlElement * pXmlMaterial = pCurrentXmlObject->FirstChildElement( "material" );
+				/*TiXmlElement * pXmlMaterial = pCurrentXmlObject->FirstChildElement( "material" );
 				m_pSkyBox = new SkyBox( scale );
 				if( pXmlMaterial )
 				{
 					Material * pMaterial = MaterialManager::GrabInstance().addMaterial( pXmlMaterial->GetText() );
 					if( pMaterial )
 						m_pSkyBox->SetMaterial( pMaterial );
-				}
+				}*/
 			}
+
 			//moves on to the next object
 			pXmlObject = pXmlObject->NextSiblingElement( "sceneobject" );
 
 		}
-
-		/*//check if there's water on the level
-		pXmlObject = pRoot->FirstChildElement( "water" );
-		if( pXmlObject )
-		{
-			float fWaterLevel;
-			pXmlObject->QueryFloatAttribute("level",&fWaterLevel);
-		}*/
+		
 
 	}
 }

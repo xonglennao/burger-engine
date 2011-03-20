@@ -40,7 +40,7 @@ CompositeComponent* ObjectFactory::LoadObject(std::string const& a_rsFileName)
 
 	if(!pDocument->LoadFile())
 	{
-		std::cerr << "[ReadXML] Loading Error : " << pDocument->ErrorDesc() << std::endl;
+		ADD_ERROR_MESSAGE( std::string("Loading : ") << pDocument->ErrorDesc() );
 	}
 
 	TiXmlElement * pRoot = pDocument->FirstChildElement( "object" );
@@ -50,14 +50,17 @@ CompositeComponent* ObjectFactory::LoadObject(std::string const& a_rsFileName)
 		///----------------------------------------------------------
 		std::string sObjectName;
 		pRoot->QueryValueAttribute<std::string>("name",&sObjectName);
+		//There is a name for each layer
 
-		TiXmlElement * pComponent = pRoot->FirstChildElement( "components" );
+		TiXmlElement * pComponentXml = pRoot->FirstChildElement( "component" );
+		assert(pComponentXml);
 
 		//We know for sure it will be a composite
-		//Well.. we should check this somewhere
-		CompositeComponent* pComposite =static_cast<CompositeComponent*>(LoadComponent(*pComponent));
+		//It's a root
+		pComposite = new CompositeComponent(NULL);
+		TiXmlElement const* pParameter = pComponentXml->FirstChildElement("parameters");
+		pComposite->Initialize(*pParameter);
 		
-
 	}
 
 	//Todo stor into the list
@@ -67,7 +70,7 @@ CompositeComponent* ObjectFactory::LoadObject(std::string const& a_rsFileName)
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-AbstractComponent* ObjectFactory::LoadComponent(TiXmlElement const& a_rComponentXml)
+AbstractComponent* ObjectFactory::CreateAndInitComponent(TiXmlElement const& a_rComponentXml,  CompositeComponent* a_pParent)
 {
 	AbstractComponent* pComponent = NULL;
 
@@ -79,12 +82,12 @@ AbstractComponent* ObjectFactory::LoadComponent(TiXmlElement const& a_rComponent
 	if (sId == "render")
 	{
 		//Create the component
-		pComponent = new RenderComponent();
+		pComponent = new RenderComponent(a_pParent);
 
 	}
 	else if(sId == "composite")
 	{
-		pComponent = new CompositeComponent();
+		pComponent = new CompositeComponent(a_pParent);
 	}
 
 	//Get Parameters

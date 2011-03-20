@@ -22,12 +22,11 @@
 #include <vector>
 #include <map>
 
-class AbstractMesh;
-class SceneMesh;
-class OmniLight;
-class SpotLight;
-class SpotShadow;
-class SkyBox;
+/// forward declaration
+
+
+/// Typedef
+typedef std::vector< CompositeComponent* > ComponentCollection;
 
 /// \class	SceneGraph
 /// \brief	Used to display 3D scenes
@@ -39,29 +38,15 @@ public:
 	SceneGraph();
 	~SceneGraph();
 
-	bool Init();
+	bool Initialize();
 
-	const std::vector< SceneMesh* >& GetSceneMeshes() const { return m_oSceneMeshes; };
-	
-	const std::vector< SceneMesh* >& GetTransparentSceneMeshes() const { return m_oTransparentSceneMeshes; };
-	std::vector< SceneMesh* >& GetTransparentSceneMeshes() { return m_oTransparentSceneMeshes; };
-	
-	const std::vector< SceneLight* >& GetDirectionalLights() const { return m_oDirectionalLights; };
-
-	const std::vector< OmniLight* >& GetOmniLights() const { return m_oOmniLights; };
-	
-	const std::vector< SpotLight* >& GetSpotLights()const { return m_oSpotLights; };
-	
-	const std::vector< SpotShadow* >& GetSpotShadows() const { return m_oSpotShadows; };
-
-	const SkyBox* GetSkyBox() const { return m_pSkyBox; };
-
-	const DebugMenu& GetDebugMenu() const { return m_oDebugMenu; };
-	DebugMenu& GetDebugMenu() { return m_oDebugMenu; };
+	/// \brief Update all the components object in the graph
+	void Update();
 
 private:
 /// \brief Clears object and light lists
 	void Clear();
+
 /// \brief Loads objects, light etc. from a XML file
 	void LoadSceneXML( const char * sName );
 
@@ -69,19 +54,9 @@ private:
 	void _LoadComponentsXML( const char * sName );
 
 private:
-	///lists of renderable objects and lights
-	std::vector< SceneMesh* >		m_oSceneMeshes;
-	std::vector< SceneMesh* >		m_oTransparentSceneMeshes;
-	std::vector< OmniLight* >		m_oOmniLights;
-	std::vector< SpotLight* >		m_oSpotLights;
-	std::vector< SceneLight* >		m_oDirectionalLights;
-	std::vector< SpotShadow* >		m_oSpotShadows;
 
-	SkyBox *						m_pSkyBox;
-
-	std::map< std::string, SceneLight::LightType > m_oStringToLightTypeMap;
-
-	DebugMenu m_oDebugMenu;
+	///List of all the components object
+	ComponentCollection m_vComponentCollection;
 
 	/// The Factory which can create object depending on the string griven
 	ObjectFactory m_oFactory;

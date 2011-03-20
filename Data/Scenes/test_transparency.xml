@@ -2,61 +2,41 @@
   
   <!-- GROUND  -->
   <sceneobject x="0.0" y="50.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="100">
-    <mesh>
-      <file>../Data/Mesh/inverted_cube.obj</file>
-      <part>
-        <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-      </part>      
-    </mesh>
+    <ressourcecomponent>TestTransparency/InvertedCube</ressourcecomponent>
+	<instance name= "Cube"/>
   </sceneobject>
 
-  <sceneobject x="0.0" y="5.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
+  <!--<sceneobject x="0.0" y="5.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
     <mesh>
       <file>../Data/Mesh/unit_sphere.obj</file>
       <part>
         <material>../Data/Materials/test_dof/tex3D.bma.xml</material>
       </part>
     </mesh>
-  </sceneobject>
+  </sceneobject>-->
 
   <!-- TRANSPARENT OBJECTS -->
   <sceneobject x="15.0" y="10.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
-    <mesh>
-      <file>../Data/Mesh/unit_sphere.obj</file>
-      <part>
-        <material>../Data/Materials/test_transparency/test_transparency.bma.xml</material>
-      </part>
-    </mesh>
+    <ressourcecomponent>TestTransparency/Ball01</ressourcecomponent>
+	<instance name= "ball01"/>
   </sceneobject>
 
   <sceneobject x="15.0" y="10.0" z="-10.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
-    <mesh>
-      <file>../Data/Mesh/unit_sphere.obj</file>
-      <part>
-        <material>../Data/Materials/test_transparency/test_transparency2.bma.xml</material>
-      </part>
-    </mesh>
+    <ressourcecomponent>TestTransparency/Ball02</ressourcecomponent>
+	<instance name= "ball02"/>
   </sceneobject>
 
   <sceneobject x="15.0" y="10.0" z="-20.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
-    <mesh>
-      <file>../Data/Mesh/unit_sphere.obj</file>
-      <part>
-        <material>../Data/Materials/test_transparency/test_transparency3.bma.xml</material>
-      </part>
-    </mesh>
+    <ressourcecomponent>TestTransparency/Ball03</ressourcecomponent>
+	<instance name= "ball03"/>
   </sceneobject>
 
   <sceneobject x="15.0" y="10.0" z="-30.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
-    <mesh>
-      <file>../Data/Mesh/unit_sphere.obj</file>
-      <part>
-        <material>../Data/Materials/test_transparency/test_transparency4.bma.xml</material>
-      </part>
-    </mesh>
+    <ressourcecomponent>TestTransparency/Ball04</ressourcecomponent>
+	<instance name= "ball04"/>
   </sceneobject>
 
-  <sceneobject x="25.0" y="15.0" z="35.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
+  <!--<sceneobject x="25.0" y="15.0" z="35.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
     <mesh>
       <file>../Data/Mesh/unit_cube.obj</file>
       <part>
@@ -66,14 +46,14 @@
   </sceneobject>-->
   <!-- END TRANSPARENT OBJECTS -->
   
-  <sceneobject x="-15.0" y="5.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
+  <!--<sceneobject x="-15.0" y="5.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
     <mesh>
       <file>../Data/Mesh/unit_sphere.obj</file>
       <part>
         <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
       </part>
     </mesh>
-  </sceneobject>
+  </sceneobject>-->
 
   <!-- OMNI  -->
   <sceneobject x="35.0" y="30.0" z="35.0">

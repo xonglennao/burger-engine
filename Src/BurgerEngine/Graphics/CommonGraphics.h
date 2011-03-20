@@ -23,3 +23,6 @@ class PixelPerfectGLFont;
 class Timer;
 class Frustum;
 class AbstractCamera;
+class DeferredRenderer;
+class SkyBox;
+class RenderingContext;
