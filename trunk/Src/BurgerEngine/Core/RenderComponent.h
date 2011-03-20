@@ -19,7 +19,7 @@ class RenderComponent : public AbstractComponent
 {
 public:
 	/// \brief constructor
-	RenderComponent();
+	RenderComponent(CompositeComponent* a_pParent = NULL);
 
 	/// \brief Copy constructor //clone???
 	RenderComponent(AbstractComponent const& a_rToCopy);
@@ -30,6 +30,10 @@ public:
 	/// \brief Load the component using a XML Node
 	/// override
 	void Initialize(TiXmlElement const& a_rParameters);
+
+	/// \brief Grab the mesh
+	/// \brief Could also go from the RenderContext
+	SceneMesh& GrabInternalMesh(){assert(m_pMesh); return *m_pMesh;}
 
 protected:
 	/// \brief Inner update

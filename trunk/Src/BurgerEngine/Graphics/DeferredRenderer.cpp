@@ -10,6 +10,7 @@
 #include "BurgerEngine/Graphics/TextureManager.h"
 #include "BurgerEngine/Graphics/Shader.h"
 #include "BurgerEngine/Graphics/Texture2D.h"
+#include "BurgerEngine/Graphics/RenderingContext.h"
 
 #include "BurgerEngine/Core/Timer.h"
 
@@ -68,7 +69,7 @@ DeferredRenderer::DeferredRenderer()
 
 	GenFullScreenQuad();
 
-	DebugMenu& oDebugMenu = Engine::GrabInstance().GrabSceneGraph().GetDebugMenu();
+	DebugMenu& oDebugMenu = Engine::GrabInstance().GrabRenderContext().GetDebugMenu();
 
 	oDebugMenu.AddEntry( "ToneMappingKey", m_fToneMappingKey, 0.0f, 1.0f, 0.1f );
 	oDebugMenu.AddEntry( "Glow Multiplier", m_fGlowMultiplier, 0.0f, 10.0f, 0.5f );
@@ -398,7 +399,7 @@ void DeferredRenderer::GenFullScreenQuad()
 void DeferredRenderer::DrawFullScreenQuad( int iWindowWidth, int iWindowHeight, bool bCCW )
 {
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
-	Engine::GetInstance().GrabRenderingContext().ReshapeGlOrtho( iWindowWidth, iWindowHeight );
+	Engine::GrabInstance().GrabRenderingContext().ReshapeGlOrtho( iWindowWidth, iWindowHeight );
 	
 	glPushMatrix();
 
@@ -779,7 +780,7 @@ void DeferredRenderer::DisplayText( const std::string& sText, int iPosX, int iPo
 //--------------------------------------------------------------------------------------------------------------------
 void DeferredRenderer::DisplayDebugMenu()
 {
-	const DebugMenu& oDebugMenu = Engine::GrabInstance().GrabSceneGraph().GetDebugMenu();
+	const DebugMenu& oDebugMenu = Engine::GrabInstance().GrabRenderContext().GetDebugMenu();
 	const std::pair< std::string, DebugMenuEntryBase* > oEntryPair = oDebugMenu.GetEntry();
 	
 	std::stringstream oStream;
@@ -989,11 +990,11 @@ bool DeferredRenderer::ComputeOneSpotBoundingQuad( SpotLight* pLight, AbstractCa
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oSceneMeshes, SceneGraph& rSceneGraph, OpenGLContext& rRenderingContext )
+void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oSceneMeshes, RenderingContext& a_rRenderContext, OpenGLContext& a_rDriverRenderingContext )
 {
 	glCullFace( GL_FRONT );
 
-	std::vector< SpotShadow* > oSpotShadows = rSceneGraph.GetSpotShadows();
+	std::vector< SpotShadow* > oSpotShadows = a_rRenderContext.GetSpotShadows();
 	std::vector< SpotShadow* >::iterator oSpotIt = oSpotShadows.begin();
 
 	while( oSpotIt != oSpotShadows.end() )
@@ -1005,7 +1006,7 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 
 		float fRadius = pSpot->GetRadius();
 
-		rRenderingContext.Reshape( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, 2.0f * acosf( pSpot->GetCosOuterAngle()  ) / (float)M_PI * 180.0f, 0.5, fRadius );
+		a_rDriverRenderingContext.Reshape( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, 2.0f * acosf( pSpot->GetCosOuterAngle()  ) / (float)M_PI * 180.0f, 0.5, fRadius );
 		glRotatef( -oLightRotation.x, 1.0,0.0,0.0 );
 		glRotatef( oLightRotation.y, 0.0,1.0,0.0 );
 
@@ -1204,22 +1205,22 @@ void DeferredRenderer::Render()
 {
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );	
 	
-	SceneGraph & rSceneGraph = Engine::GrabInstance().GrabSceneGraph();
-	const std::vector< SceneMesh* >& oSceneMeshes = rSceneGraph.GetSceneMeshes();
-	std::vector< SceneMesh* >& oTransparentSceneMeshes = rSceneGraph.GetTransparentSceneMeshes();
-	const SkyBox* pSkyBox = rSceneGraph.GetSkyBox();
+	RenderingContext& rRenderContext = Engine::GrabInstance().GrabRenderContext();
+	const std::vector< SceneMesh* >& oSceneMeshes = rRenderContext.GetSceneMeshes();
+	std::vector< SceneMesh* >& oTransparentSceneMeshes = rRenderContext.GetTransparentSceneMeshes();
+	const SkyBox* pSkyBox = rRenderContext.GetSkyBox();
 	
-	Engine const& rEngine = Engine::GetInstance();
+	Engine& rEngine = Engine::GrabInstance();
 	
 	unsigned int iWindowWidth = rEngine.GetWindowWidth();
 	unsigned int iWindowHeight = rEngine.GetWindowHeight();
 
 	AbstractCamera & rCamera = rEngine.GetCurrentCamera();
-	OpenGLContext& rRenderingContext = rEngine.GrabRenderingContext(); 
+	OpenGLContext& rHardwareRenderContext = rEngine.GrabRenderingContext(); 
 
-	RenderShadowMaps( oSceneMeshes,rSceneGraph,rRenderingContext );
+	RenderShadowMaps( oSceneMeshes,rRenderContext,rHardwareRenderContext );
 	
-	rRenderingContext.Reshape( iWindowWidth, iWindowHeight, rCamera.GetFOV(), rCamera.GetNear(), rCamera.GetFar() );	
+	rHardwareRenderContext.Reshape( iWindowWidth, iWindowHeight, rCamera.GetFOV(), rCamera.GetNear(), rCamera.GetFar() );	
 	rCamera.LookAt();
 
 	// Retrieving scene matrices
@@ -1257,13 +1258,11 @@ void DeferredRenderer::Render()
 	//Lighting pass
 
 	//creates one quad per omni light
-	PrepareDirectionalLights( rSceneGraph.GetDirectionalLights(), rCamera, mModelView );
-	
-	//creates one quad per omni light
-	PrepareOmniLights( rSceneGraph.GetOmniLights(), rCamera, oViewFrustum, mModelView, mModelViewProjection );
-
+	PrepareOmniLights( rRenderContext.GetOmniLights(), rCamera, oViewFrustum, mModelView, mModelViewProjection );
+	PrepareDirectionalLights( rRenderContext.GetDirectionalLights(), rCamera, mModelView );
 	//creates one quad per spot light
-	PrepareSpotLights( rSceneGraph.GetSpotLights(), rCamera, oViewFrustum, mModelView, mModelViewProjection );
+	PrepareSpotLights( rRenderContext.GetSpotLights(), rCamera, oViewFrustum, mModelView, mModelViewProjection );
+
 	//enable blending in order to add all the light contributions
 	
 	glEnable(GL_BLEND);
@@ -1282,7 +1281,7 @@ void DeferredRenderer::Render()
 	
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-	Engine::GetInstance().GrabRenderingContext().ReshapeGlOrtho( iWindowWidth, iWindowHeight );
+	Engine::GrabInstance().GrabRenderingContext().ReshapeGlOrtho( iWindowWidth, iWindowHeight );
 
 	if( !m_vDirectionalLightQuads.empty() )
 	{
@@ -1322,7 +1321,7 @@ void DeferredRenderer::Render()
 
 	glActiveTexture( GL_TEXTURE2 );
 	
-	PrepareAndRenderSpotShadows( rSceneGraph.GetSpotShadows(), rCamera, oViewFrustum, mModelView, mModelViewProjection );
+	PrepareAndRenderSpotShadows( rRenderContext.GetSpotShadows(), rCamera, oViewFrustum, mModelView, mModelViewProjection );
 	m_pSpotShadowShader->Deactivate();	
 
 	Texture2D::Deactivate();
@@ -1346,7 +1345,7 @@ void DeferredRenderer::Render()
 	m_pLightBuffer->ActivateTexture();
 	
 	//Restoring perspective view
-	rRenderingContext.Reshape( iWindowWidth, iWindowHeight, rCamera.GetFOV(), rCamera.GetNear(), rCamera.GetFar() );
+	rHardwareRenderContext.Reshape( iWindowWidth, iWindowHeight, rCamera.GetFOV(), rCamera.GetNear(), rCamera.GetFar() );
 	rCamera.LookAt();
 	
 	m_pHDRSceneBuffer->Activate();
@@ -1494,7 +1493,7 @@ void DeferredRenderer::Render()
 		DisplayText( oStream.str(), iWindowWidth - 250, 50, m_pFont );
 
 		std::stringstream oStream2;
-		oStream2 << "Displaying " << m_vOmniLightQuads.size() << " of " << rSceneGraph.GetOmniLights().size() << " omni lights.";
+		oStream2 << "Displaying " << m_vOmniLightQuads.size() << " of " << rRenderContext.GetOmniLights().size() << " omni lights.";
 		DisplayText( oStream2.str(), iWindowWidth - 250, 70, m_pFont );
 		
 		DisplayDebugMenu();

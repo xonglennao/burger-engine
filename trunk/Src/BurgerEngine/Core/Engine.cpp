@@ -13,6 +13,7 @@
 
 #include "BurgerEngine/Graphics/Window.h"
 #include "BurgerEngine/Graphics/OpenGLContext.h"
+#include "BurgerEngine/Graphics/RenderingContext.h"
 
 //--------------------------------------------------------------------------------------------------------------------
 //
@@ -21,7 +22,8 @@ Engine::Engine():
 	m_pEventManager(NULL),
 	m_pCurrentCamera(NULL),
 	m_pRenderingContext(NULL),
-	m_pStageManager(NULL)
+	m_pStageManager(NULL),
+	m_pRenderContext(NULL)
 {}
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -49,6 +51,9 @@ void Engine::Init()
 	m_pRenderingContext = new OpenGLContext();
 	m_pRenderingContext->Initialize( m_iWindowWidth, m_iWindowHeight );
 
+	m_pRenderContext = new RenderingContext();
+	m_pRenderContext->Initialize();
+
 	m_pSceneGraph = new SceneGraph();
 
 	m_bTerminate = false;
@@ -60,6 +65,9 @@ void Engine::Init()
 //--------------------------------------------------------------------------------------------------------------------
 void Engine::Terminate()
 {
+	delete m_pRenderingContext;
+	m_pRenderingContext = NULL;
+
 	m_pStageManager->Terminate();
 	delete m_pStageManager;
 	m_pStageManager = NULL;
@@ -115,6 +123,8 @@ void Engine::Run()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //TEMP
 
 		m_pStageManager->Render();
+		//Render the scene
+		m_pRenderContext->Update();
 
 		//Swap buffer
 		m_pWindow->Display();

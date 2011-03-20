@@ -15,6 +15,8 @@
 
 #include <map>
 #include <string>
+#include "BurgerEngine/External/Math/Vector.h"
+#include "BurgerEngine/Base/CommonBase.h"
 
 //forward declaration
 class CompositeComponent;
@@ -37,7 +39,7 @@ public:
 	CompositeComponent* LoadObject(std::string const& a_rsFileName);
 
 	/// \brief Static loading method just load a single component
-	static AbstractComponent* LoadComponent(TiXmlElement const& a_rParameters);
+	static AbstractComponent* CreateAndInitComponent(TiXmlElement const& a_rParameters, CompositeComponent* a_pParent);
 	
 	/// \brief Try to create an object using the ID
 	/// \param a_rsID the unique ID... should become an int as it would become much faster

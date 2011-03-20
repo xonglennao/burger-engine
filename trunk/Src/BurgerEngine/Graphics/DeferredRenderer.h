@@ -82,7 +82,7 @@ private:
 
 	void PrepareAndRenderSpotShadows( const std::vector< SpotShadow* >& oSpotShadows, const AbstractCamera & rCamera, const Frustum& oViewFrustum, const float4x4& mModelView, const float4x4& mModelViewProjection );
 
-	void RenderShadowMaps( const std::vector< SceneMesh* >& oSceneMeshes,SceneGraph& rSceneGraph, OpenGLContext& rRenderingContext );
+	void RenderShadowMaps( const std::vector< SceneMesh* >& oSceneMeshes,RenderingContext& a_rRenderContext, OpenGLContext& a_rDriverRenderingContext);
 
 	void ComputeAvgLum();
 

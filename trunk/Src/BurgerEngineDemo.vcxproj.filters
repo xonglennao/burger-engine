@@ -31,9 +31,6 @@
     <ClCompile Include="BurgerEngineDemo\StageTestInput.cpp">
       <Filter>BurgerEngineDemo\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="BurgerEngine\Graphics\OpenGlContext.cpp">
-      <Filter>BurgerEngine\Graphics\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="BurgerEngine\Core\AbstractCamera.cpp">
       <Filter>BurgerEngine\Core\Camera</Filter>
     </ClCompile>
@@ -169,6 +166,12 @@
     <ClCompile Include="BurgerEngine\Core\AbstractComponent.cpp">
       <Filter>BurgerEngine\Core\Component</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\OpenGLContext.cpp">
+      <Filter>BurgerEngine\Graphics\Context</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\RenderingContext.cpp">
+      <Filter>BurgerEngine\Graphics\Context</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -203,9 +206,6 @@
     </ClInclude>
     <ClInclude Include="BurgerEngineDemo\StageTestInput.h">
       <Filter>BurgerEngineDemo\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="BurgerEngine\Graphics\OpenGlContext.h">
-      <Filter>BurgerEngine\Graphics\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="BurgerEngine\Graphics\CommonGraphics.h">
       <Filter>BurgerEngine\Graphics</Filter>
@@ -342,6 +342,15 @@
     <ClInclude Include="BurgerEngine\Graphics\Texture3D.h">
       <Filter>BurgerEngine\Graphics\Textures</Filter>
     </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\OpenGLContext.h">
+      <Filter>BurgerEngine\Graphics\Context</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\RenderingContext.h">
+      <Filter>BurgerEngine\Graphics\Context</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Base\BaseMacro.h">
+      <Filter>BurgerEngine\Base\macro</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="BurgerEngine">
@@ -460,6 +469,12 @@
     </Filter>
     <Filter Include="BurgerEngine\Data\Materials\test_transparency">
       <UniqueIdentifier>{4cfbde5a-6649-44dc-89bc-69d3c53f5f2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Graphics\Context">
+      <UniqueIdentifier>{374b07d5-208d-489c-b8cd-0644d89a090f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Base\macro">
+      <UniqueIdentifier>{680a4b10-b2e4-4aa7-980b-54ebd982dee7}</UniqueIdentifier>
     </Filter>
     <Filter Include="BurgerEngine\Data\Materials\test_directional">
       <UniqueIdentifier>{495b06e3-3ce4-4b9f-9b24-5e36a7611703}</UniqueIdentifier>

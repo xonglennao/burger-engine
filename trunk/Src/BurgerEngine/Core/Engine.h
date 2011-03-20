@@ -20,6 +20,7 @@ class Window;
 class OpenGLContext;
 class AbstractCamera;
 class SceneGraph;
+class RenderingContext;
 
 ///	\name	Engine.h
 ///	\brief	It's the main core of the program
@@ -55,12 +56,13 @@ public:
 	/// \brief	Grabber
 	EventManager&	GrabEventManager();
 	SceneGraph&		GrabSceneGraph();
-	
-	OpenGLContext& GrabRenderingContext() const { return *m_pRenderingContext; };
+	RenderingContext& GrabRenderContext()  {return *m_pRenderContext;}
+	OpenGLContext& GrabRenderingContext(){ return *m_pRenderingContext; }
 
 	/// \brief	Getter
 	EventManager const& GetEventManager() const {return *m_pEventManager;}
 	StageManager& GetStageManager() {return *m_pStageManager;}
+	RenderingContext const& GetRenderContext() const {return *m_pRenderContext;}
 
 
 	const unsigned int GetWindowWidth() const { return m_iWindowWidth; }
@@ -92,6 +94,9 @@ private:
 
 	unsigned int	m_iWindowWidth;
 	unsigned int	m_iWindowHeight;
+
+	/// The rendering context - Warning the name is close to renderingContext- to change
+	RenderingContext* m_pRenderContext;
 
 	///The flag use to exit the running loop;
 	bool			m_bTerminate;

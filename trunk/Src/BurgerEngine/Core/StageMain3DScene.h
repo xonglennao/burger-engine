@@ -14,10 +14,8 @@
 #define __STAGEMAINS3DCENE_H__
 
 #include "BurgerEngine/Core/AbstractStage.h"
-
-class DeferredRenderer;
 class Timer;
-
+class RenderingContext;
 /// \class	StageMain3DScene
 /// \brief	Used to display 3D scenes
 class StageMain3DScene: public AbstractStage
@@ -43,9 +41,8 @@ private:
 	void _Render();
 
 private:
-	DeferredRenderer* m_pDeferredRenderer;
+	
 	Timer* m_oTimer;
-
 };
 
 
