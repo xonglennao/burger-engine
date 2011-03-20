@@ -229,7 +229,7 @@ void SceneGraph::LoadSceneXML( const char * sName )
 						
 					if( (eType & SceneLight::E_SPOT_LIGHT) == SceneLight::E_SPOT_LIGHT )
 					{
-						static_cast< SpotLight* >(pSceneLight)->ComputeBoundingVolume();
+						static_cast< SpotLight* >(pSceneLight)->ComputeBoundingBox();
 					}
 				}
 				else if( ( eType & SceneLight::E_DIRECTIONAL) == SceneLight::E_DIRECTIONAL )

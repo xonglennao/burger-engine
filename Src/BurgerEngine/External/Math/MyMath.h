@@ -26,6 +26,7 @@ misrepresented as being the original software.
 #include <math.h>
 
 #define PI 3.14159265358979323846f
+#define DEG_TO_RAD PI / 180.0f
 
 // This code supposedly originates from Id-software
 // It computes a fast 1 / sqrtf(v) approximation

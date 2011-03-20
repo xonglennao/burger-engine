@@ -740,6 +740,51 @@ void DeferredRenderer::DrawFrustum( const vec3 * pPoints, const vec3& f3Pos )
 	glEnd();
 }
 
+void DeferredRenderer::DrawCube( const vec3 * pPoints )
+{
+	glLineWidth( 3.0f );
+	glColor3f(1.0f,0.0f,0.0f);
+	glDisable( GL_DEPTH_TEST );
+
+	glBegin( GL_LINES );
+
+	for(unsigned int i = 0; i < 4; ++i )
+	{
+		glVertex3f(pPoints[i].x, pPoints[i].y, pPoints[i].z);
+		if( i != 3 )
+		{
+			glVertex3f(pPoints[i+1].x, pPoints[i+1].y, pPoints[i+1].z);
+		}
+		else
+		{
+			glVertex3f(pPoints[0].x, pPoints[0].y, pPoints[0].z);
+		}		
+	}
+	
+	for(unsigned int i = 4; i < 8; ++i )
+	{
+		glVertex3f(pPoints[i].x, pPoints[i].y, pPoints[i].z);
+		if( i != 7 )
+		{
+			glVertex3f(pPoints[i+1].x, pPoints[i+1].y, pPoints[i+1].z);
+		}
+		else
+		{
+			glVertex3f(pPoints[4].x, pPoints[4].y, pPoints[4].z);
+		}
+	}
+	
+	for(unsigned int i = 0; i < 4; ++i )
+	{
+		glVertex3f(pPoints[i].x, pPoints[i].y, pPoints[i].z);
+		glVertex3f(pPoints[i+4].x, pPoints[i+4].y, pPoints[i+4].z);
+	}
+	
+	glEnd();
+	
+	glEnable( GL_DEPTH_TEST );
+}
+
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
@@ -946,7 +991,7 @@ bool DeferredRenderer::ComputeOneSpotBoundingQuad( SpotLight* pLight, AbstractCa
 		vec4 vViewSpacePos = mModelView * vec4( f3Pos.x, f3Pos.y, f3Pos.z, 1.0f );
 		vec3 vRotation = pLight->GetRotation();
 
-		vec4 vViewSpaceDir = mModelView * rotateY( vRotation.y * (float)M_PI / 180.0f ) * rotateX( vRotation.x * (float)M_PI / 180.0f ) * vec4( 0.0f, 0.0f, -1.0f, 0.0f );
+		vec4 vViewSpaceDir = mModelView * rotateY( vRotation.y * DEG_TO_RAD ) * rotateX( vRotation.x * DEG_TO_RAD ) * vec4( 0.0f, 0.0f, -1.0f, 0.0f );
 
 		oQuad.vViewSpaceLightPos = vec3( vViewSpacePos.x, vViewSpacePos.y, vViewSpacePos.z );
 		oQuad.vViewSpaceLightDir = vec3( vViewSpaceDir.x, vViewSpaceDir.y, vViewSpaceDir.z );
@@ -1206,7 +1251,7 @@ void DeferredRenderer::Render()
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );	
 	
 	RenderingContext& rRenderContext = Engine::GrabInstance().GrabRenderContext();
-	const std::vector< SceneMesh* >& oSceneMeshes = rRenderContext.GetSceneMeshes();
+	const std::vector< SceneMesh* >& oAllSceneMeshes = rRenderContext.GetSceneMeshes();
 	std::vector< SceneMesh* >& oTransparentSceneMeshes = rRenderContext.GetTransparentSceneMeshes();
 	const SkyBox* pSkyBox = rRenderContext.GetSkyBox();
 	
@@ -1218,7 +1263,7 @@ void DeferredRenderer::Render()
 	AbstractCamera & rCamera = rEngine.GetCurrentCamera();
 	OpenGLContext& rHardwareRenderContext = rEngine.GrabRenderingContext(); 
 
-	RenderShadowMaps( oSceneMeshes,rRenderContext,rHardwareRenderContext );
+	RenderShadowMaps( oAllSceneMeshes,rRenderContext,rHardwareRenderContext );
 	
 	rHardwareRenderContext.Reshape( iWindowWidth, iWindowHeight, rCamera.GetFOV(), rCamera.GetNear(), rCamera.GetFar() );	
 	rCamera.LookAt();
@@ -1236,6 +1281,25 @@ void DeferredRenderer::Render()
 
 	Frustum oViewFrustum;
 	oViewFrustum.loadFrustum(transpose(mModelViewProjection));
+
+	/////////////////////////////////////////////////
+	//Culling de ouf!!!!!!!!!!!!
+
+	std::vector< SceneMesh* > oSceneMeshes;
+	std::vector< SceneMesh*>::const_iterator oAllIt = oAllSceneMeshes.begin();
+	while( oAllIt != oAllSceneMeshes.end() )
+	{
+		const float * pBoundingBox = (*oAllIt)->GetBoundingBox();
+
+		if(	m_iDebugFlag || oViewFrustum.cubeInFrustum( pBoundingBox[0], pBoundingBox[1],pBoundingBox[2],pBoundingBox[3],pBoundingBox[4],pBoundingBox[5] ) )
+		{
+			oSceneMeshes.push_back( (*oAllIt) );
+		}
+			oAllIt++;
+	}
+
+	////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////
 
 	//GBuffer pass
 	m_pGBuffer->Activate();
@@ -1477,6 +1541,32 @@ void DeferredRenderer::Render()
 	glActiveTexture( GL_TEXTURE0 );
 	Texture2D::Deactivate();
 #endif
+
+	///////////////////////
+	rHardwareRenderContext.Reshape( iWindowWidth, iWindowHeight, rCamera.GetFOV(), rCamera.GetNear(), rCamera.GetFar() );
+	rCamera.LookAt();
+	oMeshIt = oSceneMeshes.begin();	
+	while( oMeshIt != oSceneMeshes.end() )
+	{
+		const float* pMeshBoundingBox = (*oMeshIt)->GetBoundingBox();
+
+		vec3 pPoints[8];
+		pPoints[0] = vec3( pMeshBoundingBox[0], pMeshBoundingBox[3], pMeshBoundingBox[4]  ); // Near top left
+		pPoints[1] = vec3( pMeshBoundingBox[1], pMeshBoundingBox[3], pMeshBoundingBox[4]  ); // Near top right
+		pPoints[2] = vec3( pMeshBoundingBox[1], pMeshBoundingBox[2], pMeshBoundingBox[4]  ); // Near bottom right
+		pPoints[3] = vec3( pMeshBoundingBox[0], pMeshBoundingBox[2], pMeshBoundingBox[4]  ); // Near bottom left
+
+		pPoints[4] = vec3( pMeshBoundingBox[0], pMeshBoundingBox[3], pMeshBoundingBox[5]  ); // Far top left
+		pPoints[5] = vec3( pMeshBoundingBox[1], pMeshBoundingBox[3], pMeshBoundingBox[5]  ); // Far top right
+		pPoints[6] = vec3( pMeshBoundingBox[1], pMeshBoundingBox[2], pMeshBoundingBox[5]  ); // Far bottom right
+		pPoints[7] = vec3( pMeshBoundingBox[0], pMeshBoundingBox[2], pMeshBoundingBox[5]  ); // Far bottom left
+
+		DrawCube( pPoints );
+
+		++oMeshIt;
+	}
+
+	//////////////////////
 	
 	++m_fFrameCount;
 	if( m_fFrameCount >= MAX_FRAME )
