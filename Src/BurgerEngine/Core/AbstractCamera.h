@@ -61,6 +61,9 @@ public:
 	float const& GetNear() const {return m_fNear;}
 	float const& GetFar() const {return m_fFar;}
 
+	float const& GetRY() const {return m_fAlpha;}
+	float const& GetRX() const {return m_fPhi;}
+
 	vec4 const GetDofParams() const {return vec4( m_f3DofParams.x + m_fDofOffset, m_f3DofParams.y + m_fDofOffset,m_f3DofParams.z + m_fDofOffset, m_f3DofParams.w );}
 	
 	void LookAt();

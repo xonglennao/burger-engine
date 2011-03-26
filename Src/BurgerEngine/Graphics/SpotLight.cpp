@@ -15,63 +15,33 @@ SpotLight::~SpotLight()
 
 void SpotLight::ComputeBoundingBox()
 {
-	float4x4 mRotation = rotateY( m_f3Rotation.y * DEG_TO_RAD ) * rotateX( m_f3Rotation.x * DEG_TO_RAD );
-	vec4 vWorldSpaceRight = mRotation * vec4( 1.0f, 0.0f, 0.0f, 0.0f );
-	vec4 vWorldSpaceUp = mRotation * vec4( 0.0f, 1.0f, 0.0f, 0.0f );
-	vec4 vWorldSpaceDir = mRotation * vec4( 0.0f, 0.0f, -1.0f, 0.0f );
-
+	//float4x4 mRotation = rotateY( m_f3Rotation.y * DEG_TO_RAD ) * rotateX( m_f3Rotation.x * DEG_TO_RAD );
+	
 	float fOpp = tanf( acosf( m_fCosOut ) ) * m_fRadius;
 
-	vec3 f3RadiusVector = m_fRadius * vec3( vWorldSpaceDir.x, vWorldSpaceDir.y, vWorldSpaceDir.z );
-	vec3 f3Right = fOpp * vec3( vWorldSpaceRight.x,vWorldSpaceRight.y,vWorldSpaceRight.z);
-	vec3 f3Up = fOpp * vec3( vWorldSpaceUp.x,vWorldSpaceUp.y,vWorldSpaceUp.z);
+	vec3 f3Right = fOpp * vec3( m_mRotationMatrix.rows[0].x, m_mRotationMatrix.rows[1].x, m_mRotationMatrix.rows[2].x );
+	vec3 f3Up = fOpp * vec3( m_mRotationMatrix.rows[0].y, m_mRotationMatrix.rows[1].y, m_mRotationMatrix.rows[2].y );
 
-	vec3 pNearPlanePoints[4];
-	pNearPlanePoints[0] = m_f3Position + f3Right + f3Up;
-	pNearPlanePoints[1] = m_f3Position - f3Right + f3Up;
-	pNearPlanePoints[2] = m_f3Position + f3Right - f3Up;
-	pNearPlanePoints[3] = m_f3Position - f3Right - f3Up;
+	vec3 f3FarPos = -m_fRadius * vec3( m_mRotationMatrix.rows[0].z, m_mRotationMatrix.rows[1].z, m_mRotationMatrix.rows[2].z ) + m_f3Position;
 
-	m_pFarPlanePoints[0] = f3RadiusVector + pNearPlanePoints[0];
-	m_pFarPlanePoints[1] = f3RadiusVector + pNearPlanePoints[1];
-	m_pFarPlanePoints[2] = f3RadiusVector + pNearPlanePoints[2];
-	m_pFarPlanePoints[3] = f3RadiusVector + pNearPlanePoints[3];
+	m_pFarPlanePoints[0] = f3FarPos + f3Right + f3Up;
+	m_pFarPlanePoints[1] = f3FarPos - f3Right + f3Up;
+	m_pFarPlanePoints[2] = f3FarPos + f3Right - f3Up;
+	m_pFarPlanePoints[3] = f3FarPos - f3Right - f3Up;
 	
-	float fXmin, fXmax, fYmin, fYmax, fZmin, fZmax;
-	fXmin = fXmax = m_pFarPlanePoints[0].x;
-	fYmin = fYmax = m_pFarPlanePoints[0].y;
-	fZmin = fZmax = m_pFarPlanePoints[0].z;
-
-	for( unsigned int i = 1; i < 4; ++i )
-	{
-		fXmin = min(fXmin, m_pFarPlanePoints[i].x);
-		fXmax = max(fXmax, m_pFarPlanePoints[i].x);
-
-		fYmin = min(fYmin, m_pFarPlanePoints[i].y);
-		fYmax = max(fYmax, m_pFarPlanePoints[i].y);
-
-		fZmin = min(fZmin, m_pFarPlanePoints[i].z);
-		fZmax = max(fZmax, m_pFarPlanePoints[i].z);
-	}
+	m_pBoundingBox[0] = m_pBoundingBox[1] = m_f3Position.x;
+	m_pBoundingBox[2] = m_pBoundingBox[3] = m_f3Position.y;
+	m_pBoundingBox[4] = m_pBoundingBox[5] = m_f3Position.z;
 
 	for( unsigned int i = 0; i < 4; ++i )
 	{
-		fXmin = min(fXmin, pNearPlanePoints[i].x);
-		fXmax = max(fXmax, pNearPlanePoints[i].x);
+		m_pBoundingBox[0] = min(m_pBoundingBox[0], m_pFarPlanePoints[i].x);
+		m_pBoundingBox[1] = max(m_pBoundingBox[1], m_pFarPlanePoints[i].x);
 
-		fYmin = min(fYmin, pNearPlanePoints[i].y);
-		fYmax = max(fYmax, pNearPlanePoints[i].y);
+		m_pBoundingBox[2] = min(m_pBoundingBox[2], m_pFarPlanePoints[i].y);
+		m_pBoundingBox[3] = max(m_pBoundingBox[3], m_pFarPlanePoints[i].y);
 
-		fZmin = min(fZmin, pNearPlanePoints[i].z);
-		fZmax = max(fZmax, pNearPlanePoints[i].z);
+		m_pBoundingBox[4] = min(m_pBoundingBox[4], m_pFarPlanePoints[i].z);
+		m_pBoundingBox[5] = max(m_pBoundingBox[5], m_pFarPlanePoints[i].z);
 	}
-
-	m_pBoundingBox[0] = fXmin;
-	m_pBoundingBox[1] = fXmax;
-
-	m_pBoundingBox[2] = fYmin;
-	m_pBoundingBox[3] = fYmax;
-
-	m_pBoundingBox[4] = fZmin;
-	m_pBoundingBox[5] = fZmax;
 }

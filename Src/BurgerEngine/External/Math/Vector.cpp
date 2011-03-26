@@ -981,6 +981,31 @@ mat4 perspectiveMatrixY(const float fov, const int width, const int height, cons
 		0, 0, 1, 0);
 }
 
+mat4 GlperspectiveMatrixY( const float fov, const float aspect, const float znear, const float zfar)
+{
+  float ymax = znear * tan( fov * PI/360 );
+  float ymin = -ymax;
+  float xmax = ymax * aspect;
+  float xmin = ymin * aspect;
+
+  float width = xmax - xmin;
+  float height = ymax - ymin;
+
+  float depth = zfar - znear;
+  float q = -(zfar + znear) / depth;
+  float qn = -2 * (zfar * znear) / depth;
+
+  float w = 2 * znear / width;
+  float h = 2 * znear / height;
+
+  return mat4(
+  w, 0, 0, 0,
+  0, h, 0, 0,
+  0, 0, q, -1,
+  0,  0,  qn, 0
+  );
+}
+
 mat4 orthoMatrixX(const float left, const float right, const float top, const float bottom, const float zNear, const float zFar){
 	float rl = right - left;
 	float tb = top - bottom;

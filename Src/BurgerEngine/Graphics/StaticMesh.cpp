@@ -13,12 +13,13 @@
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-StaticMesh::StaticMesh():
-	m_iBufferId(0),
-	m_iSizeVertex(0),
-	m_iSizeNormal(0),
-	m_iSizeTexture(0),
-	m_iSizeTangent(0)
+StaticMesh::StaticMesh()
+	: m_iBufferId(0)
+	, m_iSizeVertex(0)
+	, m_iSizeNormal(0)
+	, m_iSizeTexture(0)
+	, m_iSizeTangent(0)
+	, m_pBoundingBox( NULL )
 {
 }
 
@@ -278,11 +279,75 @@ bool StaticMesh::LoadFromFile(std::string const& a_sFilename)
 	}
 	pFile.close();
 
+	FindSignificantVertex();
+
 	vf3TempPosition.clear();
 	vf3TempNormal.clear();
 	vf2TempTexcoord.clear();
 
 	return true;
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void StaticMesh::FindSignificantVertex()
+{
+	std::vector<vec3>::iterator oPosIt = m_vf3Position.begin();
+	std::vector<vec3>::iterator oEnd = m_vf3Position.end();
+	
+	if( oPosIt != oEnd )
+	{
+		//xmin, xmax, ymin, ymax, zmin, zmax
+		m_pBoundingBox = new float[6];
+
+		m_pBoundingBox[0] = m_pBoundingBox[1] = (*oPosIt).x;
+		m_pBoundingBox[2] = m_pBoundingBox[3] = (*oPosIt).y;
+		m_pBoundingBox[4] = m_pBoundingBox[5] = (*oPosIt).z;
+		
+		++oPosIt;
+		while( oPosIt != oEnd )
+		{
+			m_pBoundingBox[0] = min( m_pBoundingBox[0], (*oPosIt).x );
+			m_pBoundingBox[1] = max( m_pBoundingBox[1], (*oPosIt).x );
+
+			m_pBoundingBox[2] = min( m_pBoundingBox[2], (*oPosIt).y );
+			m_pBoundingBox[3] = max( m_pBoundingBox[3], (*oPosIt).y );
+
+			m_pBoundingBox[4] = min( m_pBoundingBox[4], (*oPosIt).z );
+			m_pBoundingBox[5] = max( m_pBoundingBox[5], (*oPosIt).z );			
+			++oPosIt;
+		}
+
+		/*
+		oPosIt = m_vf3Position.begin();
+		//Removes duplicates
+		while( oPosIt != oEnd )
+		{
+			bool bAdd = true;
+			std::vector<vec3>::iterator oInsertedPosIt = m_vf3SignificantVertex.begin();
+			std::vector<vec3>::iterator oInsertedEnd = m_vf3SignificantVertex.end();
+			while( oInsertedPosIt != oInsertedEnd )
+			{
+				if( (*oInsertedPosIt) == (*oPosIt) )
+				{
+					bAdd = false;
+					break;
+				}
+				else
+				{
+					++oInsertedPosIt;
+				}
+					
+			}
+			if( bAdd )
+			{
+				m_vf3SignificantVertex.push_back( (*oPosIt) );
+			}
+			++oPosIt;
+		}
+		*/
+	}
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -497,6 +562,9 @@ void StaticMesh::Destroy()
 		(*it).m_vsTriangle.clear();
 	}
 	m_vGroup.clear();
+
+	delete [] m_pBoundingBox;
+	m_pBoundingBox = NULL;
 }
 
 

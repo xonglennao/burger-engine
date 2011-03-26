@@ -24,8 +24,8 @@ void CameraFps::Initialize()
 
 	m_fMouseSpeed = 0.1f;
 
-	m_fAlpha=0;
-	m_fPhi=-90;
+	m_fAlpha = 0.0f;
+	m_fPhi = 0.0f;
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -83,8 +83,8 @@ void CameraFps::UpdateAngles( float a_fAddToAlpha, float a_fAddToPhi )
 	m_fAlpha += a_fAddToAlpha * m_fMouseSpeed;
 	m_fPhi += a_fAddToPhi * m_fMouseSpeed;
 
-	m_fPhi = m_fPhi > -1.0f ? -1.0f : m_fPhi;
-	m_fPhi = m_fPhi < -179.0f ? -179.0f : m_fPhi;
+	m_fPhi = m_fPhi > 90.0f ? 90.0f : m_fPhi;
+	m_fPhi = m_fPhi < -90.0f ? -90.0f : m_fPhi;
 	
 	if(m_fAlpha > 360.0f || m_fAlpha < -360.0f )
 	{
@@ -101,13 +101,25 @@ void CameraFps::_InternalUpdate()
 {
 	vec3& rf3Direction = _GrabDirection();
 
-	rf3Direction.x = sinf(m_fPhi*(float)M_PI/180.0f)*sinf(m_fAlpha*(float)M_PI/180.0f);
-	rf3Direction.y = cosf(m_fPhi*(float)M_PI/180.0f);
-	rf3Direction.z = sinf(m_fPhi*(float)M_PI/180.0f)*cosf(m_fAlpha*(float)M_PI/180.0f);
+	float fRX = m_fPhi* DEG_TO_RAD;
+	float fRY = m_fAlpha* DEG_TO_RAD;
+
+	rf3Direction.x = cosf( fRX ) * -sinf( fRY );
+	rf3Direction.y = sinf( fRX );
+	rf3Direction.z = cosf( fRX ) * -cosf( fRY );
 
 	//Cross product
 	vec3& rf3Up = _GrabUp();
-	m_f3Right = cross( rf3Up, rf3Direction);
+	//rf3Up = ( rotateX( fRX )* vec4(0.0f,1.0f,0.0f,1.0f) ).xyz();
+	if( m_fPhi > -90.0f && m_fPhi < 90.0f )
+	{
+		m_f3Right = cross( rf3Up, rf3Direction);
+	}
+	else
+	{
+		m_f3Right = cross( rf3Direction, rf3Up);
+	}
+
 
 	//normalize
 	m_f3Right = normalize( m_f3Right );

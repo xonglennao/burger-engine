@@ -443,6 +443,8 @@ mat4 cubeViewMatrix(const unsigned int side);
 mat4 cubeProjectionMatrixGL(const float zNear, const float zFar);
 mat4 cubeProjectionMatrixD3D(const float zNear, const float zFar);
 
+mat4 GlperspectiveMatrixY( const float fov, const float aspect, const float znear, const float zfar);
+
 mat2 identity2();
 mat3 identity3();
 mat4 identity4();
