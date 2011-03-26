@@ -29,7 +29,7 @@ public:
 
 	virtual void Increment(){};
 	virtual void Decrement(){};
-	virtual std::string GetValue(){ std::stringstream oStream; return oStream.str(); };
+	virtual std::string GetValue() = 0;
 
 protected:
 private:

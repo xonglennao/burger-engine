@@ -142,6 +142,7 @@ void SceneGraph::LoadSceneXML( const char * sName )
 						pRenderComponent->GrabInternalMesh().SetPos(vec3(x,y,z));
 						pRenderComponent->GrabInternalMesh().SetRotation(vec3(rX,rY,rZ));
 						pRenderComponent->GrabInternalMesh().SetScale(scale);
+						pRenderComponent->GrabInternalMesh().ComputeBoundingBox();
 					}
 				}
 

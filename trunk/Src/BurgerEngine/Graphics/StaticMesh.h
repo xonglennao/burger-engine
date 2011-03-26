@@ -16,6 +16,7 @@
 #include "BurgerEngine/External/Math/Vector.h"
 
 #include <vector>
+#include <hash_set>
 
 /// \class StaticMesh
 /// \brief Static Mesh, so far .obj
@@ -30,7 +31,6 @@ public:
 	/// \brief Destructor
 	~StaticMesh(){Destroy();}
 
-
 	/// \brief Load a mesh and store value in the buffer
 	bool LoadMesh(std::string const& a_sFilename);
 
@@ -43,7 +43,9 @@ public:
 	/// \brief Free buffer
 	void Destroy();
 
-	const std::vector<vec3>& GetVertex() const { return m_vf3Position; };
+	const float* GetBoundingBox() const { return m_pBoundingBox; };
+
+	//const std::vector<vec3>& GetVertex() const { return m_vf3Position; };
 
 private:
 
@@ -63,6 +65,8 @@ private:
 	void Bind();
 	void Unbind();
 
+	void FindSignificantVertex();
+
 	/// Id of the buffer
 	unsigned int		m_iBufferId;
 
@@ -77,6 +81,8 @@ private:
 
 	/// Tangent buffer
 	std::vector<vec3>	m_vf3Tangent;
+
+	float*				m_pBoundingBox;
 
 	/// Size of those buffer
 	GLsizeiptr m_iSizeVertex;

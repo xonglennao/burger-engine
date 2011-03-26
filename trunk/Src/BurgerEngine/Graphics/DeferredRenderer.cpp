@@ -31,11 +31,16 @@
 
 const int GLOW_RATIO = 4;
 const float MAX_FRAME = 15.0;
+
+const int PROFILING_LEFT_OFFSET = 300;
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
 DeferredRenderer::DeferredRenderer()
 	: m_iDebugFlag(0)
+	, m_iSkipCulling(0)
+	, m_iDebugBoundingBox(0)
+	, m_iDebugSpotLightFrustum(0)
 	, m_fFrameTime( 10.0 )
 	, m_bShowDebugMenu( false )
 	, m_fToneMappingKey( 0.5f )
@@ -77,6 +82,10 @@ DeferredRenderer::DeferredRenderer()
 	oDebugMenu.AddEntry( "BrightPass Offset", m_fBrightPassOffset, 0.0f, 10.0f, 0.5f );
 	oDebugMenu.AddEntry( "Adaptation Base Time", m_fAdaptationBaseTime, 0.0f, 1.0f, 0.02f );
 	oDebugMenu.AddEntry( "DebugFlag", m_iDebugFlag, 0, 100, 1 );
+	oDebugMenu.AddEntry( "Skip Culling", m_iSkipCulling, 0, 1, 1 );
+	oDebugMenu.AddEntry( "Show Bounding Boxes", m_iDebugBoundingBox, 0, 1, 1 );
+	oDebugMenu.AddEntry( "Show Spot Lights Frustum", m_iDebugSpotLightFrustum, 0, 1, 1 );
+
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -718,6 +727,10 @@ void DeferredRenderer::DrawScreenSpaceQuad( int iWindowWidth, int iWindowHeight,
 
 void DeferredRenderer::DrawFrustum( const vec3 * pPoints, const vec3& f3Pos )
 {
+	glLineWidth( 2.0f );
+	glColor3f(0.0f,1.0f,0.0f);
+	glDisable( GL_DEPTH_TEST );
+
 	glBegin( GL_LINES );
 	for(unsigned int i = 0; i < 4; ++i)
 	{
@@ -738,6 +751,8 @@ void DeferredRenderer::DrawFrustum( const vec3 * pPoints, const vec3& f3Pos )
 	glVertex3f(pPoints[3].x, pPoints[3].y, pPoints[3].z);
 
 	glEnd();
+
+	glEnable( GL_DEPTH_TEST );
 }
 
 void DeferredRenderer::DrawCube( const vec3 * pPoints )
@@ -842,7 +857,7 @@ void DeferredRenderer::DisplayDebugMenu()
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void DeferredRenderer::PrepareDirectionalLights( std::vector< SceneLight* > const& oSceneLights, AbstractCamera const& rCamera, float4x4 const& mModelView )
+void DeferredRenderer::PrepareDirectionalLights( std::vector< SceneLight* > const& oSceneLights, AbstractCamera const& rCamera, float4x4 const& mView )
 {
 	m_vDirectionalLightQuads.clear();
 	std::vector< SceneLight* >::const_iterator oLightIt = oSceneLights.begin();
@@ -857,7 +872,7 @@ void DeferredRenderer::PrepareDirectionalLights( std::vector< SceneLight* > cons
 		SceneLight::SceneLightQuad oQuad;
 
 		//computing view space position
-		vec4 vViewSpacePos = mModelView * vec4( f3Pos.x, f3Pos.y, f3Pos.z, 0.0 );
+		vec4 vViewSpacePos = mView * vec4( f3Pos.x, f3Pos.y, f3Pos.z, 0.0 );
 		oQuad.vViewSpaceLightPos = vec3( vViewSpacePos.x, vViewSpacePos.y, vViewSpacePos.z );
 		oQuad.vColor = pLight->GetColor();
 		oQuad.fMultiplier = pLight->GetMultiplier();
@@ -865,12 +880,13 @@ void DeferredRenderer::PrepareDirectionalLights( std::vector< SceneLight* > cons
 		m_vDirectionalLightQuads.push_back( oQuad );
 		++oLightIt;
 	}
+	m_iDirectionalCount = oSceneLights.size();
 }
 
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void DeferredRenderer::PrepareOmniLights( const std::vector< OmniLight* >& oOmniLights, const AbstractCamera & rCamera, const Frustum& oViewFrustum, const float4x4& mModelView, const float4x4& mModelViewProjection )
+void DeferredRenderer::PrepareOmniLights( const std::vector< OmniLight* >& oOmniLights, const AbstractCamera & rCamera, const float4x4& mView, const float4x4& mViewProjection )
 {
 	m_vOmniLightQuads.clear();
 	std::vector< OmniLight* >::const_iterator oLightIt = oOmniLights.begin();
@@ -883,7 +899,6 @@ void DeferredRenderer::PrepareOmniLights( const std::vector< OmniLight* >& oOmni
 		vec3 f3Pos = pLight->GetPos();
 		float fRadius = pLight->GetRadius(); 
 		
-		if(	oViewFrustum.sphereInFrustum( vec3(f3Pos.x, f3Pos.y, f3Pos.z), fRadius ) )
 		{
 			vec3 vLightToView = rCamera.GetPos() - f3Pos;
 			float fLength = length(vLightToView);
@@ -891,7 +906,7 @@ void DeferredRenderer::PrepareOmniLights( const std::vector< OmniLight* >& oOmni
 			OmniLight::OmniLightQuad oQuad;
 
 			//computing view space position
-			vec4 vViewSpacePos = mModelView * vec4( f3Pos.x, f3Pos.y, f3Pos.z, 1.0 );
+			vec4 vViewSpacePos = mView * vec4( f3Pos.x, f3Pos.y, f3Pos.z, 1.0 );
 			oQuad.vViewSpaceLightPos = vec3( vViewSpacePos.x, vViewSpacePos.y, vViewSpacePos.z );
 			oQuad.vColor = pLight->GetColor();
 			oQuad.fInverseRadius = 1.0f / fRadius;
@@ -908,24 +923,24 @@ void DeferredRenderer::PrepareOmniLights( const std::vector< OmniLight* >& oOmni
 
 				vec3 oShiftedPos = f3Pos + min( fLength, fRadius ) * vLightToView;
 
-				vec4 oScreenPos = mModelViewProjection * vec4(oShiftedPos.x, oShiftedPos.y, oShiftedPos.z, 1.0 );
+				vec4 oScreenPos = mViewProjection * vec4(oShiftedPos.x, oShiftedPos.y, oShiftedPos.z, 1.0 );
 				oScreenPos = oScreenPos / oScreenPos.w;
 
 				vec3 vLightRight = oShiftedPos + fRadius * rCamera.GetRight();
-				vec4 oScreenRightPos = mModelViewProjection * vec4(vLightRight.x, vLightRight.y, vLightRight.z, 1.0 );
+				vec4 oScreenRightPos = mViewProjection * vec4(vLightRight.x, vLightRight.y, vLightRight.z, 1.0 );
 				oScreenRightPos = oScreenRightPos / oScreenRightPos.w;
 
 				oQuad.vScreenSpaceQuadCenter = vec2( oScreenPos.x, oScreenPos.y );
 				oQuad.fHalfWidth = oScreenPos.x - oScreenRightPos.x;
 			}
-				m_vOmniLightQuads.push_back( oQuad );
+			m_vOmniLightQuads.push_back( oQuad );
 		}
 		++oLightIt;
 	}
 }
 //
 //--------------------------------------------------------------------------------------------------------------------
-void DeferredRenderer::PrepareAndRenderSpotShadows( const std::vector< SpotShadow* >& oSpotShadows, const AbstractCamera & rCamera, const Frustum& oViewFrustum, const float4x4& mModelView, const float4x4& mModelViewProjection )
+void DeferredRenderer::PrepareAndRenderSpotShadows( const std::vector< SpotShadow* >& oSpotShadows, const AbstractCamera & rCamera, const float4x4& mView, const float4x4& mViewProjection )
 {
 	std::vector< SpotShadow* >::const_iterator oLightIt = oSpotShadows.begin();
 	std::vector< SpotShadow* >::const_iterator oLightItEnd = oSpotShadows.end();
@@ -934,25 +949,26 @@ void DeferredRenderer::PrepareAndRenderSpotShadows( const std::vector< SpotShado
 	{
 		SpotLight * pLight = (*oLightIt);
 		SpotLight::SpotLightQuad oQuad;
-		if( ComputeOneSpotBoundingQuad( pLight, rCamera, oViewFrustum, mModelView, mModelViewProjection, oQuad ) )
-		{
-			std::vector< SpotLight::SpotLightQuad > oQuadVector;
-			oQuadVector.push_back( oQuad );
+		
+		ComputeOneSpotBoundingQuad( pLight, rCamera, mView, mViewProjection, oQuad );
+		
+		std::vector< SpotLight::SpotLightQuad > oQuadVector;
+		oQuadVector.push_back( oQuad );
 
-			(*oLightIt)->ActivateDepthTexture();
-			mat4 mShadowMatrix = !transpose(mModelViewProjection) * (*oLightIt)->GetMatrix();
-			m_pSpotShadowShader->setUniformMatrix4fv( m_iSpotShadowShaderShadowMatrixHandle, mShadowMatrix );
+		(*oLightIt)->ActivateDepthTexture();
+		mat4 mShadowMatrix = !transpose(mViewProjection) * (*oLightIt)->GetMatrix();
 
+		m_pSpotShadowShader->setUniformMatrix4fv( m_iSpotShadowShaderShadowMatrixHandle, mShadowMatrix );
 
-			RenderSpotLights( oQuadVector, m_iSpotShadowShaderColorAndInverseRadiusHandle, m_iSpotShadowShaderViewSpacePosAndMultiplierHandle, m_iSpotShadowShaderViewSpaceDirHandle, m_iSpotShadowShaderCosInAndOutHandle );
-		}
+		RenderSpotLights( oQuadVector, m_iSpotShadowShaderColorAndInverseRadiusHandle, m_iSpotShadowShaderViewSpacePosAndMultiplierHandle, m_iSpotShadowShaderViewSpaceDirHandle, m_iSpotShadowShaderCosInAndOutHandle );
+		
 		++oLightIt;
 	}
 }
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void DeferredRenderer::PrepareSpotLights( const std::vector< SpotLight* >& oSpotLights, const AbstractCamera & rCamera, const Frustum& oViewFrustum, const float4x4& mModelView, const float4x4& mModelViewProjection )
+void DeferredRenderer::PrepareSpotLights( const std::vector< SpotLight* >& oSpotLights, const AbstractCamera & rCamera, const float4x4& mView, const float4x4& mViewProjection )
 {
 	m_vSpotLightQuads.clear();
 	std::vector< SpotLight* >::const_iterator oLightIt = oSpotLights.begin();
@@ -962,10 +978,11 @@ void DeferredRenderer::PrepareSpotLights( const std::vector< SpotLight* >& oSpot
 	{
 		SpotLight * pLight = (*oLightIt);
 		SpotLight::SpotLightQuad oQuad;
-		if( ComputeOneSpotBoundingQuad( pLight, rCamera, oViewFrustum, mModelView, mModelViewProjection, oQuad ) )
-		{
-			m_vSpotLightQuads.push_back( oQuad );
-		}
+		
+		ComputeOneSpotBoundingQuad( pLight, rCamera, mView, mViewProjection, oQuad );
+		
+		m_vSpotLightQuads.push_back( oQuad );
+		
 		++oLightIt;
 	}
 }
@@ -973,82 +990,76 @@ void DeferredRenderer::PrepareSpotLights( const std::vector< SpotLight* >& oSpot
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-bool DeferredRenderer::ComputeOneSpotBoundingQuad( SpotLight* pLight, AbstractCamera const& rCamera, Frustum const& oViewFrustum, float4x4 const& mModelView, float4x4 const& mModelViewProjection, SpotLight::SpotLightQuad& oQuad )
+void DeferredRenderer::ComputeOneSpotBoundingQuad( SpotLight* pLight, AbstractCamera const& rCamera, float4x4 const& mView, float4x4 const& mViewProjection, SpotLight::SpotLightQuad& oQuad )
 {
 	vec3 f3Pos = pLight->GetPos();
 	float fRadius = pLight->GetRadius(); 
-		
+
+	vec3 vCameraPos = rCamera.GetPos();
+	vec3 vLightToView = vCameraPos - f3Pos;
+
+	float fLength = length(vLightToView);
+
+	//computing view space position
+	vec4 vViewSpacePos = mView * vec4( f3Pos.x, f3Pos.y, f3Pos.z, 1.0f );
+	vec3 vRotation = pLight->GetRotation();
+
+	vec4 vViewSpaceDir = mView * rotateY( vRotation.y * DEG_TO_RAD ) * rotateX( vRotation.x * DEG_TO_RAD ) * vec4( 0.0f, 0.0f, -1.0f, 0.0f );
+
+	oQuad.vViewSpaceLightPos = vec3( vViewSpacePos.x, vViewSpacePos.y, vViewSpacePos.z );
+	oQuad.vViewSpaceLightDir = vec3( vViewSpaceDir.x, vViewSpaceDir.y, vViewSpaceDir.z );
+	oQuad.vColor = pLight->GetColor();
+	oQuad.fInverseRadius = 1.0f / fRadius;
+	oQuad.fMultiplier = pLight->GetMultiplier();
+	oQuad.vCosInAndOut = vec2( pLight->GetCosInnerAngle(), pLight->GetCosOuterAngle() );
+
 	const float * pBoundingBox = pLight->GetBoundingBox();
-
-	if(	oViewFrustum.cubeInFrustum( pBoundingBox[0], pBoundingBox[1],pBoundingBox[2],pBoundingBox[3],pBoundingBox[4],pBoundingBox[5] ) )
+	if( vCameraPos.x > pBoundingBox[0] && vCameraPos.x < pBoundingBox[1] && vCameraPos.y > pBoundingBox[2] && vCameraPos.y < pBoundingBox[3] && vCameraPos.z > pBoundingBox[4] && vCameraPos.z < pBoundingBox[5] )
 	{
-		vec3 vCameraPos = rCamera.GetPos();
-		vec3 vLightToView = vCameraPos - f3Pos;
-
-		float fLength = length(vLightToView);
-
-		//computing view space position
-		vec4 vViewSpacePos = mModelView * vec4( f3Pos.x, f3Pos.y, f3Pos.z, 1.0f );
-		vec3 vRotation = pLight->GetRotation();
-
-		vec4 vViewSpaceDir = mModelView * rotateY( vRotation.y * DEG_TO_RAD ) * rotateX( vRotation.x * DEG_TO_RAD ) * vec4( 0.0f, 0.0f, -1.0f, 0.0f );
-
-		oQuad.vViewSpaceLightPos = vec3( vViewSpacePos.x, vViewSpacePos.y, vViewSpacePos.z );
-		oQuad.vViewSpaceLightDir = vec3( vViewSpaceDir.x, vViewSpaceDir.y, vViewSpaceDir.z );
-		oQuad.vColor = pLight->GetColor();
-		oQuad.fInverseRadius = 1.0f / fRadius;
-		oQuad.fMultiplier = pLight->GetMultiplier();
-		oQuad.vCosInAndOut = vec2( pLight->GetCosInnerAngle(), pLight->GetCosOuterAngle() );
-
-		if( vCameraPos.x > pBoundingBox[0] && vCameraPos.x < pBoundingBox[1] && vCameraPos.y > pBoundingBox[2] && vCameraPos.y < pBoundingBox[3] && vCameraPos.z > pBoundingBox[4] && vCameraPos.z < pBoundingBox[5] )
-		{
-			oQuad.vLeftRightTopBottom = vec4( -1.0f, 1.0f, 1.0f, -1.0f );
-		}
-		else
-		{
-			const vec3 * pPoints = pLight->GetFarPlanePoints();
-
-			float fLeft, fRight, fBottom, fTop;
-			vec4 oScreenPos = mModelViewProjection * vec4(f3Pos.x, f3Pos.y, f3Pos.z, 1.0f );
-			oScreenPos = oScreenPos / abs(oScreenPos.w);
-			fLeft = fRight = oScreenPos.x;
-			fBottom = fTop = oScreenPos.y;
-
-			for( unsigned int i = 0; i < 4; ++i )
-			{
-				oScreenPos = mModelViewProjection * vec4(pPoints[i].x, pPoints[i].y, pPoints[i].z, 1.0f );
-				oScreenPos = oScreenPos / abs(oScreenPos.w);
-					
-				fLeft = min(fLeft, oScreenPos.x);
-				fRight = max(fRight, oScreenPos.x);
-
-				fBottom = min(fBottom, oScreenPos.y);
-				fTop = max(fTop, oScreenPos.y);
-			}
-			oQuad.vLeftRightTopBottom = vec4( fLeft, fRight, fTop, fBottom );
-		}
-		return true;
+		oQuad.vLeftRightTopBottom = vec4( -1.0f, 1.0f, 1.0f, -1.0f );
 	}
-	return false;
+	else
+	{
+		const vec3 * pPoints = pLight->GetFarPlanePoints();
+
+		float fLeft, fRight, fBottom, fTop;
+		vec4 oScreenPos = mViewProjection * vec4(f3Pos.x, f3Pos.y, f3Pos.z, 1.0f );
+		oScreenPos = oScreenPos / abs(oScreenPos.w);
+		fLeft = fRight = oScreenPos.x;
+		fBottom = fTop = oScreenPos.y;
+
+		for( unsigned int i = 0; i < 4; ++i )
+		{
+			oScreenPos = mViewProjection * vec4(pPoints[i].x, pPoints[i].y, pPoints[i].z, 1.0f );
+			oScreenPos = oScreenPos / abs(oScreenPos.w);
+					
+			fLeft = min(fLeft, oScreenPos.x);
+			fRight = max(fRight, oScreenPos.x);
+
+			fBottom = min(fBottom, oScreenPos.y);
+			fTop = max(fTop, oScreenPos.y);
+		}
+		oQuad.vLeftRightTopBottom = vec4( fLeft, fRight, fTop, fBottom );
+	}
 }
 
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oSceneMeshes, RenderingContext& a_rRenderContext, OpenGLContext& a_rDriverRenderingContext )
+void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oSceneMeshes, const std::vector< SpotShadow* >& oSpotShadows, OpenGLContext& a_rDriverRenderingContext )
 {
 	glCullFace( GL_FRONT );
 
-	std::vector< SpotShadow* > oSpotShadows = a_rRenderContext.GetSpotShadows();
-	std::vector< SpotShadow* >::iterator oSpotIt = oSpotShadows.begin();
+	std::vector< SpotShadow* >::const_iterator oSpotIt = oSpotShadows.begin();
+	std::vector< SpotShadow* >::const_iterator oEnd = oSpotShadows.end();
 
-	while( oSpotIt != oSpotShadows.end() )
+	while( oSpotIt != oEnd )
 	{
 		SpotShadow * pSpot = *oSpotIt;
 		
 		vec3 oLightPos = pSpot->GetPos();
 		vec3 oLightRotation = pSpot->GetRotation();
-
+		
 		float fRadius = pSpot->GetRadius();
 
 		a_rDriverRenderingContext.Reshape( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, 2.0f * acosf( pSpot->GetCosOuterAngle()  ) / (float)M_PI * 180.0f, 0.5, fRadius );
@@ -1057,12 +1068,22 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 
 		glTranslatef( -oLightPos.x, -oLightPos.y, -oLightPos.z );
 
-		float4x4 mLightProjection;
-		glGetFloatv ( GL_PROJECTION_MATRIX, mLightProjection );
-		float4x4 mLightModelView;
-		glGetFloatv ( GL_MODELVIEW_MATRIX, mLightModelView );
-		pSpot->SetMatrix( transpose(transpose(mLightProjection) * transpose( mLightModelView ) ) );
+		//float4x4 mLightProjection;
+		//glGetFloatv ( GL_PROJECTION_MATRIX, mLightProjection );
+		float4x4 mLightProjection = GlperspectiveMatrixY( 2.0f * acosf( pSpot->GetCosOuterAngle()  ) * RAD_TO_DEG, 1.0f,0.5, fRadius );
+
+		//float4x4 mLightModelView;
+		//glGetFloatv ( GL_MODELVIEW_MATRIX, mLightModelView );
+		float4x4 mLightView =  rotateXY( -oLightRotation.x*DEG_TO_RAD, -oLightRotation.y*DEG_TO_RAD ) * translate( -oLightPos.x, -oLightPos.y, -oLightPos.z );
 		
+		pSpot->SetMatrix( transpose( mLightProjection * mLightView ) );
+		
+
+		float4x4 mLightViewProjection = transpose(mLightProjection) * mLightView;
+
+		Frustum oViewFrustum;
+		oViewFrustum.loadFrustum( transpose(mLightViewProjection) );
+
 		m_pVarianceShadowMapShader->Activate();
 		pSpot->ActivateBuffer();
 		
@@ -1073,8 +1094,17 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 		std::vector< SceneMesh* >::const_iterator oShadowMeshIt = oSceneMeshes.begin();
 		while( oShadowMeshIt != oSceneMeshes.end() )
 		{
+			
 			if( (*oShadowMeshIt)->GetCastShadow() )
-				(*oShadowMeshIt)->Draw( EffectTechnique::E_RENDER_SHADOW_MAP );
+			{
+				const float* pBoundingBox = (*oShadowMeshIt)->GetBoundingBox();
+
+				if( m_iSkipCulling || oViewFrustum.cubeInFrustum( pBoundingBox[0], pBoundingBox[1],pBoundingBox[2],pBoundingBox[3],pBoundingBox[4],pBoundingBox[5] ) )
+				{
+					(*oShadowMeshIt)->Draw( EffectTechnique::E_RENDER_SHADOW_MAP );
+				}
+			
+			}
 			++oShadowMeshIt;
 		}
 
@@ -1246,16 +1276,101 @@ void DeferredRenderer::ComputeAvgLum()
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
+void DeferredRenderer::GetVisibleObjects( RenderingContext& rRenderContext, const Frustum& oViewFrustum, const float4x4& mView, std::vector< SceneMesh* >& oVisibleSceneMeshes, std::vector< SceneMesh* >& oVisibleTransparentSceneMeshes, std::vector< OmniLight* >& oVisibleOmniLights, std::vector< SpotLight* >& oVisibleSpotLights, std::vector< SpotShadow* >& oVisibleSpotShadows )
+{
+	const std::vector< SceneMesh* >& oSceneMeshes = rRenderContext.GetSceneMeshes();
+	
+	std::vector< SceneMesh*>::const_iterator oIt = oSceneMeshes.begin();
+	std::vector< SceneMesh*>::const_iterator oEnd = oSceneMeshes.end();
+	while( oIt != oEnd )
+	{
+		const float * pBoundingBox = (*oIt)->GetBoundingBox();
+
+		if(	m_iSkipCulling || oViewFrustum.cubeInFrustum( pBoundingBox[0], pBoundingBox[1],pBoundingBox[2],pBoundingBox[3],pBoundingBox[4],pBoundingBox[5] ) )
+		{
+			vec3 f3Pos = (*oIt)->GetPos();
+			float fViewZ = ( mView * vec4( f3Pos.x, f3Pos.y, f3Pos.z, 1.0 ) ).z;
+			(*oIt)->SetViewZ( fViewZ );
+			oVisibleSceneMeshes.push_back( (*oIt) );
+		}
+		oIt++;
+	}
+	FrontToBackComp oFrontToBackComp;
+	std::sort( oVisibleSceneMeshes.begin(), oVisibleSceneMeshes.end(), oFrontToBackComp ); 
+
+	const std::vector< SceneMesh* >& oTransparentSceneMeshes = rRenderContext.GetTransparentSceneMeshes();
+	oIt = oTransparentSceneMeshes.begin();
+	oEnd = oTransparentSceneMeshes.end();
+	while( oIt != oEnd )
+	{
+		const float * pBoundingBox = (*oIt)->GetBoundingBox();
+		if(	m_iSkipCulling || oViewFrustum.cubeInFrustum( pBoundingBox[0], pBoundingBox[1],pBoundingBox[2],pBoundingBox[3],pBoundingBox[4],pBoundingBox[5] ) )
+		{
+			vec3 f3Pos = (*oIt)->GetPos();
+			float fViewZ = ( mView * vec4( f3Pos.x, f3Pos.y, f3Pos.z, 1.0 ) ).z;
+			(*oIt)->SetViewZ( fViewZ );
+			oVisibleTransparentSceneMeshes.push_back( (*oIt) );
+		}
+		oIt++;
+	}
+	BackToFrontComp oBackToFrontComp;
+	std::sort( oVisibleTransparentSceneMeshes.begin(), oVisibleTransparentSceneMeshes.end(), oBackToFrontComp );
+
+	const std::vector< OmniLight* >& oOmniLights = 	rRenderContext.GetOmniLights();
+	std::vector< OmniLight*>::const_iterator oOmniIt = oOmniLights.begin();
+	std::vector< OmniLight*>::const_iterator oOmniEnd = oOmniLights.end();
+	while( oOmniIt != oOmniEnd )
+	{
+		vec3 f3Pos = (*oOmniIt)->GetPos();
+		float fRadius = (*oOmniIt)->GetRadius();		
+		if(	m_iSkipCulling || oViewFrustum.sphereInFrustum( vec3(f3Pos.x, f3Pos.y, f3Pos.z), fRadius ) )
+		{
+			oVisibleOmniLights.push_back( (*oOmniIt) );
+		}
+		oOmniIt++;
+	}
+
+	const std::vector< SpotLight* >& oSpotLights = 	rRenderContext.GetSpotLights();
+	std::vector< SpotLight*>::const_iterator oSpotIt = oSpotLights.begin();
+	std::vector< SpotLight*>::const_iterator oSpotEnd = oSpotLights.end();
+	while( oSpotIt != oSpotEnd )
+	{
+		const float * pBoundingBox = (*oSpotIt)->GetBoundingBox();
+		if(	m_iSkipCulling || oViewFrustum.cubeInFrustum( pBoundingBox[0], pBoundingBox[1],pBoundingBox[2],pBoundingBox[3],pBoundingBox[4],pBoundingBox[5] ) )
+		{
+			oVisibleSpotLights.push_back( (*oSpotIt) );
+		}
+		oSpotIt++;
+	}
+
+	const std::vector< SpotShadow* >& oSpotShadows = rRenderContext.GetSpotShadows();
+	std::vector< SpotShadow*>::const_iterator oShadowIt = oSpotShadows.begin();
+	std::vector< SpotShadow*>::const_iterator oShadowEnd = oSpotShadows.end();
+	while( oShadowIt != oShadowEnd )
+	{
+		const float * pBoundingBox = (*oShadowIt)->GetBoundingBox();
+		if(	m_iSkipCulling || oViewFrustum.cubeInFrustum( pBoundingBox[0], pBoundingBox[1],pBoundingBox[2],pBoundingBox[3],pBoundingBox[4],pBoundingBox[5] ) )
+		{
+			oVisibleSpotShadows.push_back( (*oShadowIt) );
+		}
+		oShadowIt++;
+	}
+
+	m_iObjectCount = oSceneMeshes.size() + oTransparentSceneMeshes.size();
+	m_iOmniCount = oOmniLights.size();
+	m_iSpotCount = oSpotLights.size();
+	m_iSpotShadowCount = oSpotShadows.size();
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
 void DeferredRenderer::Render()
 {
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );	
 	
-	RenderingContext& rRenderContext = Engine::GrabInstance().GrabRenderContext();
-	const std::vector< SceneMesh* >& oAllSceneMeshes = rRenderContext.GetSceneMeshes();
-	std::vector< SceneMesh* >& oTransparentSceneMeshes = rRenderContext.GetTransparentSceneMeshes();
-	const SkyBox* pSkyBox = rRenderContext.GetSkyBox();
-	
 	Engine& rEngine = Engine::GrabInstance();
+	RenderingContext& rRenderContext = rEngine.GrabRenderContext();
 	
 	unsigned int iWindowWidth = rEngine.GetWindowWidth();
 	unsigned int iWindowHeight = rEngine.GetWindowHeight();
@@ -1263,51 +1378,38 @@ void DeferredRenderer::Render()
 	AbstractCamera & rCamera = rEngine.GetCurrentCamera();
 	OpenGLContext& rHardwareRenderContext = rEngine.GrabRenderingContext(); 
 
-	RenderShadowMaps( oAllSceneMeshes,rRenderContext,rHardwareRenderContext );
+	// Retrieving scene matrices
+	float4x4 mProjection = GlperspectiveMatrixY( rCamera.GetFOV(), (float)iWindowWidth/(float)iWindowHeight,rCamera.GetNear(), rCamera.GetFar() );
+	float4x4 mInvProjection = !mProjection;
+
+	vec3 f3CamPos = rCamera.GetPos();
+	float4x4 mView =  rotateXY( -rCamera.GetRX()*DEG_TO_RAD, rCamera.GetRY()*DEG_TO_RAD ) * translate( -f3CamPos.x, -f3CamPos.y, -f3CamPos.z );
+
+	float4x4 mViewProjection = transpose(mProjection) * mView;
+
+	Frustum oViewFrustum;
+	oViewFrustum.loadFrustum( transpose(mViewProjection) );
+
+
+	std::vector< SceneMesh* >	oSceneMeshes;
+	std::vector< SceneMesh* >	oTransparentSceneMeshes;
+	std::vector< OmniLight* >	oOmniLights;
+	std::vector< SpotLight* >	oSpotLights;
+	std::vector< SpotShadow* >	oSpotShadows;
+	
+	const SkyBox* pSkyBox = rRenderContext.GetSkyBox();	
+	
+	//Frustum culling
+	GetVisibleObjects( rRenderContext, oViewFrustum, mView, oSceneMeshes, oTransparentSceneMeshes, oOmniLights, oSpotLights, oSpotShadows );
+
+	RenderShadowMaps( rRenderContext.GetSceneMeshes(),oSpotShadows,rHardwareRenderContext );
 	
 	rHardwareRenderContext.Reshape( iWindowWidth, iWindowHeight, rCamera.GetFOV(), rCamera.GetNear(), rCamera.GetFar() );	
 	rCamera.LookAt();
 
-	// Retrieving scene matrices
-	float4x4 mProjection, mInvProjection;
-	glGetFloatv ( GL_PROJECTION_MATRIX, mProjection );
-	mInvProjection = !mProjection;
-
-	float4x4 mModelView;
-	glGetFloatv ( GL_MODELVIEW_MATRIX, mModelView );
-	mModelView = transpose( mModelView );
-
-	float4x4 mModelViewProjection = transpose(mProjection) * mModelView;
-
-	Frustum oViewFrustum;
-	oViewFrustum.loadFrustum(transpose(mModelViewProjection));
-
-	/////////////////////////////////////////////////
-	//Culling de ouf!!!!!!!!!!!!
-
-	std::vector< SceneMesh* > oSceneMeshes;
-	std::vector< SceneMesh*>::const_iterator oAllIt = oAllSceneMeshes.begin();
-	while( oAllIt != oAllSceneMeshes.end() )
-	{
-		const float * pBoundingBox = (*oAllIt)->GetBoundingBox();
-
-		if(	m_iDebugFlag || oViewFrustum.cubeInFrustum( pBoundingBox[0], pBoundingBox[1],pBoundingBox[2],pBoundingBox[3],pBoundingBox[4],pBoundingBox[5] ) )
-		{
-			oSceneMeshes.push_back( (*oAllIt) );
-		}
-			oAllIt++;
-	}
-
-	////////////////////////////////////////////////////////////
-	///////////////////////////////////////////////////////////
-
 	//GBuffer pass
 	m_pGBuffer->Activate();
 	
-	//multiple render target, not useful for now. Do not delete, I might need the code... :)
-	//GLenum buffers[] = { GL_COLOR_ATTACHMENT0_EXT, GL_COLOR_ATTACHMENT1_EXT };
-	//glDrawBuffers(2, buffers);
-
 	//Render view-space normal and depth in 2 buffers
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	std::vector< SceneMesh* >::const_iterator oMeshIt = oSceneMeshes.begin();
@@ -1322,10 +1424,11 @@ void DeferredRenderer::Render()
 	//Lighting pass
 
 	//creates one quad per omni light
-	PrepareOmniLights( rRenderContext.GetOmniLights(), rCamera, oViewFrustum, mModelView, mModelViewProjection );
-	PrepareDirectionalLights( rRenderContext.GetDirectionalLights(), rCamera, mModelView );
+	PrepareOmniLights( oOmniLights, rCamera, mView, mViewProjection );
+	//creates one full screen quad per directional light
+	PrepareDirectionalLights( rRenderContext.GetDirectionalLights(), rCamera, mView );
 	//creates one quad per spot light
-	PrepareSpotLights( rRenderContext.GetSpotLights(), rCamera, oViewFrustum, mModelView, mModelViewProjection );
+	PrepareSpotLights( oSpotLights, rCamera, mView, mViewProjection );
 
 	//enable blending in order to add all the light contributions
 	
@@ -1379,17 +1482,19 @@ void DeferredRenderer::Render()
 		m_pSpotLightShader->Deactivate();
 	}
 
-	m_pSpotShadowShader->Activate();	
-	m_pSpotShadowShader->CommitStdUniforms();
-	m_pSpotShadowShader->setUniformMatrix4fv( m_iSpotShadowShaderInvProjHandle, mInvProjection );
+	if( !oSpotShadows.empty() )
+	{
+		m_pSpotShadowShader->Activate();	
+		m_pSpotShadowShader->CommitStdUniforms();
+		m_pSpotShadowShader->setUniformMatrix4fv( m_iSpotShadowShaderInvProjHandle, mInvProjection );
 
-	glActiveTexture( GL_TEXTURE2 );
+		glActiveTexture( GL_TEXTURE2 );
 	
-	PrepareAndRenderSpotShadows( rRenderContext.GetSpotShadows(), rCamera, oViewFrustum, mModelView, mModelViewProjection );
-	m_pSpotShadowShader->Deactivate();	
+		PrepareAndRenderSpotShadows( oSpotShadows, rCamera, mView, mViewProjection );
+		m_pSpotShadowShader->Deactivate();	
 
-	Texture2D::Deactivate();
-
+		Texture2D::Deactivate();
+	}
 #ifndef NO_MATERIAL_PASS
 	m_pLightBuffer->Deactivate();
 #endif
@@ -1430,7 +1535,6 @@ void DeferredRenderer::Render()
 	if( pSkyBox )
 	{
 		pSkyBox->Draw( rCamera.GetPos(), m_iDebugFlag );
-		//pSkyBox->Draw( vec3(0.0f,0.0f,0.0f), m_iDebugFlag );
 	}
 
 	//rendering transparent objects
@@ -1443,7 +1547,7 @@ void DeferredRenderer::Render()
 	while( oMeshIt != oTransparentSceneMeshes.end() )
 	{
 		vec3 f3Pos = (*oMeshIt)->GetPos();
-		float fViewZ = ( mModelView * vec4( f3Pos.x, f3Pos.y, f3Pos.z, 1.0 ) ).z;
+		float fViewZ = ( mView * vec4( f3Pos.x, f3Pos.y, f3Pos.z, 1.0 ) ).z;
 		(*oMeshIt)->SetViewZ( fViewZ );
 		++oMeshIt;
 	}
@@ -1545,29 +1649,102 @@ void DeferredRenderer::Render()
 	///////////////////////
 	rHardwareRenderContext.Reshape( iWindowWidth, iWindowHeight, rCamera.GetFOV(), rCamera.GetNear(), rCamera.GetFar() );
 	rCamera.LookAt();
-	oMeshIt = oSceneMeshes.begin();	
-	while( oMeshIt != oSceneMeshes.end() )
+	if( m_iDebugBoundingBox )
 	{
-		const float* pMeshBoundingBox = (*oMeshIt)->GetBoundingBox();
+		oMeshIt = oSceneMeshes.begin();	
+		while( oMeshIt != oSceneMeshes.end() )
+		{
+			const float* pMeshBoundingBox = (*oMeshIt)->GetBoundingBox();
 
-		vec3 pPoints[8];
-		pPoints[0] = vec3( pMeshBoundingBox[0], pMeshBoundingBox[3], pMeshBoundingBox[4]  ); // Near top left
-		pPoints[1] = vec3( pMeshBoundingBox[1], pMeshBoundingBox[3], pMeshBoundingBox[4]  ); // Near top right
-		pPoints[2] = vec3( pMeshBoundingBox[1], pMeshBoundingBox[2], pMeshBoundingBox[4]  ); // Near bottom right
-		pPoints[3] = vec3( pMeshBoundingBox[0], pMeshBoundingBox[2], pMeshBoundingBox[4]  ); // Near bottom left
+			vec3 pPoints[8];
+			pPoints[0] = vec3( pMeshBoundingBox[0], pMeshBoundingBox[3], pMeshBoundingBox[4]  ); // Near top left
+			pPoints[1] = vec3( pMeshBoundingBox[1], pMeshBoundingBox[3], pMeshBoundingBox[4]  ); // Near top right
+			pPoints[2] = vec3( pMeshBoundingBox[1], pMeshBoundingBox[2], pMeshBoundingBox[4]  ); // Near bottom right
+			pPoints[3] = vec3( pMeshBoundingBox[0], pMeshBoundingBox[2], pMeshBoundingBox[4]  ); // Near bottom left
 
-		pPoints[4] = vec3( pMeshBoundingBox[0], pMeshBoundingBox[3], pMeshBoundingBox[5]  ); // Far top left
-		pPoints[5] = vec3( pMeshBoundingBox[1], pMeshBoundingBox[3], pMeshBoundingBox[5]  ); // Far top right
-		pPoints[6] = vec3( pMeshBoundingBox[1], pMeshBoundingBox[2], pMeshBoundingBox[5]  ); // Far bottom right
-		pPoints[7] = vec3( pMeshBoundingBox[0], pMeshBoundingBox[2], pMeshBoundingBox[5]  ); // Far bottom left
+			pPoints[4] = vec3( pMeshBoundingBox[0], pMeshBoundingBox[3], pMeshBoundingBox[5]  ); // Far top left
+			pPoints[5] = vec3( pMeshBoundingBox[1], pMeshBoundingBox[3], pMeshBoundingBox[5]  ); // Far top right
+			pPoints[6] = vec3( pMeshBoundingBox[1], pMeshBoundingBox[2], pMeshBoundingBox[5]  ); // Far bottom right
+			pPoints[7] = vec3( pMeshBoundingBox[0], pMeshBoundingBox[2], pMeshBoundingBox[5]  ); // Far bottom left
 
-		DrawCube( pPoints );
+			DrawCube( pPoints );
 
-		++oMeshIt;
+			++oMeshIt;
+		}
+
+		oMeshIt = oTransparentSceneMeshes.begin();	
+		while( oMeshIt != oTransparentSceneMeshes.end() )
+		{
+			const float* pMeshBoundingBox = (*oMeshIt)->GetBoundingBox();
+
+			vec3 pPoints[8];
+			pPoints[0] = vec3( pMeshBoundingBox[0], pMeshBoundingBox[3], pMeshBoundingBox[4]  ); // Near top left
+			pPoints[1] = vec3( pMeshBoundingBox[1], pMeshBoundingBox[3], pMeshBoundingBox[4]  ); // Near top right
+			pPoints[2] = vec3( pMeshBoundingBox[1], pMeshBoundingBox[2], pMeshBoundingBox[4]  ); // Near bottom right
+			pPoints[3] = vec3( pMeshBoundingBox[0], pMeshBoundingBox[2], pMeshBoundingBox[4]  ); // Near bottom left
+
+			pPoints[4] = vec3( pMeshBoundingBox[0], pMeshBoundingBox[3], pMeshBoundingBox[5]  ); // Far top left
+			pPoints[5] = vec3( pMeshBoundingBox[1], pMeshBoundingBox[3], pMeshBoundingBox[5]  ); // Far top right
+			pPoints[6] = vec3( pMeshBoundingBox[1], pMeshBoundingBox[2], pMeshBoundingBox[5]  ); // Far bottom right
+			pPoints[7] = vec3( pMeshBoundingBox[0], pMeshBoundingBox[2], pMeshBoundingBox[5]  ); // Far bottom left
+
+			DrawCube( pPoints );
+
+			++oMeshIt;
+		}
 	}
+	if( m_iDebugSpotLightFrustum )
+	{
+		std::vector< SpotShadow*>::const_iterator oShadowIt = oSpotShadows.begin();
+		std::vector< SpotShadow*>::const_iterator oShadowEnd = oSpotShadows.end();
+		while( oShadowIt != oShadowEnd )
+		{
+			const float* pBoundingBox = (*oShadowIt)->GetBoundingBox();
 
+			vec3 pPoints[8];
+			pPoints[0] = vec3( pBoundingBox[0], pBoundingBox[3], pBoundingBox[4]  ); // Near top left
+			pPoints[1] = vec3( pBoundingBox[1], pBoundingBox[3], pBoundingBox[4]  ); // Near top right
+			pPoints[2] = vec3( pBoundingBox[1], pBoundingBox[2], pBoundingBox[4]  ); // Near bottom right
+			pPoints[3] = vec3( pBoundingBox[0], pBoundingBox[2], pBoundingBox[4]  ); // Near bottom left
+
+			pPoints[4] = vec3( pBoundingBox[0], pBoundingBox[3], pBoundingBox[5]  ); // Far top left
+			pPoints[5] = vec3( pBoundingBox[1], pBoundingBox[3], pBoundingBox[5]  ); // Far top right
+			pPoints[6] = vec3( pBoundingBox[1], pBoundingBox[2], pBoundingBox[5]  ); // Far bottom right
+			pPoints[7] = vec3( pBoundingBox[0], pBoundingBox[2], pBoundingBox[5]  ); // Far bottom left
+
+			DrawCube( pPoints );
+
+			DrawFrustum( (*oShadowIt)->GetFarPlanePoints() , (*oShadowIt)->GetPos() );
+
+			oShadowIt++;
+		}
+
+		std::vector< SpotLight*>::const_iterator oSpotIt = oSpotLights.begin();
+		std::vector< SpotLight*>::const_iterator oSpotEnd = oSpotLights.end();
+		while( oSpotIt != oSpotEnd )
+		{
+			const float* pBoundingBox = (*oSpotIt)->GetBoundingBox();
+
+			vec3 pPoints[8];
+			pPoints[0] = vec3( pBoundingBox[0], pBoundingBox[3], pBoundingBox[4]  ); // Near top left
+			pPoints[1] = vec3( pBoundingBox[1], pBoundingBox[3], pBoundingBox[4]  ); // Near top right
+			pPoints[2] = vec3( pBoundingBox[1], pBoundingBox[2], pBoundingBox[4]  ); // Near bottom right
+			pPoints[3] = vec3( pBoundingBox[0], pBoundingBox[2], pBoundingBox[4]  ); // Near bottom left
+
+			pPoints[4] = vec3( pBoundingBox[0], pBoundingBox[3], pBoundingBox[5]  ); // Far top left
+			pPoints[5] = vec3( pBoundingBox[1], pBoundingBox[3], pBoundingBox[5]  ); // Far top right
+			pPoints[6] = vec3( pBoundingBox[1], pBoundingBox[2], pBoundingBox[5]  ); // Far bottom right
+			pPoints[7] = vec3( pBoundingBox[0], pBoundingBox[2], pBoundingBox[5]  ); // Far bottom left
+
+			DrawCube( pPoints );
+
+			DrawFrustum( (*oSpotIt)->GetFarPlanePoints() , (*oSpotIt)->GetPos() );
+
+			oSpotIt++;
+		}
+
+	}
 	//////////////////////
-	
 	++m_fFrameCount;
 	if( m_fFrameCount >= MAX_FRAME )
 	{
@@ -1578,13 +1755,29 @@ void DeferredRenderer::Render()
 	if( m_bShowDebugMenu )	
 	{
 		//Profiling infos
-		std::stringstream oStream;
-		oStream << "GPU:" << m_fFrameTime << "ms";
-		DisplayText( oStream.str(), iWindowWidth - 250, 50, m_pFont );
+		std::stringstream oGPUStream;
+		oGPUStream << "GPU:" << m_fFrameTime << "ms";
+		DisplayText( oGPUStream.str(), iWindowWidth - PROFILING_LEFT_OFFSET, 50, m_pFont );
 
-		std::stringstream oStream2;
-		oStream2 << "Displaying " << m_vOmniLightQuads.size() << " of " << rRenderContext.GetOmniLights().size() << " omni lights.";
-		DisplayText( oStream2.str(), iWindowWidth - 250, 70, m_pFont );
+		std::stringstream oOmniStream;
+		oOmniStream << "Displaying " << oOmniLights.size() << " of " << m_iOmniCount << " omni light(s).";
+		DisplayText( oOmniStream.str(), iWindowWidth - PROFILING_LEFT_OFFSET, 70, m_pFont );
+
+		std::stringstream oSpotStream;
+		oSpotStream << "Displaying " << oSpotLights.size() << " of " << m_iSpotCount << " spot light(s).";
+		DisplayText( oSpotStream.str(), iWindowWidth - PROFILING_LEFT_OFFSET, 90, m_pFont );
+
+		std::stringstream oSpotShadowStream;
+		oSpotShadowStream << "Displaying " << oSpotShadows.size() << " of " << m_iSpotShadowCount << " spot shadow(s).";
+		DisplayText( oSpotShadowStream.str(), iWindowWidth - PROFILING_LEFT_OFFSET, 110, m_pFont );
+
+		std::stringstream oDirectionalStream;
+		oDirectionalStream << "Displaying " << m_vDirectionalLightQuads.size() << " of " << m_iDirectionalCount << " directional light(s).";
+		DisplayText( oDirectionalStream.str(), iWindowWidth - PROFILING_LEFT_OFFSET, 130, m_pFont );
+
+		std::stringstream o3DObjectStream;
+		o3DObjectStream << "Displaying " << oSceneMeshes.size() + oTransparentSceneMeshes.size() << " of " << m_iObjectCount << " 3D object(s).";
+		DisplayText( o3DObjectStream.str(), iWindowWidth - PROFILING_LEFT_OFFSET, 170, m_pFont );
 		
 		DisplayDebugMenu();
 	}

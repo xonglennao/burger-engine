@@ -35,6 +35,11 @@ public:
 	{
 		bool operator() ( SceneMesh * i , SceneMesh * j ) { return ( i->GetViewZ() < j->GetViewZ() ); }
 	};
+
+	struct FrontToBackComp
+	{
+		bool operator() ( SceneMesh * i , SceneMesh * j ) { return ( i->GetViewZ() > j->GetViewZ() ); }
+	};
 	
 	/// \brief default constructor
 	DeferredRenderer();
@@ -66,24 +71,24 @@ private:
 	void DrawCube( const vec3 * pPoints );
 
 	/// \brief Creates and stores 1 screen space quad per directional light
-	void PrepareDirectionalLights( std::vector< SceneLight* > const& oSceneLights, AbstractCamera const& rCamera, float4x4 const& mModelView );
+	void PrepareDirectionalLights( std::vector< SceneLight* > const& oSceneLights, AbstractCamera const& rCamera, float4x4 const& mView );
 	/// \brief Displays 1 full screen quad per Directional Light
 	void RenderDirectionalLights( std::vector< SceneLight::SceneLightQuad > vDirectionalLightQuads );
 	
 	/// \brief Creates and stores 1 screen space quad per omni light
-	void PrepareOmniLights( std::vector< OmniLight* > const& oOmniLights, AbstractCamera const& rCamera, Frustum const& oViewFrustum, float4x4 const& mModelView, float4x4 const& mModelViewProjection );
+	void PrepareOmniLights( std::vector< OmniLight* > const& oOmniLights, AbstractCamera const& rCamera, float4x4 const& mView, float4x4 const& mViewProjection );
 	/// \brief Displays previously created quads using 1 VBO
 	void RenderOmniLights( std::vector< OmniLight::OmniLightQuad > vOmniLightQuads );	
 
 	/// \brief Creates and stores 1 screen space quad per spot light
-	void PrepareSpotLights( std::vector< SpotLight* > const& oSpotLights, AbstractCamera const& rCamera, Frustum const& oViewFrustum, float4x4 const& mModelView, float4x4 const& mModelViewProjection );
-	bool ComputeOneSpotBoundingQuad( SpotLight* pLight, AbstractCamera const& rCamera, Frustum const& oViewFrustum, float4x4 const& mModelView, float4x4 const& mModelViewProjection, SpotLight::SpotLightQuad& oQuad );
+	void PrepareSpotLights( std::vector< SpotLight* > const& oSpotLights, AbstractCamera const& rCamera, float4x4 const& mView, float4x4 const& mViewProjection );
+	void ComputeOneSpotBoundingQuad( SpotLight* pLight, AbstractCamera const& rCamera, float4x4 const& mView, float4x4 const& mViewProjection, SpotLight::SpotLightQuad& oQuad );
 	/// \brief Displays previously created quads using 1 VBO
 	void RenderSpotLights( std::vector< SpotLight::SpotLightQuad > vSpotLightQuads, unsigned int iColorAndInverseRadiusHandle, unsigned int iViewSpacePosAndMultiplierHandle, unsigned int iViewSpaceDirHandle, unsigned int iCosInAndOutHandle );
 
-	void PrepareAndRenderSpotShadows( const std::vector< SpotShadow* >& oSpotShadows, const AbstractCamera & rCamera, const Frustum& oViewFrustum, const float4x4& mModelView, const float4x4& mModelViewProjection );
+	void PrepareAndRenderSpotShadows( const std::vector< SpotShadow* >& oSpotShadows, const AbstractCamera & rCamera, const float4x4& mView, const float4x4& mViewProjection );
 
-	void RenderShadowMaps( const std::vector< SceneMesh* >& oSceneMeshes,RenderingContext& a_rRenderContext, OpenGLContext& a_rDriverRenderingContext);
+	void RenderShadowMaps( const std::vector< SceneMesh* >& oSceneMeshes, const std::vector< SpotShadow* >& oSpotShadows, OpenGLContext& a_rDriverRenderingContext );
 
 	void ComputeAvgLum();
 
@@ -91,6 +96,9 @@ private:
 	void DisplayText( std::string const& sText, int iPosX, int iPosY, PixelPerfectGLFont* pFont );
 
 	void DisplayDebugMenu();
+
+	/// \brief Do frustum culling test on meshes and lights
+	void GetVisibleObjects( RenderingContext& rRenderContext, const Frustum& oViewFrustum, const float4x4& mView, std::vector< SceneMesh* >& oVisibleSceneMeshes, std::vector< SceneMesh* >& oVisibleTransparentSceneMeshes, std::vector< OmniLight* >& oVisibleOmniLights, std::vector< SpotLight* >& oVisibleSpotLights, std::vector< SpotShadow* >& oVisibleSpotShadows );
 
 private:
 	FBO* m_pGBuffer;
@@ -115,9 +123,18 @@ private:
 	GLuint m_iFullScreenQuadBufferId;
 	GLuint m_iFullScreenQuadBufferIdCW;
 	
-	//Debug flags
-	int		m_iDebugFlag;
-	bool	m_bShowDebugMenu;
+	//Debug variables
+	int				m_iDebugFlag;
+	bool			m_bShowDebugMenu;
+	int				m_iSkipCulling;
+	int				m_iDebugBoundingBox;
+	int				m_iDebugSpotLightFrustum;
+
+	unsigned int	m_iObjectCount;
+	unsigned int	m_iOmniCount;
+	unsigned int	m_iSpotCount;
+	unsigned int	m_iSpotShadowCount;
+	unsigned int	m_iDirectionalCount;
 
 	//Fonts used to display text on screen
 	PixelPerfectGLFont* m_pFont;

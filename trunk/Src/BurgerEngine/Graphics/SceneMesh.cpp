@@ -24,7 +24,6 @@ SceneMesh::~SceneMesh()
 //------------------------------------------------------------------------------------------------------------------
 void SceneMesh::Draw( EffectTechnique::RenderingTechnique eTechnique )
 {
-	ComputeBoundingBox();
 	if( m_pMesh )
 	{
 		glPushMatrix();
@@ -83,23 +82,42 @@ bool SceneMesh::IsTransparent()
 
 void SceneMesh::ComputeBoundingBox()
 {
-	const std::vector<vec3>& vVertex = m_pMesh->GetVertex();
+	//glDisable( GL_DEPTH_TEST );
 
-	vec3 f3Point = vVertex[0] * m_fScale;
-	f3Point = ( m_mRotationMatrix * vec4( f3Point, 1.0f ) ).xyz();
-	f3Point = f3Point + m_f3Position;
-				
-	m_pBoundingBox[0] = m_pBoundingBox[1] = f3Point.x;
-	m_pBoundingBox[2] = m_pBoundingBox[3] = f3Point.y;
-	m_pBoundingBox[4] = m_pBoundingBox[5] = f3Point.z;
-	
-	//glPointSize(15.0f);
-	//glBegin(GL_POINTS);
-	//glVertex3f( f3Point.x, f3Point.y, f3Point.z );
+	const float * pBoundingBox = m_pMesh->GetBoundingBox();
 
-	for( unsigned int i = 1; i < vVertex.size(); ++i )
+	std::vector<vec3> vf3Point3;
+	for( unsigned int i = 0; i < 2; ++i )
 	{
-		f3Point = vVertex[i] * m_fScale;
+		for( unsigned int j = 2; j < 4; ++j )
+		{
+			for( unsigned int k = 4; k < 6; ++k )
+			{
+				vf3Point3.push_back( vec3( pBoundingBox[i], pBoundingBox[j], pBoundingBox[k] ) );
+			}
+		}
+	}
+
+	vf3Point3[0] = vf3Point3[0] * m_fScale;
+	vf3Point3[0] = ( m_mRotationMatrix * vec4( vf3Point3[0], 1.0f ) ).xyz();
+	vf3Point3[0] = vf3Point3[0] + m_f3Position;
+				
+	m_pBoundingBox[0] = m_pBoundingBox[1] = vf3Point3[0].x;
+	m_pBoundingBox[2] = m_pBoundingBox[3] = vf3Point3[0].y;
+	m_pBoundingBox[4] = m_pBoundingBox[5] = vf3Point3[0].z;
+	
+	//glPointSize(3.0f);
+	//glBegin(GL_POINTS);
+	//glVertex3f( vf3Point3[0].x, vf3Point3[0].y, vf3Point3[0].z );
+
+	std::vector<vec3>::iterator oIt = vf3Point3.begin();
+	std::vector<vec3>::iterator oEnd = vf3Point3.end();
+
+	++oIt;
+
+	while( oIt != oEnd )
+	{
+		vec3 f3Point = (*oIt) * m_fScale;
 		f3Point = ( m_mRotationMatrix * vec4( f3Point, 1.0f ) ).xyz();
 		f3Point = f3Point + m_f3Position;
 				
@@ -113,8 +131,11 @@ void SceneMesh::ComputeBoundingBox()
 		m_pBoundingBox[5] = max( m_pBoundingBox[5], f3Point.z );
 
 		//glVertex3f( f3Point.x, f3Point.y, f3Point.z );
+		++oIt;
 	}
+
 	//glEnd();
+	//glEnable( GL_DEPTH_TEST );
 }
 
 
