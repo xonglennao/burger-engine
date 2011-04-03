@@ -32,7 +32,7 @@ CompositeComponent::~CompositeComponent()
 void CompositeComponent::Initialize(TiXmlElement const& a_rParameters)
 {
 	//The composite will take it's value (position) and then load all other component
-	float fX, fY, fZ, fRx, fRy, fRz, fScale;
+	float fX, fY, fZ;
 	TiXmlElement const* pPositionXml = a_rParameters.FirstChildElement( "position" );
 	if(pPositionXml)
 	{
@@ -76,7 +76,7 @@ void CompositeComponent::_Update()
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-AbstractComponent const& CompositeComponent::GetComponentByType( ComponentType a_eType ) const
+/*AbstractComponent const& CompositeComponent::GetComponentByType( ComponentType a_eType ) const
 {
 	FOR_EACH_IT_CONST(std::vector<AbstractComponent*>, m_vComponents, itComponent)
 	{
@@ -94,13 +94,13 @@ AbstractComponent const& CompositeComponent::GetComponentByType( ComponentType a
 	// we should never arrive here, or we should have used the TrypGrabMethod
 	assert(false);
 	//Need to return an invalid ref
-}
+}*/
 
 
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-AbstractComponent& CompositeComponent::GrabComponentByType( ComponentType a_eType )
+/*AbstractComponent& CompositeComponent::GrabComponentByType( ComponentType a_eType )
 {
 	FOR_EACH_IT(std::vector<AbstractComponent*>, m_vComponents, itComponent)
 	{
@@ -116,7 +116,7 @@ AbstractComponent& CompositeComponent::GrabComponentByType( ComponentType a_eTyp
 	// we should never arrive here, or we should have used the TrypGrabMethod
 	assert(false);
 	// need to return an invalid ref
-}
+}*/
 
 //--------------------------------------------------------------------------------------------------------------------
 //
