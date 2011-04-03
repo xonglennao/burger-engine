@@ -34,10 +34,11 @@ public:
 	/// \brief Get a reference to the component
 	//template<typename t_CptType>
 	//t_CptType const& GetComponentByType() const;
-	AbstractComponent const& GetComponentByType(ComponentType a_eType) const;
+	// \todo to be uncomment when invalid ref are possible
+	//AbstractComponent const& GetComponentByType(ComponentType a_eType) const;
 
 	/// \brief Grab a reference to the component
-	AbstractComponent& GrabComponentByType(ComponentType a_eType);
+	//AbstractComponent& GrabComponentByType(ComponentType a_eType);
 
 	/// \brief Try to get a component, if not working then return a pointer to null
 	AbstractComponent const* TryGetComponentByType(ComponentType a_eType) const;
