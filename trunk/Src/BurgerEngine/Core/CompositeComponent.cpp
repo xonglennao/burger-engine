@@ -1,4 +1,5 @@
 #include "BurgerEngine/Core/CompositeComponent.h"
+#include "BurgerEngine/Core/RenderComponent.h"
 #include "BurgerEngine/Core/ObjectFactory.h"
 #include "BurgerEngine/External/TinyXml/TinyXml.h"
 
@@ -8,7 +9,7 @@
 CompositeComponent::CompositeComponent(CompositeComponent* a_pParent):
 	AbstractComponent(COMPOSITE, a_pParent)
 {
-	SetPos(vec3(0,0,0));
+	AbstractComponent::SetPos(vec3(0,0,0));
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -70,6 +71,54 @@ void CompositeComponent::_Update()
 	}
 
 }
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void CompositeComponent::SetPos( vec3 const& a_vValue )
+{
+	//Set the component position
+	AbstractComponent::SetPos(a_vValue);
+
+	//For all render component we let them know the new pos
+	//Al this shoudl be kinda different
+	//We change the pos, and when the Mesh needs to be rendered, it take the 
+	//parent matrice and adds it's own
+	FOR_EACH_IT(std::vector<AbstractComponent*>, m_vComponents, itComponent)
+	{
+		AbstractComponent* pComponent = (*itComponent);
+		//The component should not be null
+		assert(pComponent);
+		if (pComponent->GetType() == RENDER)
+		{
+			RenderComponent* pRenderComponent = static_cast<RenderComponent*>(pComponent);
+			pRenderComponent->UpdatePos();
+		}
+	}
+
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void CompositeComponent::SetScale( float const a_fValue )
+{
+	/// \todo maybe the composite component should hold a scale value
+	//For all component that have a scale issue
+	FOR_EACH_IT(std::vector<AbstractComponent*>, m_vComponents, itComponent)
+	{
+		AbstractComponent* pComponent = (*itComponent);
+		//The component should not be null
+		assert(pComponent);
+		if (pComponent->GetType() == RENDER)
+		{
+			RenderComponent* pRenderComponent = static_cast<RenderComponent*>(pComponent);
+			pRenderComponent->UpdateScale(a_fValue);
+		}
+	}
+
+}
+
 
 
 
@@ -152,4 +201,23 @@ AbstractComponent* CompositeComponent::TryGrabComponentByType( ComponentType a_e
 		}
 	}
 	return NULL;
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+std::vector<AbstractComponent*> CompositeComponent::TryGrabComponentVectorByType( ComponentType a_eType )
+{
+	std::vector<AbstractComponent*> vToReturn;
+	FOR_EACH_IT(std::vector<AbstractComponent*>, m_vComponents, itComponent)
+	{
+		AbstractComponent* pComponent = (*itComponent);
+		//The component should not be null
+		assert(pComponent);
+		if (pComponent->GetType() == a_eType)
+		{
+			vToReturn.push_back(pComponent);
+		}
+	}
+	return vToReturn;
 }

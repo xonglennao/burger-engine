@@ -32,8 +32,15 @@ public:
 	void Initialize(TiXmlElement const& a_rParameters);
 
 	/// \brief Grab the mesh
-	/// \brief Could also go from the RenderContext
+	/// \todo Could also go from the RenderContext
 	SceneMesh& GrabInternalMesh(){assert(m_pMesh); return *m_pMesh;}
+
+	/// \brief Update the position of the mesh
+	/// usually called when the parent is moved
+	void UpdatePos();
+
+	/// \brief Update the scale of the mesh
+	void UpdateScale(float const a_fValue);
 
 protected:
 	/// \brief Inner update
