@@ -133,16 +133,18 @@ void SceneGraph::LoadSceneXML( const char * sName )
 				if (pComponent != NULL)
 				{
 					pComponent->SetPos(vec3(x,y,z));
+					pComponent->SetScale(scale);
+
 
 					/// HACK : we set directly the position/rot/scale to the mesh
 					RenderComponent* pRenderComponent = static_cast<RenderComponent*>(pComponent->TryGrabComponentByType(RENDER));
 					if (pRenderComponent)
 					{
-						pRenderComponent->SetPos(vec3(x,y,z));
-						pRenderComponent->GrabInternalMesh().SetPos(vec3(x,y,z));
-						pRenderComponent->GrabInternalMesh().SetRotation(vec3(rX,rY,rZ));
-						pRenderComponent->GrabInternalMesh().SetScale(scale);
-						pRenderComponent->GrabInternalMesh().ComputeBoundingBox();
+						//pRenderComponent->SetPos(vec3(x,y,z));
+						//pRenderComponent->GrabInternalMesh().SetPos(vec3(x,y,z));
+						//pRenderComponent->GrabInternalMesh().SetRotation(vec3(rX,rY,rZ));
+						//pRenderComponent->GrabInternalMesh().SetScale(scale);
+						
 					}
 				}
 

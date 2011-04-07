@@ -46,6 +46,20 @@ public:
 	/// \brief Try to grab a component, if not working then return a pointer to null
 	AbstractComponent* TryGrabComponentByType(ComponentType a_eType);
 
+	/// \brief Grab all the component of the type, with the same level (will not go into other leaf)
+	/// \todo to template
+	std::vector<AbstractComponent*> TryGrabComponentVectorByType( ComponentType a_eType );
+
+
+	/// \brief [OVERIDE] Set the position, and right now alert the render component
+	/// \todo we need to find a way to alert every component needed, but it might be
+	/// heavy with listener
+	void SetPos( vec3 const& a_vValue );
+
+	/// \brief Update all render componenent with a new scale
+	/// \todo again this is kinda specific so it's pretty ugly, should be change
+	void SetScale( float const a_fValue );
+
 protected:
 	/// \brief Inner update
 	void _Update();
