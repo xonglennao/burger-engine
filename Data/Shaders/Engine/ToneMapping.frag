@@ -64,7 +64,7 @@ vec4 dof(vec2 coords)
 void main()
 {
 	vec3 vColor = dof( gl_TexCoord[0].xy ).rgb;
-
+	
 	vec3 vBloom = texture2D( sBloom, gl_TexCoord[0].xy ).rgb;
 	float fLuminance = texture2D( sLuminance, vec2( 0.5, 0.5 ) ).x;
 
@@ -73,28 +73,5 @@ void main()
 
 	vColor += fGlowMultiplierAndKey.x * vBloom;
 	
-	//gl_FragColor = vec4( vColor, 1.0 );
 	gl_FragColor = vec4( texture3D( sLUT, vColor ).rgb, 1.0 );	
-	
-	
-	
-	
-	
-	
-	/*
-	vec2 vTexCoord = vec2( gl_FragCoord.x * vInvViewport.x, gl_FragCoord.y * vInvViewport.y );
-
-	vec3 vColor = dof( vTexCoord ).rgb;
-
-	vec3 vBloom = texture2D( sBloom, vTexCoord ).rgb;
-	float fLuminance = texture2D( sLuminance, vec2( 0.5, 0.5 ) ).x;
-
-	vColor.rgb *= fGlowMultiplierAndKey.y / ( fLuminance + 0.001 );
-	vColor.rgb /= ( 1.0 + vColor );
-
-	vColor += fGlowMultiplierAndKey.x * vBloom;
-	
-	//gl_FragColor = vec4( vColor, 1.0 );
-	gl_FragColor = vec4( texture3D( sLUT, vColor ).rgb, 1.0 );
-	*/
 }

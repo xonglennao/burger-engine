@@ -33,7 +33,7 @@ SceneGraph::SceneGraph()
 	m_oFactory.Init();
 	//LoadSceneXML( "../Data/Scenes/test_component.xml" );
 	//LoadSceneXML( "../Data/Scenes/test_directional.xml" );
-	LoadSceneXML( "../Data/Scenes/test_transparency.xml" );
+	LoadSceneXML( "../Data/Scenes/test_shadows.xml" );
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -132,10 +132,9 @@ void SceneGraph::LoadSceneXML( const char * sName )
 				// instance proprety, like skin color for a player etc...
 				if (pComponent != NULL)
 				{
-					pComponent->SetPos(vec3(x,y,z));
 					pComponent->SetScale(scale);
-
-
+					pComponent->SetPos(vec3(x,y,z));
+					
 					/// HACK : we set directly the position/rot/scale to the mesh
 					RenderComponent* pRenderComponent = static_cast<RenderComponent*>(pComponent->TryGrabComponentByType(RENDER));
 					if (pRenderComponent)

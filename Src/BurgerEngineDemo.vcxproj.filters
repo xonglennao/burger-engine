@@ -470,14 +470,14 @@
     <Filter Include="BurgerEngine\Data\Materials\test_transparency">
       <UniqueIdentifier>{4cfbde5a-6649-44dc-89bc-69d3c53f5f2d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="BurgerEngine\Graphics\Context">
-      <UniqueIdentifier>{374b07d5-208d-489c-b8cd-0644d89a090f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="BurgerEngine\Base\macro">
       <UniqueIdentifier>{680a4b10-b2e4-4aa7-980b-54ebd982dee7}</UniqueIdentifier>
     </Filter>
     <Filter Include="BurgerEngine\Data\Materials\test_directional">
       <UniqueIdentifier>{495b06e3-3ce4-4b9f-9b24-5e36a7611703}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Graphics\Context">
+      <UniqueIdentifier>{374b07d5-208d-489c-b8cd-0644d89a090f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -279,8 +279,8 @@ void DeferredRenderer::LoadEngineShaders()
 	m_pSpotShadowShader->setUniformTexture("sShadowMapSampler",2);
 	m_pSpotShadowShader->Deactivate();
 
-	//Variance ShadowMap Shader
-	m_pVarianceShadowMapShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/VarianceShadowMap.bfx.xml" );
+	//Exponential ShadowMap Shader
+	m_pExponentialShadowMapShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/ExponentialShadowMap.bfx.xml" );
 
 	//Blur 6 shader
 	m_pBlur6Shader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/GaussianBlur6.bfx.xml" );
@@ -303,6 +303,13 @@ void DeferredRenderer::LoadEngineShaders()
 	m_iBlur10ShaderPixelSizeHandle = glGetUniformLocation( m_pBlur10Shader->getHandle(), "vPixelSize" );
 	m_pBlur10Shader->setUniformTexture("sTexture",0);
 	m_pBlur10Shader->Deactivate();
+
+	//Log space Blur 10 shader
+	m_pLogBlur10Shader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/LogGaussianBlur10.bfx.xml" );
+	m_pLogBlur10Shader->Activate();
+	m_iLogBlur10ShaderPixelSizeHandle = glGetUniformLocation( m_pLogBlur10Shader->getHandle(), "vPixelSize" );
+	m_pLogBlur10Shader->setUniformTexture("sTexture",0);
+	m_pLogBlur10Shader->Deactivate();
 
 	//Downsample shader
 	m_pDownSample4x4Shader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/DownSample4x4.bfx.xml" );
@@ -1058,8 +1065,9 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 		SpotShadow * pSpot = *oSpotIt;
 		
 		vec3 oLightPos = pSpot->GetPos();
+
 		vec3 oLightRotation = pSpot->GetRotation();
-		
+
 		float fRadius = pSpot->GetRadius();
 
 		a_rDriverRenderingContext.Reshape( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, 2.0f * acosf( pSpot->GetCosOuterAngle()  ) / (float)M_PI * 180.0f, 0.5, fRadius );
@@ -1068,33 +1076,27 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 
 		glTranslatef( -oLightPos.x, -oLightPos.y, -oLightPos.z );
 
-		//float4x4 mLightProjection;
-		//glGetFloatv ( GL_PROJECTION_MATRIX, mLightProjection );
 		float4x4 mLightProjection = GlperspectiveMatrixY( 2.0f * acosf( pSpot->GetCosOuterAngle()  ) * RAD_TO_DEG, 1.0f,0.5, fRadius );
 
-		//float4x4 mLightModelView;
-		//glGetFloatv ( GL_MODELVIEW_MATRIX, mLightModelView );
 		float4x4 mLightView =  rotateXY( -oLightRotation.x*DEG_TO_RAD, -oLightRotation.y*DEG_TO_RAD ) * translate( -oLightPos.x, -oLightPos.y, -oLightPos.z );
 		
 		pSpot->SetMatrix( transpose( mLightProjection * mLightView ) );
 		
-
 		float4x4 mLightViewProjection = transpose(mLightProjection) * mLightView;
 
 		Frustum oViewFrustum;
 		oViewFrustum.loadFrustum( transpose(mLightViewProjection) );
 
-		m_pVarianceShadowMapShader->Activate();
+		m_pExponentialShadowMapShader->Activate();
 		pSpot->ActivateBuffer();
 		
-		glClearColor( fRadius,fRadius*fRadius,0.0f,0.0f );
+		glClearColor( fRadius * 0.001f,0.0f,0.0f,0.0f );
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );	
 		glClearColor( 0.0f,0.0f,0.0f,0.0f );
 
 		std::vector< SceneMesh* >::const_iterator oShadowMeshIt = oSceneMeshes.begin();
 		while( oShadowMeshIt != oSceneMeshes.end() )
-		{
-			
+		{			
 			if( (*oShadowMeshIt)->GetCastShadow() )
 			{
 				const float* pBoundingBox = (*oShadowMeshIt)->GetBoundingBox();
@@ -1103,20 +1105,19 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 				{
 					(*oShadowMeshIt)->Draw( EffectTechnique::E_RENDER_SHADOW_MAP );
 				}
-			
 			}
 			++oShadowMeshIt;
 		}
 
-		m_pVarianceShadowMapShader->Deactivate();
+		m_pExponentialShadowMapShader->Deactivate();
 		
 		pSpot->DeactivateBuffer();
-		
+
 		pSpot->ActivateDepthTexture();
-		
-		m_pBlur6Shader->Activate();
+			
+		m_pLogBlur10Shader->Activate();
 		float pPixelSize[2] = { 1.0f/ SpotShadow::iShadowMapSize, 0.0f };
-		m_pBlur6Shader->setUniform2fv( m_iBlur6ShaderPixelSizeHandle, 1, pPixelSize );
+		m_pLogBlur10Shader->setUniform2fv( m_iLogBlur10ShaderPixelSizeHandle, 1, pPixelSize );
 
 		m_pSpotShadowBlurBuffer->Activate();
 		DrawFullScreenQuad( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, false );
@@ -1127,15 +1128,15 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 
 		pPixelSize[0] = 0.0f;
 		pPixelSize[1] = 1.0f/ SpotShadow::iShadowMapSize;
-		m_pBlur6Shader->setUniform2fv( m_iBlur6ShaderPixelSizeHandle, 1, pPixelSize);
+		m_pLogBlur10Shader->setUniform2fv( m_iLogBlur10ShaderPixelSizeHandle, 1, pPixelSize);
 			
 		pSpot->ActivateBuffer();
 		DrawFullScreenQuad( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, false );
 
 		pSpot->DeactivateBuffer();
 
-		m_pBlur6Shader->Deactivate();
-		
+		m_pLogBlur10Shader->Deactivate();
+
 		++oSpotIt;
 	}
 
@@ -1418,7 +1419,7 @@ void DeferredRenderer::Render()
 		(*oMeshIt)->Draw( EffectTechnique::E_RENDER_GBUFFER );
 		++oMeshIt;
 	}
-
+	
 	m_pGBuffer->Deactivate();
 	
 	//Lighting pass
@@ -1503,6 +1504,7 @@ void DeferredRenderer::Render()
 	Texture2D::Deactivate();
 	glActiveTexture( GL_TEXTURE1 );
 	Texture2D::Deactivate();
+	glActiveTexture( GL_TEXTURE0 );
 
 	glDisable(GL_BLEND);
 	glEnable( GL_DEPTH_TEST );
@@ -1541,19 +1543,6 @@ void DeferredRenderer::Render()
 	glEnableIndexedEXT( GL_BLEND, 0 );
 	glDepthMask( GL_FALSE );
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
-	//we need to sort the object from back to front
-	oMeshIt = oTransparentSceneMeshes.begin();	
-	while( oMeshIt != oTransparentSceneMeshes.end() )
-	{
-		vec3 f3Pos = (*oMeshIt)->GetPos();
-		float fViewZ = ( mView * vec4( f3Pos.x, f3Pos.y, f3Pos.z, 1.0 ) ).z;
-		(*oMeshIt)->SetViewZ( fViewZ );
-		++oMeshIt;
-	}
-	BackToFrontComp Comp;
-	std::sort( oTransparentSceneMeshes.begin(), oTransparentSceneMeshes.end(), Comp );
-
 	
 	oMeshIt = oTransparentSceneMeshes.begin();
 	glCullFace( GL_FRONT );
@@ -1744,7 +1733,9 @@ void DeferredRenderer::Render()
 		}
 
 	}
+	
 	//////////////////////
+
 	++m_fFrameCount;
 	if( m_fFrameCount >= MAX_FRAME )
 	{
@@ -1754,11 +1745,12 @@ void DeferredRenderer::Render()
 	}
 	if( m_bShowDebugMenu )	
 	{
+		
 		//Profiling infos
 		std::stringstream oGPUStream;
 		oGPUStream << "GPU:" << m_fFrameTime << "ms";
 		DisplayText( oGPUStream.str(), iWindowWidth - PROFILING_LEFT_OFFSET, 50, m_pFont );
-
+		
 		std::stringstream oOmniStream;
 		oOmniStream << "Displaying " << oOmniLights.size() << " of " << m_iOmniCount << " omni light(s).";
 		DisplayText( oOmniStream.str(), iWindowWidth - PROFILING_LEFT_OFFSET, 70, m_pFont );
@@ -1780,5 +1772,6 @@ void DeferredRenderer::Render()
 		DisplayText( o3DObjectStream.str(), iWindowWidth - PROFILING_LEFT_OFFSET, 170, m_pFont );
 		
 		DisplayDebugMenu();
+		
 	}
 }

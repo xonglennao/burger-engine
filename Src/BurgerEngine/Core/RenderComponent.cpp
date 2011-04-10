@@ -159,7 +159,16 @@ void RenderComponent::UpdateScale(float const a_uValue)
 {
 	if(m_pMesh) 
 	{
-		m_pMesh->SetScale(m_pMesh->GetScale() * a_uValue); 
+		m_pMesh->SetScale(m_pMesh->GetScale() * a_uValue);
+		SetPos(GetPos() * a_uValue); 
+		///////////////////////////////////////////////////////////////////
+		////////////////// Temporary, just to make it work /////////////////
+
+		m_pMesh->ComputeBoundingBox();
+
+		// we should do this only once during the loading of the object
+		///////////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////
 	}
 	
 }

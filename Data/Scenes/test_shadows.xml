@@ -1,0 +1,153 @@
+<scene>
+
+  <!-- GROUND  -->
+  <sceneobject x="0.0" y="-50.0" z="0.0" rX="0.0" rY="180.0" rZ="0.0" scale="100">
+    <ressourcecomponent>TestShadows/Room</ressourcecomponent>
+    <instance name= "Cube"/>
+  </sceneobject>
+
+  <sceneobject x="0.0" y="2" z="2.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
+    <ressourcecomponent>TestShadows/Balls</ressourcecomponent>
+    <instance name= "Column_1"/>
+  </sceneobject>
+
+  <sceneobject x="0.0" y="2.0" z="2.0" rX="0" rY="0">
+    <light type="omni">
+      <Multiplier value="1"/>
+      <Radius value="10"/>
+      <Color  r="1.0" g="0.0" b="1.0"/>
+    </light>
+  </sceneobject>
+
+  <sceneobject x="-30.0" y="2" z="2.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
+    <ressourcecomponent>TestShadows/Balls</ressourcecomponent>
+    <instance name= "Column_1"/>
+  </sceneobject>
+  
+  <sceneobject x="-30.0" y="2.0" z="2.0" rX="0" rY="0">
+    <light type="omni">
+      <Multiplier value="1"/>
+      <Radius value="10"/>
+      <Color  r="1.0" g="0.0" b="1.0"/>
+    </light>
+  </sceneobject>
+
+  <sceneobject x="30.0" y="2" z="70.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
+    <ressourcecomponent>TestShadows/Balls</ressourcecomponent>
+    <instance name= "Column_1"/>
+  </sceneobject>
+
+  <sceneobject x="30.0" y="2.0" z="70.0" rX="0" rY="0">
+    <light type="omni">
+      <Multiplier value="1"/>
+      <Radius value="10"/>
+      <Color  r="1.0" g="1.0" b="0.0"/>
+    </light>
+  </sceneobject>
+
+  <sceneobject x="0.0" y="2" z="70.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
+    <ressourcecomponent>TestShadows/Balls</ressourcecomponent>
+    <instance name= "Column_1"/>
+  </sceneobject>
+  <sceneobject x="0.0" y="2.0" z="70.0" rX="0" rY="0">
+    <light type="omni">
+      <Multiplier value="1"/>
+      <Radius value="10"/>
+      <Color  r="1.0" g="0.0" b="0.0"/>
+    </light>
+  </sceneobject>
+
+  <sceneobject x="-30.0" y="2" z="150.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
+    <ressourcecomponent>TestShadows/Balls</ressourcecomponent>
+    <instance name= "Column_1"/>
+  </sceneobject>
+  <sceneobject x="-30.0" y="2.0" z="150.0" rX="0" rY="0">
+    <light type="omni">
+      <Multiplier value="1"/>
+      <Radius value="10"/>
+      <Color  r="1.0" g="0.0" b="1.0"/>
+    </light>
+  </sceneobject>
+
+  <sceneobject x="30.0" y="2" z="2.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
+    <ressourcecomponent>TestShadows/Balls</ressourcecomponent>
+    <instance name= "Column_1"/>
+  </sceneobject>
+
+  <sceneobject x="30.0" y="2.0" z="2.0" rX="0" rY="0">
+    <light type="omni">
+      <Multiplier value="1"/>
+      <Radius value="10"/>
+      <Color  r="0.0" g="1.0" b="0.0"/>
+    </light>
+  </sceneobject>
+
+  <sceneobject x="0.0" y="30.0" z="30.0" rX="-45" rY="0">
+    <light type="spotshadow">
+      <Multiplier value="1"/>
+      <Radius value="70"/>
+      <InnerAngle value="1"/>
+      <OuterAngle value="20"/>
+      <Color  r="1.0" g="1.0" b="0.0"/>
+    </light>
+  </sceneobject>
+
+
+  <sceneobject x="0.0" y="5.0" z="30.0" rX="0" rY="90">
+    <light type="spotshadow">
+      <Multiplier value="1"/>
+      <Radius value="80"/>
+      <InnerAngle value="1"/>
+      <OuterAngle value="20"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </light>
+  </sceneobject>
+
+  <sceneobject x="50.0" y="0.0" z="30.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
+    <ressourcecomponent>TestComponent/Column</ressourcecomponent>
+    <instance name= "Column_1"/>
+  </sceneobject>
+
+  <sceneobject x="-30.0" y="40.0" z="30.0" rX="-90" rY="90">
+    <light type="spotshadow">
+      <Multiplier value="1"/>
+      <Radius value="50"/>
+      <InnerAngle value="1"/>
+      <OuterAngle value="45"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </light>
+  </sceneobject>
+
+  <sceneobject x="-10.0" y="10" z="30.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
+    <ressourcecomponent>TestTransparency/Ball05</ressourcecomponent>
+    <instance name= "Column_1"/>
+  </sceneobject>
+
+  <sceneobject x="-15.0" y="1.5" z="26.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
+    <ressourcecomponent>TestTransparency/Ball05</ressourcecomponent>
+    <instance name= "Column_1"/>
+  </sceneobject>
+
+  <sceneobject x="-20.0" y="0.0" z="40.0" rX="0.0" rY="0.0" rZ="0.0" scale="3">
+    <ressourcecomponent>TestComponent/Column</ressourcecomponent>
+    <instance name= "Column_1"/>
+  </sceneobject>
+  
+  <sceneobject x="0.0" y="1.0" z="-1.0" rX="0" rY="0">
+    <light type="directional">
+      <Multiplier value="0.01"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </light>
+  </sceneobject>
+
+  <sceneobject x="-30.0" y="20.0" z="100.0" rX="0" rY="180">
+    <light type="spotshadow">
+      <Multiplier value="2"/>
+      <Radius value="150"/>
+      <InnerAngle value="1"/>
+      <OuterAngle value="20"/>
+      <Color  r="0.0" g="1.0" b="0.0"/>
+    </light>
+  </sceneobject>  
+  
+</scene>

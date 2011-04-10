@@ -1,0 +1,36 @@
+uniform sampler2D sTexture;
+uniform vec2 vPixelSize;
+
+float vGaussianBlur[10] = { 0.0882357, 0.0957407, 0.101786, 0.106026, 0.108212, 0.108212, 0.106026, 0.101786, 0.0957407, 0.0882357 };
+
+float log_conv ( float x0, float X, float y0, float Y )
+{
+    return ( X + log( x0 + (y0 * exp(Y - X) ) ) );
+}
+
+vec4 LogGaussianFilter()
+{
+	
+	float vSample[ 10 ];
+
+    for (int i = 0; i < 10; i++)
+    {
+		float fOffSet = (float) i - 4.5;		
+		vec2 vTexCoord = vec2( gl_TexCoord[0].x + fOffSet * vPixelSize.x, gl_TexCoord[0].y + fOffSet * vPixelSize.y );
+		vSample[i] = texture2D( sTexture, vTexCoord ).r;
+	}
+ 
+    float fAccum;
+    fAccum = log_conv( vGaussianBlur[0], vSample[0], vGaussianBlur[1], vSample[1] );
+    for (int i = 2; i < 10; i++)
+    {
+        fAccum = log_conv( 1.0, fAccum, vGaussianBlur[i], vSample[i] );
+    }        
+    
+    return vec4( fAccum, 0.0, 0.0, 0.0);
+}
+
+void main()
+{
+	gl_FragColor = LogGaussianFilter();
+}
