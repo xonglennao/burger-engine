@@ -7,8 +7,6 @@ vec4 gaussianFilter()
 {
 	vec4 finalColor;
 	vec2 vTexCoord;
-	float gaussianValue = 0.0;
-	float gaussianTmp = 0.0;
 
 	for(int i = 0; i < 6; i++)
 	{

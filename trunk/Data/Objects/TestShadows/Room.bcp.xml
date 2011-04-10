@@ -7,7 +7,7 @@
 				<parameters>
 					<position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
 					<mesh>
-					  <file>../Data/Mesh/inverted_cube.obj</file>
+					  <file>../Data/Mesh/Room.obj</file>
 					  <part>
 						<material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
 					  </part>

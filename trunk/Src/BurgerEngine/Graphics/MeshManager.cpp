@@ -43,7 +43,6 @@ StaticMesh* MeshManager::loadMesh(const std::string &sName)
 	}
 	else
 	{
-		std::cerr<<"WARNING : Obj already loaded"<<sName<<std::endl;
 		return m_mMeshs[sName];
 	}
 }

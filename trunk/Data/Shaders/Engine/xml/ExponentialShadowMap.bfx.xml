@@ -1,0 +1,4 @@
+<shader>
+  <vertexshader>../Data/Shaders/Engine/ExponentialShadowMap.vert</vertexshader>
+  <pixelshader>../Data/Shaders/Engine/ExponentialShadowMap.frag</pixelshader>
+</shader>

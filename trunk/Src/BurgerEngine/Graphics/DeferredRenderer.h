@@ -171,10 +171,13 @@ private:
 	unsigned int	m_iSpotShadowShaderViewSpaceDirHandle;
 	unsigned int	m_iSpotShadowShaderCosInAndOutHandle;
 
-	Shader*			m_pVarianceShadowMapShader;
+	Shader*			m_pExponentialShadowMapShader;
 	
 	Shader*			m_pBlur6Shader;
 	unsigned int	m_iBlur6ShaderPixelSizeHandle;
+
+	Shader*			m_pLogBlur10Shader;
+	unsigned int	m_iLogBlur10ShaderPixelSizeHandle;
 
 	Shader*			m_pBlur6DofSpecialShader;
 	unsigned int	m_iBlur6DofSpecialShaderPixelSizeHandle;
