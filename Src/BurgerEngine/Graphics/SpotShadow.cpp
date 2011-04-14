@@ -4,7 +4,7 @@
 SpotShadow::SpotShadow()
 {
 	m_oDepth = new FBO( iShadowMapSize, iShadowMapSize, FBO::E_FBO_2D );
-	m_oDepth->GenerateColorOnly( GL_R16F, GL_LUMINANCE );
+	m_oDepth->GenerateColorOnly( GL_R32F, GL_LUMINANCE );
 }
 
 SpotShadow::~SpotShadow()

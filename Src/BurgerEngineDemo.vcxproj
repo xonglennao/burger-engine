@@ -165,10 +165,13 @@
     <None Include="..\Data\Shaders\Engine\AvgLumInit.frag" />
     <None Include="..\Data\Shaders\Engine\BrightPass.frag" />
     <None Include="..\Data\Shaders\Engine\DownSample4x4.frag" />
+    <None Include="..\Data\Shaders\Engine\ExponentialShadowMap.frag" />
+    <None Include="..\Data\Shaders\Engine\ExponentialShadowMap.vert" />
     <None Include="..\Data\Shaders\Engine\GaussianBlur10.frag" />
     <None Include="..\Data\Shaders\Engine\GaussianBlur6.frag" />
     <None Include="..\Data\Shaders\Engine\GaussianBlur6DofSpecial.frag" />
     <None Include="..\Data\Shaders\Engine\LightAdaptation.frag" />
+    <None Include="..\Data\Shaders\Engine\LogGaussianBlur10.frag" />
     <None Include="..\Data\Shaders\Engine\OmniLight.frag" />
     <None Include="..\Data\Shaders\Engine\OmniLight.vert" />
     <None Include="..\Data\Shaders\Engine\SpotLight.frag" />
@@ -176,8 +179,6 @@
     <None Include="..\Data\Shaders\Engine\SpotShadow.frag" />
     <None Include="..\Data\Shaders\Engine\SpotShadow.vert" />
     <None Include="..\Data\Shaders\Engine\ToneMapping.frag" />
-    <None Include="..\Data\Shaders\Engine\VarianceShadowMap.frag" />
-    <None Include="..\Data\Shaders\Engine\VarianceShadowMap.vert" />
     <None Include="..\Data\Shaders\Material\BasicSelfIllum.frag" />
     <None Include="..\Data\Shaders\Material\BasicSkyBox.frag" />
     <None Include="..\Data\Shaders\Material\BasicSkyBox.vert" />

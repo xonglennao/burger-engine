@@ -529,12 +529,6 @@
     <None Include="..\Data\Shaders\Engine\ToneMapping.frag">
       <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
     </None>
-    <None Include="..\Data\Shaders\Engine\VarianceShadowMap.frag">
-      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
-    </None>
-    <None Include="..\Data\Shaders\Engine\VarianceShadowMap.vert">
-      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
-    </None>
     <None Include="..\Data\Shaders\Material\BasicSelfIllum.frag">
       <Filter>BurgerEngine\Data\Shaders\Material</Filter>
     </None>
@@ -636,6 +630,15 @@
     </None>
     <None Include="..\Data\Materials\test_directional\MattWhite.bma.xml">
       <Filter>BurgerEngine\Data\Materials\test_directional</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\ExponentialShadowMap.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\ExponentialShadowMap.vert">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\LogGaussianBlur10.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
     </None>
   </ItemGroup>
 </Project>
