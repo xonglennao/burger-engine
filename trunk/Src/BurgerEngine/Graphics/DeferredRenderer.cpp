@@ -33,6 +33,8 @@ const int GLOW_RATIO = 4;
 const float MAX_FRAME = 15.0;
 
 const int PROFILING_LEFT_OFFSET = 300;
+
+float fInc = 0.0f;
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
@@ -47,7 +49,7 @@ DeferredRenderer::DeferredRenderer()
 	, m_fGlowMultiplier( 1.0f )
 	, m_fBrightPassThreshold( 0.5f )
 	, m_fBrightPassOffset( 10.0f )
-	, m_fAdaptationBaseTime( 0.5f )
+	, m_fAdaptationBaseTime( 0.6f )
 {
 	CreateFBO();
 	
@@ -1011,7 +1013,9 @@ void DeferredRenderer::ComputeOneSpotBoundingQuad( SpotLight* pLight, AbstractCa
 	vec4 vViewSpacePos = mView * vec4( f3Pos.x, f3Pos.y, f3Pos.z, 1.0f );
 	vec3 vRotation = pLight->GetRotation();
 
-	vec4 vViewSpaceDir = mView * rotateY( vRotation.y * DEG_TO_RAD ) * rotateX( vRotation.x * DEG_TO_RAD ) * vec4( 0.0f, 0.0f, -1.0f, 0.0f );
+	vec4 vWorldSpaceDir = rotateY( vRotation.y * DEG_TO_RAD ) * rotateX( vRotation.x * DEG_TO_RAD ) * vec4( 0.0f, 0.0f, -1.0f, 0.0f );
+
+	vec4 vViewSpaceDir = mView * vWorldSpaceDir;
 
 	oQuad.vViewSpaceLightPos = vec3( vViewSpacePos.x, vViewSpacePos.y, vViewSpacePos.z );
 	oQuad.vViewSpaceLightDir = vec3( vViewSpaceDir.x, vViewSpaceDir.y, vViewSpaceDir.z );
@@ -1032,6 +1036,7 @@ void DeferredRenderer::ComputeOneSpotBoundingQuad( SpotLight* pLight, AbstractCa
 		float fLeft, fRight, fBottom, fTop;
 		vec4 oScreenPos = mViewProjection * vec4(f3Pos.x, f3Pos.y, f3Pos.z, 1.0f );
 		oScreenPos = oScreenPos / abs(oScreenPos.w);
+		
 		fLeft = fRight = oScreenPos.x;
 		fBottom = fTop = oScreenPos.y;
 
@@ -1045,6 +1050,18 @@ void DeferredRenderer::ComputeOneSpotBoundingQuad( SpotLight* pLight, AbstractCa
 
 			fBottom = min(fBottom, oScreenPos.y);
 			fTop = max(fTop, oScreenPos.y);
+
+			vec3 fOppositePoint = pPoints[i] - vec3(vWorldSpaceDir.x,vWorldSpaceDir.y,vWorldSpaceDir.z) * fRadius;
+
+			oScreenPos = mViewProjection * vec4(fOppositePoint.x, fOppositePoint.y, fOppositePoint.z, 1.0f );
+			oScreenPos = oScreenPos / abs(oScreenPos.w);
+					
+			fLeft = min(fLeft, oScreenPos.x);
+			fRight = max(fRight, oScreenPos.x);
+
+			fBottom = min(fBottom, oScreenPos.y);
+			fTop = max(fTop, oScreenPos.y);
+
 		}
 		oQuad.vLeftRightTopBottom = vec4( fLeft, fRight, fTop, fBottom );
 	}
@@ -1055,7 +1072,14 @@ void DeferredRenderer::ComputeOneSpotBoundingQuad( SpotLight* pLight, AbstractCa
 //--------------------------------------------------------------------------------------------------------------------
 void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oSceneMeshes, const std::vector< SpotShadow* >& oSpotShadows, OpenGLContext& a_rDriverRenderingContext )
 {
-	glCullFace( GL_FRONT );
+	if( m_iDebugFlag == 0 )
+	{
+		glCullFace( GL_BACK );
+	}
+	else
+	{
+		glCullFace( GL_FRONT );
+	}
 
 	std::vector< SpotShadow* >::const_iterator oSpotIt = oSpotShadows.begin();
 	std::vector< SpotShadow* >::const_iterator oEnd = oSpotShadows.end();
@@ -1065,6 +1089,14 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 		SpotShadow * pSpot = *oSpotIt;
 		
 		vec3 oLightPos = pSpot->GetPos();
+
+		///////////////
+		
+		fInc += 0.001f;
+		pSpot->SetPos( vec3( sinf( fInc ) * 40.0f, oLightPos.y, oLightPos.z) );
+		pSpot->ComputeBoundingBox();
+		
+		//////////////
 
 		vec3 oLightRotation = pSpot->GetRotation();
 
@@ -1112,7 +1144,7 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 		m_pExponentialShadowMapShader->Deactivate();
 		
 		pSpot->DeactivateBuffer();
-
+		
 		pSpot->ActivateDepthTexture();
 			
 		m_pLogBlur10Shader->Activate();
@@ -1120,7 +1152,7 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 		m_pLogBlur10Shader->setUniform2fv( m_iLogBlur10ShaderPixelSizeHandle, 1, pPixelSize );
 
 		m_pSpotShadowBlurBuffer->Activate();
-		DrawFullScreenQuad( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, false );
+		DrawFullScreenQuad( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, m_iDebugFlag == 0 );
 
 		m_pSpotShadowBlurBuffer->Deactivate();
 		
@@ -1131,12 +1163,12 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 		m_pLogBlur10Shader->setUniform2fv( m_iLogBlur10ShaderPixelSizeHandle, 1, pPixelSize);
 			
 		pSpot->ActivateBuffer();
-		DrawFullScreenQuad( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, false );
+		DrawFullScreenQuad( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, m_iDebugFlag == 0 );
 
 		pSpot->DeactivateBuffer();
 
 		m_pLogBlur10Shader->Deactivate();
-
+		
 		++oSpotIt;
 	}
 
@@ -1508,7 +1540,7 @@ void DeferredRenderer::Render()
 
 	glDisable(GL_BLEND);
 	glEnable( GL_DEPTH_TEST );
-	
+
 #ifndef NO_MATERIAL_PASS	
 	//Material pass
 	//The material pass needs to fetch the light buffer
@@ -1734,8 +1766,6 @@ void DeferredRenderer::Render()
 
 	}
 	
-	//////////////////////
-
 	++m_fFrameCount;
 	if( m_fFrameCount >= MAX_FRAME )
 	{

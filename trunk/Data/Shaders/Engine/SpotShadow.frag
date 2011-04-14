@@ -36,7 +36,7 @@ void main()
 	vec4 vLightSpaceVertex = mShadowMatrix * vClipPos;
 	vLightSpaceVertex = ( vLightSpaceVertex / vLightSpaceVertex.w ) * 0.5 + 0.5;
 
-	float fShadow = clamp( exp( 200.0 * ( texture2D( sShadowMapSampler, vLightSpaceVertex.xy ).x - ( fDistanceToLight * 0.001 ) ) ), 0.0, 1.0 );
+	float fShadow = clamp( exp( 620.0 * ( texture2D( sShadowMapSampler, vLightSpaceVertex.xy ).x - ( fDistanceToLight * 0.001 ) ) ), 0.0, 1.0 );
 
 	if( vViewSpaceVertex.z > fZMin ) 
 	{
@@ -70,6 +70,7 @@ void main()
 		//storing diffuse and specular on different channels (rgb = diffuse, a = lum(spec) ) 
 		finalColor += vec4(diffuse, 4.0 * fSpecularLuminance );
 	}
+
 	gl_FragColor = finalColor;
 	
 }
