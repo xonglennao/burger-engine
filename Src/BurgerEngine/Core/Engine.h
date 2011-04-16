@@ -32,7 +32,7 @@ class Engine:public Singleton<Engine>
 public:
 
 	/// \brief Initialize parameters
-	void Init();
+	void Init( const char* pSceneName );
 
 	/// \brief	Render everything
 	void Display();

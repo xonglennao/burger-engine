@@ -35,7 +35,7 @@ class SceneGraph
 public:
 
 	/// \brief Constuctor
-	SceneGraph();
+	SceneGraph( const char * pSceneName );
 	~SceneGraph();
 
 	bool Initialize();
