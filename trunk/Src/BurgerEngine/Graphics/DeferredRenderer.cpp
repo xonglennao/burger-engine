@@ -1092,9 +1092,9 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 
 		///////////////
 		
-		fInc += 0.001f;
-		pSpot->SetPos( vec3( sinf( fInc ) * 40.0f, oLightPos.y, oLightPos.z) );
-		pSpot->ComputeBoundingBox();
+		//fInc += 0.001f;
+		//pSpot->SetPos( vec3( sinf( fInc ) * 40.0f, oLightPos.y, oLightPos.z) );
+		//pSpot->ComputeBoundingBox();
 		
 		//////////////
 

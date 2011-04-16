@@ -28,12 +28,10 @@
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-SceneGraph::SceneGraph()
+SceneGraph::SceneGraph( const char * pSceneName )
 {
 	m_oFactory.Init();
-	//LoadSceneXML( "../Data/Scenes/test_component.xml" );
-	//LoadSceneXML( "../Data/Scenes/test_directional.xml" );
-	LoadSceneXML( "../Data/Scenes/test_shadows.xml" );
+	LoadSceneXML( pSceneName );
 }
 
 //--------------------------------------------------------------------------------------------------------------------

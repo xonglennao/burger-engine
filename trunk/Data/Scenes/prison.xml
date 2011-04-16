@@ -1,37 +1,9 @@
 <scene>
   
   <!-- ROOM  -->
-  <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
-    <mesh>
-      <file>../Data/Mesh/prison/prison.obj</file>
-      <part>
-        <material>../Data/Materials/prison/stoneFloorDiffuseBump.bma.xml</material>
-      </part>
-      <part>
-        <material>../Data/Materials/prison/stoneWallDiffuseBump.bma.xml</material>
-      </part>
-      <part>
-        <material>../Data/Materials/prison/rustDiffuseBump.bma.xml</material>
-      </part>
-      <part>
-        <material>../Data/Materials/prison/crateDiffuseBump.bma.xml</material>
-      </part>
-      <part>
-        <material>../Data/Materials/prison/woodDiffuseBump.bma.xml</material>
-      </part>
-      <part>
-        <material>../Data/Materials/prison/woodDiffuseBump.bma.xml</material>
-      </part>
-      <part>
-        <material>../Data/Materials/prison/woodDiffuseBump.bma.xml</material>
-      </part>
-      <part>
-        <material>../Data/Materials/prison/brightWhite.bma.xml</material>
-      </part>
-      <part>
-        <material>../Data/Materials/prison/boneDiffuse.bma.xml</material>
-      </part>
-    </mesh>
+  <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">
+    <ressourcecomponent>Prison/Prison</ressourcecomponent>
+    <instance name= "Gate"/>
   </sceneobject>
 
   <!-- SPOT SHADOW  -->

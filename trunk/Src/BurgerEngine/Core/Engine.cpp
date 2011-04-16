@@ -29,7 +29,7 @@ Engine::Engine():
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void Engine::Init()
+void Engine::Init( const char* pSceneName )
 {
 	m_iWindowWidth = 1280;
 	m_iWindowHeight = 720;
@@ -54,7 +54,7 @@ void Engine::Init()
 	m_pRenderContext = new RenderingContext();
 	m_pRenderContext->Initialize();
 
-	m_pSceneGraph = new SceneGraph();
+	m_pSceneGraph = new SceneGraph( pSceneName );
 
 	m_bTerminate = false;
 
