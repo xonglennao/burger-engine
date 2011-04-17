@@ -1,7 +1,7 @@
 #include "Engine.h"
 #include "BurgerEngine/Core/StageManager.h"
 #include "BurgerEngine/Core/AbstractCamera.h"
-#include "BurgerEngine/Core/CameraFps.h"
+#include "BurgerEngine/Core/FirstPersonCamera.h"
 #include "BurgerEngine/Core/SceneGraph.h"
 
 #include "BurgerEngine/Graphics/MeshManager.h"
@@ -42,11 +42,6 @@ void Engine::Init( const char* pSceneName )
 	m_pWindow = new Window();
 	m_pWindow->Initialize( m_iWindowWidth, m_iWindowHeight );
 
-	// Creation of the camera
-	/// \todo this is temporary, we should use a better camera system
-	m_pCurrentCamera = new CameraFps( 45.0f, 0.1f, 10000.0f );
-	m_pCurrentCamera->Initialize();
-
 	//Create the Rendering Context
 	m_pRenderingContext = new OpenGLContext();
 	m_pRenderingContext->Initialize( m_iWindowWidth, m_iWindowHeight );
@@ -57,7 +52,6 @@ void Engine::Init( const char* pSceneName )
 	m_pSceneGraph = new SceneGraph( pSceneName );
 
 	m_bTerminate = false;
-
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -72,7 +66,6 @@ void Engine::Terminate()
 	delete m_pStageManager;
 	m_pStageManager = NULL;
 
-	m_pCurrentCamera->Terminate();
 	delete m_pCurrentCamera;
 	m_pCurrentCamera = NULL;
 
@@ -136,30 +129,43 @@ void Engine::Run()
 }
  
 
- //--------------------------------------------------------------------------------------------------------------------
- //
- //--------------------------------------------------------------------------------------------------------------------
- AbstractCamera & Engine::GetCurrentCamera() const 
- {
-	 // The current Camera can not be null
-	 assert(m_pCurrentCamera != NULL);
-	 return *(m_pCurrentCamera);
- }
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+AbstractCamera & Engine::GetCurrentCamera() const 
+{
+	// The current Camera can not be null
+	assert(m_pCurrentCamera != NULL);
+	return *(m_pCurrentCamera);
+}
 
- //--------------------------------------------------------------------------------------------------------------------
- //
- //--------------------------------------------------------------------------------------------------------------------
- EventManager& Engine::GrabEventManager()
- {
-	assert(m_pEventManager != NULL);
-	return *(m_pEventManager);
- }
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+EventManager& Engine::GrabEventManager()
+{
+assert(m_pEventManager != NULL);
+return *(m_pEventManager);
+}
 
-  //--------------------------------------------------------------------------------------------------------------------
- //
- //--------------------------------------------------------------------------------------------------------------------
- SceneGraph& Engine::GrabSceneGraph()
- {
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+SceneGraph& Engine::GrabSceneGraph()
+{
 	assert(m_pSceneGraph != NULL);
 	return *(m_pSceneGraph);
- }
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void Engine::SetCurrentCamera ( AbstractCamera * pCamera )
+{
+	if(m_pCurrentCamera)
+	{
+	delete m_pCurrentCamera;
+	}
+	m_pCurrentCamera = pCamera;
+};
+ 

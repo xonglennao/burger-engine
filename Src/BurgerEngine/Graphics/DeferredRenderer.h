@@ -49,6 +49,8 @@ public:
 	void SwitchShowDebugMenu(){ m_bShowDebugMenu = !m_bShowDebugMenu; }
 	bool GetShowDebugMenu(){ return m_bShowDebugMenu; }
 
+	void SetPostProcessParameters( float fToneMappingKey, float fGlowMultiplier, float fBrightPassThreshold, float fBrightPassOffset, float fAdaptationBaseTime, const char* pColorLUT );
+
 	/// \brief strats rendering process
 	void Render();
 
@@ -215,7 +217,7 @@ private:
 	std::vector< OmniLight::OmniLightQuad > m_vOmniLightQuads;
 	std::vector< SpotLight::SpotLightQuad > m_vSpotLightQuads;
 
-	Texture3D * m_pLUT;
+	Texture3D * m_pColorLUT;
 };
 
 #endif //__DEFERREDRENDERER_H__

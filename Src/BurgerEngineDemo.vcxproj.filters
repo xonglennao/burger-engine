@@ -43,9 +43,6 @@
     <ClCompile Include="BurgerEngine\Graphics\DebugDraw.cpp">
       <Filter>BurgerEngine\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="BurgerEngine\Core\CameraFps.cpp">
-      <Filter>BurgerEngine\Core\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="BurgerEngine\Core\StageMain3DScene.cpp">
       <Filter>BurgerEngine\Core\Stage</Filter>
     </ClCompile>
@@ -172,6 +169,12 @@
     <ClCompile Include="BurgerEngine\Graphics\RenderingContext.cpp">
       <Filter>BurgerEngine\Graphics\Context</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\Core\FirstPersonCamera.cpp">
+      <Filter>BurgerEngine\Core\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Core\SphereCamera.cpp">
+      <Filter>BurgerEngine\Core\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -221,9 +224,6 @@
     </ClInclude>
     <ClInclude Include="BurgerEngine\Graphics\DebugDraw.h">
       <Filter>BurgerEngine\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="BurgerEngine\Core\CameraFps.h">
-      <Filter>BurgerEngine\Core\Camera</Filter>
     </ClInclude>
     <ClInclude Include="BurgerEngine\Core\StageMain3DScene.h">
       <Filter>BurgerEngine\Core\Stage</Filter>
@@ -350,6 +350,12 @@
     </ClInclude>
     <ClInclude Include="BurgerEngine\Base\BaseMacro.h">
       <Filter>BurgerEngine\Base\macro</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Core\FirstPersonCamera.h">
+      <Filter>BurgerEngine\Core\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Core\SphereCamera.h">
+      <Filter>BurgerEngine\Core\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

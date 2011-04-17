@@ -31,7 +31,7 @@ public:
 
 public:
 	/// \brief constructor
-	AbstractCamera( float fFOV, float fNear, float fFar );
+	AbstractCamera( float fFOV, const vec3& f3Pos, const vec2& f2Rotation, const vec4& f4DofParams, const vec2& f2Speed );
 
 	/// \brief destructor
 	virtual ~AbstractCamera(){}
@@ -39,17 +39,11 @@ public:
 	/// \brief the main update function, for position etc...
 	virtual void Update( float fDeltaTime ) = 0;
 
-	/// \brief Initialize Camera (set up callback)
-	virtual void Initialize() = 0;
-
-	/// \brief Terminate Camera (free callback)
-	virtual void Terminate() = 0;
-
 	/// \brief Set flags related to camera movement
-	virtual void SetFlag( CameraFlagEnum eFlag, bool bValue){};
+	void SetFlag( CameraFlagEnum eFlag, bool bValue);
 
 	/// \brief Add value to alpha and phi angles
-	virtual void UpdateAngles( float a_fAddToAlpha, float a_fAddToPhi ) = 0;
+	void UpdateAngles( float a_fAddToAlpha, float a_fAddToPhi );
 
 	vec3 const& GetPos() const	{return m_f3Pos;}
 	vec3 & GetPos() {return m_f3Pos;}
@@ -61,25 +55,35 @@ public:
 	float const& GetNear() const {return m_fNear;}
 	float const& GetFar() const {return m_fFar;}
 
-	float const& GetRY() const {return m_fAlpha;}
-	float const& GetRX() const {return m_fPhi;}
+	float const& GetRY() const {return m_fRY;}
+	float const& GetRX() const {return m_fRX;}
 
-	vec4 const GetDofParams() const {return vec4( m_f3DofParams.x + m_fDofOffset, m_f3DofParams.y + m_fDofOffset,m_f3DofParams.z + m_fDofOffset, m_f3DofParams.w );}
+	vec4 const GetDofParams() const {return vec4( m_f4DofParams.x + m_fDofOffset, m_f4DofParams.y + m_fDofOffset,m_f4DofParams.z + m_fDofOffset, m_f4DofParams.w );}
 	
-	void LookAt();
+	virtual float4x4 const GetViewMatrix() const = 0;
+	
+	virtual void LookAt() = 0;
 
 protected:
 	vec3& _GrabPos(){return m_f3Pos;}
 	vec3& _GrabAim(){return m_f3Aim;}
 	vec3& _GrabUp(){return m_f3Up;}
 
-protected:
-	/// Angle : rotation around Up axis
-	float m_fAlpha;
-	/// Angle : rotation around Right Axis
-	float m_fPhi;	
+	/// \brief Calculate new Position from updated parameters
+	virtual void _InternalUpdate() = 0;
 
 protected:
+	/// Angle : rotation around Up axis
+	float m_fRY;
+	/// Angle : rotation around Right Axis
+	float m_fRX;
+
+	/// Moving speed into space
+	float m_fPositionSpeed;
+
+	/// Mouse speed (sensibility)
+	float m_fRotationSpeed;
+
 	/// The position Vector
 	/// \todo On next implementation, we should use a full matrix instead of separate vector
 	vec3 m_f3Pos;
@@ -93,9 +97,11 @@ protected:
 
 	/// Depth of Field parameters
 	/// x = near blur; y = focal plane; z = far blur; w = blurriness cutoff
-	vec4	m_f3DofParams;
+	vec4	m_f4DofParams;
 	float	m_fDofOffset;
 
+	/// These flags are used when a key is pressed, in order to avoid keyboard repeat delay
+	int m_iFlags;
 };
 
 

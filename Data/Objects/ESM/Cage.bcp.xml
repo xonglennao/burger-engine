@@ -1,0 +1,60 @@
+<object name="InvertedCube" >
+	<component id="composite">
+		<parameters>
+			<position x="0.0" y="0.0" z="0.0"/>
+			<name>InvertedCube</name>
+			<component id="render">  <!-- COMPONENT TEST Maybe the component render can have it's own position (off set from the object -->
+				<parameters>
+					<position x="0.5" y="0.8" z="0.0" rX="90.0" rY="90.0" rZ="0.0"  scale="0.01" />
+					<mesh>
+					  <file>../Data/Mesh/gate.obj</file>
+					  <part>
+						<material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+					  </part>
+					</mesh>
+				</parameters>
+			</component>
+
+      <component id="render">
+        <!-- COMPONENT TEST Maybe the component render can have it's own position (off set from the object -->
+        <parameters>
+          <position x="-0.5" y="0.8" z="0.0" rX="90.0" rY="90.0" rZ="0.0"  scale="0.01" />
+          <mesh>
+            <file>../Data/Mesh/gate.obj</file>
+            <part>
+              <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+            </part>
+          </mesh>
+        </parameters>
+      </component>
+
+
+      <component id="render">
+        <!-- COMPONENT TEST Maybe the component render can have it's own position (off set from the object -->
+        <parameters>
+          <position x="0.0" y="0.8" z="0.5" rX="90.0" rY="0.0" rZ="0.0"  scale="0.01" />
+          <mesh>
+            <file>../Data/Mesh/gate.obj</file>
+            <part>
+              <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+            </part>
+          </mesh>
+        </parameters>
+      </component>
+
+      <component id="render">
+        <!-- COMPONENT TEST Maybe the component render can have it's own position (off set from the object -->
+        <parameters>
+          <position x="0.0" y="0.8" z="-0.5" rX="90.0" rY="0.0" rZ="0.0"  scale="0.01" />
+          <mesh>
+            <file>../Data/Mesh/gate.obj</file>
+            <part>
+              <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+            </part>
+          </mesh>
+        </parameters>
+      </component>
+
+    </parameters>
+	</component>
+</object>

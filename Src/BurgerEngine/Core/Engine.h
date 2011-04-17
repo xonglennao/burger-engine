@@ -51,6 +51,7 @@ public:
 
 	/// \brief Get Current camera
 	/// \todo a camera manager
+	void SetCurrentCamera ( AbstractCamera * pCamera );
 	AbstractCamera & GetCurrentCamera() const;
 
 	/// \brief	Grabber
