@@ -1,0 +1,106 @@
+<scene>
+
+  <settings>
+    <camera type="sphere">
+      <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" radius="75.0"/>
+      <speed position="0.05" rotation="0.05"/>
+      <parameters fov="45.0" dofNearBlur="-10.0" dofFocalPlane="75.0" dofFarBlur="350.0" dofMaxFarBlur="0.5"/>
+    </camera>
+    <postprocess>
+      <parameters toneMappingKey="0.2" glowMultiplier="1.5" brightPassThreshold="1.5" brightPassOffset="2.5" adaptationBaseTime="0.7"/>
+    </postprocess>
+  </settings>
+
+  <sceneobject x="0.0" y="100.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="0.2">
+    <ressourcecomponent>TestDirectional/InvertedCube</ressourcecomponent>
+    <instance name= "Cube"/>
+  </sceneobject>
+
+  <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
+    <ressourcecomponent>ESM/Teapot</ressourcecomponent>
+    <instance name= ""/>
+  </sceneobject>
+
+  <sceneobject x="30.0" y="50.0" z="30.0" rX="-45" rY="-30">
+    <light type="spotshadow">
+      <Multiplier value="0.02"/>
+      <Radius value="100"/>
+      <InnerAngle value="1"/>
+      <OuterAngle value="30"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </light>
+  </sceneobject>
+
+  <sceneobject x="-30.0" y="50.0" z="30.0" rX="-45" rY="30">
+    <light type="spotshadow">
+      <Multiplier value="0.02"/>
+      <Radius value="100"/>
+      <InnerAngle value="1"/>
+      <OuterAngle value="30"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </light>
+  </sceneobject>
+
+  <sceneobject x="0.0" y="50.0" z="-30.0" rX="-45" rY="180">
+    <light type="spotshadow">
+      <Multiplier value="0.02"/>
+      <Radius value="100"/>
+      <InnerAngle value="1"/>
+      <OuterAngle value="30"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </light>
+  </sceneobject>
+
+
+<!--
+  <sceneobject x="0.0" y="10.0" z="0.0" rX="0" rY="0">
+    <light type="spotshadow">
+      <Multiplier value="0.02"/>
+      <Radius value="50"/>
+      <InnerAngle value="1"/>
+      <OuterAngle value="45"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </light>
+  </sceneobject>
+
+  <sceneobject x="0.0" y="10.0" z="0.0" rX="0" rY="90">
+    <light type="spotshadow">
+      <Multiplier value="0.02"/>
+      <Radius value="150"/>
+      <InnerAngle value="1"/>
+      <OuterAngle value="45"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </light>
+  </sceneobject>
+
+  <sceneobject x="0.0" y="10.0" z="0.0" rX="0" rY="-90">
+    <light type="spotshadow">
+      <Multiplier value="0.02"/>
+      <Radius value="150"/>
+      <InnerAngle value="1"/>
+      <OuterAngle value="45"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </light>
+  </sceneobject>
+
+  <sceneobject x="0.0" y="10.0" z="0.0" rX="0" rY="180">
+    <light type="spotshadow">
+      <Multiplier value="0.02"/>
+      <Radius value="150"/>
+      <InnerAngle value="1"/>
+      <OuterAngle value="45"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </light>
+  </sceneobject>
+
+  <sceneobject x="0.0" y="10.0" z="0.0" rX="-90" rY="180">
+    <light type="spotshadow">
+      <Multiplier value="0.02"/>
+      <Radius value="150"/>
+      <InnerAngle value="1"/>
+      <OuterAngle value="45"/>
+      <Color  r="1.0" g="1.0" b="1.0"/>
+    </light>
+  </sceneobject>
+-->
+</scene>

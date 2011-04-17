@@ -1,26 +1,47 @@
 #include "AbstractCamera.h"
-#include "BurgerEngine/Graphics/CommonGraphics.h"
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+AbstractCamera::AbstractCamera( float fFOV, const vec3& f3Pos, const vec2& f2Rotation, const vec4& f4DofParams, const vec2& fSpeed )
+	: m_fFOV( fFOV )
+	, m_fNear( 0.1f )
+	, m_fFar( 10000.0f )
+	, m_f3Pos(f3Pos)
+	, m_fRX( f2Rotation.x)
+	, m_fRY( f2Rotation.y )
+	, m_f4DofParams ( f4DofParams )
+	, m_fDofOffset ( 0.0f )
+	, m_fPositionSpeed( fSpeed.x )
+	, m_fRotationSpeed( fSpeed.y )
+	, m_iFlags( 0 )
+{
+	m_f3Up = vec3( 0.0f, 1.0f, 0.0f );
+}
 
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-AbstractCamera::AbstractCamera( float fFOV, float fNear, float fFar )
-	: m_fFOV( fFOV )
-	, m_fNear( fNear )
-	, m_fFar( fFar )
+void AbstractCamera::UpdateAngles( float a_fAddToY, float a_fAddToX )
 {
-	m_f3Pos = vec3( 0.0f, 0.0f, 0.0f );
-	m_f3Aim = vec3( 0.0f, 0.0f, 50.0f );
-	m_f3Up = vec3( 0.0f, 1.0f, 0.0f );
+	m_fRY += a_fAddToY * m_fRotationSpeed;
+	m_fRX += a_fAddToX * m_fRotationSpeed;
 
-	m_f3DofParams = vec4( -10.0f,  15.0f, 150.0f, 0.8f );
-	m_fDofOffset = 0.0f;
+	m_fRX = m_fRX > 90.0f ? 90.0f : m_fRX;
+	m_fRX = m_fRX < -90.0f ? -90.0f : m_fRX;
+	
+	if(m_fRY > 360.0f || m_fRY < -360.0f )
+	{
+		m_fRY = 0.0f; 
+	}
 }
 
-void AbstractCamera::LookAt()
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void AbstractCamera::SetFlag( CameraFlagEnum eFlag, bool bValue )
 {
-	//gluLookAt( m_f3Pos.x, m_f3Pos.y, m_f3Pos.z, m_f3Aim.x, m_f3Aim.y, m_f3Aim.z, m_f3Up.x, m_f3Up.y, m_f3Up.z );
-	glRotatef( -m_fPhi, 1.0f, 0.0f, 0.0f );
-	glRotatef( -m_fAlpha, 0.0f, 1.0f, 0.0f );
-	glTranslatef( -m_f3Pos.x, -m_f3Pos.y, -m_f3Pos.z );
+	if( bValue )
+		m_iFlags |= eFlag;
+	else
+		m_iFlags ^= eFlag;
 }

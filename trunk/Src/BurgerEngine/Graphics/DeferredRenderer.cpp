@@ -50,16 +50,13 @@ DeferredRenderer::DeferredRenderer()
 	, m_fBrightPassThreshold( 0.5f )
 	, m_fBrightPassOffset( 10.0f )
 	, m_fAdaptationBaseTime( 0.6f )
+	, m_pColorLUT( NULL )
 {
 	CreateFBO();
 	
 	//loading engine shaders
 	LoadEngineShaders();
 	
-	//loading LUT (temporary, this should be loaded by the scene .xml
-	//m_pLUT  = TextureManager::GrabInstance().getTexture3DFrom2DFile("../Data/Textures/neutral_lut.png", 16, 16, 16, false, true, true, true, true );
-	m_pLUT = static_cast< Texture3D* >( TextureManager::GrabInstance().AddTexture( "../Data/Textures/xml/neutral_lut.btx.xml" ) );
-
 	//loading font
 	GLuint iFontId;
 	glGenTextures(1, &iFontId);
@@ -88,6 +85,19 @@ DeferredRenderer::DeferredRenderer()
 	oDebugMenu.AddEntry( "Show Bounding Boxes", m_iDebugBoundingBox, 0, 1, 1 );
 	oDebugMenu.AddEntry( "Show Spot Lights Frustum", m_iDebugSpotLightFrustum, 0, 1, 1 );
 
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void DeferredRenderer::SetPostProcessParameters( float fToneMappingKey, float fGlowMultiplier, float fBrightPassThreshold, float fBrightPassOffset, float fAdaptationBaseTime, const char* pColorLUT )
+{
+	m_fToneMappingKey = fToneMappingKey;
+	m_fGlowMultiplier = fGlowMultiplier;
+	m_fBrightPassThreshold = fBrightPassThreshold;
+	m_fBrightPassOffset = fBrightPassOffset;
+	m_fAdaptationBaseTime = fAdaptationBaseTime;
+	m_pColorLUT = static_cast< Texture3D* >( TextureManager::GrabInstance().AddTexture( pColorLUT ) );
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -1102,7 +1112,7 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 
 		float fRadius = pSpot->GetRadius();
 
-		a_rDriverRenderingContext.Reshape( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, 2.0f * acosf( pSpot->GetCosOuterAngle()  ) / (float)M_PI * 180.0f, 0.5, fRadius );
+		a_rDriverRenderingContext.Reshape( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, 2.0f * acosf( pSpot->GetCosOuterAngle()  ) / (float)M_PI * 180.0f, 0.01f, fRadius );
 		glRotatef( -oLightRotation.x, 1.0,0.0,0.0 );
 		glRotatef( oLightRotation.y, 0.0,1.0,0.0 );
 
@@ -1409,6 +1419,7 @@ void DeferredRenderer::Render()
 	unsigned int iWindowHeight = rEngine.GetWindowHeight();
 
 	AbstractCamera & rCamera = rEngine.GetCurrentCamera();
+
 	OpenGLContext& rHardwareRenderContext = rEngine.GrabRenderingContext(); 
 
 	// Retrieving scene matrices
@@ -1416,7 +1427,7 @@ void DeferredRenderer::Render()
 	float4x4 mInvProjection = !mProjection;
 
 	vec3 f3CamPos = rCamera.GetPos();
-	float4x4 mView =  rotateXY( -rCamera.GetRX()*DEG_TO_RAD, rCamera.GetRY()*DEG_TO_RAD ) * translate( -f3CamPos.x, -f3CamPos.y, -f3CamPos.z );
+	float4x4 mView =  rCamera.GetViewMatrix();//rotateXY( -rCamera.GetRX()*DEG_TO_RAD, rCamera.GetRY()*DEG_TO_RAD ) * translate( -f3CamPos.x, -f3CamPos.y, -f3CamPos.z );
 
 	float4x4 mViewProjection = transpose(mProjection) * mView;
 
@@ -1649,7 +1660,7 @@ void DeferredRenderer::Render()
 	m_pHDRSceneBuffer->ActivateTexture(1);
 
 	glActiveTexture( GL_TEXTURE5 );
-	m_pLUT->Activate();
+	m_pColorLUT->Activate();
 
 	DrawFullScreenQuad( iWindowWidth, iWindowHeight );
 	m_pToneMappingShader->Deactivate();
