@@ -1,5 +1,6 @@
 #include "BurgerEngine/Core/CompositeComponent.h"
 #include "BurgerEngine/Core/RenderComponent.h"
+#include "BurgerEngine/Core/LightComponent.h"
 #include "BurgerEngine/Core/ObjectFactory.h"
 #include "BurgerEngine/External/TinyXml/TinyXml.h"
 
@@ -94,6 +95,11 @@ void CompositeComponent::SetPos( vec3 const& a_vValue )
 			RenderComponent* pRenderComponent = static_cast<RenderComponent*>(pComponent);
 			pRenderComponent->UpdatePos();
 		}
+		else if (pComponent->GetType() == LIGHT)
+		{
+			LightComponent* pLightComponent = static_cast<LightComponent*>(pComponent);
+			pLightComponent->UpdatePos();
+		}
 	}
 
 }
@@ -114,6 +120,26 @@ void CompositeComponent::SetScale( float const a_fValue )
 		{
 			RenderComponent* pRenderComponent = static_cast<RenderComponent*>(pComponent);
 			pRenderComponent->UpdateScale(a_fValue);
+		}
+	}
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void CompositeComponent::SetRotation( vec3 const& a_vValue )
+{
+	/// \todo maybe the composite component should hold a scale value
+	//For all component that have a scale issue
+	FOR_EACH_IT(std::vector<AbstractComponent*>, m_vComponents, itComponent)
+	{
+		AbstractComponent* pComponent = (*itComponent);
+		//The component should not be null
+		assert(pComponent);
+		if (pComponent->GetType() == LIGHT)
+		{
+			LightComponent* pLightComponent = static_cast<LightComponent*>(pComponent);
+			pLightComponent->UpdateRotation(a_vValue);
 		}
 	}
 

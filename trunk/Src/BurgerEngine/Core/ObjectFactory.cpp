@@ -2,6 +2,7 @@
 #include "BurgerEngine/Core/ObjectFactory.h"
 #include "BurgerEngine/Core/CompositeComponent.h"
 #include "BurgerEngine/Core/RenderComponent.h"
+#include "BurgerEngine/Core/LightComponent.h"
 
 #include "BurgerEngine/External/TinyXml/TinyXml.h"
 //--------------------------------------------------------------------------------------------------------------------
@@ -88,6 +89,10 @@ AbstractComponent* ObjectFactory::CreateAndInitComponent(TiXmlElement const& a_r
 	else if(sId == "composite")
 	{
 		pComponent = new CompositeComponent(a_pParent);
+	}
+	else if(sId == "light")
+	{
+		pComponent = new LightComponent(a_pParent);
 	}
 
 	//Get Parameters

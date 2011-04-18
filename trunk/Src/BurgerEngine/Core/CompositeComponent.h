@@ -60,6 +60,10 @@ public:
 	/// \todo again this is kinda specific so it's pretty ugly, should be change
 	void SetScale( float const a_fValue );
 
+	/// \brief Update all render componenent with a new scale
+	/// \todo again this is kinda specific so it's pretty ugly, should be change
+	void SetRotation( vec3 const& a_vValue );
+
 protected:
 	/// \brief Inner update
 	void _Update();

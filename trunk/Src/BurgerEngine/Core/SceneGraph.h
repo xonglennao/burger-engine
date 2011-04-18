@@ -50,8 +50,6 @@ private:
 /// \brief Loads objects, light etc. from a XML file
 	void LoadSceneXML( const char * sName );
 
-	/// \brief Load all components ressource (not instance) to the componenents manager
-	void _LoadComponentsXML( const char * sName );
 
 private:
 

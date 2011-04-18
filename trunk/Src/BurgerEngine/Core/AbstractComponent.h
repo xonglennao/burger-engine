@@ -26,6 +26,7 @@ enum ComponentType
 {
 	COMPOSITE,
 	RENDER,
+	LIGHT,
 	UNKNOWN
 };
 

@@ -169,6 +169,9 @@
     <ClCompile Include="BurgerEngine\Graphics\RenderingContext.cpp">
       <Filter>BurgerEngine\Graphics\Context</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\Core\LightComponent.cpp">
+      <Filter>BurgerEngine\Core\Component</Filter>
+    </ClCompile>
     <ClCompile Include="BurgerEngine\Core\FirstPersonCamera.cpp">
       <Filter>BurgerEngine\Core\Camera</Filter>
     </ClCompile>
@@ -350,6 +353,9 @@
     </ClInclude>
     <ClInclude Include="BurgerEngine\Base\BaseMacro.h">
       <Filter>BurgerEngine\Base\macro</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Core\LightComponent.h">
+      <Filter>BurgerEngine\Core\Component</Filter>
     </ClInclude>
     <ClInclude Include="BurgerEngine\Core\FirstPersonCamera.h">
       <Filter>BurgerEngine\Core\Camera</Filter>
