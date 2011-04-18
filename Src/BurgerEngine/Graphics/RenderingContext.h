@@ -57,8 +57,6 @@ public:
 	std::vector< SceneMesh* >& GetTransparentSceneMeshes() { return m_oTransparentSceneMeshes; }
 
 	const std::vector< OmniLight* >& GetOmniLights() const { return m_oOmniLights; }
-	void AddOmniLight(OmniLight& a_rLight);
-
 
 	const std::vector< SpotLight* >& GetSpotLights()const { return m_oSpotLights; }
 	std::vector< SpotLight* >& GrabSpotLights() { return m_oSpotLights; }
@@ -77,6 +75,9 @@ public:
 	/// \brief Grabber
 	DeferredRenderer& GrabRenderer(){return *m_pDeferredRenderer;}
 
+	/// \brief Add a light, depending on it's type
+	void AddLight(SceneLight& a_rLight, SceneLight::LightType a_eType);
+
 private:
 	/// The actual renderer
 	/// List of renderer? This will come with pipeline
@@ -92,9 +93,6 @@ private:
 	std::vector< SceneLight* >		m_oDirectionalLights;
 
 	SkyBox *						m_pSkyBox;
-
-	std::map< std::string, SceneLight::LightType > m_oStringToLightTypeMap;
-
 	DebugMenu m_oDebugMenu;
 
 };

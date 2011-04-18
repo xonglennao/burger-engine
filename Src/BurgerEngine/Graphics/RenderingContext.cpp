@@ -24,13 +24,6 @@ RenderingContext::RenderingContext():
 bool RenderingContext::Initialize()
 {
 	m_pDeferredRenderer = new DeferredRenderer();
-
-	//Light type
-	m_oStringToLightTypeMap["omni"] = SceneLight::E_OMNI_LIGHT;
-	m_oStringToLightTypeMap["spot"] = SceneLight::E_SPOT_LIGHT;
-	m_oStringToLightTypeMap["spotshadow"] = SceneLight::E_SPOT_SHADOW;
-	m_oStringToLightTypeMap["directional"] = SceneLight::E_DIRECTIONAL;
-
 	return true;
 }
 
@@ -53,7 +46,7 @@ bool RenderingContext::Terminate()
 	++oMeshIt;
 	}
 	*/
-	m_oStringToLightTypeMap.clear();
+
 	m_oSceneMeshes.clear();
 	m_oTransparentSceneMeshes.clear();
 	m_oOmniLights.clear();
@@ -70,6 +63,7 @@ bool RenderingContext::Terminate()
 //--------------------------------------------------------------------------------------------------------------------
 void RenderingContext::Update()
 {
+
 	m_pDeferredRenderer->Render();
 }
 
@@ -89,16 +83,24 @@ bool RenderingContext::AddMesh(SceneMesh& a_rSceneMesh)
 	{
 		m_oSceneMeshes.push_back(&a_rSceneMesh);
 	}
-	
+
 	return true;
 }
+
 
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void RenderingContext::AddOmniLight( OmniLight& a_rLight )
+void RenderingContext::AddLight( SceneLight& a_rLight, SceneLight::LightType a_eType )
 {
-	m_oOmniLights.push_back(&a_rLight);
+	switch (a_eType)
+	{
+		case SceneLight::E_DIRECTIONAL:m_oDirectionalLights.push_back(&a_rLight);break;
+		case SceneLight::E_OMNI_LIGHT:m_oOmniLights.push_back(static_cast<OmniLight*>(&a_rLight));break;
+		case SceneLight::E_SPOT_LIGHT: m_oSpotLights.push_back(static_cast<SpotLight*>(&a_rLight));break;
+		case SceneLight::E_SPOT_SHADOW: m_oSpotShadows.push_back(static_cast<SpotShadow*>(&a_rLight));break;
+		default:break;
+	}
 }
 
 

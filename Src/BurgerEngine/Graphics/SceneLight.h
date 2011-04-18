@@ -49,14 +49,17 @@ public:
 	~SceneLight();
 
 public:
-	inline void SetColor( vec3 vValue ){ vColor = vValue; };
-	inline vec3 GetColor(){ return vColor; };
+	void SetColor( vec3 vValue ){ vColor = vValue; };
+	vec3 GetColor(){ return vColor; };
 
-	inline void SetMultiplier( float fValue ){ fMultiplier = fValue; };
-	inline float GetMultiplier(){ return fMultiplier; };
+	void SetMultiplier( float fValue ){ fMultiplier = fValue; };
+	float GetMultiplier(){ return fMultiplier; };
 
+	void SetType(LightType a_eType){m_eLightType = a_eType;}
+	LightType GetType() const {return m_eLightType;}
 private:
 	float		fMultiplier;
+	LightType	m_eLightType;
 	vec3		vColor;
 };
 

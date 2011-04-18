@@ -21,34 +21,19 @@
     <instance name= ""/>
   </sceneobject>
 
-  <sceneobject x="30.0" y="50.0" z="30.0" rX="-45" rY="-30">
-    <light type="spotshadow">
-      <Multiplier value="0.02"/>
-      <Radius value="100"/>
-      <InnerAngle value="1"/>
-      <OuterAngle value="30"/>
-      <Color  r="1.0" g="1.0" b="1.0"/>
-    </light>
+  <sceneobject x="30.0" y="50.0" z="30.0" rX="-45" rY="-30" rZ="0.0" scale="1">
+    <ressourcecomponent>ESM/SpotShadow</ressourcecomponent>
+    <instance name= ""/>
   </sceneobject>
 
-  <sceneobject x="-30.0" y="50.0" z="30.0" rX="-45" rY="30">
-    <light type="spotshadow">
-      <Multiplier value="0.02"/>
-      <Radius value="100"/>
-      <InnerAngle value="1"/>
-      <OuterAngle value="30"/>
-      <Color  r="1.0" g="1.0" b="1.0"/>
-    </light>
+   <sceneobject x="-30.0" y="50.0" z="30.0" rX="-45" rY="30" rZ="0.0" scale="1">
+    <ressourcecomponent>ESM/SpotShadow</ressourcecomponent>
+    <instance name= ""/>
   </sceneobject>
 
-  <sceneobject x="0.0" y="50.0" z="-30.0" rX="-45" rY="180">
-    <light type="spotshadow">
-      <Multiplier value="0.02"/>
-      <Radius value="100"/>
-      <InnerAngle value="1"/>
-      <OuterAngle value="30"/>
-      <Color  r="1.0" g="1.0" b="1.0"/>
-    </light>
+   <sceneobject x="0.0" y="50.0" z="-30.0" rX="-45" rY="180" rZ="0.0" scale="1">
+    <ressourcecomponent>ESM/SpotShadow</ressourcecomponent>
+    <instance name= ""/>
   </sceneobject>
 
 
