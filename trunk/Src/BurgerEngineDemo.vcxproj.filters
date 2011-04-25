@@ -178,6 +178,15 @@
     <ClCompile Include="BurgerEngine\Core\SphereCamera.cpp">
       <Filter>BurgerEngine\Core\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\FX\Particle.cpp">
+      <Filter>BurgerEngine\FX</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\FX\ParticleEmitter.cpp">
+      <Filter>BurgerEngine\FX</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\Core\ParticleComponent.cpp">
+      <Filter>BurgerEngine\Core\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -363,6 +372,15 @@
     <ClInclude Include="BurgerEngine\Core\SphereCamera.h">
       <Filter>BurgerEngine\Core\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="BurgerEngine\FX\Particle.h">
+      <Filter>BurgerEngine\FX</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\FX\ParticleEmitter.h">
+      <Filter>BurgerEngine\FX</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Core\ParticleComponent.h">
+      <Filter>BurgerEngine\Core\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="BurgerEngine">
@@ -490,6 +508,12 @@
     </Filter>
     <Filter Include="BurgerEngine\Graphics\Context">
       <UniqueIdentifier>{374b07d5-208d-489c-b8cd-0644d89a090f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Graphics\FX">
+      <UniqueIdentifier>{5b0a7e30-886f-42f3-a023-a13286bf6fe3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\FX">
+      <UniqueIdentifier>{37afb355-d7a7-42b6-9849-6513c66ffeac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

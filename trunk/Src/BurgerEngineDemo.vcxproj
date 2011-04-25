@@ -24,6 +24,7 @@
     <ClInclude Include="BurgerEngine\Core\LightComponent.h" />
     <ClInclude Include="BurgerEngine\Core\FirstPersonCamera.h" />
     <ClInclude Include="BurgerEngine\Core\ObjectFactory.h" />
+    <ClInclude Include="BurgerEngine\Core\ParticleComponent.h" />
     <ClInclude Include="BurgerEngine\Core\RenderComponent.h" />
     <ClInclude Include="BurgerEngine\Core\SceneGraph.h" />
     <ClInclude Include="BurgerEngine\Core\SphereCamera.h" />
@@ -37,6 +38,8 @@
     <ClInclude Include="BurgerEngine\External\Math\Vector.h" />
     <ClInclude Include="BurgerEngine\External\TinyXml\tinystr.h" />
     <ClInclude Include="BurgerEngine\External\TinyXml\tinyxml.h" />
+    <ClInclude Include="BurgerEngine\FX\Particle.h" />
+    <ClInclude Include="BurgerEngine\FX\ParticleEmitter.h" />
     <ClInclude Include="BurgerEngine\Graphics\AbstractMesh.h" />
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h" />
     <ClInclude Include="BurgerEngine\Graphics\AbstractTexture.h" />
@@ -85,6 +88,7 @@
     <ClCompile Include="BurgerEngine\Core\LightComponent.cpp" />
     <ClCompile Include="BurgerEngine\Core\FirstPersonCamera.cpp" />
     <ClCompile Include="BurgerEngine\Core\ObjectFactory.cpp" />
+    <ClCompile Include="BurgerEngine\Core\ParticleComponent.cpp" />
     <ClCompile Include="BurgerEngine\Core\RenderComponent.cpp" />
     <ClCompile Include="BurgerEngine\Core\SceneGraph.cpp" />
     <ClCompile Include="BurgerEngine\Core\SphereCamera.cpp" />
@@ -99,6 +103,8 @@
     <ClCompile Include="BurgerEngine\External\TinyXml\tinyxml.cpp" />
     <ClCompile Include="BurgerEngine\External\TinyXml\tinyxmlerror.cpp" />
     <ClCompile Include="BurgerEngine\External\TinyXml\tinyxmlparser.cpp" />
+    <ClCompile Include="BurgerEngine\FX\Particle.cpp" />
+    <ClCompile Include="BurgerEngine\FX\ParticleEmitter.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\AbstractMesh.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\AbstractPostEffect.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\AbstractTexture.cpp" />
