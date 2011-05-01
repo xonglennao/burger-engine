@@ -7,7 +7,7 @@
 				<parameters>
 					<position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"/>
 					<light type="spotshadow"/>
-					<Multiplier value="0.02"/>
+					<Multiplier value="1.0"/>
 					<Radius value="100"/>
 					<InnerAngle value="1"/>
 					<OuterAngle value="30"/>

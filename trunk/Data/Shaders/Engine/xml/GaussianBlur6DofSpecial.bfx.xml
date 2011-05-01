@@ -1,4 +1,0 @@
-<shader>
-  <vertexshader>../Data/Shaders/BasicVertexShader.vert</vertexshader>
-  <pixelshader>../Data/Shaders/Engine/GaussianBlur6DofSpecial.frag</pixelshader>
-</shader>

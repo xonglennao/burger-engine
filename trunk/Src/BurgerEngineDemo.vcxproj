@@ -175,11 +175,11 @@
     <None Include="..\Data\Shaders\Engine\AvgLumInit.frag" />
     <None Include="..\Data\Shaders\Engine\BrightPass.frag" />
     <None Include="..\Data\Shaders\Engine\DownSample4x4.frag" />
+    <None Include="..\Data\Shaders\Engine\DownSample4x4DOF.frag" />
     <None Include="..\Data\Shaders\Engine\ExponentialShadowMap.frag" />
     <None Include="..\Data\Shaders\Engine\ExponentialShadowMap.vert" />
     <None Include="..\Data\Shaders\Engine\GaussianBlur10.frag" />
     <None Include="..\Data\Shaders\Engine\GaussianBlur6.frag" />
-    <None Include="..\Data\Shaders\Engine\GaussianBlur6DofSpecial.frag" />
     <None Include="..\Data\Shaders\Engine\LightAdaptation.frag" />
     <None Include="..\Data\Shaders\Engine\LogGaussianBlur10.frag" />
     <None Include="..\Data\Shaders\Engine\OmniLight.frag" />

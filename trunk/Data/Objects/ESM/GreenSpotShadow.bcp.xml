@@ -1,0 +1,20 @@
+<object name="Spot" >
+	<component id="composite">
+		<parameters>
+			<position x="0.0" y="0.0" z="0.0"/>
+			<name>Spot</name>
+			<component id="light">  
+				<parameters>
+					<position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"/>
+					<light type="spotshadow"/>
+					<Multiplier value="1.0"/>
+					<Radius value="100"/>
+					<InnerAngle value="1"/>
+					<OuterAngle value="30"/>
+					<Color  r="0.3" g="1.0" b="0.3"/>
+				</parameters>
+			</component>
+			
+		</parameters>
+	</component>
+</object>
