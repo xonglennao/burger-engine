@@ -99,6 +99,8 @@ private:
 
 	void DisplayDebugMenu();
 
+	void DebugRender( const std::vector< SceneMesh* >& oSceneMeshes,  const std::vector< SceneMesh* >& oTransparentSceneMeshes, const std::vector< SpotShadow* >& oSpotShadows, const std::vector< SpotLight* >& oSpotLights );
+
 	/// \brief Do frustum culling test on meshes and lights
 	void GetVisibleObjects( RenderingContext& rRenderContext, const Frustum& oViewFrustum, const float4x4& mView, std::vector< SceneMesh* >& oVisibleSceneMeshes, std::vector< SceneMesh* >& oVisibleTransparentSceneMeshes, std::vector< OmniLight* >& oVisibleOmniLights, std::vector< SpotLight* >& oVisibleSpotLights, std::vector< SpotShadow* >& oVisibleSpotShadows );
 
@@ -120,13 +122,13 @@ private:
 	FBO* m_pBrightPass2Buffer;
 
 	FBO* m_pDOFBlur1Buffer;
-	FBO* m_pDOFBlur2Buffer;
 
 	GLuint m_iFullScreenQuadBufferId;
 	GLuint m_iFullScreenQuadBufferIdCW;
 	
 	//Debug variables
 	int				m_iDebugFlag;
+	int				m_iDebugRender;
 	bool			m_bShowDebugMenu;
 	int				m_iSkipCulling;
 	int				m_iDebugBoundingBox;
@@ -181,8 +183,8 @@ private:
 	Shader*			m_pLogBlur10Shader;
 	unsigned int	m_iLogBlur10ShaderPixelSizeHandle;
 
-	Shader*			m_pBlur6DofSpecialShader;
-	unsigned int	m_iBlur6DofSpecialShaderPixelSizeHandle;
+	Shader*			m_pDownSample4x4DOF;
+	unsigned int	m_iDownSample4x4DOFPixelSizeHandle;
 
 	Shader*			m_pBlur10Shader;
 	unsigned int	m_iBlur10ShaderPixelSizeHandle;
@@ -205,6 +207,12 @@ private:
 	Shader*			m_pBrightPassShader;
 	unsigned int	m_iBrightPassShaderInvViewPortHandle;
 	unsigned int	m_iBrightPassShaderThresholdOffsetKeyHandle;
+
+	//Debug render shaders
+	Shader*			m_pBasicTextureShader;
+	Shader*			m_pDebugGlossShader;
+	Shader*			m_pDebugSpecularShader;
+	Shader*			m_pDebugDepthShader;
 
 	//Post-process settings
 	float m_fToneMappingKey;

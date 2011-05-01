@@ -601,9 +601,6 @@
     <None Include="..\Data\Shaders\Material\Transparency.frag">
       <Filter>BurgerEngine\Data\Shaders\Material</Filter>
     </None>
-    <None Include="..\Data\Shaders\Engine\GaussianBlur6DofSpecial.frag">
-      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
-    </None>
     <None Include="..\Data\Shaders\Material\tex3D.frag">
       <Filter>BurgerEngine\Data\Shaders\Material</Filter>
     </None>
@@ -674,6 +671,9 @@
       <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
     </None>
     <None Include="..\Data\Shaders\Engine\LogGaussianBlur10.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\DownSample4x4DOF.frag">
       <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
     </None>
   </ItemGroup>

@@ -27,8 +27,6 @@
 
 #include "BurgerEngine/Graphics/TextureManager.h"
 
-//#define NO_MATERIAL_PASS
-
 const int GLOW_RATIO = 4;
 const float MAX_FRAME = 15.0;
 
@@ -42,6 +40,7 @@ DeferredRenderer::DeferredRenderer()
 	: m_iDebugFlag(0)
 	, m_iSkipCulling(0)
 	, m_iDebugBoundingBox(0)
+	, m_iDebugRender(0)
 	, m_iDebugSpotLightFrustum(0)
 	, m_fFrameTime( 10.0 )
 	, m_bShowDebugMenu( false )
@@ -75,7 +74,7 @@ DeferredRenderer::DeferredRenderer()
 
 	DebugMenu& oDebugMenu = Engine::GrabInstance().GrabRenderContext().GetDebugMenu();
 
-	oDebugMenu.AddEntry( "ToneMappingKey", m_fToneMappingKey, 0.0f, 1.0f, 0.1f );
+	oDebugMenu.AddEntry( "ToneMappingKey", m_fToneMappingKey, 0.0f, 1.0f, 0.01f );
 	oDebugMenu.AddEntry( "Glow Multiplier", m_fGlowMultiplier, 0.0f, 10.0f, 0.5f );
 	oDebugMenu.AddEntry( "BrightPass Threshold", m_fBrightPassThreshold, 0.0f, 10.0f, 0.5f );
 	oDebugMenu.AddEntry( "BrightPass Offset", m_fBrightPassOffset, 0.0f, 10.0f, 0.5f );
@@ -84,6 +83,7 @@ DeferredRenderer::DeferredRenderer()
 	oDebugMenu.AddEntry( "Skip Culling", m_iSkipCulling, 0, 1, 1 );
 	oDebugMenu.AddEntry( "Show Bounding Boxes", m_iDebugBoundingBox, 0, 1, 1 );
 	oDebugMenu.AddEntry( "Show Spot Lights Frustum", m_iDebugSpotLightFrustum, 0, 1, 1 );
+	oDebugMenu.AddEntry( "DebugRender", m_iDebugRender, 0, 10, 1 );
 
 }
 
@@ -146,9 +146,6 @@ DeferredRenderer::~DeferredRenderer()
 
 	delete m_pDOFBlur1Buffer;
 	m_pDOFBlur1Buffer = NULL;
-
-	delete m_pDOFBlur2Buffer;
-	m_pDOFBlur2Buffer = NULL;
 
 	delete m_pFont;
 	m_pFont = NULL;
@@ -216,8 +213,6 @@ void DeferredRenderer::CreateFBO()
 	m_pDOFBlur1Buffer = new FBO( iWindowWidth/2, iWindowHeight/2, FBO::E_FBO_2D );
 	m_pDOFBlur1Buffer->GenerateColorOnly( GL_RGBA16F_ARB );
 
-	m_pDOFBlur2Buffer = new FBO( iWindowWidth/2, iWindowHeight/2, FBO::E_FBO_2D );
-	m_pDOFBlur2Buffer->GenerateColorOnly( GL_RGBA16F_ARB );
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -301,13 +296,12 @@ void DeferredRenderer::LoadEngineShaders()
 	m_pBlur6Shader->setUniformTexture("sTexture",0);
 	m_pBlur6Shader->Deactivate();
 
-	//Blur 6 used with multiple render targets
-	m_pBlur6DofSpecialShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/GaussianBlur6DofSpecial.bfx.xml" );
-	m_pBlur6DofSpecialShader->Activate();
-	m_iBlur6DofSpecialShaderPixelSizeHandle = glGetUniformLocation( m_pBlur6DofSpecialShader->getHandle(), "vPixelSize" );
-	m_pBlur6DofSpecialShader->setUniformTexture("sTexture",0);
-	m_pBlur6DofSpecialShader->setUniformTexture("sBlurData",1);
-	m_pBlur6DofSpecialShader->Deactivate();
+	m_pDownSample4x4DOF = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/DownSample4x4DOF.bfx.xml" );
+	m_pDownSample4x4DOF->Activate();
+	m_iDownSample4x4DOFPixelSizeHandle = glGetUniformLocation( m_pDownSample4x4DOF->getHandle(), "vPixelSize" );
+	m_pDownSample4x4DOF->setUniformTexture("sTexture",0);
+	m_pDownSample4x4DOF->setUniformTexture("sBlurData",1);
+	m_pDownSample4x4DOF->Deactivate();
 
 	//Blur 10 shader
 	m_pBlur10Shader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/GaussianBlur10.bfx.xml" );
@@ -372,6 +366,27 @@ void DeferredRenderer::LoadEngineShaders()
 	m_pBrightPassShader->setUniformTexture("sLuminance",1);	
 	m_pBrightPassShader->Deactivate();
 
+	//Debug render shaders
+
+	m_pBasicTextureShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/BasicTexture.bfx.xml" );
+	m_pBasicTextureShader->Activate();
+	m_pBasicTextureShader->setUniformTexture("sTexture",0);
+	m_pBasicTextureShader->Deactivate();
+
+	m_pDebugGlossShader = rShaderManager.AddShader( "../Data/Shaders/Engine/DebugRender/xml/DebugGloss.bfx.xml" );
+	m_pDebugGlossShader->Activate();
+	m_pDebugGlossShader->setUniformTexture("sTexture",0);
+	m_pDebugGlossShader->Deactivate();
+
+	m_pDebugSpecularShader = rShaderManager.AddShader( "../Data/Shaders/Engine/DebugRender/xml/DebugSpecular.bfx.xml" );
+	m_pDebugSpecularShader->Activate();
+	m_pDebugSpecularShader->setUniformTexture("sTexture",0);
+	m_pDebugSpecularShader->Deactivate();
+	
+	m_pDebugDepthShader = rShaderManager.AddShader( "../Data/Shaders/Engine/DebugRender/xml/DebugDepth.bfx.xml" );
+	m_pDebugDepthShader->Activate();
+	m_pDebugDepthShader->setUniformTexture("sTexture",0);
+	m_pDebugDepthShader->Deactivate();
 
 }
 
@@ -778,7 +793,7 @@ void DeferredRenderer::DrawCube( const vec3 * pPoints )
 {
 	glLineWidth( 3.0f );
 	glColor3f(1.0f,0.0f,0.0f);
-	glDisable( GL_DEPTH_TEST );
+	//glDisable( GL_DEPTH_TEST );
 
 	glBegin( GL_LINES );
 
@@ -816,7 +831,7 @@ void DeferredRenderer::DrawCube( const vec3 * pPoints )
 	
 	glEnd();
 	
-	glEnable( GL_DEPTH_TEST );
+	//glEnable( GL_DEPTH_TEST );
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -1082,15 +1097,6 @@ void DeferredRenderer::ComputeOneSpotBoundingQuad( SpotLight* pLight, AbstractCa
 //--------------------------------------------------------------------------------------------------------------------
 void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oSceneMeshes, const std::vector< SpotShadow* >& oSpotShadows, OpenGLContext& a_rDriverRenderingContext )
 {
-	if( m_iDebugFlag == 0 )
-	{
-		glCullFace( GL_BACK );
-	}
-	else
-	{
-		glCullFace( GL_FRONT );
-	}
-
 	std::vector< SpotShadow* >::const_iterator oSpotIt = oSpotShadows.begin();
 	std::vector< SpotShadow* >::const_iterator oEnd = oSpotShadows.end();
 
@@ -1099,14 +1105,6 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 		SpotShadow * pSpot = *oSpotIt;
 		
 		vec3 oLightPos = pSpot->GetPos();
-
-		///////////////
-		
-		//fInc += 0.001f;
-		//pSpot->SetPos( vec3( sinf( fInc ) * 40.0f, oLightPos.y, oLightPos.z) );
-		//pSpot->ComputeBoundingBox();
-		
-		//////////////
 
 		vec3 oLightRotation = pSpot->GetRotation();
 
@@ -1162,7 +1160,7 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 		m_pLogBlur10Shader->setUniform2fv( m_iLogBlur10ShaderPixelSizeHandle, 1, pPixelSize );
 
 		m_pSpotShadowBlurBuffer->Activate();
-		DrawFullScreenQuad( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, m_iDebugFlag == 0 );
+		DrawFullScreenQuad( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize );
 
 		m_pSpotShadowBlurBuffer->Deactivate();
 		
@@ -1173,7 +1171,7 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 		m_pLogBlur10Shader->setUniform2fv( m_iLogBlur10ShaderPixelSizeHandle, 1, pPixelSize);
 			
 		pSpot->ActivateBuffer();
-		DrawFullScreenQuad( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, m_iDebugFlag == 0 );
+		DrawFullScreenQuad( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize );
 
 		pSpot->DeactivateBuffer();
 
@@ -1181,8 +1179,6 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 		
 		++oSpotIt;
 	}
-
-	glCullFace( GL_BACK );
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -1427,13 +1423,12 @@ void DeferredRenderer::Render()
 	float4x4 mInvProjection = !mProjection;
 
 	vec3 f3CamPos = rCamera.GetPos();
-	float4x4 mView =  rCamera.GetViewMatrix();//rotateXY( -rCamera.GetRX()*DEG_TO_RAD, rCamera.GetRY()*DEG_TO_RAD ) * translate( -f3CamPos.x, -f3CamPos.y, -f3CamPos.z );
+	float4x4 mView =  rCamera.GetViewMatrix();
 
 	float4x4 mViewProjection = transpose(mProjection) * mView;
 
 	Frustum oViewFrustum;
 	oViewFrustum.loadFrustum( transpose(mViewProjection) );
-
 
 	std::vector< SceneMesh* >	oSceneMeshes;
 	std::vector< SceneMesh* >	oTransparentSceneMeshes;
@@ -1486,9 +1481,7 @@ void DeferredRenderer::Render()
 	m_pGBuffer->ActivateDepthTexture();
 	glActiveTexture( GL_TEXTURE0 );
 
-#ifndef NO_MATERIAL_PASS
 	m_pLightBuffer->Activate();
-#endif
 	
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
@@ -1539,9 +1532,8 @@ void DeferredRenderer::Render()
 
 		Texture2D::Deactivate();
 	}
-#ifndef NO_MATERIAL_PASS
+
 	m_pLightBuffer->Deactivate();
-#endif
 
 	glActiveTexture( GL_TEXTURE0 );
 	Texture2D::Deactivate();
@@ -1552,7 +1544,6 @@ void DeferredRenderer::Render()
 	glDisable(GL_BLEND);
 	glEnable( GL_DEPTH_TEST );
 
-#ifndef NO_MATERIAL_PASS	
 	//Material pass
 	//The material pass needs to fetch the light buffer
 	glActiveTexture( GL_TEXTURE6 );
@@ -1621,23 +1612,15 @@ void DeferredRenderer::Render()
 	m_pHDRSceneBuffer->ActivateTexture(1);
 	
 	m_pDOFBlur1Buffer->Activate();
-	m_pBlur6DofSpecialShader->Activate();
-	float pPixelSize[2] = { 1.0f/ (iWindowWidth/2), 0.0f };
-	m_pBlur6DofSpecialShader->setUniform2fv( m_iBlur6DofSpecialShaderPixelSizeHandle, 1, pPixelSize );
+	m_pDownSample4x4DOF->Activate();
+	float pPixelSize[2] = { 1.0f/ (iWindowWidth), 1.0f/ (iWindowHeight) };
+	m_pDownSample4x4DOF->setUniform2fv( m_iDownSample4x4DOFPixelSizeHandle, 1, pPixelSize );
 	DrawFullScreenQuad( iWindowWidth/2, iWindowHeight/2);
 	
 	Texture2D::Deactivate();
 	glActiveTexture( GL_TEXTURE0 );
-
-	m_pBlur6Shader->Activate();
-	m_pDOFBlur2Buffer->Activate();
-	m_pDOFBlur1Buffer->ActivateTexture();
-	pPixelSize[0] = 0.0;
-	pPixelSize[1] = 1.0f / (iWindowHeight/2);
-	m_pBlur6Shader->setUniform2fv( m_iBlur6ShaderPixelSizeHandle, 1, pPixelSize );
-	DrawFullScreenQuad( iWindowWidth/2, iWindowHeight/2);
-
-	m_pDOFBlur2Buffer->Deactivate();
+	m_pDownSample4x4DOF->Deactivate();
+	m_pDOFBlur1Buffer->Deactivate();
 
 	//Tone mapping - Final Step
 	m_pToneMappingShader->Activate();
@@ -1654,7 +1637,7 @@ void DeferredRenderer::Render()
 	m_pBrightPass1Buffer->ActivateTexture();
 
 	glActiveTexture( GL_TEXTURE3 );
-	m_pDOFBlur2Buffer->ActivateTexture();
+	m_pDOFBlur1Buffer->ActivateTexture();
 	
 	glActiveTexture( GL_TEXTURE4 );
 	m_pHDRSceneBuffer->ActivateTexture(1);
@@ -1676,14 +1659,67 @@ void DeferredRenderer::Render()
 	Texture2D::Deactivate();
 	glActiveTexture( GL_TEXTURE0 );
 	Texture2D::Deactivate();
-#endif
 
-	///////////////////////
+	DebugRender( oSceneMeshes, oTransparentSceneMeshes, oSpotShadows, oSpotLights );
+	
+	++m_fFrameCount;
+	if( m_fFrameCount >= MAX_FRAME )
+	{
+		m_fFrameTime = m_oTimer->Stop() / MAX_FRAME;
+		m_fFrameCount = 0.0;
+		m_oTimer->Start();
+	}
+	if( m_bShowDebugMenu )	
+	{
+		
+		//Profiling infos
+		std::stringstream oGPUStream;
+		oGPUStream << "GPU:" << m_fFrameTime << "ms";
+		DisplayText( oGPUStream.str(), iWindowWidth - PROFILING_LEFT_OFFSET, 50, m_pFont );
+		
+		std::stringstream oOmniStream;
+		oOmniStream << "Displaying " << oOmniLights.size() << " of " << m_iOmniCount << " omni light(s).";
+		DisplayText( oOmniStream.str(), iWindowWidth - PROFILING_LEFT_OFFSET, 70, m_pFont );
+
+		std::stringstream oSpotStream;
+		oSpotStream << "Displaying " << oSpotLights.size() << " of " << m_iSpotCount << " spot light(s).";
+		DisplayText( oSpotStream.str(), iWindowWidth - PROFILING_LEFT_OFFSET, 90, m_pFont );
+
+		std::stringstream oSpotShadowStream;
+		oSpotShadowStream << "Displaying " << oSpotShadows.size() << " of " << m_iSpotShadowCount << " spot shadow(s).";
+		DisplayText( oSpotShadowStream.str(), iWindowWidth - PROFILING_LEFT_OFFSET, 110, m_pFont );
+
+		std::stringstream oDirectionalStream;
+		oDirectionalStream << "Displaying " << m_vDirectionalLightQuads.size() << " of " << m_iDirectionalCount << " directional light(s).";
+		DisplayText( oDirectionalStream.str(), iWindowWidth - PROFILING_LEFT_OFFSET, 130, m_pFont );
+
+		std::stringstream o3DObjectStream;
+		o3DObjectStream << "Displaying " << oSceneMeshes.size() + oTransparentSceneMeshes.size() << " of " << m_iObjectCount << " 3D object(s).";
+		DisplayText( o3DObjectStream.str(), iWindowWidth - PROFILING_LEFT_OFFSET, 170, m_pFont );
+		
+		DisplayDebugMenu();
+		
+	}
+}
+
+void DeferredRenderer::DebugRender( const std::vector< SceneMesh* >& oSceneMeshes, const std::vector< SceneMesh* >& oTransparentSceneMeshes, const std::vector< SpotShadow* >& oSpotShadows, const std::vector< SpotLight* >& oSpotLights )
+{
+	Engine& rEngine = Engine::GrabInstance();
+
+	unsigned int iWindowWidth = rEngine.GetWindowWidth();
+	unsigned int iWindowHeight = rEngine.GetWindowHeight();
+	
+	OpenGLContext& rHardwareRenderContext = rEngine.GrabRenderingContext();
+	AbstractCamera & rCamera = rEngine.GetCurrentCamera();
+	
 	rHardwareRenderContext.Reshape( iWindowWidth, iWindowHeight, rCamera.GetFOV(), rCamera.GetNear(), rCamera.GetFar() );
 	rCamera.LookAt();
+
+	glClear( GL_DEPTH_BUFFER_BIT );	
+
 	if( m_iDebugBoundingBox )
 	{
-		oMeshIt = oSceneMeshes.begin();	
+		std::vector< SceneMesh* >::const_iterator oMeshIt = oSceneMeshes.begin();	
 		while( oMeshIt != oSceneMeshes.end() )
 		{
 			const float* pMeshBoundingBox = (*oMeshIt)->GetBoundingBox();
@@ -1774,45 +1810,71 @@ void DeferredRenderer::Render()
 
 			oSpotIt++;
 		}
-
 	}
-	
-	++m_fFrameCount;
-	if( m_fFrameCount >= MAX_FRAME )
+
+	if( m_iDebugRender == 1 )
 	{
-		m_fFrameTime = m_oTimer->Stop() / MAX_FRAME;
-		m_fFrameCount = 0.0;
-		m_oTimer->Start();
+		glActiveTexture( GL_TEXTURE0 );
+		m_pGBuffer->ActivateTexture();
+		m_pBasicTextureShader->Activate();
+		DrawFullScreenQuad( iWindowWidth, iWindowHeight );
+		m_pBasicTextureShader->Deactivate();
 	}
-	if( m_bShowDebugMenu )	
+	else if( m_iDebugRender == 2 )
 	{
-		
-		//Profiling infos
-		std::stringstream oGPUStream;
-		oGPUStream << "GPU:" << m_fFrameTime << "ms";
-		DisplayText( oGPUStream.str(), iWindowWidth - PROFILING_LEFT_OFFSET, 50, m_pFont );
-		
-		std::stringstream oOmniStream;
-		oOmniStream << "Displaying " << oOmniLights.size() << " of " << m_iOmniCount << " omni light(s).";
-		DisplayText( oOmniStream.str(), iWindowWidth - PROFILING_LEFT_OFFSET, 70, m_pFont );
-
-		std::stringstream oSpotStream;
-		oSpotStream << "Displaying " << oSpotLights.size() << " of " << m_iSpotCount << " spot light(s).";
-		DisplayText( oSpotStream.str(), iWindowWidth - PROFILING_LEFT_OFFSET, 90, m_pFont );
-
-		std::stringstream oSpotShadowStream;
-		oSpotShadowStream << "Displaying " << oSpotShadows.size() << " of " << m_iSpotShadowCount << " spot shadow(s).";
-		DisplayText( oSpotShadowStream.str(), iWindowWidth - PROFILING_LEFT_OFFSET, 110, m_pFont );
-
-		std::stringstream oDirectionalStream;
-		oDirectionalStream << "Displaying " << m_vDirectionalLightQuads.size() << " of " << m_iDirectionalCount << " directional light(s).";
-		DisplayText( oDirectionalStream.str(), iWindowWidth - PROFILING_LEFT_OFFSET, 130, m_pFont );
-
-		std::stringstream o3DObjectStream;
-		o3DObjectStream << "Displaying " << oSceneMeshes.size() + oTransparentSceneMeshes.size() << " of " << m_iObjectCount << " 3D object(s).";
-		DisplayText( o3DObjectStream.str(), iWindowWidth - PROFILING_LEFT_OFFSET, 170, m_pFont );
-		
-		DisplayDebugMenu();
-		
+		glActiveTexture( GL_TEXTURE0 );
+		m_pGBuffer->ActivateTexture();
+		m_pDebugGlossShader->Activate();
+		DrawFullScreenQuad( iWindowWidth, iWindowHeight );
+		m_pDebugGlossShader->Deactivate();
 	}
+	else if( m_iDebugRender == 3 )
+	{
+		glActiveTexture( GL_TEXTURE0 );
+		m_pLightBuffer->ActivateTexture();
+		m_pBasicTextureShader->Activate();
+		DrawFullScreenQuad( iWindowWidth, iWindowHeight );
+		m_pBasicTextureShader->Deactivate();
+	}
+	else if( m_iDebugRender == 4 )
+	{
+		glActiveTexture( GL_TEXTURE0 );
+		m_pLightBuffer->ActivateTexture();
+		m_pDebugSpecularShader->Activate();
+		DrawFullScreenQuad( iWindowWidth, iWindowHeight );
+		m_pDebugSpecularShader->Deactivate();
+	}
+	else if( m_iDebugRender == 5 )
+	{
+		glActiveTexture( GL_TEXTURE0 );
+		m_pHDRSceneBuffer->ActivateTexture();
+		m_pBasicTextureShader->Activate();
+		DrawFullScreenQuad( iWindowWidth, iWindowHeight );
+		m_pBasicTextureShader->Deactivate();
+	}
+	else if( m_iDebugRender == 6 )
+	{
+		glActiveTexture( GL_TEXTURE0 );
+		m_pBrightPass1Buffer->ActivateTexture();
+		m_pBasicTextureShader->Activate();
+		DrawFullScreenQuad( iWindowWidth, iWindowHeight );
+		m_pBasicTextureShader->Deactivate();
+	}
+	else if( m_iDebugRender == 7 )
+	{
+		glActiveTexture( GL_TEXTURE0 );
+		m_pGBuffer->ActivateDepthTexture();
+		m_pDebugDepthShader->Activate();
+		DrawFullScreenQuad( iWindowWidth, iWindowHeight );
+		m_pDebugDepthShader->Deactivate();
+	}
+	else if( m_iDebugRender == 8 )
+	{
+		glActiveTexture( GL_TEXTURE0 );
+		m_pDOFBlur1Buffer->ActivateTexture();
+		m_pBasicTextureShader->Activate();
+		DrawFullScreenQuad( iWindowWidth, iWindowHeight );
+		m_pBasicTextureShader->Deactivate();
+	}
+		
 }

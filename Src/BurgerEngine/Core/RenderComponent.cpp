@@ -78,19 +78,20 @@ void RenderComponent::Initialize(TiXmlElement const& a_rParameters)
 				m_pMesh = new SceneMesh( pMesh );
 				
 				vec3 f3OffsetedPos(x,y,z);
-				SetPos(f3OffsetedPos);
+				
 				//Get the parent node transformation
 				CompositeComponent const* pParent = GetParent();
 				if (pParent)
 				{
 					f3OffsetedPos += pParent->GetPos();
-					//pSceneMesh->SetPos( pParent->GetPos());
 				}
 
+				SetPos(f3OffsetedPos);
+
 				m_pMesh->SetPos(f3OffsetedPos);
-				m_pMesh->SetRotation( vec3( rX, rY, rZ ));
-				m_pMesh->SetScale( scale);
-				m_pMesh->ComputeBoundingBox();
+				m_pMesh->SetRotation( vec3( rX, rY, rZ ) );
+				m_pMesh->SetScale( scale );
+				//m_pMesh->ComputeBoundingBox();
 
 				//checks for materials used on different parts of the mesh
 				unsigned int iPartCount = 0;
@@ -150,7 +151,6 @@ void RenderComponent::UpdatePos()
 	
 	m_pMesh->ComputeBoundingBox();
 }
-
 
 //--------------------------------------------------------------------------------------------------------------------
 //
