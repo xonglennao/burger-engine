@@ -1,9 +1,9 @@
-#include "BurgerEngine/fx/ParticleEmitter.h"
+#include "BurgerEngine/FX/ParticleManager.h"
 
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void ParticleEmitter::Emit()
+ParticleManager::~ParticleManager()
 {
-
+	m_vParticles.clear();
 }

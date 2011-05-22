@@ -38,8 +38,14 @@
     <ClInclude Include="BurgerEngine\External\Math\Vector.h" />
     <ClInclude Include="BurgerEngine\External\TinyXml\tinystr.h" />
     <ClInclude Include="BurgerEngine\External\TinyXml\tinyxml.h" />
+    <ClInclude Include="BurgerEngine\FX\FXCommon.h" />
     <ClInclude Include="BurgerEngine\FX\Particle.h" />
+    <ClInclude Include="BurgerEngine\FX\ParticleContext.h" />
+    <ClInclude Include="BurgerEngine\FX\ParticleEffector.h" />
     <ClInclude Include="BurgerEngine\FX\ParticleEmitter.h" />
+    <ClInclude Include="BurgerEngine\FX\ParticleGroup.h" />
+    <ClInclude Include="BurgerEngine\FX\ParticleManager.h" />
+    <ClInclude Include="BurgerEngine\FX\ParticleSystem.h" />
     <ClInclude Include="BurgerEngine\Graphics\AbstractMesh.h" />
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h" />
     <ClInclude Include="BurgerEngine\Graphics\AbstractTexture.h" />
@@ -104,7 +110,12 @@
     <ClCompile Include="BurgerEngine\External\TinyXml\tinyxmlerror.cpp" />
     <ClCompile Include="BurgerEngine\External\TinyXml\tinyxmlparser.cpp" />
     <ClCompile Include="BurgerEngine\FX\Particle.cpp" />
+    <ClCompile Include="BurgerEngine\FX\ParticleContext.cpp" />
+    <ClCompile Include="BurgerEngine\FX\ParticleEffector.cpp" />
     <ClCompile Include="BurgerEngine\FX\ParticleEmitter.cpp" />
+    <ClCompile Include="BurgerEngine\FX\ParticleGroup.cpp" />
+    <ClCompile Include="BurgerEngine\FX\ParticleManager.cpp" />
+    <ClCompile Include="BurgerEngine\FX\ParticleSystem.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\AbstractMesh.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\AbstractPostEffect.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\AbstractTexture.cpp" />

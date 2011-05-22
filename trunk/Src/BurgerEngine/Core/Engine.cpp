@@ -15,6 +15,8 @@
 #include "BurgerEngine/Graphics/OpenGLContext.h"
 #include "BurgerEngine/Graphics/RenderingContext.h"
 
+#include "BurgerEngine/fx/ParticleContext.h"
+
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
@@ -23,7 +25,8 @@ Engine::Engine():
 	m_pCurrentCamera(NULL),
 	m_pRenderingContext(NULL),
 	m_pStageManager(NULL),
-	m_pRenderContext(NULL)
+	m_pRenderContext(NULL),
+	m_pParticleContext(NULL)
 {}
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -51,6 +54,8 @@ void Engine::Init( const char* pSceneName )
 
 	m_pSceneGraph = new SceneGraph( pSceneName );
 
+	m_pParticleContext = new ParticleContext();
+
 	m_bTerminate = false;
 }
 
@@ -59,6 +64,9 @@ void Engine::Init( const char* pSceneName )
 //--------------------------------------------------------------------------------------------------------------------
 void Engine::Terminate()
 {
+	delete m_pParticleContext;
+	m_pParticleContext = NULL;
+
 	delete m_pRenderingContext;
 	m_pRenderingContext = NULL;
 
