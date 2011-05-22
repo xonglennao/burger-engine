@@ -13,6 +13,7 @@
 
 #include "BurgerEngine/Core/AbstractComponent.h"
 
+class ParticleSystem;
 
 class ParticleComponent : public AbstractComponent
 {
@@ -37,6 +38,8 @@ protected:
 
 private:
 
+	/// The contained system
+	ParticleSystem* m_pSystem;
 };
 
 #endif //__PARTICLECOMPONENT_H__

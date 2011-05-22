@@ -2,6 +2,9 @@
 #include "BurgerEngine/Core/ObjectFactory.h"
 #include "BurgerEngine/Core/Engine.h"
 #include "BurgerEngine/Core/CompositeComponent.h"
+#include "BurgerEngine/FX/ParticleContext.h"
+#include "BurgerEngine/fx/ParticleSystem.h"
+
 
 #include "BurgerEngine/External/TinyXml/TinyXml.h"
 
@@ -9,7 +12,8 @@
 //
 //--------------------------------------------------------------------------------------------------------------------
 ParticleComponent::ParticleComponent(CompositeComponent* a_pParent):
-AbstractComponent(RENDER, a_pParent)
+	AbstractComponent(RENDER, a_pParent),
+	m_pSystem(NULL)
 {
 }
 
@@ -17,7 +21,8 @@ AbstractComponent(RENDER, a_pParent)
 //
 //--------------------------------------------------------------------------------------------------------------------
 ParticleComponent::ParticleComponent(AbstractComponent const& a_rToCopy):
-AbstractComponent(RENDER)
+	AbstractComponent(RENDER),
+	m_pSystem(NULL)
 {
 
 }
@@ -27,7 +32,7 @@ AbstractComponent(RENDER)
 //--------------------------------------------------------------------------------------------------------------------
 ParticleComponent::~ParticleComponent()
 {
-
+	delete m_pSystem;
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -115,6 +120,13 @@ void ParticleComponent::Initialize(TiXmlElement const& a_rParameters)
 		}
 
 	}*/
+	m_pSystem = new ParticleSystem();
+	if (m_pSystem)
+	{
+		ParticleContext& rContext = Engine::GrabInstance().GrabParticleContext();
+		rContext.RegisterFXInstance(*m_pSystem);
+	}
+
 }
 
 //--------------------------------------------------------------------------------------------------------------------

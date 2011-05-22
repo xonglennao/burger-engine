@@ -42,7 +42,6 @@ struct  Particle
 	/// Is the particle alive or note (in case of pool management)
 	bool bIsAlive;
 
-
 };
 
 #endif //__PARTICLE_H__

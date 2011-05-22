@@ -187,6 +187,21 @@
     <ClCompile Include="BurgerEngine\Core\ParticleComponent.cpp">
       <Filter>BurgerEngine\Core\Component</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\FX\ParticleContext.cpp">
+      <Filter>BurgerEngine\FX</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\FX\ParticleSystem.cpp">
+      <Filter>BurgerEngine\FX</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\FX\ParticleEffector.cpp">
+      <Filter>BurgerEngine\FX</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\FX\ParticleManager.cpp">
+      <Filter>BurgerEngine\FX</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\FX\ParticleGroup.cpp">
+      <Filter>BurgerEngine\FX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -380,6 +395,24 @@
     </ClInclude>
     <ClInclude Include="BurgerEngine\Core\ParticleComponent.h">
       <Filter>BurgerEngine\Core\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\FX\ParticleContext.h">
+      <Filter>BurgerEngine\FX</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\FX\ParticleSystem.h">
+      <Filter>BurgerEngine\FX</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\FX\ParticleEffector.h">
+      <Filter>BurgerEngine\FX</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\FX\ParticleManager.h">
+      <Filter>BurgerEngine\FX</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\FX\ParticleGroup.h">
+      <Filter>BurgerEngine\FX</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\FX\FXCommon.h">
+      <Filter>BurgerEngine\FX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

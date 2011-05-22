@@ -21,6 +21,7 @@ class OpenGLContext;
 class AbstractCamera;
 class SceneGraph;
 class RenderingContext;
+class ParticleContext;
 
 ///	\name	Engine.h
 ///	\brief	It's the main core of the program
@@ -53,6 +54,10 @@ public:
 	/// \todo a camera manager
 	void SetCurrentCamera ( AbstractCamera * pCamera );
 	AbstractCamera & GetCurrentCamera() const;
+
+	/// \brief Get/Grab the FX context
+	ParticleContext const& GetParticleContext(){return *m_pParticleContext;}
+	ParticleContext& GrabParticleContext(){return *m_pParticleContext;}
 
 	/// \brief	Grabber
 	EventManager&	GrabEventManager();
@@ -101,6 +106,10 @@ private:
 
 	///The flag use to exit the running loop;
 	bool			m_bTerminate;
+
+	/// The Context for particle
+	/// \todo Get a vector of context
+	ParticleContext* m_pParticleContext;
 
 };
 
