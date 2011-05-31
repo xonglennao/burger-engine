@@ -13,6 +13,8 @@
 #ifndef __PARTICLEEMITTER_H__
 #define __PARTICLEEMITTER_H__
 
+#include "BurgerEngine/fx/FXCommon.h"
+
 enum EmissionPolicy
 {
 	WAIT,
@@ -31,6 +33,7 @@ enum EmissionPosition
 /// \todo BurstList
 class ParticleEmitter
 {
+	friend class ParticleComponent;
 public:
 	/// \brief Constructor
 	ParticleEmitter():
@@ -42,7 +45,20 @@ public:
 	~ParticleEmitter(){}
 
 	/// \brief Emit a certain amount of particle into the ParticleContext
-	void Emit();
+	void Emit(float a_fTime, ParticleManager& a_rManager);
+
+	/// \brief Get MaxLife
+	float GetMaxLife() const {return m_fLife;}
+
+	/// \brief Get and set MaxLife
+	float GetCurrentLife() const {return m_fCurrentLife;}
+	void SetCurrentLife(float a_fLife){m_fCurrentLife = a_fLife;}
+
+	/// \breif Get the count of emitting cycle
+	unsigned int GetMaxLoopCount() const {return m_uLoopCount;}
+	unsigned int GetLoopCount() const {return m_uCurrentLoop;}
+	void SetLoopCount(unsigned int a_uLoopCount) {m_uCurrentLoop  = a_uLoopCount;}
+
 private:
 
 	/// \todo the following will be LODable in the future

@@ -7,3 +7,11 @@ ParticleManager::~ParticleManager()
 {
 	m_vParticles.clear();
 }
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void ParticleManager::Initialize(unsigned int a_uMaxCount)
+{
+	m_vParticles.reserve(a_uMaxCount);
+}

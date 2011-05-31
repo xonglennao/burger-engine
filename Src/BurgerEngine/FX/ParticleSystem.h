@@ -29,6 +29,10 @@ public:
 
 	~ParticleSystem(){}
 
+	/// \brief Init
+	void Initialize();
+	void Terminate();
+
 	/// \brief Play the Particle System
 	void Play();
 
@@ -41,6 +45,10 @@ public:
 
 	/// \brief Is ruuning
 	bool IsRunning(){return m_bIsRunning;}
+
+	/// \brief Add Group
+	void AddGroup(ParticleGroup* a_pParticle){m_vGroups.push_back(a_pParticle);}
+
 
 
 private:
