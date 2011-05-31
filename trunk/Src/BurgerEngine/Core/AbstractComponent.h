@@ -27,6 +27,7 @@ enum ComponentType
 	COMPOSITE,
 	RENDER,
 	LIGHT,
+	PARTICLE,
 	UNKNOWN
 };
 

@@ -22,6 +22,7 @@ class AbstractCamera;
 class SceneGraph;
 class RenderingContext;
 class ParticleContext;
+class TimerContext;
 
 ///	\name	Engine.h
 ///	\brief	It's the main core of the program
@@ -69,6 +70,7 @@ public:
 	EventManager const& GetEventManager() const {return *m_pEventManager;}
 	StageManager& GetStageManager() {return *m_pStageManager;}
 	RenderingContext const& GetRenderContext() const {return *m_pRenderContext;}
+	TimerContext const& GetTimeContext() const {return *m_pTimerContext;}
 
 
 	const unsigned int GetWindowWidth() const { return m_iWindowWidth; }
@@ -95,6 +97,11 @@ private:
 
 	Window*			m_pWindow;
 	OpenGLContext*	m_pRenderingContext;
+	/// The Context for particle
+	/// \todo Get a vector of context
+	ParticleContext* m_pParticleContext;
+	/// The context for time
+	TimerContext* m_pTimerContext;
 
 	SceneGraph*		m_pSceneGraph;
 
@@ -107,9 +114,7 @@ private:
 	///The flag use to exit the running loop;
 	bool			m_bTerminate;
 
-	/// The Context for particle
-	/// \todo Get a vector of context
-	ParticleContext* m_pParticleContext;
+
 
 };
 

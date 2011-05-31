@@ -25,6 +25,8 @@ struct  Particle
 	vec3 f3Position;
 	/// Velocity (speed and direction)
 	vec3 f3Velocity;
+	/// Acceleration
+	vec3 f3Acceleration;
 	/// Size (XY);
 	vec2 f2Size;
 	/// The 4 UV coordinates;

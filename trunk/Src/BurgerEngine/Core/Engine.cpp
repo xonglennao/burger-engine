@@ -3,6 +3,7 @@
 #include "BurgerEngine/Core/AbstractCamera.h"
 #include "BurgerEngine/Core/FirstPersonCamera.h"
 #include "BurgerEngine/Core/SceneGraph.h"
+#include "BurgerEngine/Core/TimeContext.h"
 
 #include "BurgerEngine/Graphics/MeshManager.h"
 #include "BurgerEngine/Graphics/MaterialManager.h"
@@ -26,7 +27,8 @@ Engine::Engine():
 	m_pRenderingContext(NULL),
 	m_pStageManager(NULL),
 	m_pRenderContext(NULL),
-	m_pParticleContext(NULL)
+	m_pParticleContext(NULL),
+	m_pTimerContext(NULL)
 {}
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -37,6 +39,9 @@ void Engine::Init( const char* pSceneName )
 	m_iWindowWidth = 1280;
 	m_iWindowHeight = 720;
 	
+	m_pTimerContext = new TimerContext();
+	m_pTimerContext->Initialize();
+
 	m_pEventManager = new EventManager();
 	m_pEventManager->Init();
 	
@@ -52,9 +57,11 @@ void Engine::Init( const char* pSceneName )
 	m_pRenderContext = new RenderingContext();
 	m_pRenderContext->Initialize();
 
+	m_pParticleContext = new ParticleContext();
+
 	m_pSceneGraph = new SceneGraph( pSceneName );
 
-	m_pParticleContext = new ParticleContext();
+
 
 	m_bTerminate = false;
 }
@@ -94,6 +101,9 @@ void Engine::Terminate()
 	delete m_pSceneGraph;
 	m_pSceneGraph = NULL;
 
+	delete m_pTimerContext;
+	m_pTimerContext = NULL;
+
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -107,6 +117,11 @@ void Engine::Run()
 	{
 
 		//Update Scene
+		m_pTimerContext->Update();
+
+		// Update Particle
+		m_pParticleContext->Update();
+
 		//TODO: The main loop might just process event the fact of updating a Scene could be an event.
 		m_pStageManager->Update();
 

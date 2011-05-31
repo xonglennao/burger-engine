@@ -4,6 +4,7 @@
 #include "BurgerEngine/Core/CompositeComponent.h"
 #include "BurgerEngine/FX/ParticleContext.h"
 #include "BurgerEngine/fx/ParticleSystem.h"
+#include "BurgerEngine/fx/ParticleGroup.h"
 
 
 #include "BurgerEngine/External/TinyXml/TinyXml.h"
@@ -12,7 +13,7 @@
 //
 //--------------------------------------------------------------------------------------------------------------------
 ParticleComponent::ParticleComponent(CompositeComponent* a_pParent):
-	AbstractComponent(RENDER, a_pParent),
+	AbstractComponent(PARTICLE, a_pParent),
 	m_pSystem(NULL)
 {
 }
@@ -21,7 +22,7 @@ ParticleComponent::ParticleComponent(CompositeComponent* a_pParent):
 //
 //--------------------------------------------------------------------------------------------------------------------
 ParticleComponent::ParticleComponent(AbstractComponent const& a_rToCopy):
-	AbstractComponent(RENDER),
+	AbstractComponent(PARTICLE),
 	m_pSystem(NULL)
 {
 
@@ -32,6 +33,7 @@ ParticleComponent::ParticleComponent(AbstractComponent const& a_rToCopy):
 //--------------------------------------------------------------------------------------------------------------------
 ParticleComponent::~ParticleComponent()
 {
+	m_pSystem->Terminate();
 	delete m_pSystem;
 }
 
@@ -121,8 +123,27 @@ void ParticleComponent::Initialize(TiXmlElement const& a_rParameters)
 
 	}*/
 	m_pSystem = new ParticleSystem();
+
+
+
 	if (m_pSystem)
 	{
+		/*
+			TestValue
+		*/
+		/// \todo Creat a Parameter struc for Emitter init
+		ParticleGroup* pGroup = new ParticleGroup();
+		pGroup->Initialize();
+		ParticleEmitter& rEmitter = pGroup->GrabEmitter();
+		rEmitter.m_fEmissionFrequency = 1.0f;
+		rEmitter.m_uMaxCount = 500;
+		rEmitter.m_fLife = 10.0f;
+		rEmitter.m_uLoopCount = 0;
+
+		m_pSystem->AddGroup(pGroup);
+		m_pSystem->Play();
+
+
 		ParticleContext& rContext = Engine::GrabInstance().GrabParticleContext();
 		rContext.RegisterFXInstance(*m_pSystem);
 	}
