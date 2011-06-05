@@ -76,8 +76,8 @@ DeferredRenderer::DeferredRenderer()
 
 	oDebugMenu.AddEntry( "ToneMappingKey", m_fToneMappingKey, 0.0f, 1.0f, 0.01f );
 	oDebugMenu.AddEntry( "Glow Multiplier", m_fGlowMultiplier, 0.0f, 10.0f, 0.5f );
-	oDebugMenu.AddEntry( "BrightPass Threshold", m_fBrightPassThreshold, 0.0f, 10.0f, 0.5f );
-	oDebugMenu.AddEntry( "BrightPass Offset", m_fBrightPassOffset, 0.0f, 10.0f, 0.5f );
+	oDebugMenu.AddEntry( "BrightPass Threshold", m_fBrightPassThreshold, 0.0f, 50.0f, 0.5f );
+	oDebugMenu.AddEntry( "BrightPass Offset", m_fBrightPassOffset, 0.0f, 50.0f, 0.5f );
 	oDebugMenu.AddEntry( "Adaptation Base Time", m_fAdaptationBaseTime, 0.0f, 1.0f, 0.02f );
 	oDebugMenu.AddEntry( "DebugFlag", m_iDebugFlag, 0, 100, 1 );
 	oDebugMenu.AddEntry( "Skip Culling", m_iSkipCulling, 0, 1, 1 );
@@ -147,6 +147,9 @@ DeferredRenderer::~DeferredRenderer()
 	delete m_pDOFBlur1Buffer;
 	m_pDOFBlur1Buffer = NULL;
 
+	delete m_pDOFBlur2Buffer;
+	m_pDOFBlur1Buffer = NULL;
+
 	delete m_pFont;
 	m_pFont = NULL;
 
@@ -212,6 +215,9 @@ void DeferredRenderer::CreateFBO()
 
 	m_pDOFBlur1Buffer = new FBO( iWindowWidth/2, iWindowHeight/2, FBO::E_FBO_2D );
 	m_pDOFBlur1Buffer->GenerateColorOnly( GL_RGBA16F_ARB );
+
+	m_pDOFBlur2Buffer = new FBO( iWindowWidth/2, iWindowHeight/2, FBO::E_FBO_2D );
+	m_pDOFBlur2Buffer->GenerateColorOnly( GL_RGBA16F_ARB );
 
 }
 
@@ -1622,6 +1628,27 @@ void DeferredRenderer::Render()
 	m_pDownSample4x4DOF->Deactivate();
 	m_pDOFBlur1Buffer->Deactivate();
 
+	//Gaussian Blur
+	m_pDOFBlur1Buffer->ActivateTexture();
+	m_pDOFBlur2Buffer->Activate();
+
+	m_pBlur6Shader->Activate();
+	pPixelSize[0] = 1.0f / ( iWindowWidth / 2 );
+	pPixelSize[1] = 0.0f;
+	m_pBlur6Shader->setUniform2fv( m_iBlur6ShaderPixelSizeHandle, 1, pPixelSize);
+	DrawFullScreenQuad( iWindowWidth / 2, iWindowHeight / 2 );
+
+
+	m_pDOFBlur2Buffer->ActivateTexture();
+	m_pDOFBlur1Buffer->Activate();
+	pPixelSize[0] = 0.0f;
+	pPixelSize[1] = 1.0f / ( iWindowHeight / 2 );
+	m_pBlur6Shader->setUniform2fv( m_iBlur6ShaderPixelSizeHandle, 1, pPixelSize);
+	DrawFullScreenQuad( iWindowWidth / 2, iWindowHeight / 2 );
+	
+	m_pDOFBlur1Buffer->Deactivate();
+	Texture2D::Deactivate();
+
 	//Tone mapping - Final Step
 	m_pToneMappingShader->Activate();
 	m_pToneMappingShader->CommitStdUniforms();
@@ -1868,13 +1895,4 @@ void DeferredRenderer::DebugRender( const std::vector< SceneMesh* >& oSceneMeshe
 		DrawFullScreenQuad( iWindowWidth, iWindowHeight );
 		m_pDebugDepthShader->Deactivate();
 	}
-	else if( m_iDebugRender == 8 )
-	{
-		glActiveTexture( GL_TEXTURE0 );
-		m_pDOFBlur1Buffer->ActivateTexture();
-		m_pBasicTextureShader->Activate();
-		DrawFullScreenQuad( iWindowWidth, iWindowHeight );
-		m_pBasicTextureShader->Deactivate();
-	}
-		
 }

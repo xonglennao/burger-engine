@@ -187,6 +187,8 @@
     <None Include="..\Data\Shaders\Engine\AvgLumFinal.frag" />
     <None Include="..\Data\Shaders\Engine\AvgLumInit.frag" />
     <None Include="..\Data\Shaders\Engine\BrightPass.frag" />
+    <None Include="..\Data\Shaders\Engine\DirectionalLight.frag" />
+    <None Include="..\Data\Shaders\Engine\DirectionalLight.vert" />
     <None Include="..\Data\Shaders\Engine\DownSample4x4.frag" />
     <None Include="..\Data\Shaders\Engine\DownSample4x4DOF.frag" />
     <None Include="..\Data\Shaders\Engine\ExponentialShadowMap.frag" />

@@ -227,17 +227,6 @@ void SceneGraph::LoadSceneXML( const char * sName )
 					pComponent->SetScale(scale);
 					pComponent->SetRotation(vec3(rX,rY,rZ));
 					pComponent->SetPos(vec3(x,y,z));
-					
-					
-					/// HACK : we set directly the position/rot/scale to the mesh
-					RenderComponent* pRenderComponent = static_cast<RenderComponent*>(pComponent->TryGrabComponentByType(RENDER));
-					if (pRenderComponent)
-					{
-						//pRenderComponent->SetPos(vec3(x,y,z));
-						//pRenderComponent->GrabInternalMesh().SetPos(vec3(x,y,z));
-						//pRenderComponent->GrabInternalMesh().SetRotation(vec3(rX,rY,rZ));
-						//pRenderComponent->GrabInternalMesh().SetScale(scale);
-					}
 				}
 
 				//Ad instance name
@@ -248,14 +237,16 @@ void SceneGraph::LoadSceneXML( const char * sName )
 			}
 			else if( pCurrentXmlObject = pXmlObject->FirstChildElement( "skybox" ) )
 			{
-				/*TiXmlElement * pXmlMaterial = pCurrentXmlObject->FirstChildElement( "material" );
-				m_pSkyBox = new SkyBox( scale );
+				SkyBox * pSkyBox = new SkyBox( scale );
+
+				TiXmlElement * pXmlMaterial = pCurrentXmlObject->FirstChildElement( "material" );
 				if( pXmlMaterial )
 				{
 					Material * pMaterial = MaterialManager::GrabInstance().addMaterial( pXmlMaterial->GetText() );
 					if( pMaterial )
-						m_pSkyBox->SetMaterial( pMaterial );
-				}*/
+						pSkyBox->SetMaterial( pMaterial );
+				}
+				Engine::GrabInstance().GrabRenderContext().SetSkyBox( pSkyBox );
 			}
 
 			//moves on to the next object

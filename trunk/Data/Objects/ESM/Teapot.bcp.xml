@@ -9,7 +9,7 @@
 					<mesh>
 					  <file>../Data/Mesh/teapot.obj</file>
 					  <part>
-						<material>../Data/Materials/prison/rustDiffuseBump.bma.xml</material>
+						<material>../Data/Materials/GlossyWhite.bma.xml</material>
 					  </part>
 					</mesh>
 				</parameters>

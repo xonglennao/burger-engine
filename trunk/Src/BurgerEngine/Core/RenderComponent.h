@@ -42,6 +42,9 @@ public:
 	/// \brief Update the scale of the mesh
 	void UpdateScale(float const a_fValue);
 
+	/// \brief Update the rotation
+	void UpdateRotation(vec3 const& a_rf3Rotation);
+
 protected:
 	/// \brief Inner update
 	void _Update();

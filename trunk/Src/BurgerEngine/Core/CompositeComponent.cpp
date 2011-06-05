@@ -136,17 +136,13 @@ void CompositeComponent::SetRotation( vec3 const& a_vValue )
 		AbstractComponent* pComponent = (*itComponent);
 		//The component should not be null
 		assert(pComponent);
-		if (pComponent->GetType() == LIGHT)
+		//if (pComponent->GetType() == LIGHT)
 		{
-			LightComponent* pLightComponent = static_cast<LightComponent*>(pComponent);
-			pLightComponent->UpdateRotation(a_vValue);
+			//LightComponent* pLightComponent = static_cast<LightComponent*>(pComponent);
+			pComponent->UpdateRotation(a_vValue);
 		}
 	}
-
 }
-
-
-
 
 //--------------------------------------------------------------------------------------------------------------------
 //

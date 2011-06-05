@@ -1,0 +1,19 @@
+<material>
+  <technique name="render_gbuffer">
+    <shader>../Data/Shaders/Material/xml/FillGBufferBasic.bfx.xml</shader>
+    <uniforms>
+      <float value="0.8">fGloss</float>
+    </uniforms>
+  </technique>
+  <technique name="render_opaque">
+    <shader>../Data/Shaders/Material/xml/LightedColor.bfx.xml</shader>
+    <uniforms>
+      <vec4 x="0.1" y="0.6" z="0.1" w="0.0">vColor</vec4>
+    </uniforms>
+    <textures>
+      <texture>
+        <uniformname unit="6">lightBuffer</uniformname>
+      </texture>
+    </textures>
+  </technique>
+</material>

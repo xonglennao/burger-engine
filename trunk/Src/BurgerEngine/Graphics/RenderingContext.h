@@ -68,6 +68,7 @@ public:
 	std::vector< SceneLight* >& GrabDirectionalLights(){ return m_oDirectionalLights; }
 
 	const SkyBox* GetSkyBox() const { return m_pSkyBox; }
+	void SetSkyBox( SkyBox* pSkyBox ) { m_pSkyBox = pSkyBox; }
 
 	const DebugMenu& GetDebugMenu() const { return m_oDebugMenu; }
 	DebugMenu& GetDebugMenu() { return m_oDebugMenu; }

@@ -197,7 +197,8 @@ void LightComponent::UpdatePos()
 //--------------------------------------------------------------------------------------------------------------------
 void LightComponent::UpdateRotation(vec3 const& a_rf3Rotation)
 {
-	m_pLight->SetRotation(a_rf3Rotation);
+	////////////////// Temporary, will be changed when we're using quaternions /////////////////
+	m_pLight->SetRotation( m_pLight->GetRotation() + a_rf3Rotation );
 	if( (m_pLight->GetType() & SceneLight::E_SPOT_LIGHT) == SceneLight::E_SPOT_LIGHT )
 	{
 		static_cast< SpotLight* >(m_pLight)->ComputeBoundingBox();

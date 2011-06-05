@@ -36,7 +36,7 @@ public:
 
 	void SetViewZ( float vValue ){ m_fViewZ = vValue; }
 	
-	void SetRotation( vec3 vValue ){ m_f3Rotation = vValue; UpdateRotationMatrix(); }
+	void SetRotation( const vec3& vValue ){ m_f3Rotation = vValue; UpdateRotationMatrix(); }
 	void SetRX ( float fValue ) { m_f3Rotation.x = fValue; UpdateRotationMatrix(); }
 	void SetRY ( float fValue ) { m_f3Rotation.y = fValue; UpdateRotationMatrix(); }
 	void SetRZ ( float fValue ) { m_f3Rotation.z = fValue; UpdateRotationMatrix(); }

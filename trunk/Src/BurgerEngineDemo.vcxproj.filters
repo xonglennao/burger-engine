@@ -715,5 +715,11 @@
     <None Include="..\Data\Shaders\Engine\DownSample4x4DOF.frag">
       <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
     </None>
+    <None Include="..\Data\Shaders\Engine\DirectionalLight.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\DirectionalLight.vert">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
   </ItemGroup>
 </Project>
