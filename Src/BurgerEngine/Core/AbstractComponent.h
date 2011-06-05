@@ -67,6 +67,9 @@ public:
 	/// \brief Get the Component Type
 	ComponentType GetType() const {return m_eType;}
 
+	/// \brief Update the rotation
+	virtual void UpdateRotation(vec3 const& a_rf3Rotation){};
+
 protected: // private ???
 	/// \brief Inner update
 	virtual void _Update() = 0;

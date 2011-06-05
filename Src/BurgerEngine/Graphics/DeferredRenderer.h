@@ -122,6 +122,7 @@ private:
 	FBO* m_pBrightPass2Buffer;
 
 	FBO* m_pDOFBlur1Buffer;
+	FBO* m_pDOFBlur2Buffer;
 
 	GLuint m_iFullScreenQuadBufferId;
 	GLuint m_iFullScreenQuadBufferIdCW;

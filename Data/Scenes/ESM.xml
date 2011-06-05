@@ -2,12 +2,12 @@
 
   <settings>
     <camera type="firstperson">
-      <position x="0.0" y="10.0" z="80.0" rX="0.0" rY="0.0" radius="75.0"/>
-      <speed position="0.05" rotation="0.1"/>
-      <parameters fov="45.0" dofNearBlur="0.0" dofFocalPlane="50.0" dofFarBlur="75.0" dofMaxFarBlur="1.0"/>
+      <position x="0.0" y="34.0" z="20.0" rX="0.0" rY="0.0" radius="20.0"/>
+      <speed position="0.05" rotation="0.05"/>
+      <parameters fov="45.0" dofNearBlur="-50.0" dofFocalPlane="70.0" dofFarBlur="180.0" dofMaxFarBlur="1.0"/>
     </camera>
     <postprocess>
-      <parameters toneMappingKey="0.15" glowMultiplier="1.5" brightPassThreshold="0.5" brightPassOffset="5.0" adaptationBaseTime="0.85"/>
+      <parameters toneMappingKey="0.15" glowMultiplier="0.0" brightPassThreshold="0.5" brightPassOffset="5.0" adaptationBaseTime="0.85" colorLUT="../Data/Textures/xml/neutral_lut.btx.xml"/>
     </postprocess>
   </settings>
 
@@ -16,53 +16,28 @@
     <instance name= "Cube"/>
   </sceneobject>
 
-  <sceneobject x="0.0" y="0.0" z="10.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
-    <ressourcecomponent>ESM/Teapot</ressourcecomponent>
+  <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">
+    <ressourcecomponent>ESM/Skeleton</ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
-  <sceneobject x="-25.0" y="0.0" z="30.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
-    <ressourcecomponent>ESM/Teapot</ressourcecomponent>
-    <instance name= ""/>
-  </sceneobject>
-
-  <sceneobject x="10.0" y="0.0" z="-30.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
-    <ressourcecomponent>ESM/Ball</ressourcecomponent>
-    <instance name= ""/>
-  </sceneobject>
-
-  <sceneobject x="20.0" y="0.0" z="10.0" rX="0.0" rY="0.0" rZ="0.0" scale="5">
-    <ressourcecomponent>ESM/TransparentTeapot</ressourcecomponent>
-    <instance name= ""/>
-  </sceneobject>
-
-  <sceneobject x="-20.0" y="15.0" z="30.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
-    <ressourcecomponent>ESM/Torus</ressourcecomponent>
-    <instance name= ""/>
-  </sceneobject>
-
-  <sceneobject x="-15.0" y="0.0" z="-35.0" rX="0.0" rY="0.0" rZ="0.0" scale="7">
-    <ressourcecomponent>ESM/Column</ressourcecomponent>
-    <instance name= ""/>
-  </sceneobject>
-
-  <sceneobject x="30.0" y="50.0" z="30.0" rX="-45" rY="-30" rZ="0.0" scale="1">
-    <ressourcecomponent>ESM/RedSpotShadow</ressourcecomponent>
-    <instance name= ""/>
-  </sceneobject>
-
-  <sceneobject x="0.0" y="100.0" z="0.0" rX="-45" rY="-30" rZ="0.0" scale="1">
+  <sceneobject x="0.0" y="0.0" z="0.0" rX="0" rY="80" rZ="0.0" scale="1">
     <ressourcecomponent>ESM/Omni</ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
-  <sceneobject x="-30.0" y="50.0" z="30.0" rX="-45" rY="30" rZ="0.0" scale="1">
-    <ressourcecomponent>ESM/GreenSpotShadow</ressourcecomponent>
+  <sceneobject x="0.0" y="50.0" z="30.0" rX="-45" rY="0.0" rZ="0.0" scale="1">
+    <ressourcecomponent>esm/spotshadow</ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
-   <sceneobject x="0.0" y="50.0" z="-30.0" rX="-45" rY="180" rZ="0.0" scale="1">
-    <ressourcecomponent>ESM/SpotShadow</ressourcecomponent>
+  <sceneobject x="0.0" y="50.0" z="30.0" rX="-45" rY="45.0" rZ="0.0" scale="1">
+    <ressourcecomponent>esm/spotshadow</ressourcecomponent>
+    <instance name= ""/>
+  </sceneobject>
+
+  <sceneobject x="0.0" y="50.0" z="30.0" rX="-45" rY="-45.0" rZ="0.0" scale="1">
+    <ressourcecomponent>esm/spotshadow</ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 

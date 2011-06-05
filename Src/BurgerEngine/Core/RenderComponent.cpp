@@ -172,3 +172,13 @@ void RenderComponent::UpdateScale(float const a_uValue)
 	}
 	
 }
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void RenderComponent::UpdateRotation(vec3 const& a_rf3Rotation)
+{
+	////////////////// Temporary, will be changed when we're using quaternions /////////////////
+	m_pMesh->SetRotation( m_pMesh->GetRotation() + a_rf3Rotation );
+	m_pMesh->ComputeBoundingBox();
+}
