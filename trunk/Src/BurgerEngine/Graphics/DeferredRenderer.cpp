@@ -114,6 +114,9 @@ DeferredRenderer::~DeferredRenderer()
 	delete m_pHDRSceneBuffer;
 	m_pHDRSceneBuffer = NULL;
 
+	delete m_pLDRSceneBuffer;
+	m_pLDRSceneBuffer = NULL;
+
 	delete m_pSpotShadowBlurBuffer;
 	m_pSpotShadowBlurBuffer = NULL;
 
@@ -148,7 +151,7 @@ DeferredRenderer::~DeferredRenderer()
 	m_pDOFBlur1Buffer = NULL;
 
 	delete m_pDOFBlur2Buffer;
-	m_pDOFBlur1Buffer = NULL;
+	m_pDOFBlur2Buffer = NULL;
 
 	delete m_pFont;
 	m_pFont = NULL;
@@ -180,8 +183,10 @@ void DeferredRenderer::CreateFBO()
 	m_pLightBuffer->GenerateColorOnly( GL_RGBA16F_ARB );
 
 	m_pHDRSceneBuffer = new FBO( iWindowWidth, iWindowHeight, FBO::E_FBO_2D );
-	//m_pHDRSceneBuffer->GenerateColorOnly( GL_RGBA16F_ARB );
 	m_pHDRSceneBuffer->GenerateFinalHDRBuffer();
+
+	m_pLDRSceneBuffer = new FBO( iWindowWidth, iWindowHeight, FBO::E_FBO_2D );
+	m_pLDRSceneBuffer->GenerateColorOnly();
 
 	m_pSpotShadowBlurBuffer = new FBO( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, FBO::E_FBO_2D );
 	m_pSpotShadowBlurBuffer->GenerateColorOnly( GL_RGBA32F_ARB );
@@ -214,11 +219,10 @@ void DeferredRenderer::CreateFBO()
 	m_pBrightPass2Buffer->GenerateColorOnly();
 
 	m_pDOFBlur1Buffer = new FBO( iWindowWidth/2, iWindowHeight/2, FBO::E_FBO_2D );
-	m_pDOFBlur1Buffer->GenerateColorOnly( GL_RGBA16F_ARB );
+	m_pDOFBlur1Buffer->GenerateColorOnly();
 
 	m_pDOFBlur2Buffer = new FBO( iWindowWidth/2, iWindowHeight/2, FBO::E_FBO_2D );
-	m_pDOFBlur2Buffer->GenerateColorOnly( GL_RGBA16F_ARB );
-
+	m_pDOFBlur2Buffer->GenerateColorOnly();
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -346,13 +350,11 @@ void DeferredRenderer::LoadEngineShaders()
 	//Post process shaders
 	m_pToneMappingShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/ToneMapping.bfx.xml" );
 	m_pToneMappingShader->Activate();
-	m_pToneMappingShader->QueryStdUniforms();
 	m_pToneMappingShader->setUniformTexture("sTexture",0);
 	m_pToneMappingShader->setUniformTexture("sLuminance",1);
 	m_pToneMappingShader->setUniformTexture("sBloom",2);
-	m_pToneMappingShader->setUniformTexture("sDownSampledTexture",3);
-	m_pToneMappingShader->setUniformTexture("sBlurData",4);
-	m_pToneMappingShader->setUniformTexture("sLUT",5);
+	m_pToneMappingShader->setUniformTexture("sBlurData",3);
+	m_pToneMappingShader->setUniformTexture("sLUT",4);
 	m_iToneMappingShaderKeyAndMultiplierHandle = glGetUniformLocation( m_pToneMappingShader->getHandle(), "fGlowMultiplierAndKey" );
 	m_pToneMappingShader->Deactivate();
 
@@ -371,6 +373,13 @@ void DeferredRenderer::LoadEngineShaders()
 	m_pBrightPassShader->setUniformTexture("sTexture",0);
 	m_pBrightPassShader->setUniformTexture("sLuminance",1);	
 	m_pBrightPassShader->Deactivate();
+
+	m_pDOFShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/DOF.bfx.xml" );
+	m_pDOFShader->Activate();
+	m_pDOFShader->QueryStdUniforms();
+	m_pDOFShader->setUniformTexture("sTexture",0);
+	m_pDOFShader->setUniformTexture("sDownSampledTexture",1);
+	m_pDOFShader->Deactivate();
 
 	//Debug render shaders
 
@@ -1612,8 +1621,42 @@ void DeferredRenderer::Render()
 
 	ComputeAvgLum();
 	
-	//Downsampling scene for DOF
+	//Tone mapping
+	m_pToneMappingShader->Activate();
+	
+	float fToneMappingShaderUniform[2] = { m_fGlowMultiplier, m_fToneMappingKey };
+	m_pToneMappingShader->setUniform2fv( m_iToneMappingShaderKeyAndMultiplierHandle, 1, fToneMappingShaderUniform );
+	
 	m_pHDRSceneBuffer->ActivateTexture();
+	glActiveTexture( GL_TEXTURE1 );
+	m_pLastAdaptationBuffer->ActivateTexture();
+
+	glActiveTexture( GL_TEXTURE2 );
+	m_pBrightPass1Buffer->ActivateTexture();
+
+	glActiveTexture( GL_TEXTURE3 );
+	m_pHDRSceneBuffer->ActivateTexture(1);
+
+	glActiveTexture( GL_TEXTURE4 );
+	m_pColorLUT->Activate();
+
+	m_pLDRSceneBuffer->Activate();
+	DrawFullScreenQuad( iWindowWidth, iWindowHeight );
+	m_pLDRSceneBuffer->Deactivate();
+	m_pToneMappingShader->Deactivate();
+	
+	Texture3D::Deactivate();
+	glActiveTexture( GL_TEXTURE3 );
+	Texture2D::Deactivate();
+	glActiveTexture( GL_TEXTURE2 );
+	Texture2D::Deactivate();
+	glActiveTexture( GL_TEXTURE1 );
+	Texture2D::Deactivate();
+	glActiveTexture( GL_TEXTURE0 );
+	Texture2D::Deactivate();
+
+	//Downsampling scene for DOF
+	m_pLDRSceneBuffer->ActivateTexture();
 	glActiveTexture( GL_TEXTURE1 );
 	m_pHDRSceneBuffer->ActivateTexture(1);
 	
@@ -1638,7 +1681,6 @@ void DeferredRenderer::Render()
 	m_pBlur6Shader->setUniform2fv( m_iBlur6ShaderPixelSizeHandle, 1, pPixelSize);
 	DrawFullScreenQuad( iWindowWidth / 2, iWindowHeight / 2 );
 
-
 	m_pDOFBlur2Buffer->ActivateTexture();
 	m_pDOFBlur1Buffer->Activate();
 	pPixelSize[0] = 0.0f;
@@ -1648,44 +1690,21 @@ void DeferredRenderer::Render()
 	
 	m_pDOFBlur1Buffer->Deactivate();
 	Texture2D::Deactivate();
-
-	//Tone mapping - Final Step
-	m_pToneMappingShader->Activate();
-	m_pToneMappingShader->CommitStdUniforms();
 	
-	float fToneMappingShaderUniform[2] = { m_fGlowMultiplier, m_fToneMappingKey };
-	m_pToneMappingShader->setUniform2fv( m_iToneMappingShaderKeyAndMultiplierHandle, 1, fToneMappingShaderUniform );
-	
-	m_pHDRSceneBuffer->ActivateTexture();
+	m_pDOFShader->Activate();
+	glActiveTexture( GL_TEXTURE0 );
+	m_pLDRSceneBuffer->ActivateTexture();
 	glActiveTexture( GL_TEXTURE1 );
-	m_pLastAdaptationBuffer->ActivateTexture();
-
-	glActiveTexture( GL_TEXTURE2 );
-	m_pBrightPass1Buffer->ActivateTexture();
-
-	glActiveTexture( GL_TEXTURE3 );
 	m_pDOFBlur1Buffer->ActivateTexture();
-	
-	glActiveTexture( GL_TEXTURE4 );
-	m_pHDRSceneBuffer->ActivateTexture(1);
-
-	glActiveTexture( GL_TEXTURE5 );
-	m_pColorLUT->Activate();
 
 	DrawFullScreenQuad( iWindowWidth, iWindowHeight );
-	m_pToneMappingShader->Deactivate();
-	
-	//Texture3D::Deactivate();
-	glActiveTexture( GL_TEXTURE4 );
+
 	Texture2D::Deactivate();
-	glActiveTexture( GL_TEXTURE3 );
-	Texture2D::Deactivate();
-	glActiveTexture( GL_TEXTURE2 );
-	Texture2D::Deactivate();
-	glActiveTexture( GL_TEXTURE1 );
-	Texture2D::Deactivate();
+
 	glActiveTexture( GL_TEXTURE0 );
 	Texture2D::Deactivate();
+
+	m_pDOFShader->Deactivate();
 
 	DebugRender( oSceneMeshes, oTransparentSceneMeshes, oSpotShadows, oSpotLights );
 	
