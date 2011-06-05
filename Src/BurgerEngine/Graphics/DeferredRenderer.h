@@ -109,6 +109,7 @@ private:
 	FBO* m_pLightBuffer;
 	FBO* m_pSpotShadowBlurBuffer;
 	FBO* m_pHDRSceneBuffer;
+	FBO* m_pLDRSceneBuffer;
 
 	//HDR & ToneMapping
 	FBO* m_pDownSampledSceneBuffer;
@@ -208,6 +209,8 @@ private:
 	Shader*			m_pBrightPassShader;
 	unsigned int	m_iBrightPassShaderInvViewPortHandle;
 	unsigned int	m_iBrightPassShaderThresholdOffsetKeyHandle;
+
+	Shader*			m_pDOFShader;
 
 	//Debug render shaders
 	Shader*			m_pBasicTextureShader;

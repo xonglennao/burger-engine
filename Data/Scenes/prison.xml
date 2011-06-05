@@ -4,10 +4,10 @@
     <camera type="firstperson">
       <position x="0.0" y="15.0" z="0.0" rX="0.0" rY="0.0" />
       <speed position="0.03" rotation="0.05"/>
-      <parameters fov="45.0" dofNearBlur="-150.0" dofFocalPlane="30.0" dofFarBlur="55.0" dofMaxFarBlur="0.8"/>
+      <parameters fov="45.0" dofNearBlur="-150.0" dofFocalPlane="30.0" dofFarBlur="55.0" dofMaxFarBlur="1.0"/>
     </camera>
     <postprocess>
-      <parameters toneMappingKey="0.25" glowMultiplier="0.0" brightPassThreshold="7.5" brightPassOffset="0.5" adaptationBaseTime="0.85" colorLUT="../Data/Textures/xml/prison_lut.btx.xml"/>
+      <parameters toneMappingKey="0.25" glowMultiplier="1.5" brightPassThreshold="7.5" brightPassOffset="0.5" adaptationBaseTime="0.85" colorLUT="../Data/Textures/xml/prison_lut.btx.xml"/>
     </postprocess>
   </settings>
 
