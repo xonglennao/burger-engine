@@ -153,7 +153,7 @@ void ParticleComponent::Initialize(TiXmlElement const& a_rParameters)
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void ParticleComponent::_Update()
+void ParticleComponent::_Update( float fFrameTime, float fElapsedTime )
 {
 }
 

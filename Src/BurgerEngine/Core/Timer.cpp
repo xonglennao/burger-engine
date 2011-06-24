@@ -6,8 +6,9 @@ using namespace sf;
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-Timer::Timer():
-	m_fScaledTime(0.0)
+Timer::Timer()
+	: m_fScaledTime( 0.0f )
+	, m_fLastFrameTime( 0.0f )
 {
 	QueryPerformanceFrequency(&m_iFrequency);
 	m_iStart.QuadPart = (LONGLONG)0.0;

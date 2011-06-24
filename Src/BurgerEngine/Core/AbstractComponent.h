@@ -28,6 +28,7 @@ enum ComponentType
 	RENDER,
 	LIGHT,
 	PARTICLE,
+	MOVEMENTHACKER,
 	UNKNOWN
 };
 
@@ -36,9 +37,10 @@ class AbstractComponent
 {
 public:
 	/// \brief constructor
-	AbstractComponent(ComponentType a_eType, CompositeComponent* a_pParent = NULL):
-	m_eType(a_eType),
-	m_pParentNode(a_pParent)
+	AbstractComponent(ComponentType a_eType, CompositeComponent* a_pParent = NULL)
+		: m_eType(a_eType)
+		, m_pParentNode(a_pParent)
+		, m_fScale( 1.0f )
 	{}
 
 	/// \brief Copy constructor
@@ -55,11 +57,19 @@ public:
 	virtual void Initialize(TiXmlElement const& a_rParameters) = 0;
 
 	///\brief Update
-	void Update();
+	void Update( float fFrameTime, float fElapsedTime );
 
 	/// \brief Set and Get position
-	void SetPos( vec3 const& a_vValue ){ m_f3Position = a_vValue; }
-	vec3 const& GetPos() const { return m_f3Position; }
+	virtual void SetPos( vec3 const& a_vValue ){ m_f3Position = a_vValue; }
+	vec3 const GetPos() const;
+
+	/// \brief Update all render componenent with a new scale
+	virtual void SetScale( float const a_fValue ){ m_fScale = a_fValue; }
+	float GetScale() const;
+
+	/// \brief Update all render componenent with a new rotation
+	virtual void SetRotation( vec3 const& a_vValue ){ m_f3Rotation = a_vValue; }
+	vec3 const GetRotation() const;
 
 	/// \brief Get the parent of the node
 	CompositeComponent const* GetParent() const {return m_pParentNode;}
@@ -68,11 +78,16 @@ public:
 	ComponentType GetType() const {return m_eType;}
 
 	/// \brief Update the rotation
-	virtual void UpdateRotation(vec3 const& a_rf3Rotation){};
+	virtual void UpdateRotation(){};
+	/// \brief Update the position
+	virtual void UpdatePos(){};
+	/// \brief Update the scale
+	virtual void UpdateScale(){};
+
 
 protected: // private ???
 	/// \brief Inner update
-	virtual void _Update() = 0;
+	virtual void _Update( float fFrameTime, float fElapsedTime ) = 0;
 
 	/// \brief Inner Clone
 	//AbstractComponent& _Clone(AbstractComponent const& a_rToCopy) = 0;
@@ -87,6 +102,8 @@ private:
 	/// how the render can be inform of the composite position
 	/// Position - might be better is matrix
 	vec3	m_f3Position;
+	float	m_fScale;
+	vec3	m_f3Rotation;
 
 	/// The parent Node, which has to be a composite composent
 	/// Will be useful to retrieve info of the parent, (position)

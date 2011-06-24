@@ -1,185 +1,183 @@
-<object name="Column" >
-  <component id="composite">
-    <parameters>
-      <position x="0.0" y="0.0" z="0.0"/>
-      <name></name>
+<component id="composite">
+  <parameters>
+    <position x="0.0" y="0.0" z="0.0"/>
+    <name></name>
 
-      <!-- GLOBAL LIGHT -->
-      <component id="light">
-        <parameters>
-          <position x="0.0" y="10.0" z="0.0"/>
-          <light type="omni"/>
-          <Multiplier value="0.1"/>
-          <Radius value="80"/>
-          <Color  r="1.0" g="0.8" b="0.8"/>
-        </parameters>
-      </component>
+    <!-- GLOBAL LIGHT -->
+    <component id="light">
+      <parameters>
+        <position x="0.0" y="10.0" z="0.0"/>
+        <light type="omni"/>
+        <Multiplier value="0.1"/>
+        <Radius value="80"/>
+        <Color  r="1.0" g="0.8" b="0.8"/>
+      </parameters>
+    </component>
 
-      <!-- STAIRS LIGHT -->
-      <component id="light">
-        <parameters>
-          <position x="95.0" y="55.0" z="-43.0" rX="-50" rY="-90"/>
-          <light type="spotshadow"/>
-          <Multiplier value="10.0"/>
-          <Radius value="120"/>
-          <InnerAngle value="0"/>
-          <OuterAngle value="25"/>
-          <Color  r="0.8" g="0.8" b="1.0"/>
-        </parameters>
-      </component>
+    <!-- STAIRS LIGHT -->
+    <component id="light">
+      <parameters>
+        <position x="95.0" y="55.0" z="-43.0" rX="-50" rY="-90"/>
+        <light type="spotshadow"/>
+        <Multiplier value="10.0"/>
+        <Radius value="120"/>
+        <InnerAngle value="0"/>
+        <OuterAngle value="25"/>
+        <Color  r="0.8" g="0.8" b="1.0"/>
+      </parameters>
+    </component>
 
-      
-      <component id="light">
-        <parameters>
-          <position x="18.0" y="15.0" z="-20.0" rX="-20" rY="-120"/>
-          <light type="spotshadow"/>
-          <Multiplier value="0.1"/>
-          <Radius value="140"/>
-          <InnerAngle value="0"/>
-          <OuterAngle value="45"/>
-          <Color  r="1.0" g="0.8" b="0.8"/>
-        </parameters>
-      </component>
 
-      <component id="light">
-        <parameters>
-          <position x="18.0" y="15.0" z="-20.0" rX="-20" rY="-207"/>
-          <light type="spotshadow"/>
-          <Multiplier value="0.1"/>
-          <Radius value="150"/>
-          <InnerAngle value="0"/>
-          <OuterAngle value="30"/>
-          <Color  r="1.0" g="0.8" b="0.8"/>
-        </parameters>
-      </component>
+    <component id="light">
+      <parameters>
+        <position x="18.0" y="15.0" z="-20.0" rX="-20" rY="-120"/>
+        <light type="spotshadow"/>
+        <Multiplier value="0.1"/>
+        <Radius value="140"/>
+        <InnerAngle value="0"/>
+        <OuterAngle value="45"/>
+        <Color  r="1.0" g="0.8" b="0.8"/>
+      </parameters>
+    </component>
 
-      <!-- LEFT WALL-->
-      <component id="light">
-        <parameters>
-          <position x="-80.0" y="18.0" z="-15.0"/>
-          <light type="omni"/>
-          <Multiplier value="0.007"/>
-          <Radius value="40"/>
-          <Color  r="1.0" g="0.8" b="0.8"/>
-        </parameters>
-      </component>
+    <component id="light">
+      <parameters>
+        <position x="18.0" y="15.0" z="-20.0" rX="-20" rY="-207"/>
+        <light type="spotshadow"/>
+        <Multiplier value="0.1"/>
+        <Radius value="150"/>
+        <InnerAngle value="0"/>
+        <OuterAngle value="30"/>
+        <Color  r="1.0" g="0.8" b="0.8"/>
+      </parameters>
+    </component>
 
-      <component id="light">
-        <parameters>
-          <position x="-80.0" y="14.9" z="-35.0"/>
-          <light type="omni"/>
-          <Multiplier value="0.007"/>
-          <Radius value="40"/>
-          <Color  r="0.9" g="0.9" b="1.0"/>
-        </parameters>
-      </component>
+    <!-- LEFT WALL-->
+    <component id="light">
+      <parameters>
+        <position x="-80.0" y="18.0" z="-15.0"/>
+        <light type="omni"/>
+        <Multiplier value="0.007"/>
+        <Radius value="40"/>
+        <Color  r="1.0" g="0.8" b="0.8"/>
+      </parameters>
+    </component>
 
-      <component id="light">
-        <parameters>
-          <position x="-70.0" y="25.0" z="-50.0" rX="-50" rY="-45"/>
-          <light type="spotshadow"/>
-          <Multiplier value="0.01"/>
-          <Radius value="40"/>
-          <InnerAngle value="0"/>
-          <OuterAngle value="45"/>
-          <Color  r="0.9" g="0.9" b="1.0"/>
-        </parameters>
-      </component>
+    <component id="light">
+      <parameters>
+        <position x="-80.0" y="14.9" z="-35.0"/>
+        <light type="omni"/>
+        <Multiplier value="0.007"/>
+        <Radius value="40"/>
+        <Color  r="0.9" g="0.9" b="1.0"/>
+      </parameters>
+    </component>
 
-      <!-- FRONT WALL-->
-      <component id="light">
-        <parameters>
-          <position x="-45.0" y="7.0" z="-63.0"/>
-          <light type="omni"/>
-          <Multiplier value="0.03"/>
-          <Radius value="30"/>
-          <Color  r="1.1" g="0.8" b="0.8"/>
-        </parameters>
-      </component>
+    <component id="light">
+      <parameters>
+        <position x="-70.0" y="25.0" z="-50.0" rX="-50" rY="-45"/>
+        <light type="spotshadow"/>
+        <Multiplier value="0.01"/>
+        <Radius value="40"/>
+        <InnerAngle value="0"/>
+        <OuterAngle value="45"/>
+        <Color  r="0.9" g="0.9" b="1.0"/>
+      </parameters>
+    </component>
 
-      <component id="light">
-        <parameters>
-          <position x="-20.0" y="5.0" z="-62.0"/>
-          <light type="omni"/>
-          <Multiplier value="0.05"/>
-          <Radius value="35"/>
-          <Color  r="1.1" g="0.8" b="0.8"/>
-        </parameters>
-      </component>
+    <!-- FRONT WALL-->
+    <component id="light">
+      <parameters>
+        <position x="-45.0" y="7.0" z="-63.0"/>
+        <light type="omni"/>
+        <Multiplier value="0.03"/>
+        <Radius value="30"/>
+        <Color  r="1.1" g="0.8" b="0.8"/>
+      </parameters>
+    </component>
 
-      <component id="light">
-        <parameters>
-          <position x="0.0" y="6.0" z="-62.0"/>
-          <light type="omni"/>
-          <Multiplier value="0.05"/>
-          <Radius value="26"/>
-          <Color  r="1.0" g="0.75" b="0.8"/>
-        </parameters>
-      </component>
+    <component id="light">
+      <parameters>
+        <position x="-20.0" y="5.0" z="-62.0"/>
+        <light type="omni"/>
+        <Multiplier value="0.05"/>
+        <Radius value="35"/>
+        <Color  r="1.1" g="0.8" b="0.8"/>
+      </parameters>
+    </component>
 
-      <component id="light">
-        <parameters>
-          <position x="15.0" y="6.0" z="-62.0"/>
-          <light type="omni"/>
-          <Multiplier value="0.06"/>
-          <Radius value="26"/>
-          <Color  r="0.75" g="0.75" b="1.0"/>
-        </parameters>
-      </component>
+    <component id="light">
+      <parameters>
+        <position x="0.0" y="6.0" z="-62.0"/>
+        <light type="omni"/>
+        <Multiplier value="0.05"/>
+        <Radius value="26"/>
+        <Color  r="1.0" g="0.75" b="0.8"/>
+      </parameters>
+    </component>
 
-      <component id="light">
-        <parameters>
-          <position x="35" y="4.5" z="-61.0"/>
-          <light type="omni"/>
-          <Multiplier value="0.07"/>
-          <Radius value="25"/>
-          <Color  r="0.70" g="0.70" b="1.0"/>
-        </parameters>
-      </component>
+    <component id="light">
+      <parameters>
+        <position x="15.0" y="6.0" z="-62.0"/>
+        <light type="omni"/>
+        <Multiplier value="0.06"/>
+        <Radius value="26"/>
+        <Color  r="0.75" g="0.75" b="1.0"/>
+      </parameters>
+    </component>
 
-      <component id="light">
-        <parameters>
-          <position x="65" y="10.0" z="-60.0"/>
-          <light type="omni"/>
-          <Multiplier value="0.04"/>
-          <Radius value="25"/>
-          <Color  r="0.9" g="0.9" b="1.0"/>
-        </parameters>
-      </component>
-      <!-- END FRONT WALL -->
-      
-      <!-- INDIRECT LIGHT FROM STAIRS-->
-      <component id="light">
-        <parameters>
-          <position x="15.0" y="6.0" z="-29.0"/>
-          <light type="omni"/>
-          <Multiplier value="0.06"/>
-          <Radius value="26"/>
-          <Color  r="0.75" g="0.75" b="1.0"/>
-        </parameters>
-      </component>
+    <component id="light">
+      <parameters>
+        <position x="35" y="4.5" z="-61.0"/>
+        <light type="omni"/>
+        <Multiplier value="0.07"/>
+        <Radius value="25"/>
+        <Color  r="0.70" g="0.70" b="1.0"/>
+      </parameters>
+    </component>
 
-      <component id="light">
-        <parameters>
-          <position x="35" y="4.5" z="-28.0"/>
-          <light type="omni"/>
-          <Multiplier value="0.07"/>
-          <Radius value="25"/>
-          <Color  r="0.70" g="0.70" b="1.0"/>
-        </parameters>
-      </component>
+    <component id="light">
+      <parameters>
+        <position x="65" y="10.0" z="-60.0"/>
+        <light type="omni"/>
+        <Multiplier value="0.04"/>
+        <Radius value="25"/>
+        <Color  r="0.9" g="0.9" b="1.0"/>
+      </parameters>
+    </component>
+    <!-- END FRONT WALL -->
 
-      <!-- RIGHT WALL -->
-      <component id="light">
-        <parameters>
-          <position x="60" y="9.0" z="-15.0"/>
-          <light type="omni"/>
-          <Multiplier value="0.02"/>
-          <Radius value="24"/>
-          <Color  r="0.70" g="0.70" b="1.0"/>
-        </parameters>
-      </component>
+    <!-- INDIRECT LIGHT FROM STAIRS-->
+    <component id="light">
+      <parameters>
+        <position x="15.0" y="6.0" z="-29.0"/>
+        <light type="omni"/>
+        <Multiplier value="0.06"/>
+        <Radius value="26"/>
+        <Color  r="0.75" g="0.75" b="1.0"/>
+      </parameters>
+    </component>
 
-    </parameters>
-  </component>
-</object>
+    <component id="light">
+      <parameters>
+        <position x="35" y="4.5" z="-28.0"/>
+        <light type="omni"/>
+        <Multiplier value="0.07"/>
+        <Radius value="25"/>
+        <Color  r="0.70" g="0.70" b="1.0"/>
+      </parameters>
+    </component>
+
+    <!-- RIGHT WALL -->
+    <component id="light">
+      <parameters>
+        <position x="60" y="9.0" z="-15.0"/>
+        <light type="omni"/>
+        <Multiplier value="0.02"/>
+        <Radius value="24"/>
+        <Color  r="0.70" g="0.70" b="1.0"/>
+      </parameters>
+    </component>
+
+  </parameters>
+</component>

@@ -2,7 +2,7 @@
   
   <!-- GROUND  -->
   <sceneobject x="0.0" y="50.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
-    <ressourcecomponent>TestTransparency/InvertedCube</ressourcecomponent>
+    <ressourcecomponent><file>TestTransparency/InvertedCube</file></ressourcecomponent>
 	<instance name= "Cube"/>
   </sceneobject>
 
@@ -17,27 +17,27 @@
 
   <!-- TRANSPARENT OBJECTS -->
   <sceneobject x="15.0" y="10.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
-    <ressourcecomponent>TestTransparency/Ball01</ressourcecomponent>
+    <ressourcecomponent><file>TestTransparency/Ball01</file></ressourcecomponent>
 	<instance name= "ball01"/>
   </sceneobject>
 
   <sceneobject x="15.0" y="10.0" z="-10.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
-    <ressourcecomponent>TestTransparency/Ball02</ressourcecomponent>
+    <ressourcecomponent><file>TestTransparency/Ball02</file></ressourcecomponent>
 	<instance name= "ball02"/>
   </sceneobject>
 
   <sceneobject x="15.0" y="10.0" z="-20.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
-    <ressourcecomponent>TestTransparency/Ball03</ressourcecomponent>
+    <ressourcecomponent><file>TestTransparency/Ball03</file></ressourcecomponent>
 	<instance name= "ball03"/>
   </sceneobject>
 
   <sceneobject x="15.0" y="10.0" z="-30.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
-    <ressourcecomponent>TestTransparency/Ball04</ressourcecomponent>
+    <ressourcecomponent><file>TestTransparency/Ball04</file></ressourcecomponent>
 	<instance name= "ball04"/>
   </sceneobject>
   
   <sceneobject x="-15.0" y="10.0" z="-30.0" rX="0.0" rY="0.0" rZ="0.0" scale="2">
-    <ressourcecomponent>TestTransparency/Ball04</ressourcecomponent>
+    <ressourcecomponent><file>TestTransparency/Ball04</file></ressourcecomponent>
 	<instance name= "ball04"/>
   </sceneobject>
 

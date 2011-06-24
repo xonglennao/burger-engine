@@ -34,7 +34,7 @@ public:
 
 protected:
 	/// \brief Inner update
-	void _Update();
+	void _Update( float fFrameTime, float fElapsedTime );
 
 private:
 

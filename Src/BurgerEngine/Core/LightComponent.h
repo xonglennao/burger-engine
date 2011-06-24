@@ -43,11 +43,11 @@ public:
 	void UpdatePos();
 
 	/// \brief Update the rotation
-	void UpdateRotation(vec3 const& a_rf3Rotation);
+	void UpdateRotation();
 
 protected:
 	/// \brief Inner update
-	void _Update();
+	void _Update( float fFrameTime, float fElapsedTime );
 
 private:
 	/// Own a Scene light object

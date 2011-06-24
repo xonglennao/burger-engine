@@ -205,6 +205,9 @@
     <ClCompile Include="BurgerEngine\Core\TimeContext.cpp">
       <Filter>BurgerEngine\Core\Timer</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\Core\MovementHackerComponent.cpp">
+      <Filter>BurgerEngine\Core\Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -419,6 +422,9 @@
     </ClInclude>
     <ClInclude Include="BurgerEngine\Core\TimeContext.h">
       <Filter>BurgerEngine\Core\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Core\MovementHackerComponent.h">
+      <Filter>BurgerEngine\Core\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

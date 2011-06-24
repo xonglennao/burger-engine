@@ -1,20 +1,20 @@
-<object name="Column" >
-	<component id="composite">
-		<parameters>
-			<position x="0.0" y="0.0" z="0.0"/>
-			<name>Column</name>
-			<component id="render">  <!-- COMPONENT TEST Maybe the component render can have it's own position (off set from the object -->
-				<parameters>
-					<position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1"/>
-					<mesh>
-					  <file>../Data/Mesh/column.obj</file>
-					  <part>
-						<material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-					  </part>
-					</mesh>
-				</parameters>
-			</component>
-			<!--<component id="render">  
+<component id="composite">
+  <parameters>
+    <position x="0.0" y="0.0" z="0.0"/>
+    <name>Column</name>
+    <component id="render">
+      <!-- COMPONENT TEST Maybe the component render can have it's own position (off set from the object -->
+      <parameters>
+        <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1"/>
+        <mesh>
+          <file>../Data/Mesh/column.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+    <!--<component id="render">  
 				<parameters>
 					<position x="10.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="3"/>
 					<mesh>
@@ -25,6 +25,5 @@
 					</mesh>
 				</parameters>
 			</component>-->
-		</parameters>
-	</component>
-</object>
+  </parameters>
+</component>

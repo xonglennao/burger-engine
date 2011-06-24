@@ -12,32 +12,32 @@
   </settings>
 
   <sceneobject x="0.0" y="100.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="200.0">
-    <ressourcecomponent>ESM/InvertedCube</ressourcecomponent>
+    <ressourcecomponent><file>ESM/InvertedCube</file></ressourcecomponent>
     <instance name= "Cube"/>
   </sceneobject>
 
   <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">
-    <ressourcecomponent>ESM/Skeleton</ressourcecomponent>
+    <ressourcecomponent><file>ESM/Skeleton</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
   <sceneobject x="0.0" y="0.0" z="0.0" rX="0" rY="80" rZ="0.0" scale="1">
-    <ressourcecomponent>ESM/Omni</ressourcecomponent>
+    <ressourcecomponent><file>ESM/Omni</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
   <sceneobject x="0.0" y="50.0" z="30.0" rX="-45" rY="0.0" rZ="0.0" scale="1">
-    <ressourcecomponent>esm/spotshadow</ressourcecomponent>
+    <ressourcecomponent><file>esm/spotshadow</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
   <sceneobject x="0.0" y="50.0" z="30.0" rX="-45" rY="45.0" rZ="0.0" scale="1">
-    <ressourcecomponent>esm/spotshadow</ressourcecomponent>
+    <ressourcecomponent><file>esm/spotshadow</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
   <sceneobject x="0.0" y="50.0" z="30.0" rX="-45" rY="-45.0" rZ="0.0" scale="1">
-    <ressourcecomponent>esm/spotshadow</ressourcecomponent>
+    <ressourcecomponent><file>esm/spotshadow</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 

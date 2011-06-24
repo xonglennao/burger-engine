@@ -2,12 +2,12 @@
 
   <!-- GROUND  -->
   <sceneobject x="0.0" y="-15.0" z="0.0" rX="0.0" rY="180.0" rZ="0.0" scale="30">
-    <ressourcecomponent>TestShadows/Room</ressourcecomponent>
+    <ressourcecomponent><file>TestShadows/Room</file></ressourcecomponent>
     <instance name= "Cube"/>
   </sceneobject>
 
   <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="4">
-    <ressourcecomponent>TestShadows/Balls</ressourcecomponent>
+    <ressourcecomponent><file>TestShadows/Balls</file></ressourcecomponent>
     <instance name= "Balls"/>
   </sceneobject>
 
@@ -30,27 +30,27 @@
   </sceneobject>
 
   <sceneobject x="50.0" y="0.0" z="-200.0" rX="0.0" rY="0.0" rZ="0.0" scale="2">
-    <ressourcecomponent>TestShadows/Columns</ressourcecomponent>
+    <ressourcecomponent><file>TestShadows/Columns</file></ressourcecomponent>
     <instance name= "Columns"/>
   </sceneobject>
 
   <sceneobject x="25.0" y="0.0" z="-200.0" rX="0.0" rY="0.0" rZ="0.0" scale="2">
-    <ressourcecomponent>TestShadows/Columns</ressourcecomponent>
+    <ressourcecomponent><file>TestShadows/Columns</file></ressourcecomponent>
     <instance name= "Columns"/>
   </sceneobject>
 
   <sceneobject x="0.0" y="0.0" z="-200.0" rX="0.0" rY="0.0" rZ="0.0" scale="2">
-    <ressourcecomponent>TestShadows/Columns</ressourcecomponent>
+    <ressourcecomponent><file>TestShadows/Columns</file></ressourcecomponent>
     <instance name= "Columns"/>
   </sceneobject>
 
   <sceneobject x="-25.0" y="0.0" z="-200.0" rX="0.0" rY="0.0" rZ="0.0" scale="2">
-    <ressourcecomponent>TestShadows/Columns</ressourcecomponent>
+    <ressourcecomponent><file>TestShadows/Columns</file></ressourcecomponent>
     <instance name= "Columns"/>
   </sceneobject>
 
   <sceneobject x="50.0" y="0.0" z="-200.0" rX="0.0" rY="0.0" rZ="0.0" scale="2">
-    <ressourcecomponent>TestShadows/Columns</ressourcecomponent>
+    <ressourcecomponent><file>TestShadows/Columns</file></ressourcecomponent>
     <instance name= "Columns"/>
   </sceneobject>
 
@@ -84,7 +84,7 @@
   </sceneobject>
 
   <sceneobject x="0.0" y="10.0" z="35.0" rX="0.0" rY="0.0" rZ="0.0" scale="0.2">
-    <ressourcecomponent>TestShadows/Gate</ressourcecomponent>
+    <ressourcecomponent><file>TestShadows/Gate</file></ressourcecomponent>
     <instance name= "Gate"/>
   </sceneobject>
 

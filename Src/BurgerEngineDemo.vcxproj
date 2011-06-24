@@ -23,6 +23,7 @@
     <ClInclude Include="BurgerEngine\Core\Engine.h" />
     <ClInclude Include="BurgerEngine\Core\LightComponent.h" />
     <ClInclude Include="BurgerEngine\Core\FirstPersonCamera.h" />
+    <ClInclude Include="BurgerEngine\Core\MovementHackerComponent.h" />
     <ClInclude Include="BurgerEngine\Core\ObjectFactory.h" />
     <ClInclude Include="BurgerEngine\Core\ParticleComponent.h" />
     <ClInclude Include="BurgerEngine\Core\RenderComponent.h" />
@@ -94,6 +95,7 @@
     <ClCompile Include="BurgerEngine\Core\Engine.cpp" />
     <ClCompile Include="BurgerEngine\Core\LightComponent.cpp" />
     <ClCompile Include="BurgerEngine\Core\FirstPersonCamera.cpp" />
+    <ClCompile Include="BurgerEngine\Core\MovementHackerComponent.cpp" />
     <ClCompile Include="BurgerEngine\Core\ObjectFactory.cpp" />
     <ClCompile Include="BurgerEngine\Core\ParticleComponent.cpp" />
     <ClCompile Include="BurgerEngine\Core\RenderComponent.cpp" />

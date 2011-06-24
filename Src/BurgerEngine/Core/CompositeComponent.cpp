@@ -7,8 +7,8 @@
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-CompositeComponent::CompositeComponent(CompositeComponent* a_pParent):
-	AbstractComponent(COMPOSITE, a_pParent)
+CompositeComponent::CompositeComponent(CompositeComponent* a_pParent)
+	: AbstractComponent(COMPOSITE, a_pParent)
 {
 	AbstractComponent::SetPos(vec3(0,0,0));
 }
@@ -34,16 +34,27 @@ CompositeComponent::~CompositeComponent()
 void CompositeComponent::Initialize(TiXmlElement const& a_rParameters)
 {
 	//The composite will take it's value (position) and then load all other component
-	float fX, fY, fZ;
+	//this is currently useless, there's only one composite component per sceneobject
+	//the composite component uses the scene object position
+	
+	float x, y, z, rX, rY, rZ, scale;
 	TiXmlElement const* pPositionXml = a_rParameters.FirstChildElement( "position" );
 	if(pPositionXml)
 	{
-		pPositionXml->QueryFloatAttribute("x",&fX);
-		pPositionXml->QueryFloatAttribute("y",&fY);
-		pPositionXml->QueryFloatAttribute("z",&fZ);
-		SetPos(vec3(fX,fY,fZ));
-	}
+		pPositionXml->QueryFloatAttribute("x",&x);
+		pPositionXml->QueryFloatAttribute("y",&y);
+		pPositionXml->QueryFloatAttribute("z",&z);
+		SetPos(vec3(x,y,z));
 
+		pPositionXml->QueryFloatAttribute("rX",&rX);
+		pPositionXml->QueryFloatAttribute("rY",&rY);
+		pPositionXml->QueryFloatAttribute("rZ",&rZ);
+		SetRotation(vec3(rX,rY,rZ));
+
+		pPositionXml->QueryFloatAttribute("scale",&scale);
+		SetScale(scale);
+	}
+	
 	//As long as we find components we add it to the composite components
 	TiXmlElement const* pComponentXml = a_rParameters.FirstChildElement( "component" );
 	while (pComponentXml)
@@ -56,21 +67,28 @@ void CompositeComponent::Initialize(TiXmlElement const& a_rParameters)
 		pComponentXml = pComponentXml->NextSiblingElement( "component" );
 	}
 
+	pComponentXml = a_rParameters.FirstChildElement( "ressourcecomponent" );
+	while (pComponentXml)
+	{
+		AbstractComponent* pComponentObject = ObjectFactory::LoadObject( pComponentXml, this );
+
+		m_vComponents.push_back(pComponentObject);
+
+		//Get the next components
+		pComponentXml = pComponentXml->NextSiblingElement( "ressourcecomponent" );
+	}
 }
 
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void CompositeComponent::_Update()
+void CompositeComponent::_Update( float fFrameTime, float fElapsedTime )
 {
-	//FOR EACH MACRO
 	FOR_EACH_IT(std::vector<AbstractComponent*>, m_vComponents, itComponent)
-	//for (std::vector<AbstractComponent*>::iterator itComponent = m_vComponents.begin(); itComponent != m_vComponents.end(); ++itComponent)
 	{
 		//Should check if need to be updated??? (think about render and phys)
-		(*itComponent)->Update();
+		(*itComponent)->Update( fFrameTime, fElapsedTime );
 	}
-
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -79,29 +97,8 @@ void CompositeComponent::_Update()
 void CompositeComponent::SetPos( vec3 const& a_vValue )
 {
 	//Set the component position
-	AbstractComponent::SetPos(a_vValue);
-
-	//For all render component we let them know the new pos
-	//Al this shoudl be kinda different
-	//We change the pos, and when the Mesh needs to be rendered, it take the 
-	//parent matrice and adds it's own
-	FOR_EACH_IT(std::vector<AbstractComponent*>, m_vComponents, itComponent)
-	{
-		AbstractComponent* pComponent = (*itComponent);
-		//The component should not be null
-		assert(pComponent);
-		if (pComponent->GetType() == RENDER)
-		{
-			RenderComponent* pRenderComponent = static_cast<RenderComponent*>(pComponent);
-			pRenderComponent->UpdatePos();
-		}
-		else if (pComponent->GetType() == LIGHT)
-		{
-			LightComponent* pLightComponent = static_cast<LightComponent*>(pComponent);
-			pLightComponent->UpdatePos();
-		}
-	}
-
+	AbstractComponent::SetPos( a_vValue );
+	UpdatePos();
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -109,19 +106,9 @@ void CompositeComponent::SetPos( vec3 const& a_vValue )
 //--------------------------------------------------------------------------------------------------------------------
 void CompositeComponent::SetScale( float const a_fValue )
 {
-	/// \todo maybe the composite component should hold a scale value
-	//For all component that have a scale issue
-	FOR_EACH_IT(std::vector<AbstractComponent*>, m_vComponents, itComponent)
-	{
-		AbstractComponent* pComponent = (*itComponent);
-		//The component should not be null
-		assert(pComponent);
-		if (pComponent->GetType() == RENDER)
-		{
-			RenderComponent* pRenderComponent = static_cast<RenderComponent*>(pComponent);
-			pRenderComponent->UpdateScale(a_fValue);
-		}
-	}
+	//Set the component scale
+	AbstractComponent::SetScale( a_fValue );
+	UpdateScale();
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -129,18 +116,49 @@ void CompositeComponent::SetScale( float const a_fValue )
 //--------------------------------------------------------------------------------------------------------------------
 void CompositeComponent::SetRotation( vec3 const& a_vValue )
 {
-	/// \todo maybe the composite component should hold a scale value
-	//For all component that have a scale issue
+	AbstractComponent::SetRotation( a_vValue );
+	UpdateRotation();
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void CompositeComponent::UpdatePos()
+{
 	FOR_EACH_IT(std::vector<AbstractComponent*>, m_vComponents, itComponent)
 	{
 		AbstractComponent* pComponent = (*itComponent);
 		//The component should not be null
 		assert(pComponent);
-		//if (pComponent->GetType() == LIGHT)
-		{
-			//LightComponent* pLightComponent = static_cast<LightComponent*>(pComponent);
-			pComponent->UpdateRotation(a_vValue);
-		}
+		pComponent->UpdatePos();
+	}
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void CompositeComponent::UpdateScale()
+{
+	FOR_EACH_IT(std::vector<AbstractComponent*>, m_vComponents, itComponent)
+	{
+		AbstractComponent* pComponent = (*itComponent);
+		//The component should not be null
+		assert(pComponent);
+		pComponent->UpdateScale();
+	}
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void CompositeComponent::UpdateRotation()
+{
+	FOR_EACH_IT(std::vector<AbstractComponent*>, m_vComponents, itComponent)
+	{
+		AbstractComponent* pComponent = (*itComponent);
+		//The component should not be null
+		assert(pComponent);
+		pComponent->UpdateRotation();
 	}
 }
 

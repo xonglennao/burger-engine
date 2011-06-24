@@ -1,41 +1,39 @@
-<object name="GlossyBall" >
-	<component id="composite">
-		<parameters>
-			<position x="0.0" y="0.0" z="0.0"/>
-			<name>GlossyBall</name>
-			<component id="render"> 
-				<parameters>
-					<position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="10" />
-					<mesh>
-					  <file>../Data/Mesh/unit_sphere.obj</file>
-					  <part>
-						<material>../Data/Materials/test_transparency/test_transparency4.bma.xml</material>
-					  </part>
-					</mesh>
-				</parameters>
-			</component>
-			<component id="render"> 
-				<parameters>
-					<position x="5.0" y="5.0" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="9" />
-					<mesh>
-					  <file>../Data/Mesh/unit_sphere.obj</file>
-					  <part>
-						<material>../Data/Materials/test_transparency/test_transparency4.bma.xml</material>
-					  </part>
-					</mesh>
-				</parameters>
-			</component>
-			<component id="render"> 
-				<parameters>
-					<position x="-5.0" y="5.0" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="9" />
-					<mesh>
-					  <file>../Data/Mesh/unit_sphere.obj</file>
-					  <part>
-						<material>../Data/Materials/test_transparency/test_transparency4.bma.xml</material>
-					  </part>
-					</mesh>
-				</parameters>
-			</component>
-		</parameters>
-	</component>
-</object>
+<component id="composite">
+  <parameters>
+    <position x="0.0" y="0.0" z="0.0"/>
+    <name>GlossyBall</name>
+    <component id="render">
+      <parameters>
+        <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="10" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_transparency/test_transparency4.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+    <component id="render">
+      <parameters>
+        <position x="5.0" y="5.0" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="9" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_transparency/test_transparency4.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+    <component id="render">
+      <parameters>
+        <position x="-5.0" y="5.0" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="9" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_transparency/test_transparency4.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+  </parameters>
+</component>

@@ -10,6 +10,7 @@ SceneMesh::SceneMesh( StaticMesh * pMesh )
 	: m_pMesh( pMesh )
 	, m_uPartCount( 0 )
 	, m_bCastShadow( true )
+	, m_fScale( 1.0f )
 {
 	m_pBoundingBox = new float[6];
 }
