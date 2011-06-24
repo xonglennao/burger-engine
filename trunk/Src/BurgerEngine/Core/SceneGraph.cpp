@@ -5,6 +5,7 @@
 #include "BurgerEngine/Core/SphereCamera.h"
 
 #include "BurgerEngine/Core/CompositeComponent.h"
+#include "BurgerEngine/Core/MovementHackerComponent.h"
 #include "BurgerEngine/Core/RenderComponent.h"
 
 #include "BurgerEngine/Input/EventManager.h"
@@ -61,12 +62,12 @@ void SceneGraph::Clear()
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void SceneGraph::Update()
+void SceneGraph::Update( float fFrameTime, float fElapsedTime )
 {
 	FOR_EACH_IT(ComponentCollection, m_vComponentCollection, oComponentIt)
 	{
 		//Should check if need to be updated??? (think about render and phys)
-		(*oComponentIt)->Update();
+		(*oComponentIt)->Update( fFrameTime, fElapsedTime );
 	}
 }
 
@@ -208,32 +209,19 @@ void SceneGraph::LoadSceneXML( const char * sName )
 
 			pXmlObject->QueryFloatAttribute("scale",&scale);
 
-
+			CompositeComponent* pComponent = NULL;
+			
 			//Check for the current object
-			// Right now only static mesh are suported by the component system
 			TiXmlElement * pCurrentXmlObject;
 			if( pCurrentXmlObject = pXmlObject->FirstChildElement( "ressourcecomponent" ) )
 			{
-				// What is the component file
-				CompositeComponent* pComponent = NULL;
-				pComponent = m_oFactory.LoadObject(pCurrentXmlObject->GetText());
-				
-				// Add the instance position to the root component
-				// and the ortation and scale
-				// the problem here is that we should override every
-				// instance proprety, like skin color for a player etc...
-				if (pComponent != NULL)
-				{
-					pComponent->SetScale(scale);
-					pComponent->SetRotation(vec3(rX,rY,rZ));
-					pComponent->SetPos(vec3(x,y,z));
-				}
-
-				//Ad instance name
-
-				//Add directly to the graph, this might change
-				//Now every load create an instance
-				m_vComponentCollection.push_back(pComponent);
+				// Load a component from a xml file
+				pComponent = static_cast< CompositeComponent* >( m_oFactory.LoadObject( pCurrentXmlObject ) );
+			}
+			else if( pCurrentXmlObject = pXmlObject->FirstChildElement( "component" ) )
+			{
+				// Load a component written in the scene xml
+				pComponent = static_cast< CompositeComponent* >( m_oFactory.CreateAndInitComponent( *pCurrentXmlObject, NULL ) );
 			}
 			else if( pCurrentXmlObject = pXmlObject->FirstChildElement( "skybox" ) )
 			{
@@ -248,6 +236,34 @@ void SceneGraph::LoadSceneXML( const char * sName )
 				}
 				Engine::GrabInstance().GrabRenderContext().SetSkyBox( pSkyBox );
 			}
+
+			if ( pComponent )
+			{
+				pComponent->SetScale(scale);
+				pComponent->SetRotation(vec3(rX,rY,rZ));
+				pComponent->SetPos(vec3(x,y,z));
+
+				//Now every load create an instance
+				m_vComponentCollection.push_back(pComponent);
+			}
+
+			if(pCurrentXmlObject = pXmlObject->FirstChildElement( "movementhackercomponent" ) )
+			{
+				TiXmlElement * pParameters;
+				if(pParameters = pCurrentXmlObject->FirstChildElement( "parameters" ) )
+				{
+					MovementHackerComponent* pMovementHackerComponent = new MovementHackerComponent();
+					pMovementHackerComponent->Initialize( *pParameters );
+
+					//this is a little bit to "hacky", we assume that the target of the movement hacker is the last created component
+					//we might use some kind of ID the identify the component
+					pMovementHackerComponent->SetComponent( m_vComponentCollection.back() );
+					
+					m_vComponentCollection.push_back(pMovementHackerComponent);
+				}
+			}
+
+
 
 			//moves on to the next object
 			pXmlObject = pXmlObject->NextSiblingElement( "sceneobject" );

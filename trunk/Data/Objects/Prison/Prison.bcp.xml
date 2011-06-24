@@ -1,47 +1,45 @@
-<object name="Column" >
-	<component id="composite">
-		<parameters>
-			<position x="0.0" y="0.0" z="0.0"/>
-			<name></name>
-			<component id="render">
-				<parameters>
-					<position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1"/>
-          <mesh>
-            <file>../Data/Mesh/prison/prison.obj</file>
-            <part>
-              <material>../Data/Materials/prison/stoneFloorDiffuseBump.bma.xml</material>
-              <!--<material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>-->
-            </part>
-            <part>
-              <material>../Data/Materials/prison/stoneWallDiffuseBump.bma.xml</material>
-            </part>
-            <part>
-              <material>../Data/Materials/prison/rustDiffuseBump.bma.xml</material>
-            </part>
-            <part>
-              <material>../Data/Materials/prison/stoneWallDiffuseBump.bma.xml</material>
-            </part>
-            <part>
-              <material>../Data/Materials/prison/stoneWallDiffuseBump.bma.xml</material>
-            </part>
-            <part>
-              <material>../Data/Materials/prison/stoneWallDiffuseBump.bma.xml</material>
-            </part>
-            <part>
-              <material>../Data/Materials/prison/stoneWallDiffuseBump.bma.xml</material>
-            </part>
-            <part>
-              <material>../Data/Materials/prison/stoneWallDiffuseBump.bma.xml</material>
-            </part>
-            <part>
-              <material>../Data/Materials/prison/stoneWallDiffuseBump.bma.xml</material>
-            </part>
-            <part>
-              <material>../Data/Materials/prison/stoneWallDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-				</parameters>
-			</component>
-		</parameters>
-	</component>
-</object>
+<component id="composite">
+  <parameters>
+    <position x="0.0" y="0.0" z="0.0"/>
+    <name></name>
+    <component id="render">
+      <parameters>
+        <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1"/>
+        <mesh>
+          <file>../Data/Mesh/prison/prison.obj</file>
+          <part>
+            <material>../Data/Materials/prison/stoneFloorDiffuseBump.bma.xml</material>
+            <!--<material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>-->
+          </part>
+          <part>
+            <material>../Data/Materials/prison/stoneWallDiffuseBump.bma.xml</material>
+          </part>
+          <part>
+            <material>../Data/Materials/prison/rustDiffuseBump.bma.xml</material>
+          </part>
+          <part>
+            <material>../Data/Materials/prison/stoneWallDiffuseBump.bma.xml</material>
+          </part>
+          <part>
+            <material>../Data/Materials/prison/stoneWallDiffuseBump.bma.xml</material>
+          </part>
+          <part>
+            <material>../Data/Materials/prison/stoneWallDiffuseBump.bma.xml</material>
+          </part>
+          <part>
+            <material>../Data/Materials/prison/stoneWallDiffuseBump.bma.xml</material>
+          </part>
+          <part>
+            <material>../Data/Materials/prison/stoneWallDiffuseBump.bma.xml</material>
+          </part>
+          <part>
+            <material>../Data/Materials/prison/stoneWallDiffuseBump.bma.xml</material>
+          </part>
+          <part>
+            <material>../Data/Materials/prison/stoneWallDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+  </parameters>
+</component>

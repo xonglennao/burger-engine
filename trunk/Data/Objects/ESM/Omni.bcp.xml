@@ -1,20 +1,19 @@
-<object name="Spot" >
-	<component id="composite">
-		<parameters>
-			<position x="0.0" y="0.0" z="0.0"/>
-			<name>Omni</name>
-			
-      <component id="light">  
-				<parameters>
-					<position x="0.0" y="100.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"/>
-					<light type="omni"/>
-					<Multiplier value="1.0"/>
-					<Radius value="200"/>
-					<Color  r="1.0" g="0.8" b="0.7"/>
-				</parameters>
-			</component>
+<component id="composite">
+  <parameters>
+    <position x="0.0" y="0.0" z="0.0"/>
+    <name>Omni</name>
 
-      <!--<component id="light">
+    <component id="light">
+      <parameters>
+        <position x="0.0" y="100.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"/>
+        <light type="omni"/>
+        <Multiplier value="1.0"/>
+        <Radius value="200"/>
+        <Color  r="1.0" g="0.8" b="0.7"/>
+      </parameters>
+    </component>
+
+    <!--<component id="light">
         <parameters>
           <position x="40.0" y="8.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"/>
           <light type="omni"/>
@@ -54,6 +53,5 @@
         </parameters>
       </component>-->
 
-    </parameters>
-	</component>
-</object>
+  </parameters>
+</component>

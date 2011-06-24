@@ -40,6 +40,9 @@ public:
 	/// \brief Get the elapsed time since last frame
 	float GetScaledTime() const {return m_fScaledTime;}
 
+	/// \brief Get the elapsed time since the beginning
+	float GetElapsedTime() const {return m_oClock.GetElapsedTime();}
+
 private:
 	LARGE_INTEGER m_iStart;
 	LARGE_INTEGER m_iFrequency;

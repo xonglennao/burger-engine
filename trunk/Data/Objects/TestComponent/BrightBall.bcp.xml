@@ -4,10 +4,8 @@
     <mesh>
       <file>../Data/Mesh/unit_sphere.obj</file>
       <part>
-        <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+        <material>../Data/Materials/prison/BrightWhite.bma.xml</material>
       </part>
     </mesh>
   </parameters>
 </component>
-
-

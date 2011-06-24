@@ -78,20 +78,10 @@ void RenderComponent::Initialize(TiXmlElement const& a_rParameters)
 				m_pMesh = new SceneMesh( pMesh );
 				
 				vec3 f3OffsetedPos(x,y,z);
-				
-				//Get the parent node transformation
-				CompositeComponent const* pParent = GetParent();
-				if (pParent)
-				{
-					f3OffsetedPos += pParent->GetPos();
-				}
 
-				SetPos(f3OffsetedPos);
-
-				m_pMesh->SetPos(f3OffsetedPos);
-				m_pMesh->SetRotation( vec3( rX, rY, rZ ) );
-				m_pMesh->SetScale( scale );
-				//m_pMesh->ComputeBoundingBox();
+				SetPos( vec3(x,y,z) );
+				SetRotation( vec3( rX, rY, rZ ) );
+				SetScale( scale );
 
 				//checks for materials used on different parts of the mesh
 				unsigned int iPartCount = 0;
@@ -128,7 +118,7 @@ void RenderComponent::Initialize(TiXmlElement const& a_rParameters)
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void RenderComponent::_Update()
+void RenderComponent::_Update( float fFrameTime, float fElapsedTime )
 {
 }
 
@@ -137,48 +127,24 @@ void RenderComponent::_Update()
 //--------------------------------------------------------------------------------------------------------------------
 void RenderComponent::UpdatePos()
 {
-
-	//Get the parent node transformation
-	CompositeComponent const* pParent = GetParent();
-	if (pParent)
-	{
-		m_pMesh->SetPos(GetPos() + pParent->GetPos()); 
-	}
-	else
-	{
-		m_pMesh->SetPos(GetPos());
-	}
-	
+	m_pMesh->SetPos( GetPos() );
 	m_pMesh->ComputeBoundingBox();
 }
 
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void RenderComponent::UpdateScale(float const a_uValue)
+void RenderComponent::UpdateScale()
 {
-	if(m_pMesh) 
-	{
-		m_pMesh->SetScale(m_pMesh->GetScale() * a_uValue);
-		SetPos(GetPos() * a_uValue); 
-		///////////////////////////////////////////////////////////////////
-		////////////////// Temporary, just to make it work /////////////////
-
-		m_pMesh->ComputeBoundingBox();
-
-		// we should do this only once during the loading of the object
-		///////////////////////////////////////////////////////////////////
-		///////////////////////////////////////////////////////////////////
-	}
-	
+	m_pMesh->SetScale( GetScale() );
+	m_pMesh->ComputeBoundingBox();
 }
 
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void RenderComponent::UpdateRotation(vec3 const& a_rf3Rotation)
+void RenderComponent::UpdateRotation()
 {
-	////////////////// Temporary, will be changed when we're using quaternions /////////////////
-	m_pMesh->SetRotation( m_pMesh->GetRotation() + a_rf3Rotation );
+	m_pMesh->SetRotation( GetRotation() );
 	m_pMesh->ComputeBoundingBox();
 }

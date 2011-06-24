@@ -1,27 +1,27 @@
 <scene>
   <!-- GROUND  -->
    <sceneobject x="0.0" y="500.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1000">
-    <ressourcecomponent>TestDirectional/InvertedCube</ressourcecomponent>
+    <ressourcecomponent><file>TestDirectional/InvertedCube</file></ressourcecomponent>
 	<instance name= "Cube"/>
   </sceneobject>
 
   <sceneobject x="0.0" y="10.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
-    <ressourcecomponent>TestDirectional/GlossyBall</ressourcecomponent>
+    <ressourcecomponent><file>TestDirectional/GlossyBall</file></ressourcecomponent>
 	<instance name= "Ball01"/>
   </sceneobject>
 
   <sceneobject x="0.0" y="10.0" z="30.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
-    <ressourcecomponent>TestDirectional/GlossyBall</ressourcecomponent>
+    <ressourcecomponent><file>TestDirectional/GlossyBall</file></ressourcecomponent>
 	<instance name= "Ball02"/>
   </sceneobject>
 
   <sceneobject x="30.0" y="10.0" z="30.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
-    <ressourcecomponent>TestDirectional/MattBall</ressourcecomponent>
+    <ressourcecomponent><file>TestDirectional/MattBall</file></ressourcecomponent>
 	<instance name= "Ball03"/>
   </sceneobject>
 
   <sceneobject x="20.0" y="10.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
-    <ressourcecomponent>TestDirectional/MattBall</ressourcecomponent>
+    <ressourcecomponent><file>TestDirectional/MattBall</file></ressourcecomponent>
 	<instance name= "Ball04"/>
   </sceneobject>
 

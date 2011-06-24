@@ -26,7 +26,7 @@
 
 
 /// Typedef
-typedef std::vector< CompositeComponent* > ComponentCollection;
+typedef std::vector< AbstractComponent* > ComponentCollection;
 
 /// \class	SceneGraph
 /// \brief	Used to display 3D scenes
@@ -41,7 +41,7 @@ public:
 	bool Initialize();
 
 	/// \brief Update all the components object in the graph
-	void Update();
+	void Update( float fFrameTime, float fElapsedTime );
 
 private:
 /// \brief Clears object and light lists
@@ -49,8 +49,7 @@ private:
 
 /// \brief Loads objects, light etc. from a XML file
 	void LoadSceneXML( const char * sName );
-
-
+	
 private:
 
 	///List of all the components object

@@ -11,7 +11,7 @@
 //--------------------------------------------------------------------------------------------------------------------
 void ObjectFactory::Init()
 {
-	m_sPath = "../Data/Objects/";
+	//m_sPath = "../Data/Objects/";
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -29,50 +29,63 @@ void ObjectFactory::Terminate()
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-CompositeComponent* ObjectFactory::LoadObject(std::string const& a_rsFileName)
+AbstractComponent* ObjectFactory::LoadObject( const TiXmlElement * const pXmlElement, CompositeComponent* a_pParent )
 {
-	std::string m_sFullPath;
-
-	m_sFullPath.append(m_sPath);
-	m_sFullPath.append(a_rsFileName);
-	m_sFullPath.append(".bcp.xml");
+	std::string sFullPath;
+	std::string sFileName;
+	const TiXmlElement * pFileNameXml= pXmlElement->FirstChildElement( "file" );
+	if( pFileNameXml )
+	{
+		sFileName = pFileNameXml->GetText();
+	}
+	
+	sFullPath.append( "../Data/Objects/" );
+	sFullPath.append( sFileName );
+	sFullPath.append(".bcp.xml");
 
 	//Load the file
-	TiXmlDocument * pDocument = new TiXmlDocument(m_sFullPath);
+	TiXmlDocument * pDocument = new TiXmlDocument( sFullPath );
 
 	if(!pDocument->LoadFile())
 	{
-		ADD_ERROR_MESSAGE( std::string("Loading : ") << pDocument->ErrorDesc() );
+		ADD_ERROR_MESSAGE( std::string("Loading : ") << pDocument->ErrorDesc() << std::string(" ") << sFileName );
+		return NULL;
 	}
 
-	TiXmlElement * pRoot = pDocument->FirstChildElement( "object" );
-	CompositeComponent* pComposite = NULL;
-	if( pRoot )
+	TiXmlElement * pComponentXML = pDocument->FirstChildElement( "component" );
+	AbstractComponent* pComponent = CreateAndInitComponent( *pComponentXML, a_pParent );
+	
+	//a ressource component can override the component postion/rotation/scale
+	if( pComponent )
 	{
-		///----------------------------------------------------------
-		std::string sObjectName;
-		pRoot->QueryValueAttribute<std::string>("name",&sObjectName);
-		//There is a name for each layer
+		float x, y, z, rX, rY, rZ, scale;
 
-		TiXmlElement * pComponentXml = pRoot->FirstChildElement( "component" );
-		assert(pComponentXml);
+		TiXmlElement const* pPositionXml = pXmlElement->FirstChildElement( "position" );
+		if( pPositionXml )
+		{
+			//gets position & bounded volume information 
+			pPositionXml->QueryFloatAttribute("x",&x);
+			pPositionXml->QueryFloatAttribute("y",&y);
+			pPositionXml->QueryFloatAttribute("z",&z);
 
-		//We know for sure it will be a composite
-		//It's a root
-		pComposite = new CompositeComponent(NULL);
-		TiXmlElement const* pParameter = pComponentXml->FirstChildElement("parameters");
-		pComposite->Initialize(*pParameter);
-		
+			pPositionXml->QueryFloatAttribute("rX",&rX);
+			pPositionXml->QueryFloatAttribute("rY",&rY);
+			pPositionXml->QueryFloatAttribute("rZ",&rZ);
+
+			pPositionXml->QueryFloatAttribute("scale",&scale);
+			pComponent->SetPos( vec3(x,y,z) );
+			pComponent->SetRotation( vec3(rX,rY,rZ) );
+			pComponent->SetScale( scale );
+		}
 	}
 
-	//Todo stor into the list
-	return pComposite;
+	return pComponent;
 }
 
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-AbstractComponent* ObjectFactory::CreateAndInitComponent(TiXmlElement const& a_rComponentXml,  CompositeComponent* a_pParent)
+AbstractComponent* ObjectFactory::CreateAndInitComponent(TiXmlElement const& a_rComponentXml,  CompositeComponent* a_pParent )
 {
 	AbstractComponent* pComponent = NULL;
 
@@ -85,10 +98,10 @@ AbstractComponent* ObjectFactory::CreateAndInitComponent(TiXmlElement const& a_r
 	{
 		//Create the component
 		pComponent = new RenderComponent(a_pParent);
-
 	}
 	else if(sId == "composite")
 	{
+		
 		pComponent = new CompositeComponent(a_pParent);
 	}
 	else if(sId == "light")

@@ -32,6 +32,9 @@ public:
 
 	/// \brief Get the elapsed time since last frame
 	float GetScaledTime() const {return m_oTimer.GetScaledTime();}
+	
+	/// \brief Get the elapsed time since the begining
+	float GetElapsedTime() const {return m_oTimer.GetElapsedTime();}
 
 private:
 	//The sfml clock

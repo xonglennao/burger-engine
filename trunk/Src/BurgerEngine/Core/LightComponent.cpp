@@ -129,7 +129,7 @@ void LightComponent::Initialize(TiXmlElement const& a_rParameters)
 				m_pLight = new SpotLight();
 			}
 
-			m_pLight->SetRotation( vec3( rX,rY, 0.0 ) );
+			SetRotation( vec3( rX,rY, 0.0 ) );
 			static_cast< SpotLight* >(m_pLight)->SetOuterAngle( fOuterAngle );
 			static_cast< SpotLight* >(m_pLight)->SetInnerAngle( fInnerAngle );
 		}
@@ -165,7 +165,7 @@ void LightComponent::Initialize(TiXmlElement const& a_rParameters)
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void LightComponent::_Update()
+void LightComponent::_Update( float fFrameTime, float fElapsedTime )
 {
 
 }
@@ -175,16 +175,7 @@ void LightComponent::_Update()
 //--------------------------------------------------------------------------------------------------------------------
 void LightComponent::UpdatePos()
 {
-	//Get the parent node transformation
-	CompositeComponent const* pParent = GetParent();
-	if (pParent)
-	{
-		m_pLight->SetPos(GetPos() + pParent->GetPos()); 
-	}
-	else
-	{
-		m_pLight->SetPos(GetPos());
-	}
+	m_pLight->SetPos( GetPos() );
 
 	if( (m_pLight->GetType() & SceneLight::E_SPOT_LIGHT) == SceneLight::E_SPOT_LIGHT )
 	{
@@ -195,10 +186,10 @@ void LightComponent::UpdatePos()
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void LightComponent::UpdateRotation(vec3 const& a_rf3Rotation)
+void LightComponent::UpdateRotation()
 {
-	////////////////// Temporary, will be changed when we're using quaternions /////////////////
-	m_pLight->SetRotation( m_pLight->GetRotation() + a_rf3Rotation );
+	m_pLight->SetRotation( GetRotation() );
+
 	if( (m_pLight->GetType() & SceneLight::E_SPOT_LIGHT) == SceneLight::E_SPOT_LIGHT )
 	{
 		static_cast< SpotLight* >(m_pLight)->ComputeBoundingBox();

@@ -12,97 +12,97 @@
   </settings>
 
   <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">
-    <ressourcecomponent>Prison/Lights</ressourcecomponent>
+    <ressourcecomponent><file>Prison/Lights</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
   <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">
-    <ressourcecomponent>Prison/Prison</ressourcecomponent>
+    <ressourcecomponent><file>Prison/Prison</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
   <sceneobject x="-30.0" y="0.0" z="-5.0" rX="0.0" rY="15.0" rZ="0.0" scale="0.4">
-    <ressourcecomponent>Prison/Table</ressourcecomponent>
+    <ressourcecomponent><file>Prison/Table</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
   <sceneobject x="-6.0" y="5.0" z="10.0" rX="62.0" rY="0.0" rZ="90.0" scale="0.4">
-    <ressourcecomponent>Prison/Table</ressourcecomponent>
+    <ressourcecomponent><file>Prison/Table</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
   <sceneobject x="-35.0" y="0.0" z="8.0" rX="0.0" rY="0.0" rZ="0.0" scale="6.1">
-    <ressourcecomponent>Prison/Stool</ressourcecomponent>
+    <ressourcecomponent><file>Prison/Stool</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
   <sceneobject x="0.0" y="1.3" z="0.0" rX="80.0" rY="-75.0" rZ="0.0" scale="6.1">
-    <ressourcecomponent>Prison/Stool</ressourcecomponent>
+    <ressourcecomponent><file>Prison/Stool</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
   <sceneobject x="-11.0" y="1.3" z="-25.0" rX="80.0" rY="-120.0" rZ="0.0" scale="6.1">
-    <ressourcecomponent>Prison/Stool</ressourcecomponent>
+    <ressourcecomponent><file>Prison/Stool</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
   <sceneobject x="-33.0" y="11.4" z="-2.0" rX="0.0" rY="0.0" rZ="0.0" scale="2.2">
-    <ressourcecomponent>Prison/Bucket</ressourcecomponent>
+    <ressourcecomponent><file>Prison/Bucket</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
   <sceneobject x="-80.0" y="0.0" z="-60.0" rX="0.0" rY="-33.0" rZ="0.0" scale="0.33">
-    <ressourcecomponent>Prison/Cage</ressourcecomponent>
+    <ressourcecomponent><file>Prison/Cage</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
   <sceneobject x="50.0" y="5.5" z="0.0" rX="90.0" rY="25.0" rZ="0.0" scale="12.0">
-    <ressourcecomponent>Prison/Barrel</ressourcecomponent>
+    <ressourcecomponent><file>Prison/Barrel</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
   <sceneobject x="70.0" y="5.5" z="50.0" rX="90.0" rY="56.0" rZ="0.0" scale="12.0">
-    <ressourcecomponent>Prison/Barrel</ressourcecomponent>
+    <ressourcecomponent><file>Prison/Barrel</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
   <sceneobject x="50.0" y="5.5" z="38.0" rX="90.0" rY="-10.0" rZ="0.0" scale="12.0">
-    <ressourcecomponent>Prison/Barrel</ressourcecomponent>
+    <ressourcecomponent><file>Prison/Barrel</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
   <sceneobject x="55.0" y="0.0" z="15.0" rX="0.0" rY="0.0" rZ="0.0" scale="12.0">
-    <ressourcecomponent>Prison/Barrel</ressourcecomponent>
+    <ressourcecomponent><file>Prison/Barrel</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
   <sceneobject x="67.0" y="0.0" z="33.0" rX="0.0" rY="64.0" rZ="0.0" scale="11.0">
-    <ressourcecomponent>Prison/Barrel</ressourcecomponent>
+    <ressourcecomponent><file>Prison/Barrel</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
   <sceneobject x="25.0" y="5.5" z="-40.0" rX="90.0" rY="64.0" rZ="0.0" scale="12.0">
-    <ressourcecomponent>Prison/Barrel</ressourcecomponent>
+    <ressourcecomponent><file>Prison/Barrel</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
   <sceneobject x="38.0" y="0.0" z="75.0" rX="0.0" rY="90.0" rZ="0.0" scale="0.33">
-    <ressourcecomponent>Prison/Skeleton</ressourcecomponent>
+    <ressourcecomponent><file>Prison/Skeleton</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
   <sceneobject x="-88.0" y="15.0" z="0.0" rX="0.0" rY="-90.0" rZ="0.0" scale="0.2">
-    <ressourcecomponent>Prison/Ball_and_chain</ressourcecomponent>
+    <ressourcecomponent><file>Prison/Ball_and_chain</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
   <sceneobject x="-87.0" y="10.0" z="-30.0" rX="0.0" rY="-90.0" rZ="0.0" scale="0.15">
-    <ressourcecomponent>Prison/Ring</ressourcecomponent>
+    <ressourcecomponent><file>Prison/Ring</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 
   <sceneobject x="-87.0" y="10.0" z="30.0" rX="0.0" rY="-90.0" rZ="0.0" scale="0.15">
-    <ressourcecomponent>Prison/Ring</ressourcecomponent>
+    <ressourcecomponent><file>Prison/Ring</file></ressourcecomponent>
     <instance name= ""/>
   </sceneobject>
 

@@ -61,8 +61,6 @@ void Engine::Init( const char* pSceneName )
 
 	m_pSceneGraph = new SceneGraph( pSceneName );
 
-
-
 	m_bTerminate = false;
 }
 
@@ -127,6 +125,8 @@ void Engine::Run()
 
 		//Process Event
 		m_pEventManager->ProcessEventList();
+
+		m_pSceneGraph->Update( m_pTimerContext->GetScaledTime(), m_pTimerContext->GetElapsedTime() );
 
 		/// \Todo XL: Bad; hard coded and ugly to put this here!
 		/// maybe put in into the camera??

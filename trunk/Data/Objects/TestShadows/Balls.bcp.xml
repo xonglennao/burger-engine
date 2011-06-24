@@ -1,819 +1,817 @@
-<object name="InvertedCube" >
-	<component id="composite">
-		<parameters>
-			<position x="0.0" y="0.0" z="0.0"/>
-			<name>InvertedCube</name>
-      
-      <component id="render">
-        <parameters>
-          <position x="1.0" y="0.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-1.0" y="0.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="3.0" y="0.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-3.0" y="0.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-      
-      <component id="render">
-        <parameters>
-          <position x="1.0" y="0.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-1.0" y="0.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="3.0" y="0.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-3.0" y="0.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-
-      <component id="render">
-        <parameters>
-          <position x="1.0" y="0.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-1.0" y="0.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="3.0" y="0.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-3.0" y="0.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-
-      <component id="render">
-        <parameters>
-          <position x="1.0" y="0.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-1.0" y="0.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="3.0" y="0.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-3.0" y="0.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-
-
-      <component id="render">
-        <parameters>
-          <position x="1.0" y="2.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-1.0" y="2.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="3.0" y="2.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-3.0" y="2.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-
-      <component id="render">
-        <parameters>
-          <position x="1.0" y="2.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-1.0" y="2.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="3.0" y="2.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-3.0" y="2.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-
-      <component id="render">
-        <parameters>
-          <position x="1.0" y="2.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-1.0" y="2.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="3.0" y="2.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-3.0" y="2.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-
-      <component id="render">
-        <parameters>
-          <position x="1.0" y="2.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-1.0" y="2.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="3.0" y="2.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-3.0" y="2.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-
-
-      <component id="render">
-        <parameters>
-          <position x="1.0" y="4.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-1.0" y="4.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="3.0" y="4.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-3.0" y="4.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-
-      <component id="render">
-        <parameters>
-          <position x="1.0" y="4.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-1.0" y="4.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="3.0" y="4.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-3.0" y="4.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-
-      <component id="render">
-        <parameters>
-          <position x="1.0" y="4.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-1.0" y="4.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="3.0" y="4.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-3.0" y="4.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-
-      <component id="render">
-        <parameters>
-          <position x="1.0" y="4.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-1.0" y="4.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="3.0" y="4.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-3.0" y="4.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-
-
-      <component id="render">
-        <parameters>
-          <position x="1.0" y="6.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-1.0" y="6.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="3.0" y="6.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-3.0" y="6.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-
-      <component id="render">
-        <parameters>
-          <position x="1.0" y="6.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-1.0" y="6.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="3.0" y="6.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-3.0" y="6.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-
-      <component id="render">
-        <parameters>
-          <position x="1.0" y="6.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-1.0" y="6.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="3.0" y="6.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-3.0" y="6.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <!-- ////////////////////////////////////////////////////////////////////////// -->
-
-      <component id="render">
-        <parameters>
-          <position x="1.0" y="6.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-1.0" y="6.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="3.0" y="6.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>
-
-      <component id="render">
-        <parameters>
-          <position x="-3.0" y="6.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
-          <mesh>
-            <file>../Data/Mesh/unit_sphere.obj</file>
-            <part>
-              <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
-            </part>
-          </mesh>
-        </parameters>
-      </component>      
-
-    </parameters>
-	</component>
-</object>
+<component id="composite">
+  <parameters>
+    <position x="0.0" y="0.0" z="0.0"/>
+    <name>InvertedCube</name>
+
+    <component id="render">
+      <parameters>
+        <position x="1.0" y="0.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-1.0" y="0.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="3.0" y="0.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-3.0" y="0.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+
+    <component id="render">
+      <parameters>
+        <position x="1.0" y="0.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-1.0" y="0.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="3.0" y="0.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-3.0" y="0.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+
+    <component id="render">
+      <parameters>
+        <position x="1.0" y="0.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-1.0" y="0.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="3.0" y="0.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-3.0" y="0.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+
+    <component id="render">
+      <parameters>
+        <position x="1.0" y="0.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-1.0" y="0.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="3.0" y="0.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-3.0" y="0.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+
+
+    <component id="render">
+      <parameters>
+        <position x="1.0" y="2.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-1.0" y="2.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="3.0" y="2.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-3.0" y="2.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+
+    <component id="render">
+      <parameters>
+        <position x="1.0" y="2.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-1.0" y="2.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="3.0" y="2.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-3.0" y="2.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+
+    <component id="render">
+      <parameters>
+        <position x="1.0" y="2.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-1.0" y="2.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="3.0" y="2.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-3.0" y="2.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+
+    <component id="render">
+      <parameters>
+        <position x="1.0" y="2.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-1.0" y="2.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="3.0" y="2.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-3.0" y="2.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+
+
+    <component id="render">
+      <parameters>
+        <position x="1.0" y="4.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-1.0" y="4.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="3.0" y="4.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-3.0" y="4.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+
+    <component id="render">
+      <parameters>
+        <position x="1.0" y="4.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-1.0" y="4.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="3.0" y="4.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-3.0" y="4.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+
+    <component id="render">
+      <parameters>
+        <position x="1.0" y="4.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-1.0" y="4.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="3.0" y="4.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-3.0" y="4.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+
+    <component id="render">
+      <parameters>
+        <position x="1.0" y="4.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-1.0" y="4.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="3.0" y="4.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-3.0" y="4.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+
+
+    <component id="render">
+      <parameters>
+        <position x="1.0" y="6.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-1.0" y="6.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="3.0" y="6.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-3.0" y="6.5" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+
+    <component id="render">
+      <parameters>
+        <position x="1.0" y="6.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-1.0" y="6.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="3.0" y="6.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-3.0" y="6.5" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+
+    <component id="render">
+      <parameters>
+        <position x="1.0" y="6.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-1.0" y="6.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="3.0" y="6.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-3.0" y="6.5" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <!-- ////////////////////////////////////////////////////////////////////////// -->
+
+    <component id="render">
+      <parameters>
+        <position x="1.0" y="6.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-1.0" y="6.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="3.0" y="6.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-3.0" y="6.5" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/unit_sphere.obj</file>
+          <part>
+            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+  </parameters>
+</component>

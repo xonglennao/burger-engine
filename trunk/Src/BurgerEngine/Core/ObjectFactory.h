@@ -34,9 +34,8 @@ public:
 	/// \brief Clear all the map
 	void Terminate();
 
-	/// \brief Load a Object file and keep it into it's map
-	/// \brief return a compsitecomponent, as it will always be this ways, the composite is the "root"
-	CompositeComponent* LoadObject(std::string const& a_rsFileName);
+	/// \brief Load a Object from a xml file
+	static AbstractComponent* LoadObject( const TiXmlElement * const pXmlElement, CompositeComponent* a_pParent = NULL );
 
 	/// \brief Static loading method just load a single component
 	static AbstractComponent* CreateAndInitComponent(TiXmlElement const& a_rParameters, CompositeComponent* a_pParent);
@@ -50,7 +49,7 @@ private:
 	std::map<std::string, CompositeComponent*> m_mObjects;
 
 	/// The Path to the loading of object
-	std::string m_sPath;
+	//std::string m_sPath;
 };
 
 #endif //_OBJECTFACTORY_H__
