@@ -26,6 +26,12 @@ CompositeComponent::CompositeComponent(AbstractComponent const& a_rToCopy):
 //--------------------------------------------------------------------------------------------------------------------
 CompositeComponent::~CompositeComponent()
 {
+	FOR_EACH_IT(std::vector<AbstractComponent*>, m_vComponents, itComponent)
+	{
+		delete (*itComponent);
+		(*itComponent) = NULL;
+	}
+	m_vComponents.clear();
 }
 
 //--------------------------------------------------------------------------------------------------------------------
