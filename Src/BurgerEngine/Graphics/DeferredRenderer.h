@@ -110,6 +110,7 @@ private:
 	FBO* m_pSpotShadowBlurBuffer;
 	FBO* m_pHDRSceneBuffer;
 	FBO* m_pLDRSceneBuffer;
+	FBO* m_pLDRSceneBuffer2;
 
 	//HDR & ToneMapping
 	FBO* m_pDownSampledSceneBuffer;
@@ -201,7 +202,10 @@ private:
 	unsigned int	m_iAvgLumFinalShaderPixelSizeHandle;
 
 	Shader*			m_pToneMappingShader;
-	unsigned int	m_iToneMappingShaderKeyAndMultiplierHandle;
+	unsigned int	m_iToneMappingShaderKeyHandle;
+
+	Shader*			m_pPostProcessShader;
+	unsigned int	m_iPostProcessShaderGlowMultiplierHandle;
 
 	Shader*			m_pLightAdaptationShader;
 	unsigned int	m_iAdaptationShaderTimeHandle;

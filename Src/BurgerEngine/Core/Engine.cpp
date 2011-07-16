@@ -60,7 +60,9 @@ void Engine::Init( const char* pSceneName )
 	m_pParticleContext = new ParticleContext();
 
 	m_pSceneGraph = new SceneGraph( pSceneName );
-
+	
+	m_pWindow->GrabDriverWindow().ShowMouseCursor( false );
+	
 	m_bTerminate = false;
 }
 
@@ -113,7 +115,6 @@ void Engine::Run()
 	//Let's Roll
 	while (m_bTerminate == false)
 	{
-
 		//Update Scene
 		m_pTimerContext->Update();
 
@@ -128,11 +129,6 @@ void Engine::Run()
 
 		m_pSceneGraph->Update( m_pTimerContext->GetScaledTime(), m_pTimerContext->GetElapsedTime() );
 
-		/// \Todo XL: Bad; hard coded and ugly to put this here!
-		/// maybe put in into the camera??
-		m_pWindow->GrabDriverWindow().SetCursorPosition( m_iWindowWidth / 2, m_iWindowHeight / 2 );
-		m_pWindow->GrabDriverWindow().ShowMouseCursor( false );
-
 		//Render Scene
 		// \Todo XL: avoid a "rendering" function, better send buffer trough a pipeline
 		// and "flush" this pipeline at the end.
@@ -146,9 +142,7 @@ void Engine::Run()
 		m_pWindow->Display();
 
 		m_pRenderingContext->CheckError();
-
 	}
-
 }
  
 

@@ -754,5 +754,14 @@
     <None Include="..\Data\Shaders\Engine\DirectionalLight.vert">
       <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
     </None>
+    <None Include="..\Data\Shaders\Engine\DOF.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\PostProcess.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\PostProcess.vert">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -1,0 +1,29 @@
+<material>
+  <technique name="render_gbuffer">
+    <shader>../Data/Shaders/Material/xml/FillGBufferNormal.bfx.xml</shader>
+    <uniforms>
+      <float value="1.0">fTileSize</float>
+    </uniforms>
+    <textures>
+      <texture>
+        <uniformname unit="1">normalMap</uniformname>
+        <filename>../Data/Textures/silo/xml/silo_wall_normals.btx.xml</filename>
+      </texture>
+    </textures>
+  </technique>
+  <technique name="render_opaque">
+    <shader>../Data/Shaders/Material/xml/DiffuseSpec.bfx.xml</shader>
+    <uniforms>
+      <float value="1.0">fTileSize</float>
+    </uniforms>
+    <textures>
+      <texture>
+        <uniformname unit="0">diffuseMap</uniformname>
+        <filename>../Data/Textures/silo/xml/silo_wall_diffuse.btx.xml</filename>
+      </texture>
+      <texture>
+        <uniformname unit="6">lightBuffer</uniformname>
+      </texture>
+    </textures>
+  </technique>
+</material>

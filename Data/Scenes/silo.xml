@@ -1,0 +1,264 @@
+<scene>
+
+  <settings>
+    <camera type="firstperson">
+      <position x="0.0" y="15.0" z="0.0" rX="0.0" rY="0.0" />
+      <speed position="0.03" rotation="0.05"/>
+      <parameters fov="45.0" dofNearBlur="-150.0" dofFocalPlane="30.0" dofFarBlur="350.0" dofMaxFarBlur="1.0"/>
+    </camera>
+    <postprocess>
+      <parameters toneMappingKey="0.25" glowMultiplier="1.5" brightPassThreshold="7.5" brightPassOffset="0.5" adaptationBaseTime="0.85" colorLUT="../Data/Textures/xml/prison_lut.btx.xml"/>
+    </postprocess>
+  </settings>
+
+  <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
+    <ressourcecomponent>
+      <file>silo/silo</file>
+    </ressourcecomponent>
+  </sceneobject>
+
+  <sceneobject x="0.0" y="15.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
+    <component id="composite">
+      <parameters>
+
+        <component id="light">
+          <parameters>
+            <position x="0.0" y="0.0" z="0.0" />
+            <light type="omni"/>
+            <Multiplier value="0.1"/>
+            <Radius value="100"/>
+            <Color  r="1.0" g="0.8" b="0.8"/>
+          </parameters>
+        </component>
+
+        <ressourcecomponent >
+          <file>TestComponent/BrightBall</file>
+          <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+
+      </parameters>
+    </component>
+
+  </sceneobject>
+
+  <sceneobject x="0.0" y="175.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
+    <component id="composite">
+      <parameters>
+        <ressourcecomponent >
+          <file>silo/RedLights</file>
+          <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+      </parameters>
+    </component>
+    <movementhackercomponent>
+      <parameters>
+        <rotationy sinSpeed="0" sinAmplitude="0" sinPhase="0" cosSpeed="0" cosAmplitude="0" cosPhase="0" increment="20" lastPosMultiplier="1"/>
+        <posy sinSpeed="0.05" sinAmplitude="150" sinPhase="0.785" cosSpeed="0" cosAmplitude="0" cosPhase="0" increment="0" lastPosMultiplier="0"/>
+      </parameters>
+    </movementhackercomponent>    
+  </sceneobject>
+
+  <sceneobject x="0.0" y="175.0" z="0.0" rX="0.0" rY="45.0" rZ="0.0" scale="1">
+    <component id="composite">
+      <parameters>
+        <ressourcecomponent >
+          <file>silo/BlueLights</file>
+          <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+      </parameters>
+    </component>
+    <movementhackercomponent>
+      <parameters>
+        <rotationy sinSpeed="0" sinAmplitude="0" sinPhase="0" cosSpeed="0" cosAmplitude="0" cosPhase="0" increment="20" lastPosMultiplier="1"/>
+        <posy sinSpeed="0.05" sinAmplitude="150" sinPhase="4.712" cosSpeed="0" cosAmplitude="0" cosPhase="0" increment="0" lastPosMultiplier="0"/>
+      </parameters>
+    </movementhackercomponent>
+  </sceneobject>
+
+  <sceneobject x="0.0" y="175.0" z="0.0" rX="0.0" rY="22.5.0" rZ="0.0" scale="1">
+    <component id="composite">
+      <parameters>
+        <ressourcecomponent >
+          <file>silo/BlueLights</file>
+          <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+      </parameters>
+    </component>
+    <movementhackercomponent>
+      <parameters>
+        <rotationy sinSpeed="0" sinAmplitude="0" sinPhase="0" cosSpeed="0" cosAmplitude="0" cosPhase="0" increment="40" lastPosMultiplier="1"/>
+        <posy sinSpeed="0.1" sinAmplitude="150" sinPhase="1" cosSpeed="0" cosAmplitude="0" cosPhase="0" increment="0" lastPosMultiplier="0"/>
+      </parameters>
+    </movementhackercomponent>
+  </sceneobject>
+
+  <sceneobject x="0.0" y="175.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
+    <component id="composite">
+      <parameters>
+        <ressourcecomponent >
+          <file>silo/RedLights</file>
+          <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+      </parameters>
+    </component>
+    <movementhackercomponent>
+      <parameters>
+        <rotationy sinSpeed="0" sinAmplitude="0" sinPhase="0" cosSpeed="0" cosAmplitude="0" cosPhase="0" increment="25" lastPosMultiplier="1"/>
+        <posy sinSpeed="0.05" sinAmplitude="150" sinPhase="2" cosSpeed="0" cosAmplitude="0" cosPhase="0" increment="0" lastPosMultiplier="0"/>
+      </parameters>
+    </movementhackercomponent>
+  </sceneobject>
+
+  <sceneobject x="0.0" y="175.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
+    <component id="composite">
+      <parameters>
+        <ressourcecomponent >
+          <file>silo/RedLights</file>
+          <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+      </parameters>
+    </component>
+    <movementhackercomponent>
+      <parameters>
+        <rotationy sinSpeed="0" sinAmplitude="0" sinPhase="0" cosSpeed="0" cosAmplitude="0" cosPhase="0" increment="-25" lastPosMultiplier="1"/>
+        <posy sinSpeed="0.05" sinAmplitude="150" sinPhase="2.5" cosSpeed="0" cosAmplitude="0" cosPhase="0" increment="0" lastPosMultiplier="0"/>
+      </parameters>
+    </movementhackercomponent>
+  </sceneobject>
+
+  <sceneobject x="0.0" y="175.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
+    <component id="composite">
+      <parameters>
+        <ressourcecomponent >
+          <file>silo/RedLights</file>
+          <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+      </parameters>
+    </component>
+    <movementhackercomponent>
+      <parameters>
+        <rotationy sinSpeed="0" sinAmplitude="0" sinPhase="0" cosSpeed="0" cosAmplitude="0" cosPhase="0" increment="-40" lastPosMultiplier="1"/>
+        <posy sinSpeed="0.05" sinAmplitude="150" sinPhase="3.0" cosSpeed="0" cosAmplitude="0" cosPhase="0" increment="0" lastPosMultiplier="0"/>
+      </parameters>
+    </movementhackercomponent>
+  </sceneobject>
+
+  <sceneobject x="0.0" y="255.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
+    <component id="composite">
+      <parameters>
+        <ressourcecomponent >
+          <file>silo/RedLights</file>
+          <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+
+        <ressourcecomponent >
+          <file>silo/RedLight</file>
+          <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+
+      </parameters>
+    </component>
+    <movementhackercomponent>
+      <parameters>
+        <posy sinSpeed="0.1" sinAmplitude="240" sinPhase="3.0" cosSpeed="0" cosAmplitude="0" cosPhase="0" increment="0" lastPosMultiplier="0"/>
+      </parameters>
+    </movementhackercomponent>
+  </sceneobject>
+
+  <sceneobject x="0.0" y="180.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
+    <component id="composite">
+      <parameters>
+
+        <component id="light">
+          <parameters>
+            <position x="0.0" y="0.0" z="0.0" rX="-90" rY="0"/>
+            <light type="spotshadow"/>
+            <Multiplier value="1"/>
+            <Radius value="200"/>
+            <InnerAngle value="0"/>
+            <OuterAngle value="45"/>
+            <Color  r="1.0" g="0.8" b="0.8"/>
+          </parameters>
+        </component>
+
+        <ressourcecomponent >
+          <file>TestComponent/BrightBall</file>
+          <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+
+      </parameters>
+    </component>
+
+    <movementhackercomponent>
+      <parameters>
+        <posz sinSpeed="1" sinAmplitude="50" sinPhase="0" cosSpeed="0" cosAmplitude="0" cosPhase="0" increment="0" lastPosMultiplier="0"/>
+      </parameters>
+    </movementhackercomponent>
+
+  </sceneobject>
+
+  <sceneobject x="0.0" y="220.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
+    <component id="composite">
+      <parameters>
+
+        <component id="light">
+          <parameters>
+            <position x="0.0" y="0.0" z="0.0" rX="90" rY="0"/>
+            <light type="spotshadow"/>
+            <Multiplier value="1"/>
+            <Radius value="200"/>
+            <InnerAngle value="0"/>
+            <OuterAngle value="45"/>
+            <Color  r="0.8" g="1.0" b="0.8"/>
+          </parameters>
+        </component>
+
+        <ressourcecomponent >
+          <file>TestComponent/BrightBall</file>
+          <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+
+      </parameters>
+    </component>
+
+    <movementhackercomponent>
+      <parameters>
+        <posz sinSpeed="-1" sinAmplitude="50" sinPhase="0" cosSpeed="0" cosAmplitude="0" cosPhase="0" increment="0" lastPosMultiplier="0"/>
+      </parameters>
+    </movementhackercomponent>
+
+  </sceneobject>
+
+  <sceneobject x="0.0" y="380.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
+    <component id="composite">
+      <parameters>
+
+        <component id="light">
+          <parameters>
+            <position x="0.0" y="0.0" z="0.0" rX="-90" rY="0"/>
+            <light type="spotshadow"/>
+            <Multiplier value="1"/>
+            <Radius value="200"/>
+            <InnerAngle value="0"/>
+            <OuterAngle value="45"/>
+            <Color  r="0.8" g="0.8" b="1.0"/>
+          </parameters>
+        </component>
+
+        <ressourcecomponent >
+          <file>TestComponent/BrightBall</file>
+          <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+
+      </parameters>
+    </component>
+
+    <!--<movementhackercomponent>
+      <parameters>
+        <posx sinSpeed="-1" sinAmplitude="50" sinPhase="0" cosSpeed="0" cosAmplitude="0" cosPhase="0" increment="0" lastPosMultiplier="0"/>
+      </parameters>
+    </movementhackercomponent>-->
+
+  </sceneobject>
+
+</scene>

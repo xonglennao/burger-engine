@@ -198,6 +198,7 @@
     <None Include="..\Data\Shaders\Engine\BrightPass.frag" />
     <None Include="..\Data\Shaders\Engine\DirectionalLight.frag" />
     <None Include="..\Data\Shaders\Engine\DirectionalLight.vert" />
+    <None Include="..\Data\Shaders\Engine\DOF.frag" />
     <None Include="..\Data\Shaders\Engine\DownSample4x4.frag" />
     <None Include="..\Data\Shaders\Engine\DownSample4x4DOF.frag" />
     <None Include="..\Data\Shaders\Engine\ExponentialShadowMap.frag" />
@@ -208,6 +209,8 @@
     <None Include="..\Data\Shaders\Engine\LogGaussianBlur10.frag" />
     <None Include="..\Data\Shaders\Engine\OmniLight.frag" />
     <None Include="..\Data\Shaders\Engine\OmniLight.vert" />
+    <None Include="..\Data\Shaders\Engine\PostProcess.frag" />
+    <None Include="..\Data\Shaders\Engine\PostProcess.vert" />
     <None Include="..\Data\Shaders\Engine\SpotLight.frag" />
     <None Include="..\Data\Shaders\Engine\SpotLight.vert" />
     <None Include="..\Data\Shaders\Engine\SpotShadow.frag" />

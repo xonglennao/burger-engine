@@ -1,0 +1,26 @@
+<component id="composite">
+  <parameters>
+    <position x="0.0" y="0.0" z="0.0"/>
+
+    <ressourcecomponent >
+      <file>silo/BlueLight</file>
+      <position x="99.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+    </ressourcecomponent>
+
+    <ressourcecomponent >
+      <file>silo/BlueLight</file>
+      <position x="-99.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+    </ressourcecomponent>
+
+    <ressourcecomponent >
+      <file>silo/BlueLight</file>
+      <position x="0.0" y="0.0" z="99.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+    </ressourcecomponent>
+
+    <ressourcecomponent >
+      <file>silo/BlueLight</file>
+      <position x="0.0" y="0.0" z="-99.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+    </ressourcecomponent>
+
+  </parameters>
+</component>

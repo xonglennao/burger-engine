@@ -8,6 +8,7 @@
 #include "BurgerEngine/Input/EventManager.h"
 #include "BurgerEngine/GUI/DebugMenu.h"
 
+#include "BurgerEngine/Graphics/Window.h"
 
 //--------------------------------------------------------------------------------------------------------------------
 //
@@ -148,11 +149,16 @@ bool StageMain3DScene::OnMouseMoved(unsigned int a_uX, unsigned int a_uY)
 {
 	Engine const& rEngine = Engine::GetInstance();
 	
-	float fAlpha = (rEngine.GetWindowWidth() / 2.0f - static_cast<float>(a_uX) );
-	float fPhi = ( rEngine.GetWindowHeight() /2.0f - static_cast<float>(a_uY) );
+	unsigned int iHalfWidth = rEngine.GetWindowWidth() / 2;
+	unsigned int iHalfHeight = rEngine.GetWindowHeight() / 2;
 
-	Engine::GetInstance().GetCurrentCamera().UpdateAngles( fAlpha, fPhi );
+	int iAlpha = ( iHalfWidth - a_uX );
+	int iPhi = ( iHalfHeight - a_uY );
 
+	Engine::GetInstance().GetCurrentCamera().UpdateAngles( static_cast<float>(iAlpha), static_cast<float>(iPhi) );
+
+	rEngine.GetWindow().GrabDriverWindow().SetCursorPosition( iHalfWidth, iHalfHeight );
+	
 	return true;
 }
 

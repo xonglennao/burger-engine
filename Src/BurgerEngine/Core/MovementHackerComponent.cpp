@@ -36,7 +36,7 @@ void MovementHackerComponent::Initialize(TiXmlElement const& a_rParameters)
 	}
 	else
 	{
-		SetValues( f3XSinPhaseSpeedAmplitude, f3XCosPhaseSpeedAmplitude, f3XConstIncMultiplier, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f );
+		SetValues( f3XSinPhaseSpeedAmplitude, f3XCosPhaseSpeedAmplitude, f3XConstIncMultiplier );
 	}
 
 	TiXmlElement const* pPosY = a_rParameters.FirstChildElement( "posy" );
@@ -108,7 +108,11 @@ void MovementHackerComponent::UpdateValue( float * fValue, float fFrameTime, flo
 {
 	float fSinValue = sinf( fElapsedTime * f3SinPhaseSpeedAmplitude.y + f3SinPhaseSpeedAmplitude.x ) * f3SinPhaseSpeedAmplitude.z;
 	float fCosValue = cosf( fElapsedTime * f3CosPhaseSpeedAmplitude.y + f3CosPhaseSpeedAmplitude.x ) * f3CosPhaseSpeedAmplitude.z;
-	*fValue = ( f3ConstIncMultiplier.z * *fValue ) + ( fFrameTime * f3ConstIncMultiplier.y ) + fSinValue + fCosValue + f3ConstIncMultiplier.x;
+	*fValue = ( f3ConstIncMultiplier.z * *fValue ) + ( fFrameTime * f3ConstIncMultiplier.y ) + fSinValue + fCosValue;
+	if( f3SinPhaseSpeedAmplitude.y || f3CosPhaseSpeedAmplitude.y )
+	{
+		*fValue += f3ConstIncMultiplier.x;
+	}
 }
 
 //--------------------------------------------------------------------------------------------------------------------
