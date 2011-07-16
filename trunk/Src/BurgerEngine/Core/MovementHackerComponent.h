@@ -33,7 +33,7 @@ protected:
 	void UpdateValue( float * fValue, float fFrameTime, float fElapsedTime, vec3 f3SinPhaseSpeedAmplitude, vec3 f3CosPhaseSpeedAmplitude, vec3 f3ConstIncMultiplier );
 
 private:
-		void SetValues( vec3& f3SinPhaseSpeedAmplitude, vec3& f3CosPhaseSpeedAmplitude, vec3& f3ConstIncMultiplier, float fSinPhase = 0.0f, float fSinSpeed = 0.0f, float fSinAmplitude = 0.0f, float fCosPhase = 0.0f, float fCosSpeed = 0.0f, float fCosAmplitude = 0.0f, float fIncrement = 0.0f, float fLastPosMultiplier = 0.0f );
+		void SetValues( vec3& f3SinPhaseSpeedAmplitude, vec3& f3CosPhaseSpeedAmplitude, vec3& f3ConstIncMultiplier, float fSinPhase = 0.0f, float fSinSpeed = 0.0f, float fSinAmplitude = 0.0f, float fCosPhase = 0.0f, float fCosSpeed = 0.0f, float fCosAmplitude = 0.0f, float fIncrement = 0.0f, float fLastPosMultiplier = 1.0f );
 		void LoadMovementHackerValues( TiXmlElement const* pXMLNode, float * pSinPhase, float * pSinSpeed, float * pSinAmplitude, float * pCosPhase, float * pCosSpeed, float * pCosAmplitude, float * pIncrement, float * pLastPosMultiplier );
 
 		vec3 f3XSinPhaseSpeedAmplitude;

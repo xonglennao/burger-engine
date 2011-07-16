@@ -1,0 +1,4 @@
+<shader>
+  <vertexshader>../Data/Shaders/Engine/PostProcess.vert</vertexshader>
+  <pixelshader>../Data/Shaders/Engine/PostProcess.frag</pixelshader>
+</shader>

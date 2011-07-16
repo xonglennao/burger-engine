@@ -37,10 +37,10 @@ float fInc = 0.0f;
 //
 //--------------------------------------------------------------------------------------------------------------------
 DeferredRenderer::DeferredRenderer()
-	: m_iDebugFlag(0)
+	: m_iDebugFlag(1)
 	, m_iSkipCulling(0)
 	, m_iDebugBoundingBox(0)
-	, m_iDebugRender(0)
+	, m_iDebugRender(1)
 	, m_iDebugSpotLightFrustum(0)
 	, m_fFrameTime( 10.0 )
 	, m_bShowDebugMenu( false )
@@ -117,6 +117,9 @@ DeferredRenderer::~DeferredRenderer()
 	delete m_pLDRSceneBuffer;
 	m_pLDRSceneBuffer = NULL;
 
+	delete m_pLDRSceneBuffer2;
+	m_pLDRSceneBuffer = NULL;
+
 	delete m_pSpotShadowBlurBuffer;
 	m_pSpotShadowBlurBuffer = NULL;
 
@@ -187,6 +190,9 @@ void DeferredRenderer::CreateFBO()
 
 	m_pLDRSceneBuffer = new FBO( iWindowWidth, iWindowHeight, FBO::E_FBO_2D );
 	m_pLDRSceneBuffer->GenerateColorOnly();
+
+	m_pLDRSceneBuffer2 = new FBO( iWindowWidth, iWindowHeight, FBO::E_FBO_2D );
+	m_pLDRSceneBuffer2->GenerateColorOnly();
 
 	m_pSpotShadowBlurBuffer = new FBO( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, FBO::E_FBO_2D );
 	m_pSpotShadowBlurBuffer->GenerateColorOnly( GL_RGBA32F_ARB );
@@ -352,11 +358,19 @@ void DeferredRenderer::LoadEngineShaders()
 	m_pToneMappingShader->Activate();
 	m_pToneMappingShader->setUniformTexture("sTexture",0);
 	m_pToneMappingShader->setUniformTexture("sLuminance",1);
-	m_pToneMappingShader->setUniformTexture("sBloom",2);
-	m_pToneMappingShader->setUniformTexture("sBlurData",3);
-	m_pToneMappingShader->setUniformTexture("sLUT",4);
-	m_iToneMappingShaderKeyAndMultiplierHandle = glGetUniformLocation( m_pToneMappingShader->getHandle(), "fGlowMultiplierAndKey" );
+	m_iToneMappingShaderKeyHandle = glGetUniformLocation( m_pToneMappingShader->getHandle(), "fToneMappingKey" );
 	m_pToneMappingShader->Deactivate();
+
+	//Post process shaders
+	m_pPostProcessShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/PostProcess.bfx.xml" );
+	m_pPostProcessShader->Activate();
+	m_pPostProcessShader->QueryStdUniforms();
+	m_pPostProcessShader->setUniformTexture("sTexture",0);
+	m_pPostProcessShader->setUniformTexture("sBloom",1);
+	m_pPostProcessShader->setUniformTexture("sBlurData",2);
+	m_pPostProcessShader->setUniformTexture("sLUT",3);
+	m_iPostProcessShaderGlowMultiplierHandle = glGetUniformLocation( m_pPostProcessShader->getHandle(), "fGlowMultiplier" );
+	m_pPostProcessShader->Deactivate();
 
 	m_pLightAdaptationShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/LightAdaptation.bfx.xml" );
 	m_pLightAdaptationShader->Activate();
@@ -1627,30 +1641,45 @@ void DeferredRenderer::Render()
 	//Tone mapping
 	m_pToneMappingShader->Activate();
 	
-	float fToneMappingShaderUniform[2] = { m_fGlowMultiplier, m_fToneMappingKey };
-	m_pToneMappingShader->setUniform2fv( m_iToneMappingShaderKeyAndMultiplierHandle, 1, fToneMappingShaderUniform );
+	m_pToneMappingShader->setUniformf( m_iToneMappingShaderKeyHandle, m_fToneMappingKey );
 	
 	m_pHDRSceneBuffer->ActivateTexture();
 	glActiveTexture( GL_TEXTURE1 );
 	m_pLastAdaptationBuffer->ActivateTexture();
 
-	glActiveTexture( GL_TEXTURE2 );
-	m_pBrightPass1Buffer->ActivateTexture();
-
-	glActiveTexture( GL_TEXTURE3 );
-	m_pHDRSceneBuffer->ActivateTexture(1);
-
-	glActiveTexture( GL_TEXTURE4 );
-	m_pColorLUT->Activate();
-
 	m_pLDRSceneBuffer->Activate();
 	DrawFullScreenQuad( iWindowWidth, iWindowHeight );
 	m_pLDRSceneBuffer->Deactivate();
+
 	m_pToneMappingShader->Deactivate();
+	Texture2D::Deactivate();
+	glActiveTexture( GL_TEXTURE0 );
+	Texture2D::Deactivate();
+
+
+	//Post process: bloom, color correction, fxaa
+	m_pPostProcessShader->Activate();
+	m_pPostProcessShader->CommitStdUniforms();
+	m_pPostProcessShader->setUniformf( m_iPostProcessShaderGlowMultiplierHandle, m_fGlowMultiplier );
+	m_pPostProcessShader->setUniformi( glGetUniformLocation( m_pPostProcessShader->getHandle(), "iDebug" ), m_iDebugFlag );
+	m_pLDRSceneBuffer->ActivateTexture();
+
+	glActiveTexture( GL_TEXTURE1 );
+	m_pBrightPass1Buffer->ActivateTexture();
+
+	glActiveTexture( GL_TEXTURE2 );
+	m_pHDRSceneBuffer->ActivateTexture(1);
+
+	glActiveTexture( GL_TEXTURE3 );
+	m_pColorLUT->Activate();
+
+	m_pLDRSceneBuffer2->Activate();
+	DrawFullScreenQuad( iWindowWidth, iWindowHeight );
+	m_pLDRSceneBuffer2->Deactivate();
+	
+	m_pPostProcessShader->Deactivate();
 	
 	Texture3D::Deactivate();
-	glActiveTexture( GL_TEXTURE3 );
-	Texture2D::Deactivate();
 	glActiveTexture( GL_TEXTURE2 );
 	Texture2D::Deactivate();
 	glActiveTexture( GL_TEXTURE1 );
@@ -1658,8 +1687,9 @@ void DeferredRenderer::Render()
 	glActiveTexture( GL_TEXTURE0 );
 	Texture2D::Deactivate();
 
+	
 	//Downsampling scene for DOF
-	m_pLDRSceneBuffer->ActivateTexture();
+	m_pLDRSceneBuffer2->ActivateTexture();
 	glActiveTexture( GL_TEXTURE1 );
 	m_pHDRSceneBuffer->ActivateTexture(1);
 	
@@ -1691,12 +1721,13 @@ void DeferredRenderer::Render()
 	m_pBlur6Shader->setUniform2fv( m_iBlur6ShaderPixelSizeHandle, 1, pPixelSize);
 	DrawFullScreenQuad( iWindowWidth / 2, iWindowHeight / 2 );
 	
+	//Depth of field
 	m_pDOFBlur1Buffer->Deactivate();
 	Texture2D::Deactivate();
 	
 	m_pDOFShader->Activate();
 	glActiveTexture( GL_TEXTURE0 );
-	m_pLDRSceneBuffer->ActivateTexture();
+	m_pLDRSceneBuffer2->ActivateTexture();
 	glActiveTexture( GL_TEXTURE1 );
 	m_pDOFBlur1Buffer->ActivateTexture();
 
@@ -1708,7 +1739,7 @@ void DeferredRenderer::Render()
 	Texture2D::Deactivate();
 
 	m_pDOFShader->Deactivate();
-
+	
 	DebugRender( oSceneMeshes, oTransparentSceneMeshes, oSpotShadows, oSpotLights );
 	
 	++m_fFrameCount;

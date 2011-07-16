@@ -113,9 +113,6 @@ private:
 
 	///The flag use to exit the running loop;
 	bool			m_bTerminate;
-
-
-
 };
 
 #endif //__ENGINE_H__

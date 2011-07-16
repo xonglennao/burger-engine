@@ -1,0 +1,90 @@
+<component id="composite">
+  <parameters>
+    <position x="0.0" y="0.0" z="0.0"/>
+
+    <component id="render">
+      <parameters>
+        <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1"/>
+        <mesh>
+          <file>../Data/Mesh/silo/plane.obj</file>
+          <part>
+            <material>../Data/Materials/silo/siloFloor.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1"/>
+        <mesh>
+          <file>../Data/Mesh/silo/silo.obj</file>
+          <part>
+            <material>../Data/Materials/silo/siloWall.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="0.0" y="10.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1"/>
+        <mesh>
+          <file>../Data/Mesh/silo/cross.obj</file>
+          <part>
+            <material>../Data/Materials/silo/siloFloor.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="0.0" y="20.0" z="0.0" rX="0.0" rY="30.0" rZ="0.0"  scale="1"/>
+        <mesh>
+          <file>../Data/Mesh/silo/cross.obj</file>
+          <part>
+            <material>../Data/Materials/silo/siloFloor.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="0.0" y="30.0" z="0.0" rX="0.0" rY="45.0" rZ="0.0"  scale="1"/>
+        <mesh>
+          <file>../Data/Mesh/silo/cross.obj</file>
+          <part>
+            <material>../Data/Materials/silo/siloFloor.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1"/>
+        <mesh>
+          <file>../Data/Mesh/silo/step.obj</file>
+          <part>
+            <material>../Data/Materials/silo/siloFloor2.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="0.0" y="35.0" z="0.0" rX="0.0" rY="0.0" rZ="180.0"  scale="1"/>
+        <mesh>
+          <file>../Data/Mesh/silo/plane.obj</file>
+          <part>
+            <material>../Data/Materials/silo/siloFloor.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+  </parameters>
+</component>

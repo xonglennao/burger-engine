@@ -38,13 +38,7 @@ void main()
 
 	vec4 vColor = texture2D( diffuseMap, vTexCoord );
 
-	vec4 vFinalColor = vec4( (vLighting.rgb + vChromacity * vLighting.a * vColor.a ),1.0) * vec4(vColor.rgb,1.0);
-
-	//Computing blur information for Depth of Field
-	//float fDepth = gl_FragCoord.z / gl_FragCoord.w;	
-	//vFinalColor.a = ComputeDepthBlur( fDepth );
-
-	gl_FragData[0] = vFinalColor;
+	gl_FragData[0] = vec4( (vLighting.rgb + vChromacity * vLighting.a * vColor.a ),1.0) * vec4(vColor.rgb,1.0);
 
 	//Computing blur information for Depth of Field
 	float fDepth = gl_FragCoord.z / gl_FragCoord.w;	

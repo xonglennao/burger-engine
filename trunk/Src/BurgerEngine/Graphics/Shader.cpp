@@ -146,7 +146,7 @@ void Shader::CommitStdUniforms()
 	iHandle = m_oStdUniformsMap[ E_STD_INV_VIEWPORT ];
 	if( iHandle != -1 )
 	{
-		vec2 vViewPort = vec2( 1.0f / (float)rEngine.GetWindowWidth(), 1.0f / (float)rEngine.GetWindowHeight());
+		vec2 vViewPort = vec2( 1.0f / (float)rEngine.GetWindowWidth(), 1.0f / (float)rEngine.GetWindowHeight() );
 		glUniform2fv( iHandle, 1, (float*)vViewPort );
 	}
 

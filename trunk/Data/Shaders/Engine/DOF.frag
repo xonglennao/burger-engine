@@ -56,6 +56,5 @@ vec4 dof(vec2 coords)
 
 void main()
 {
-	float fColor = texture2D( sTexture, gl_TexCoord[0].xy ).a;
 	gl_FragColor = vec4( dof( gl_TexCoord[0].xy ).rgb, 1.0 );	
 }

@@ -34,18 +34,10 @@ void main()
 
 	vec4 vLighting = texture2D( lightBuffer, vScreenTexCoord );
 
-
 	//reconstructing specular
 	vec3 vChromacity = clamp( vLighting.rgb / ( dot( vLighting.rgb, vec3(0.2126, 0.7152, 0.0722 )  ) + 0.00001 ), 0.0, 1.0 );
 
-	vec4 vFinalColor = vec4( (vLighting.rgb + vChromacity * vLighting.a ),1.0) * texture2D( diffuseMap, vTexCoord );
-	
-	//Computing blur information for Depth of Field
-	//float fDepth = gl_FragCoord.z / gl_FragCoord.w;	
-	//vFinalColor.a = ComputeDepthBlur( fDepth );
-
-	//gl_FragColor = vFinalColor;
-	gl_FragData[0] = vFinalColor;
+	gl_FragData[0] = vec4( (vLighting.rgb + vChromacity * vLighting.a ),1.0) * texture2D( diffuseMap, vTexCoord );
 
 	//Computing blur information for Depth of Field
 	float fDepth = gl_FragCoord.z / gl_FragCoord.w;	
