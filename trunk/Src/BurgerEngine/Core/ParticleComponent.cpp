@@ -5,6 +5,7 @@
 #include "BurgerEngine/FX/ParticleContext.h"
 #include "BurgerEngine/fx/ParticleSystem.h"
 #include "BurgerEngine/fx/ParticleGroup.h"
+#include "BurgerEngine/fx/ParticleAccelerationEffector.h"
 
 
 #include "BurgerEngine/External/TinyXml/TinyXml.h"
@@ -135,10 +136,14 @@ void ParticleComponent::Initialize(TiXmlElement const& a_rParameters)
 		ParticleGroup* pGroup = new ParticleGroup();
 		pGroup->Initialize();
 		ParticleEmitter& rEmitter = pGroup->GrabEmitter();
-		rEmitter.m_fEmissionFrequency = 1.0f;
+		rEmitter.m_fEmissionFrequency = 0.1f;
 		rEmitter.m_uMaxCount = 500;
 		rEmitter.m_fLife = 10.0f;
 		rEmitter.m_uLoopCount = 0;
+
+		ParticleAccelerationEffector* pEffector = new ParticleAccelerationEffector();
+		pGroup->AddEffector(*pEffector);
+
 
 		m_pSystem->AddGroup(pGroup);
 		m_pSystem->Play();

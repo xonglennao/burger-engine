@@ -38,7 +38,8 @@ public:
 	/// \brief Constructor
 	ParticleEmitter():
 		m_ePolicy(ERASE_OLDER),
-		m_eEmissionPos(VERTEX)
+		m_eEmissionPos(VERTEX),
+		m_fPreviousFrameParticle(0.0f)
 		{}
 
 	/// \brief Destructor

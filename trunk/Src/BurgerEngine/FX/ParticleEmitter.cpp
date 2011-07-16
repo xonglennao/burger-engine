@@ -47,6 +47,7 @@ void ParticleEmitter::Emit(float a_fTime, ParticleManager& a_rManager)
 			Particle& rParticle = a_rManager.RequestNewParticle();
 			rParticle.f3Position = f3PositionToSpawn;
 			rParticle.fMaxLife = 10.0f;
+			rParticle.f3Velocity = vec3(10.0);
 
 			/// \todo When a Particle pool will be ready, here how a particle should be set
 			/// First you grab a new particle from the pool (an available one)

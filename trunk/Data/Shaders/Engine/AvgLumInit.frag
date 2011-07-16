@@ -4,7 +4,7 @@ uniform sampler2D sTexture;
 
 void main()
 {
-	vec3 vSample = 0.0f;
+	vec3 vSample = vec3(0.0f,0.0f,0.0f);
     float  fLogLumSum = 0.0f;
 
 	for ( float y = -1.0 ; y <= 1.0 ; ++y )

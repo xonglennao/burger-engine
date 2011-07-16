@@ -1,7 +1,9 @@
 uniform sampler2D sTexture;
 uniform vec2 vPixelSize;
 
-float vGaussianBlur[10] = { 0.0882357, 0.0957407, 0.101786, 0.106026, 0.108212, 0.108212, 0.106026, 0.101786, 0.0957407, 0.0882357 };
+float vGaussianBlur[10] ;
+
+//= { 0.0882357, 0.0957407, 0.101786, 0.106026, 0.108212, 0.108212, 0.106026, 0.101786, 0.0957407, 0.0882357 };
 
 float log_conv ( float x0, float X, float y0, float Y )
 {
@@ -11,11 +13,22 @@ float log_conv ( float x0, float X, float y0, float Y )
 vec4 LogGaussianFilter()
 {
 	
+	vGaussianBlur[0] = 0.0882357;
+	vGaussianBlur[1] = 0.0957407;
+	vGaussianBlur[2] = 0.101786;
+	vGaussianBlur[3] = 0.106026;
+	vGaussianBlur[4] = 0.108212;
+	vGaussianBlur[5] = 0.108212;
+	vGaussianBlur[6] = 0.106026;
+	vGaussianBlur[7] = 0.101786;
+	vGaussianBlur[8] = 0.0957407;
+	vGaussianBlur[9] = 0.0882357;
+	
 	float vSample[ 10 ];
 
     for (int i = 0; i < 10; i++)
     {
-		float fOffSet = (float) i - 4.5;		
+		float fOffSet = i - 4.5;		
 		vec2 vTexCoord = vec2( gl_TexCoord[0].x + fOffSet * vPixelSize.x, gl_TexCoord[0].y + fOffSet * vPixelSize.y );
 		vSample[i] = texture2D( sTexture, vTexCoord ).r;
 	}

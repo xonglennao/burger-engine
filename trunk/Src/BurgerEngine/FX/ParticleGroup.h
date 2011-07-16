@@ -19,6 +19,8 @@
 #include "BurgerEngine/fx/ParticleEmitter.h"
 #include <vector>
 
+typedef std::vector<ParticleEffector*> ParticleEffectors;
+
 class ParticleGroup
 {
 	//typedef std::vector<ParticleGroup*> ParticleGroups; 
@@ -45,6 +47,8 @@ public:
 	/// \brief GrabEmitter
 	ParticleEmitter& GrabEmitter(){return m_oEmitter;}
 
+	/// \brief Add an effector
+	void AddEffector(ParticleEffector& a_rEffector){m_vEffector.push_back(&a_rEffector);}
 private:
 	/// \brief Update position 
 	void _UpdateCoreParameters(float a_fTime);
@@ -64,6 +68,9 @@ private:
 
 	/// Is this Group is about to stop??
 	bool m_bIsAboutToStop;
+
+	/// the collection of effector
+	ParticleEffectors m_vEffector;
 };
 
 #endif //__PARTICLEGROUP_H__

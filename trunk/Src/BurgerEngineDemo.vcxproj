@@ -42,12 +42,14 @@
     <ClInclude Include="BurgerEngine\External\TinyXml\tinyxml.h" />
     <ClInclude Include="BurgerEngine\FX\FXCommon.h" />
     <ClInclude Include="BurgerEngine\FX\Particle.h" />
+    <ClInclude Include="BurgerEngine\FX\ParticleAccelerationEffector.h" />
     <ClInclude Include="BurgerEngine\FX\ParticleContext.h" />
     <ClInclude Include="BurgerEngine\FX\ParticleEffector.h" />
     <ClInclude Include="BurgerEngine\FX\ParticleEmitter.h" />
     <ClInclude Include="BurgerEngine\FX\ParticleGroup.h" />
     <ClInclude Include="BurgerEngine\FX\ParticleManager.h" />
     <ClInclude Include="BurgerEngine\FX\ParticleSystem.h" />
+    <ClInclude Include="BurgerEngine\FX\ParticleVelocityEffector.h" />
     <ClInclude Include="BurgerEngine\Graphics\AbstractMesh.h" />
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h" />
     <ClInclude Include="BurgerEngine\Graphics\AbstractTexture.h" />
@@ -114,12 +116,14 @@
     <ClCompile Include="BurgerEngine\External\TinyXml\tinyxmlerror.cpp" />
     <ClCompile Include="BurgerEngine\External\TinyXml\tinyxmlparser.cpp" />
     <ClCompile Include="BurgerEngine\FX\Particle.cpp" />
+    <ClCompile Include="BurgerEngine\FX\ParticleAccelerationEffector.cpp" />
     <ClCompile Include="BurgerEngine\FX\ParticleContext.cpp" />
     <ClCompile Include="BurgerEngine\FX\ParticleEffector.cpp" />
     <ClCompile Include="BurgerEngine\FX\ParticleEmitter.cpp" />
     <ClCompile Include="BurgerEngine\FX\ParticleGroup.cpp" />
     <ClCompile Include="BurgerEngine\FX\ParticleManager.cpp" />
     <ClCompile Include="BurgerEngine\FX\ParticleSystem.cpp" />
+    <ClCompile Include="BurgerEngine\FX\ParticleVelocityEffector.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\AbstractMesh.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\AbstractPostEffect.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\AbstractTexture.cpp" />
@@ -269,11 +273,12 @@
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>../Src/BurgerEngine/External;../Src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <PreprocessorDefinitions>SFML_DYNAMIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32.lib;openGL32.lib;glu32.lib;sfml-window-d.lib;loki_D.lib;devIL.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;openGL32.lib;glu32.lib;sfml-window-s-d.lib;loki_D.lib;devIL.lib;sfml-system-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

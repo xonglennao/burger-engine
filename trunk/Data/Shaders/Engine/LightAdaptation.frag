@@ -7,13 +7,17 @@ void main()
 {
 	float fAdaptedLuminance = texture2D( sAdaptedLuminance, vec2( 0.5, 0.5 ) ).x;
 	float fAvgLuminance = texture2D( sAvgLuminance, vec2( 0.5, 0.5 ) ).x;
+	// Copy needed, we cannot modify an uniform
+	vec2 f2ElapsedAndBaseTimeCopy = fElapsedAndBaseTime;
 	
 	if( fAdaptedLuminance < fAvgLuminance )
 	{
-		fElapsedAndBaseTime.x *= 0.5;
+
+		f2ElapsedAndBaseTimeCopy.x = f2ElapsedAndBaseTimeCopy.x*0.5;
 	}
 
-	float fNewLuminance = fAdaptedLuminance + ( fAvgLuminance - fAdaptedLuminance ) * ( 1.0 - pow( fElapsedAndBaseTime.y, 30.0 * fElapsedAndBaseTime.x ) );
-
+	float fNewLuminance = fAdaptedLuminance + ( fAvgLuminance - fAdaptedLuminance ) * ( 1.0 - pow( f2ElapsedAndBaseTimeCopy.y, 30.0 * f2ElapsedAndBaseTimeCopy.x ) );
+	
 	gl_FragColor = vec4( fNewLuminance, fNewLuminance, fNewLuminance, fNewLuminance );
+
 }

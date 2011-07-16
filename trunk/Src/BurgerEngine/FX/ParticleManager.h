@@ -37,11 +37,17 @@ public:
 
 	/// \ brief Get the whole particle list
 	Particles& GrabParticles(){return m_vParticles;}
+	Particles& GrabNewParticles(){return m_vNewParticles;}
+
+	/// \brief Transfer the newly emitted particules to the main vector
+	void TransferParticles();
 
 	unsigned int GetParticleCount() const {return m_vParticles.size();}
 private:
 	/// The list of all the particle groups
 	Particles m_vParticles;
+	/// All particle emitted this frame
+	Particles m_vNewParticles;
 };
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -50,8 +56,8 @@ private:
 inline Particle& ParticleManager::RequestNewParticle()
 {
 	Particle oParticle;
-	m_vParticles.push_back(oParticle);
-	return m_vParticles.at(m_vParticles.size()-1);
+	m_vNewParticles.push_back(oParticle);
+	return m_vNewParticles.at(m_vNewParticles.size()-1);
 }
 
 

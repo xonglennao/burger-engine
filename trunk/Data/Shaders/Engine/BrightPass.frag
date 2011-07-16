@@ -6,7 +6,7 @@ uniform vec3 fThresholdOffSetKey;
 
 void main()
 {
-	vec3 vColor = texture2D( sTexture, gl_TexCoord[0] ).rgb;
+	vec3 vColor = texture2D( sTexture, gl_TexCoord[0].xy ).rgb;
 	float fLuminance = texture2D( sLuminance, vec2( 0.5, 0.5 ) ).x;
 	
 	// Determine what the pixel's value will be after tone mapping occurs

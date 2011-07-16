@@ -193,9 +193,6 @@
     <ClCompile Include="BurgerEngine\FX\ParticleSystem.cpp">
       <Filter>BurgerEngine\FX</Filter>
     </ClCompile>
-    <ClCompile Include="BurgerEngine\FX\ParticleEffector.cpp">
-      <Filter>BurgerEngine\FX</Filter>
-    </ClCompile>
     <ClCompile Include="BurgerEngine\FX\ParticleManager.cpp">
       <Filter>BurgerEngine\FX</Filter>
     </ClCompile>
@@ -204,6 +201,15 @@
     </ClCompile>
     <ClCompile Include="BurgerEngine\Core\TimeContext.cpp">
       <Filter>BurgerEngine\Core\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\FX\ParticleVelocityEffector.cpp">
+      <Filter>BurgerEngine\FX\Effector</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\FX\ParticleAccelerationEffector.cpp">
+      <Filter>BurgerEngine\FX\Effector</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngine\FX\ParticleEffector.cpp">
+      <Filter>BurgerEngine\FX\Effector</Filter>
     </ClCompile>
     <ClCompile Include="BurgerEngine\Core\MovementHackerComponent.cpp">
       <Filter>BurgerEngine\Core\Component</Filter>
@@ -408,9 +414,6 @@
     <ClInclude Include="BurgerEngine\FX\ParticleSystem.h">
       <Filter>BurgerEngine\FX</Filter>
     </ClInclude>
-    <ClInclude Include="BurgerEngine\FX\ParticleEffector.h">
-      <Filter>BurgerEngine\FX</Filter>
-    </ClInclude>
     <ClInclude Include="BurgerEngine\FX\ParticleManager.h">
       <Filter>BurgerEngine\FX</Filter>
     </ClInclude>
@@ -422,6 +425,15 @@
     </ClInclude>
     <ClInclude Include="BurgerEngine\Core\TimeContext.h">
       <Filter>BurgerEngine\Core\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\FX\ParticleVelocityEffector.h">
+      <Filter>BurgerEngine\FX\Effector</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\FX\ParticleAccelerationEffector.h">
+      <Filter>BurgerEngine\FX\Effector</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\FX\ParticleEffector.h">
+      <Filter>BurgerEngine\FX\Effector</Filter>
     </ClInclude>
     <ClInclude Include="BurgerEngine\Core\MovementHackerComponent.h">
       <Filter>BurgerEngine\Core\Component</Filter>
@@ -559,6 +571,9 @@
     </Filter>
     <Filter Include="BurgerEngine\FX">
       <UniqueIdentifier>{37afb355-d7a7-42b6-9849-6513c66ffeac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\FX\Effector">
+      <UniqueIdentifier>{0fcf67be-cdeb-457c-9865-3cecac821d01}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

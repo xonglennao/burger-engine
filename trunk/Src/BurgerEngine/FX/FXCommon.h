@@ -3,3 +3,4 @@
 class ParticleSystem;
 class ParticleEmitter;
 class ParticleManager;
+class ParticleEffector;
