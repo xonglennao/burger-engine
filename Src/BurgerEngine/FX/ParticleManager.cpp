@@ -15,3 +15,11 @@ void ParticleManager::Initialize(unsigned int a_uMaxCount)
 {
 	m_vParticles.reserve(a_uMaxCount);
 }
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void ParticleManager::TransferParticles()
+{
+	m_vParticles.insert(m_vParticles.begin(),m_vNewParticles.begin(),m_vNewParticles.end());
+	m_vNewParticles.clear();
+}

@@ -57,6 +57,7 @@ void SceneGraph::Clear()
 		delete (*oComponentIt);
 		(*oComponentIt) = NULL;
 	}
+	m_vComponentCollection.clear();
 }
 
 //--------------------------------------------------------------------------------------------------------------------

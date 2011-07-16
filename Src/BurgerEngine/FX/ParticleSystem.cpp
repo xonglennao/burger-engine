@@ -20,7 +20,9 @@ void ParticleSystem::Terminate()
 	FOR_EACH_IT(ParticleGroups, m_vGroups, it)
 	{
 		(*it)->Terminate();
+		delete (*it);
 	}
+	m_vGroups.clear();
 }
 
 //--------------------------------------------------------------------------------------------------------------------

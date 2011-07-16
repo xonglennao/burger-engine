@@ -1,5 +1,6 @@
 #include "BurgerEngine/fx/ParticleGroup.h"
 #include "BurgerEngine/fx/ParticleManager.h"
+#include "BurgerEngine/fx/ParticleEffector.h"
 #include "BurgerEngine/Core/Engine.h"
 #include "BurgerEngine/Core/TimeContext.h"
 
@@ -91,7 +92,14 @@ void ParticleGroup::Update()
 	}
 
 	//Update
+	FOR_EACH_IT(ParticleEffectors, m_vEffector, it)
+	{
+		ParticleEffector& rEffector = (**it);
+		rEffector.ApplyEffect(fTime, *m_pManager);
+	}
+	
 
+	m_pManager->TransferParticles();
 	//Update speed
 	_UpdateCoreParameters(fTime);
 
@@ -118,6 +126,10 @@ void ParticleGroup::_UpdateCoreParameters(float a_fTime)
 
 		// Compute New Position
 		rParticle.f3Position += rParticle.f3Velocity * a_fTime;
+	}
+	if (m_pManager->GrabParticles().size()>0)
+	{
+		std::cout<<"Y : "<<m_pManager->GrabParticles()[m_pManager->GrabParticles().size()-1].f3Position.y<<std::endl;
 	}
 }
 

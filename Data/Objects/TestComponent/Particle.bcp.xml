@@ -1,0 +1,10 @@
+<component id="composite">
+  <parameters>
+    <position x="0.0" y="0.0" z="0.0"/>
+	 <component id="particle">
+      <parameters>
+        
+      </parameters>
+    </component>
+  </parameters>
+</component>
