@@ -1608,6 +1608,9 @@ void DeferredRenderer::Render()
 		(*oMeshIt)->Draw( EffectTechnique::E_RENDER_TRANSPARENCY );
 		++oMeshIt;
 	}
+
+	// Draw particle
+
 	
 	glDepthMask( GL_TRUE );
 	glDisableIndexedEXT( GL_BLEND, 0 );

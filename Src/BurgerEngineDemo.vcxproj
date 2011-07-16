@@ -63,6 +63,7 @@
     <ClInclude Include="BurgerEngine\Graphics\MaterialManager.h" />
     <ClInclude Include="BurgerEngine\Graphics\MeshManager.h" />
     <ClInclude Include="BurgerEngine\Graphics\OmniLight.h" />
+    <ClInclude Include="BurgerEngine\Graphics\ParticleRenderer.h" />
     <ClInclude Include="BurgerEngine\Graphics\RenderingContext.h" />
     <ClInclude Include="BurgerEngine\Graphics\SceneLight.h" />
     <ClInclude Include="BurgerEngine\Graphics\SceneMesh.h" />
@@ -79,6 +80,7 @@
     <ClInclude Include="BurgerEngine\Graphics\Texture3D.h" />
     <ClInclude Include="BurgerEngine\Graphics\TextureCubeMap.h" />
     <ClInclude Include="BurgerEngine\Graphics\TextureManager.h" />
+    <ClInclude Include="BurgerEngine\Graphics\Vertex.h" />
     <ClInclude Include="BurgerEngine\Graphics\Window.h" />
     <ClInclude Include="BurgerEngine\GUI\DebugMenu.h" />
     <ClInclude Include="BurgerEngine\GUI\DebugMenuEntry.h" />
@@ -136,6 +138,7 @@
     <ClCompile Include="BurgerEngine\Graphics\MaterialManager.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\MeshManager.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\OmniLight.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\ParticleRenderer.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\RenderingContext.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\SceneLight.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\SceneMesh.cpp" />
@@ -293,7 +296,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glew32.lib;glu32.lib;openGL32.lib;sfml-window.lib;loki.lib;devIL.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;glu32.lib;openGL32.lib;sfml-window-s.lib;loki.lib;devIL.lib;sfml-system-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
