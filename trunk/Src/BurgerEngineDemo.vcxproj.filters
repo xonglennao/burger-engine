@@ -214,6 +214,9 @@
     <ClCompile Include="BurgerEngine\Core\MovementHackerComponent.cpp">
       <Filter>BurgerEngine\Core\Component</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\ParticleRenderer.cpp">
+      <Filter>BurgerEngine\Graphics\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -438,6 +441,12 @@
     <ClInclude Include="BurgerEngine\Core\MovementHackerComponent.h">
       <Filter>BurgerEngine\Core\Component</Filter>
     </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\ParticleRenderer.h">
+      <Filter>BurgerEngine\Graphics\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\Vertex.h">
+      <Filter>BurgerEngine\Graphics\Vertex</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="BurgerEngine">
@@ -574,6 +583,9 @@
     </Filter>
     <Filter Include="BurgerEngine\FX\Effector">
       <UniqueIdentifier>{0fcf67be-cdeb-457c-9865-3cecac821d01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Graphics\Vertex">
+      <UniqueIdentifier>{71d6b253-7a5f-470a-b4bb-4dd199ddd27d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

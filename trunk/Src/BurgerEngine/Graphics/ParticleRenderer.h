@@ -14,8 +14,13 @@
 #define __PARTICLERENDERER_H__
 
 #include "BurgerEngine/Graphics/CommonGraphics.h"
+#include "BurgerEngine/Graphics/Vertex.h"
+#include <map>
+#include <vector>
+#include <string>
 
-/*typedef std::vector<Vertex> Vertexs;
+
+typedef std::vector<Vertex> Vertexs;
 typedef std::map<std::string, Vertexs> VertexMap;
 
 /// \class ParticleRenderer
@@ -23,9 +28,16 @@ typedef std::map<std::string, Vertexs> VertexMap;
 class ParticleRenderer
 {
 public:
+
+	/// \brief Draw every particle
 	void Render();
+
+	/// \brief Remove every vertex to display
+	void CleanUp();
 private:
 
-};*/
+	VertexMap m_mVertexs;
+
+};
 
 #endif // __PARTICLERENDERER_H__
