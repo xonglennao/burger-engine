@@ -42,7 +42,7 @@ public:
 	~EffectTechnique();
 
 	void Activate();
-	inline void Deactivate(){ m_pShader->Deactivate(); }
+	inline void Deactivate(){ m_pShader->Deactivate(); DeactivateTextures(); }
 
 	void AddUniformTexture( int iUnit, AbstractTexture* pTexture ){ m_oUniformTextures2DMap[ iUnit ] = pTexture; };
 	//void AddUniformTextureCubeMap( int iUnit, TextureCubeMap* pTextureCube ){ m_oUniformTextures2DMap[ iUnit ] = pTextureCube; };
@@ -52,6 +52,7 @@ public:
 
 private:
 	void ActivateTextures();
+	void DeactivateTextures();
 	void CommitUniforms();
 	
 private:

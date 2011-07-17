@@ -32,15 +32,14 @@ const float MAX_FRAME = 15.0;
 
 const int PROFILING_LEFT_OFFSET = 300;
 
-float fInc = 0.0f;
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
 DeferredRenderer::DeferredRenderer()
-	: m_iDebugFlag(1)
+	: m_iDebugFlag(0)
 	, m_iSkipCulling(0)
 	, m_iDebugBoundingBox(0)
-	, m_iDebugRender(1)
+	, m_iDebugRender(0)
 	, m_iDebugSpotLightFrustum(0)
 	, m_fFrameTime( 10.0 )
 	, m_bShowDebugMenu( false )
@@ -48,7 +47,7 @@ DeferredRenderer::DeferredRenderer()
 	, m_fGlowMultiplier( 1.0f )
 	, m_fBrightPassThreshold( 0.5f )
 	, m_fBrightPassOffset( 10.0f )
-	, m_fAdaptationBaseTime( 0.6f )
+	, m_fAdaptationBaseTime( 0.0f )
 	, m_pColorLUT( NULL )
 {
 	CreateFBO();
@@ -214,9 +213,15 @@ void DeferredRenderer::CreateFBO()
 
 	m_pCurrentAdaptationBuffer = new FBO( 1, 1, FBO::E_FBO_2D );
 	m_pCurrentAdaptationBuffer->GenerateColorOnly( GL_INTENSITY16F_ARB );
+	m_pCurrentAdaptationBuffer->Activate();
+	glClear( GL_COLOR_BUFFER_BIT );
+	m_pCurrentAdaptationBuffer->Deactivate();
 
 	m_pLastAdaptationBuffer = new FBO( 1, 1, FBO::E_FBO_2D );
 	m_pLastAdaptationBuffer->GenerateColorOnly( GL_INTENSITY16F_ARB );
+	m_pLastAdaptationBuffer->Activate();
+	glClear( GL_COLOR_BUFFER_BIT );
+	m_pLastAdaptationBuffer->Deactivate();
 
 	m_pBrightPass1Buffer = new FBO( iWindowWidth/GLOW_RATIO, iWindowHeight/GLOW_RATIO, FBO::E_FBO_2D );
 	m_pBrightPass1Buffer->GenerateColorOnly();
@@ -891,7 +896,7 @@ void DeferredRenderer::DisplayText( const std::string& sText, int iPosX, int iPo
 
 	oFont->Begin();
 	oFont->TextOut( sText, iPosX, iPosY, 0);
-
+	glDisable(GL_TEXTURE_2D);
 	Texture2D::Deactivate();
 	glDisable(GL_BLEND);
 	glEnable(GL_CULL_FACE);
@@ -1258,7 +1263,7 @@ void DeferredRenderer::ComputeAvgLum()
 	pPixelSize[1] = 1.0f / 16.0f;
 	m_pDownSample4x4Shader->setUniform2fv( m_iDownSampleShaderPixelSizeHandle, 1, pPixelSize);
 	DrawFullScreenQuad( 16, 16 );
-
+	
 	//Downsampling to 4x4
 	m_p4x4LumBuffer->Activate();
 
@@ -1299,7 +1304,7 @@ void DeferredRenderer::ComputeAvgLum()
 	FBO * pTmpBuffer = m_pLastAdaptationBuffer;
 	m_pLastAdaptationBuffer = m_pCurrentAdaptationBuffer;
 	m_pCurrentAdaptationBuffer = pTmpBuffer;
-
+	
 	//Bright Pass
 	m_pBrightPass1Buffer->Activate();
 
@@ -1469,7 +1474,7 @@ void DeferredRenderer::Render()
 	
 	//Frustum culling
 	GetVisibleObjects( rRenderContext, oViewFrustum, mView, oSceneMeshes, oTransparentSceneMeshes, oOmniLights, oSpotLights, oSpotShadows );
-
+	
 	RenderShadowMaps( rRenderContext.GetSceneMeshes(),oSpotShadows,rHardwareRenderContext );
 	
 	rHardwareRenderContext.Reshape( iWindowWidth, iWindowHeight, rCamera.GetFOV(), rCamera.GetNear(), rCamera.GetFar() );	
@@ -1538,6 +1543,7 @@ void DeferredRenderer::Render()
 		
 		m_pOmniLightShader->Deactivate();
 	}
+	
 	//Render Spot Lights
 	if( !m_vSpotLightQuads.empty() )
 	{
@@ -1561,7 +1567,7 @@ void DeferredRenderer::Render()
 
 		Texture2D::Deactivate();
 	}
-
+	
 	m_pLightBuffer->Deactivate();
 
 	glActiveTexture( GL_TEXTURE0 );
@@ -1572,7 +1578,7 @@ void DeferredRenderer::Render()
 
 	glDisable(GL_BLEND);
 	glEnable( GL_DEPTH_TEST );
-
+	
 	//Material pass
 	//The material pass needs to fetch the light buffer
 	glActiveTexture( GL_TEXTURE6 );
@@ -1588,7 +1594,7 @@ void DeferredRenderer::Render()
 	glDrawBuffers(2, buffers);
 	
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
+	
 	//rendering opaque objects
 	oMeshIt = oSceneMeshes.begin();	
 	while( oMeshIt != oSceneMeshes.end() )
@@ -1596,13 +1602,14 @@ void DeferredRenderer::Render()
 		(*oMeshIt)->Draw( EffectTechnique::E_RENDER_OPAQUE );
 		++oMeshIt;
 	}
-
+	
 	if( pSkyBox )
 	{
 		pSkyBox->Draw( rCamera.GetPos(), m_iDebugFlag );
 	}
 
 	//rendering transparent objects
+	
 	glEnableIndexedEXT( GL_BLEND, 0 );
 	glDepthMask( GL_FALSE );
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -1628,14 +1635,15 @@ void DeferredRenderer::Render()
 	
 	glDepthMask( GL_TRUE );
 	glDisableIndexedEXT( GL_BLEND, 0 );
-
+	
 	glDrawBuffers(1, buffers);
 
+	glActiveTexture( GL_TEXTURE6 );
 	Texture2D::Deactivate();
 	glActiveTexture( GL_TEXTURE0 );
 	Texture2D::Deactivate();
 	m_pHDRSceneBuffer->Deactivate();
-
+	
 	ComputeAvgLum();
 	
 	//Tone mapping
@@ -1655,8 +1663,7 @@ void DeferredRenderer::Render()
 	Texture2D::Deactivate();
 	glActiveTexture( GL_TEXTURE0 );
 	Texture2D::Deactivate();
-
-
+	
 	//Post process: bloom, color correction, fxaa
 	m_pPostProcessShader->Activate();
 	m_pPostProcessShader->CommitStdUniforms();
@@ -1687,7 +1694,6 @@ void DeferredRenderer::Render()
 	glActiveTexture( GL_TEXTURE0 );
 	Texture2D::Deactivate();
 
-	
 	//Downsampling scene for DOF
 	m_pLDRSceneBuffer2->ActivateTexture();
 	glActiveTexture( GL_TEXTURE1 );
