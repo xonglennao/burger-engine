@@ -76,6 +76,10 @@ public:
 	/// \brief Grabber
 	DeferredRenderer& GrabRenderer(){return *m_pDeferredRenderer;}
 
+	/// \brief Grab Particle renderer
+	/// \todo make a vector of all renderer, and something like GrabRenderer<Type>
+	ParticleRenderer& GrabParticleRenderer(){assert(m_pParticleRenderer);return *m_pParticleRenderer;}
+
 	/// \brief Add a light, depending on it's type
 	void AddLight(SceneLight& a_rLight, SceneLight::LightType a_eType);
 
@@ -83,6 +87,8 @@ private:
 	/// The actual renderer
 	/// List of renderer? This will come with pipeline
 	DeferredRenderer* m_pDeferredRenderer;
+
+	ParticleRenderer* m_pParticleRenderer;
 
 	///lists of renderable objects and lights
 	/// \todo clear all this, 

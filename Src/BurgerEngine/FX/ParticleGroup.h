@@ -19,6 +19,9 @@
 #include "BurgerEngine/fx/ParticleEmitter.h"
 #include <vector>
 
+class ParticleRenderer;
+class Material;
+
 typedef std::vector<ParticleEffector*> ParticleEffectors;
 
 class ParticleGroup
@@ -27,7 +30,8 @@ class ParticleGroup
 public:
 	/// \brief constructor
 	ParticleGroup():
-		m_bIsAboutToStop(false)
+		m_bIsAboutToStop(false),
+		m_pMaterial(NULL)
 		{}
 	~ParticleGroup(){}
 
@@ -49,6 +53,9 @@ public:
 
 	/// \brief Add an effector
 	void AddEffector(ParticleEffector& a_rEffector){m_vEffector.push_back(&a_rEffector);}
+
+	/// \brief SetMaterial
+	void SetMaterial(Material* a_pMaterial){m_pMaterial = m_pMaterial;}
 private:
 	/// \brief Update position 
 	void _UpdateCoreParameters(float a_fTime);
@@ -57,7 +64,7 @@ private:
 	void _Sort();
 
 	/// \brief Send particle to the GFX
-	void _DrawParticle();
+	void _DrawParticle(ParticleRenderer& a_rRenderer);
 private:
 	/// The emitter
 	ParticleEmitter m_oEmitter;
@@ -71,6 +78,9 @@ private:
 
 	/// the collection of effector
 	ParticleEffectors m_vEffector;
+
+	/// One material per group
+	Material* m_pMaterial;
 };
 
 #endif //__PARTICLEGROUP_H__

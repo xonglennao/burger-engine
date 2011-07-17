@@ -14,14 +14,14 @@
 #define __PARTICLERENDERER_H__
 
 #include "BurgerEngine/Graphics/CommonGraphics.h"
-#include "BurgerEngine/Graphics/Vertex.h"
+#include "BurgerEngine/Graphics/ParticleBatch.h"
 #include <map>
 #include <vector>
 #include <string>
 
 
-typedef std::vector<Vertex> Vertexs;
-typedef std::map<std::string, Vertexs> VertexMap;
+typedef std::vector<ParticleBatch> Vertexs;
+
 
 /// \class ParticleRenderer
 /// \brief Hold vector of vertex to be rendered each frame
@@ -34,10 +34,21 @@ public:
 
 	/// \brief Remove every vertex to display
 	void CleanUp();
+
+	ParticleBatch& RequestNewBatch();
 private:
 
-	VertexMap m_mVertexs;
+	Vertexs m_vVertexs;
 
 };
 
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+inline ParticleBatch& ParticleRenderer::RequestNewBatch()
+{
+	ParticleBatch oBatch;
+	m_vVertexs.push_back(oBatch);
+	return m_vVertexs[m_vVertexs.size() - 1];
+}
 #endif // __PARTICLERENDERER_H__
