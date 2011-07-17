@@ -3,6 +3,9 @@
 #include "BurgerEngine/fx/ParticleEffector.h"
 #include "BurgerEngine/Core/Engine.h"
 #include "BurgerEngine/Core/TimeContext.h"
+#include "BurgerEngine/Graphics/RenderingContext.h"
+#include "BurgerEngine/Graphics/ParticleRenderer.h"
+
 
 //--------------------------------------------------------------------------------------------------------------------
 //
@@ -107,8 +110,8 @@ void ParticleGroup::Update()
 	_Sort();
 
 	//Send info to Gfx
-	//gnGfxSceneContext& rGfxContext = a_rScene.GrabContext<gnGfxSceneContext>();
-	//DrawParticle(rGfxContext);
+	ParticleRenderer& rRenderer = Engine::GrabInstance().GrabRenderContext().GrabParticleRenderer();
+	_DrawParticle(rRenderer);
 	
 }
 
@@ -144,8 +147,25 @@ void ParticleGroup::_Sort()
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void ParticleGroup::_DrawParticle()
+void ParticleGroup::_DrawParticle(ParticleRenderer& a_rRenderer)
 {
+	Particles& vParticles = m_pManager->GrabParticles();
 
+	if (vParticles.size() > 0)
+	{
+		//Create a new batch to fill it with particle
+		ParticleBatch& rBatch = a_rRenderer.RequestNewBatch();
+
+		rBatch.Initialize(vParticles.size());
+		rBatch.SetMaterial(m_pMaterial);
+
+		//Add particle one by one
+		FOR_EACH_IT(Particles,vParticles, it)
+		{
+			Particle& rParticle = (*it);
+			rBatch.AddParticle(rParticle);
+		}
+	
+	}
 }
 

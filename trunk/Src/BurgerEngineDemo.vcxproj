@@ -63,6 +63,7 @@
     <ClInclude Include="BurgerEngine\Graphics\MaterialManager.h" />
     <ClInclude Include="BurgerEngine\Graphics\MeshManager.h" />
     <ClInclude Include="BurgerEngine\Graphics\OmniLight.h" />
+    <ClInclude Include="BurgerEngine\Graphics\ParticleBatch.h" />
     <ClInclude Include="BurgerEngine\Graphics\ParticleRenderer.h" />
     <ClInclude Include="BurgerEngine\Graphics\RenderingContext.h" />
     <ClInclude Include="BurgerEngine\Graphics\SceneLight.h" />
@@ -138,6 +139,7 @@
     <ClCompile Include="BurgerEngine\Graphics\MaterialManager.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\MeshManager.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\OmniLight.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\ParticleBatch.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\ParticleRenderer.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\RenderingContext.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\SceneLight.cpp" />

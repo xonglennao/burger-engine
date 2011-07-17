@@ -18,6 +18,7 @@
 #include "BurgerEngine/Graphics/SpotLight.h"
 #include "BurgerEngine/Graphics/SpotShadow.h"
 #include "BurgerEngine/Graphics/SceneMesh.h"
+#include "BurgerEngine/Graphics/ParticleRenderer.h"
 
 #include "BurgerEngine/External/Math/Vector.h"
 

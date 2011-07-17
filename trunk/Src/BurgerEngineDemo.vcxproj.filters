@@ -217,6 +217,9 @@
     <ClCompile Include="BurgerEngine\Graphics\ParticleRenderer.cpp">
       <Filter>BurgerEngine\Graphics\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\ParticleBatch.cpp">
+      <Filter>BurgerEngine\Graphics\FX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -446,6 +449,9 @@
     </ClInclude>
     <ClInclude Include="BurgerEngine\Graphics\Vertex.h">
       <Filter>BurgerEngine\Graphics\Vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\ParticleBatch.h">
+      <Filter>BurgerEngine\Graphics\FX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

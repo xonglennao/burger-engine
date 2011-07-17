@@ -24,5 +24,7 @@ class Timer;
 class Frustum;
 class AbstractCamera;
 class DeferredRenderer;
+class ParticleRenderer;
 class SkyBox;
 class RenderingContext;
+class Material;

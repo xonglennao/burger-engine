@@ -15,7 +15,11 @@
 
 struct Vertex
 {
+	///Position
 
+	///Texture coord 1
+
+	///Texture coord 2
 };
 
 #endif //__VERTEX_H__

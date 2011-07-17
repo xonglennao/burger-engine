@@ -11,6 +11,7 @@
 #include "BurgerEngine/Graphics/Shader.h"
 #include "BurgerEngine/Graphics/Texture2D.h"
 #include "BurgerEngine/Graphics/RenderingContext.h"
+#include "BurgerEngine/Graphics/ParticleRenderer.h"
 
 #include "BurgerEngine/Core/Timer.h"
 
@@ -1630,8 +1631,11 @@ void DeferredRenderer::Render()
 		++oMeshIt;
 	}
 
-	// Draw particle
+	//------------------ Draw particle
+	ParticleRenderer& rParticleRenderer = rRenderContext.GrabParticleRenderer();
 
+
+	//------------------ End particle
 	
 	glDepthMask( GL_TRUE );
 	glDisableIndexedEXT( GL_BLEND, 0 );

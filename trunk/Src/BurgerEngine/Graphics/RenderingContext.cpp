@@ -1,5 +1,6 @@
 #include "BurgerEngine/Graphics/RenderingContext.h"
 #include "BurgerEngine/Graphics/DeferredRenderer.h"
+#include "BurgerEngine/Graphics/ParticleRenderer.h"
 
 #include "BurgerEngine/Graphics/SceneLight.h"
 #include "BurgerEngine/Graphics/SpotLight.h"
@@ -13,6 +14,8 @@
 //
 //--------------------------------------------------------------------------------------------------------------------
 RenderingContext::RenderingContext():
+	m_pDeferredRenderer(NULL),
+	m_pParticleRenderer(NULL),
 	m_pSkyBox(NULL)
 {
 
@@ -24,6 +27,7 @@ RenderingContext::RenderingContext():
 bool RenderingContext::Initialize()
 {
 	m_pDeferredRenderer = new DeferredRenderer();
+	m_pParticleRenderer = new ParticleRenderer();
 	return true;
 }
 
@@ -33,6 +37,7 @@ bool RenderingContext::Initialize()
 bool RenderingContext::Terminate()
 {
 	delete m_pDeferredRenderer;
+	delete m_pParticleRenderer;
 	delete m_pSkyBox;
 
 	//All the mesh will be deleted in the components themselves
@@ -63,6 +68,8 @@ bool RenderingContext::Terminate()
 //--------------------------------------------------------------------------------------------------------------------
 void RenderingContext::Update()
 {
+	//We need to clean the particle renderer before each frame
+	m_pParticleRenderer->CleanUp();
 
 	m_pDeferredRenderer->Render();
 }
