@@ -47,3 +47,16 @@ void EffectTechnique::ActivateTextures()
 		++it;
 	}
 }
+
+void EffectTechnique::DeactivateTextures()
+{
+	std::map< int, AbstractTexture* >::iterator it = m_oUniformTextures2DMap.begin();
+	while( it != m_oUniformTextures2DMap.end() )
+	{
+		int iItFirst = (*it).first;
+		glActiveTexture( GL_TEXTURE0 + (*it).first );
+		Texture2D::Deactivate();
+		++it;
+	}
+	glActiveTexture( GL_TEXTURE0 );
+}

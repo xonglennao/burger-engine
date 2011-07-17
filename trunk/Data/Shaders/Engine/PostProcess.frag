@@ -1,5 +1,8 @@
 #version 130
 #extension GL_EXT_gpu_shader4 : enable
+
+precision mediump float;
+
 uniform sampler2D sTexture;
 
 uniform sampler2D sBloom;
@@ -206,7 +209,7 @@ vec3 FxaaPixelShader( vec2 pos, sampler2D tex, vec2 rcpFrame )
 void main()
 {
 	vec3 vColor;
-	if( iDebug >= 1 )
+	if( iDebug == 0 )
 	{
 		vColor = FxaaPixelShader( gl_TexCoord[0].xy, sTexture, vInvViewport );
 	}
