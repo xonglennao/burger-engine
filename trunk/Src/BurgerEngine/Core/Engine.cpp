@@ -18,6 +18,7 @@
 
 #include "BurgerEngine/fx/ParticleContext.h"
 
+#include "BurgerEngine/External/TinyXml/TinyXml.h"
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
@@ -34,11 +35,45 @@ Engine::Engine():
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void Engine::Init( const char* pSceneName )
+void Engine::Init()
 {
-	m_iWindowWidth = 1280;
-	m_iWindowHeight = 720;
+	const char * pSceneName = NULL;
+	bool bFullScreen;
 	
+	TiXmlDocument * pDocument = new TiXmlDocument( "../Settings/Settings.xml" );
+	if( !pDocument->LoadFile() )
+	{
+		ADD_ERROR_MESSAGE(" Loading settings file: " << pDocument->ErrorDesc());
+	}
+
+	//Get the scene
+	TiXmlElement * pRoot = pDocument->FirstChildElement( "settings" );
+
+	if( pRoot )
+	{
+		TiXmlElement * pScene = pRoot->FirstChildElement( "scene" );
+		if( pScene )
+		{
+			pSceneName = pScene->GetText();
+		}
+		
+		TiXmlElement * pWindow = pRoot->FirstChildElement( "window" );
+		if( pWindow )
+		{
+			int w,h;
+			pWindow->QueryIntAttribute("width",&w);
+			pWindow->QueryIntAttribute("height",&h);
+			m_iWindowWidth = w;
+			m_iWindowHeight = h;
+			
+			std::string sWindowStyle;
+			pWindow->QueryValueAttribute<std::string>("style",&sWindowStyle);
+			bFullScreen =  (sWindowStyle == "FullScreen");
+		}
+	}
+	
+	assert(pSceneName);
+
 	m_pTimerContext = new TimerContext();
 	m_pTimerContext->Initialize();
 
@@ -48,7 +83,7 @@ void Engine::Init( const char* pSceneName )
 	m_pStageManager = new StageManager();
 
 	m_pWindow = new Window();
-	m_pWindow->Initialize( m_iWindowWidth, m_iWindowHeight );
+	m_pWindow->Initialize( m_iWindowWidth, m_iWindowHeight, bFullScreen );
 
 	//Create the Rendering Context
 	m_pRenderingContext = new OpenGLContext();

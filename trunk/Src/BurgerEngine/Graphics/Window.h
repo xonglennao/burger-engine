@@ -28,7 +28,7 @@ public:
 	Window();
 
 	/// \brief	Initial set up of the Window Application
-	bool Initialize( const unsigned int a_iWindowWidth, const unsigned int a_iWindowHeight );
+	bool Initialize( const unsigned int a_iWindowWidth, const unsigned int a_iWindowHeight, bool bFullScreen );
 
 	/// \brief	Clear Buffer and such for a clean exit
 	void Terminate();
