@@ -21,24 +21,8 @@
 
 int main(int argc, char **argv)
 {
-	char* pSceneName = NULL;
-	for( int i = 1; i < argc; ++i )
-	{
-		std::string oString = argv[i];
-		if( oString == "-scene" )
-		{
-			++i;
-			if( i < argc )
-			{
-				pSceneName = argv[i];
-			}
-		}
-	}
-
-	assert( pSceneName );
-
 	Engine& rEngine = Engine::GrabInstance();
-	rEngine.Init( pSceneName );
+	rEngine.Init();
 
 	//TEMP franck: Test Input
 	//StageTestInput* pStage = new StageTestInput("TestInput");

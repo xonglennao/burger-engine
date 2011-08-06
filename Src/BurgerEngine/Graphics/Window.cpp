@@ -11,7 +11,7 @@ Window::Window()
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-bool Window::Initialize( const unsigned int a_iWindowWidth, const unsigned int a_iWindowHeight )
+bool Window::Initialize( const unsigned int a_iWindowWidth, const unsigned int a_iWindowHeight, bool bFullScreen )
 {
 	//Set Up parameters
 	sf::WindowSettings oSettings;
@@ -22,8 +22,15 @@ bool Window::Initialize( const unsigned int a_iWindowWidth, const unsigned int a
 	// Request 2 levels of antialiasing
 	//oSettings.AntialiasingLevel = 2;  
 
-	unsigned int m_eWindowStyle = sf::Style::Resize | sf::Style::Close;
-
+	unsigned int m_eWindowStyle;
+	if(bFullScreen)
+	{
+		m_eWindowStyle = sf::Style::Fullscreen;
+	}
+	else
+	{
+		m_eWindowStyle = sf::Style::Resize | sf::Style::Close;
+	}
 	m_pDriverWindow = new sf::Window();
 	m_pDriverWindow->Create(sf::VideoMode(a_iWindowWidth,a_iWindowHeight,32),"BurgerDemo", m_eWindowStyle, oSettings);
 

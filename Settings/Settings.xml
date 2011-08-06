@@ -1,0 +1,4 @@
+<settings>
+  <scene>../Data/Scenes/ESM.xml</scene>
+  <window width="1280" height="800" style="FullScreen"/>
+</settings>
