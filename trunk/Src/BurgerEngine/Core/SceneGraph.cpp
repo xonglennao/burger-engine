@@ -96,6 +96,7 @@ void SceneGraph::LoadSceneXML( const char * sName )
 		float fFOV = 45.0f, fDofNearBlur = -10.0f, fDofFocalPlane = 15.0f, fDofFarBlur = 150.0f, fDofMaxFarBlur = 1.0f;
 		float fPositionSpeed = 0.05f, fRotationSpeed = 0.1f;
 		float fToneMappingKey = 0.5f, fGlowMultiplier = 1.0f, fBrightPassThreshold = 1.0f, fBrightPassOffset= 10.0f, fAdaptationBaseTime = 0.9f;
+		const char * pColorLUT = NULL;
 
 		TiXmlElement * pXmlObject = pRoot->FirstChildElement( "settings" );
 
@@ -160,7 +161,6 @@ void SceneGraph::LoadSceneXML( const char * sName )
 			TiXmlElement * pPostProcess = pXmlObject->FirstChildElement( "postprocess" );
 			if( pPostProcess )
 			{
-				const char * pColorLUT = NULL;
 				TiXmlElement * pParameters = pPostProcess->FirstChildElement( "parameters" );
 				if( pParameters )
 				{			
@@ -171,25 +171,18 @@ void SceneGraph::LoadSceneXML( const char * sName )
 					pParameters->QueryFloatAttribute("adaptationBaseTime",&fAdaptationBaseTime);
 					pColorLUT = pParameters->Attribute("colorLUT");
 				}
-
-				if( !pColorLUT )
-				{
-					pColorLUT = "../Data/Textures/xml/neutral_lut.btx.xml";
-				}
-				Engine::GrabInstance().GrabRenderContext().GrabRenderer().SetPostProcessParameters( fToneMappingKey, fGlowMultiplier, fBrightPassThreshold, fBrightPassOffset, fAdaptationBaseTime, pColorLUT );
 			}
-			else
-			{
-				Engine::GrabInstance().GrabRenderContext().GrabRenderer().SetPostProcessParameters( fToneMappingKey, fGlowMultiplier, fBrightPassThreshold, fBrightPassOffset, fAdaptationBaseTime, "../Data/Textures/xml/neutral_lut.btx.xml" );
-			}
-			
 		}
 		else
 		{
 			Engine::GrabInstance().SetCurrentCamera( new FirstPersonCamera( fFOV, vec3(0.0f,0.0f,0.0f), vec2(0.0f,0.0f), vec4( fDofNearBlur, fDofFocalPlane, fDofFarBlur, fDofMaxFarBlur), vec2( fPositionSpeed, fRotationSpeed ) ) );
-			Engine::GrabInstance().GrabRenderContext().GrabRenderer().SetPostProcessParameters( fToneMappingKey, fGlowMultiplier, fBrightPassThreshold, fBrightPassOffset, fAdaptationBaseTime, "../Data/Textures/xml/neutral_lut.btx.xml" );
 		}
-
+		
+		if( !pColorLUT )
+		{
+			pColorLUT = "../Data/Textures/xml/neutral_lut.btx.xml";
+		}
+		Engine::GrabInstance().GrabRenderContext().GrabRenderer().SetPostProcessParameters( fToneMappingKey, fGlowMultiplier, fBrightPassThreshold, fBrightPassOffset, fAdaptationBaseTime, pColorLUT );
 		///------------------
 		/// We start to load our object as component
 		///------------------
