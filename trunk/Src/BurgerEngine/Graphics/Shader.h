@@ -23,9 +23,11 @@ class Shader
 	
 		enum StandardUniforms
 		{
-			 E_STD_INV_VIEWPORT
-			,E_STD_DOF_PARAMS
-			,E_STD_TIME
+			E_STD_INV_VIEWPORT,
+			E_STD_DOF_PARAMS,
+			E_STD_MVP,
+			E_STD_INV_MVP,
+			E_STD_TIME
 		};
 
 		Shader();

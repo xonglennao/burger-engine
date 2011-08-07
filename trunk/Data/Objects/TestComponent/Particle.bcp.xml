@@ -3,7 +3,10 @@
     <position x="0.0" y="0.0" z="0.0"/>
 	 <component id="particle">
       <parameters>
-        
+		<effectors>
+			<effector/>
+		</effectors>
+        <material>../Data/Materials/prison/ParticleTest.bma.xml</material>
       </parameters>
     </component>
   </parameters>

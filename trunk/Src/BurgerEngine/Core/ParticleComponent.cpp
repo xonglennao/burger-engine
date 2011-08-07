@@ -6,6 +6,7 @@
 #include "BurgerEngine/fx/ParticleSystem.h"
 #include "BurgerEngine/fx/ParticleGroup.h"
 #include "BurgerEngine/fx/ParticleAccelerationEffector.h"
+#include "BurgerEngine/Graphics/MaterialManager.h"
 
 
 #include "BurgerEngine/External/TinyXml/TinyXml.h"
@@ -132,19 +133,22 @@ void ParticleComponent::Initialize(TiXmlElement const& a_rParameters)
 		/*
 			TestValue
 		*/
+		/// Create the matos
+		//Material * pMaterial = MaterialManager::GrabInstance().addMaterial( pXmlMaterial->GetText() );
+		Material * pMaterial = MaterialManager::GrabInstance().addMaterial( "../Data/Materials/prison/ParticleTest.bma.xml" );
 		/// \todo Creat a Parameter struc for Emitter init
 		ParticleGroup* pGroup = new ParticleGroup();
 		pGroup->Initialize();
 		ParticleEmitter& rEmitter = pGroup->GrabEmitter();
-		rEmitter.m_fEmissionFrequency = 0.1f;
-		rEmitter.m_uMaxCount = 500;
+		rEmitter.m_fEmissionFrequency = 40.0f;
+		rEmitter.m_uMaxCount = 10000;
 		rEmitter.m_fLife = 10.0f;
 		rEmitter.m_uLoopCount = 0;
 
 		ParticleAccelerationEffector* pEffector = new ParticleAccelerationEffector();
+		pEffector->SetAcceleration(vec3(0.0,-10.0,0.0));
 		pGroup->AddEffector(*pEffector);
-
-
+		pGroup->SetMaterial(pMaterial);
 		m_pSystem->AddGroup(pGroup);
 		m_pSystem->Play();
 

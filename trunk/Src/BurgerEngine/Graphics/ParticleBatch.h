@@ -41,10 +41,14 @@ public:
 	void AddParticle(Particle const& a_rParticle);
 
 	void SetMaterial(Material* a_pMaterial){m_pMaterial = a_pMaterial;}
+	Material* GrabMaterialPtr(){return m_pMaterial;}
 
 	Bytes const GetVertexBuffer() const {return m_pVerterBuffer;}
 	Indexs const GetIndexBuffer() const {return m_pIndexBuffer;}
 
+	unsigned int GetVertexBufferSize() const {return m_uVertexBufferSize;}
+	unsigned int GetIndexCount() const {return m_uCurrentIndexCount;}
+	unsigned int GetParticleVertexSize() const {return m_uParticleVertexSize;}
 private:
 	void _CopyParticleData(Particle const& a_rParticle);
 	void _AddIndex(unsigned int a_uIndex);
@@ -62,7 +66,7 @@ private:
 	Bytes m_pCurrentVertexOffset;
 	///ParticleCount
 	unsigned int m_uParticleCount;
-	///Size of a particle 
+	///Size of one particle
 	unsigned int m_uParticleVertexSize;
 
 

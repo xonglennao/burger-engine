@@ -1,0 +1,13 @@
+<material>
+  <technique name="render_transparency">
+    <shader>../Data/Shaders/Material/xml/BasicParticle.bfx.xml</shader>
+    <uniforms>
+    </uniforms>
+    <textures>
+      <texture>
+        <uniformname unit="0">diffuseMap</uniformname>
+        <filename>../Data/Textures/prison/xml/ParticleTest.btx.xml</filename>
+      </texture>
+    </textures>
+  </technique>
+</material>

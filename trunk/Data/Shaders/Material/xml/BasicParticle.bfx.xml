@@ -1,0 +1,4 @@
+<shader>
+    <vertexshader>../Data/Shaders/Material/BasicParticle.vert</vertexshader>
+    <pixelshader>../Data/Shaders/Material/BasicParticle.frag</pixelshader>
+</shader>

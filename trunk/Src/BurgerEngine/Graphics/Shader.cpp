@@ -135,6 +135,9 @@ void Shader::QueryStdUniforms()
 {
 	m_oStdUniformsMap[ E_STD_INV_VIEWPORT ] = glGetUniformLocation( m_oProgram, "vInvViewport" );
 	m_oStdUniformsMap[ E_STD_DOF_PARAMS ] = glGetUniformLocation( m_oProgram, "vDofParams" );
+	m_oStdUniformsMap[ E_STD_MVP ] = glGetUniformLocation( m_oProgram, "mMVP" );
+	m_oStdUniformsMap[ E_STD_INV_MVP ] = glGetUniformLocation( m_oProgram, "mInvMVP" );
+	//m_oStdUniformsMap[ E_STD_INV_PROJECTION ] = glGetUniformLocation( m_oProgram, "vInProj" );
 	m_oStdUniformsMap[ E_STD_TIME ] = glGetUniformLocation( m_oProgram, "fTime" );
 }
 
@@ -158,10 +161,45 @@ void Shader::CommitStdUniforms()
 		glUniform4fv( iHandle, 1, (float*)vDofParams );
 	}
 
+	iHandle = m_oStdUniformsMap[ E_STD_MVP ];
+	if( iHandle != -1 )
+	{
+		Engine& rEngine = Engine::GrabInstance();
+		unsigned int iWindowWidth = rEngine.GetWindowWidth();
+		unsigned int iWindowHeight = rEngine.GetWindowHeight();
+
+		AbstractCamera & rCamera = rEngine.GetCurrentCamera();
+		float4x4 mProjection = GlperspectiveMatrixY( rCamera.GetFOV(), (float)iWindowWidth/(float)iWindowHeight,rCamera.GetNear(), rCamera.GetFar() );
+
+		float4x4 mView =  rCamera.GetViewMatrix();
+
+		mat4 m4MVP = transpose(mProjection) * mView;
+		glUniformMatrix4fv( iHandle, 1, true, (float*)m4MVP );
+	}
+
+	iHandle = m_oStdUniformsMap[ E_STD_INV_MVP ];
+	if( iHandle != -1 )
+	{
+		Engine& rEngine = Engine::GrabInstance();
+		unsigned int iWindowWidth = rEngine.GetWindowWidth();
+		unsigned int iWindowHeight = rEngine.GetWindowHeight();
+
+		AbstractCamera & rCamera = rEngine.GetCurrentCamera();
+		float4x4 mProjection = GlperspectiveMatrixY( rCamera.GetFOV(), (float)iWindowWidth/(float)iWindowHeight,rCamera.GetNear(), rCamera.GetFar() );
+
+		float4x4 mView =  rCamera.GetViewMatrix();
+
+		mat4 m4InvMVP = !(mView) ;
+		//mat4 m4MVP = mProjection * ;
+		glUniformMatrix4fv( iHandle, 1, false, (float*)m4InvMVP );
+	}
+
+
 	iHandle = m_oStdUniformsMap[ E_STD_TIME ];
 	if( iHandle != -1 )
 	{
 		float fTime = rEngine.GetTimeContext().GetElapsedTime();
 		glUniform1f( iHandle, fTime );
 	}
+
 }

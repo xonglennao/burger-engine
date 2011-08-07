@@ -8,7 +8,7 @@
 
 /// \todo put those in a separate file 
 #define NEXT_INDICE do{i++;}while((cBuffer[i]<'0')&&(cBuffer[i]>'9'));
-#define BUFFER_OFFSET(i) ((void*)(i))
+
 
 //--------------------------------------------------------------------------------------------------------------------
 //
