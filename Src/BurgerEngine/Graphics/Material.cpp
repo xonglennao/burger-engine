@@ -120,15 +120,17 @@ Material::MaterialStatus Material::_LoadMaterialXML( const char * sName )
 				TiXmlElement * pXmlParam = pXmlTexture->FirstChildElement( "uniformname" );
 				if( pXmlParam )
 				{
-
 					pXmlParam->QueryIntAttribute("unit",&iUnit);
 					pShader->setUniformTexture( pXmlParam->GetText(), iUnit );
 
 					TiXmlElement * pXmlFileName = pXmlTexture->FirstChildElement( "filename" );
 					if( pXmlFileName )
 					{
-						AbstractTexture* pTexture = TextureManager::GrabInstance().AddTexture( pXmlFileName->GetText() );//_LoadTextureXML( pXmlFileName->GetText() );
-						pTechnique->AddUniformTexture( iUnit, pTexture );
+						AbstractTexture* pTexture = TextureManager::GrabInstance().AddTexture( pXmlFileName->GetText() );
+						if(pTexture)
+						{
+							pTechnique->AddUniformTexture( iUnit, pTexture );
+						}
 					}
 				}
 				pXmlTexture = pXmlTexture->NextSiblingElement( "texture" );
