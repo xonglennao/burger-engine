@@ -3,7 +3,7 @@
 
 #include "BurgerEngine/Core/Engine.h"
 #include "BurgerEngine/Core/AbstractCamera.h"
-
+#include "BurgerEngine/Core/TimeContext.h"
 #include "BurgerEngine/External/Math/Vector.h"
 
 #include <iostream>
@@ -135,6 +135,7 @@ void Shader::QueryStdUniforms()
 {
 	m_oStdUniformsMap[ E_STD_INV_VIEWPORT ] = glGetUniformLocation( m_oProgram, "vInvViewport" );
 	m_oStdUniformsMap[ E_STD_DOF_PARAMS ] = glGetUniformLocation( m_oProgram, "vDofParams" );
+	m_oStdUniformsMap[ E_STD_TIME ] = glGetUniformLocation( m_oProgram, "fTime" );
 }
 
 void Shader::CommitStdUniforms()
@@ -155,5 +156,12 @@ void Shader::CommitStdUniforms()
 	{
 		vec4 vDofParams = rEngine.GetCurrentCamera().GetDofParams();
 		glUniform4fv( iHandle, 1, (float*)vDofParams );
+	}
+
+	iHandle = m_oStdUniformsMap[ E_STD_TIME ];
+	if( iHandle != -1 )
+	{
+		float fTime = rEngine.GetTimeContext().GetElapsedTime();
+		glUniform1f( iHandle, fTime );
 	}
 }

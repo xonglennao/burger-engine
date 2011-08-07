@@ -1,0 +1,8 @@
+<material>
+  <technique name="render_opaque">
+    <shader>../Data/Shaders/Engine/xml/SelfIllum.bfx.xml</shader>
+    <uniforms>
+      <vec4 x="1.0" y="0.0" z="0.0" w="0.0">vColor</vec4>
+    </uniforms>
+  </technique>
+</material>

@@ -25,6 +25,7 @@ class Shader
 		{
 			 E_STD_INV_VIEWPORT
 			,E_STD_DOF_PARAMS
+			,E_STD_TIME
 		};
 
 		Shader();

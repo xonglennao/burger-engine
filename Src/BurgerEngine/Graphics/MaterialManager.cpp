@@ -38,7 +38,26 @@ Material * MaterialManager::addMaterial( const char * sName )
 	std::map<std::string,Material*>::iterator iter = m_oMaterials.find( sName );
 	if (iter == m_oMaterials.end())
 	{
-		Material* pMaterial	 =	new Material( sName );
+		Material* pMaterial	 =	new Material();
+		Material::MaterialStatus eStatus;
+		if( (eStatus = pMaterial->Initialize( sName )) != Material::E_LOADED )
+		{
+			delete pMaterial;
+			pMaterial = NULL;
+			std::string sMaterialPath;
+
+			switch( eStatus )
+			{
+				case Material::E_LOADING_ERROR :
+					sMaterialPath = "../Data/Materials/Engine/MaterialNotFound.bma.xml";
+					break;
+				case Material::E_SHADER_ERROR :
+					sMaterialPath = "../Data/Materials/Engine/ShaderError.bma.xml";
+					break;
+			}
+			return addMaterial( sMaterialPath.c_str() );
+		}
+		
 		m_oMaterials[ sName ] =	pMaterial;
 		return pMaterial;
 	}

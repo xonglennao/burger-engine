@@ -8,7 +8,6 @@ uniform vec4 vDofParams;
 
 float ComputeDepthBlur( float fDepth )
 {
-
 	float f;
 
 	if( fDepth < vDofParams.y )
@@ -23,7 +22,6 @@ float ComputeDepthBlur( float fDepth )
 	}
 	
 	return f * 0.5 + 0.5;
-
 }
 
 void main()

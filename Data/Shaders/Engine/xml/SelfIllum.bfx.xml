@@ -1,0 +1,4 @@
+<shader>
+  <vertexshader>../Data/Shaders/BasicVertexShader.vert</vertexshader>
+  <pixelshader>../Data/Shaders/Engine/BasicSelfIllum.frag</pixelshader>
+</shader>
