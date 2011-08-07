@@ -39,7 +39,7 @@ public:
 	~RenderingContext(){}
 
 	/// \brief Update the renderer which right now means display
-	void Update();
+	void Update( float fDeltaTime );
 
 	/// \brief Life cycle - Init
 	bool Initialize();

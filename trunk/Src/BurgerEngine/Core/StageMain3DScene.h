@@ -29,20 +29,12 @@ public:
 	bool Init();
 
 	/// \brief Simple overriden update method
-	void Update() {}
+	void Update();
 
 	///\ \brief Manage keyboard input
 	bool OnKeyUp(unsigned char a_cKey);
 	bool OnKeyDown(unsigned char a_cKey);
 	bool OnMouseMoved(unsigned int a_uX, unsigned int a_uY);
-
-private:
-	/// \brief No display OVERRIDE
-	void _Render();
-
-private:
-	
-	Timer* m_oTimer;
 };
 
 

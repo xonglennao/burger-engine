@@ -16,7 +16,7 @@ void FirstPersonCamera::Update( float fDeltaTime )
 {
 	vec3& rf3Pos = _GrabPos();
 
-	float fMovingSpeed = m_fPositionSpeed * fDeltaTime;
+	float fMovingSpeed = m_fPositionSpeed * fDeltaTime * 1000.0f;
 	
 	if( m_iFlags & E_CAMERA_FORWARD)
 	{

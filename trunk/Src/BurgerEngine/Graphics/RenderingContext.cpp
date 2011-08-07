@@ -66,8 +66,9 @@ bool RenderingContext::Terminate()
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void RenderingContext::Update()
+void RenderingContext::Update( float fDeltaTime )
 {
+	m_oDebugMenu.Update( fDeltaTime );
 	//We need to clean the particle renderer before each frame
 	m_pParticleRenderer->CleanUp();
 

@@ -14,12 +14,5 @@
         </mesh>
       </parameters>
     </component>
-    <component id="particle">
-      <parameters>
-        <position />
-        <effector>
-        </effector>
-      </parameters>
-    </component>
   </parameters>
 </component>

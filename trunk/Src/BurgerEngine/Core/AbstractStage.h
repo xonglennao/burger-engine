@@ -30,9 +30,6 @@ public:
 	/// \brief	initialize a scene
 	virtual bool Init() = 0;
 
-	/// \brief	Main Render method
-	void Render();
-
 	/// \brief Update the scene
 	virtual void Update(); 
 
@@ -45,17 +42,6 @@ public:
 	/// \brief Getter
 	inline const std::string& getSuccessorId(){return m_sNextStageId;}
 	inline const std::string& getName(){return m_sId;}
-
-protected:
-	/// \brief	Pre-display method can set FBO and such.
-	virtual void _PreRender();
-
-	/// \brief	Internal display method for child class.
-	virtual void _Render() = 0;
-
-	/// \brief	Post-render method can free FBO, release stuff...
-	virtual void _PostRender();
-	
 
 private:
 

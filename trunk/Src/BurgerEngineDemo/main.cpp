@@ -24,13 +24,11 @@ int main(int argc, char **argv)
 	Engine& rEngine = Engine::GrabInstance();
 	rEngine.Init();
 
-	//TEMP franck: Test Input
-	//StageTestInput* pStage = new StageTestInput("TestInput");
-	StageMain3DScene* pStage = new StageMain3DScene("TestInput");
+	StageMain3DScene* pStage = new StageMain3DScene("BurgerEngine");
 	pStage->Init();
 
 	rEngine.GetStageManager().AddStage(pStage);
-	rEngine.GetStageManager().SetCurrentStage("TestInput");
+	rEngine.GetStageManager().SetCurrentStage("BurgerEngine");
 
 	rEngine.Run();
 
