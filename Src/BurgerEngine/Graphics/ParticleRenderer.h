@@ -20,7 +20,7 @@
 #include <string>
 
 
-typedef std::vector<ParticleBatch> Vertexs;
+typedef std::vector<ParticleBatch> Batchs;
 
 
 /// \class ParticleRenderer
@@ -36,9 +36,12 @@ public:
 	void CleanUp();
 
 	ParticleBatch& RequestNewBatch();
+
+	Batchs& GrabBatchs(){return m_vVertexs;}
+
 private:
 
-	Vertexs m_vVertexs;
+	Batchs m_vVertexs;
 
 };
 

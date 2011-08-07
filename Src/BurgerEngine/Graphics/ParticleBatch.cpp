@@ -66,10 +66,10 @@ void ParticleBatch::AddParticle(Particle const& a_rParticle)
 
 	// Index
 	_AddIndex(m_uCurrentIndexIndice);
-	_AddIndex(m_uCurrentIndexIndice + 1);
-	_AddIndex(m_uCurrentIndexIndice + 2);
 	_AddIndex(m_uCurrentIndexIndice + 2);
 	_AddIndex(m_uCurrentIndexIndice + 1);
+	_AddIndex(m_uCurrentIndexIndice + 1);
+	_AddIndex(m_uCurrentIndexIndice + 2);
 	_AddIndex(m_uCurrentIndexIndice + 3);
 
 	m_uCurrentIndexIndice += 4;
@@ -96,7 +96,7 @@ void ParticleBatch::_CopyParticleData(Particle const& a_rParticle)
 	// Displacement vector
 	vec2 f2Displacement[4];
 	f2Displacement[0] = a_rParticle.f2Size * (- 1.0f);
-	f2Displacement[1] = vec2(a_rParticle.f2Size.x, a_rParticle.f2Size.y);
+	f2Displacement[1] = vec2(-a_rParticle.f2Size.x, a_rParticle.f2Size.y);
 	f2Displacement[2] = vec2(a_rParticle.f2Size.y, -a_rParticle.f2Size.y);
 	f2Displacement[3] = a_rParticle.f2Size;
 

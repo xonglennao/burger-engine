@@ -69,10 +69,11 @@ bool RenderingContext::Terminate()
 void RenderingContext::Update( float fDeltaTime )
 {
 	m_oDebugMenu.Update( fDeltaTime );
+	
+	m_pDeferredRenderer->Render();
+
 	//We need to clean the particle renderer before each frame
 	m_pParticleRenderer->CleanUp();
-
-	m_pDeferredRenderer->Render();
 }
 
 //--------------------------------------------------------------------------------------------------------------------

@@ -1,5 +1,6 @@
 #include "BurgerEngine/fx/ParticleEmitter.h"
 #include "BurgerEngine/fx/ParticleManager.h"
+#include <stdlib.h>
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
@@ -30,7 +31,7 @@ void ParticleEmitter::Emit(float a_fTime, ParticleManager& a_rManager)
 		// If we follow the generator, then the position of the particle is NULL, and we will give 
 		// the world matrix. If not, we need to give the current particleSystem location
 		/// \todo Create a Shape that will allow to spawn at a special position
-		vec3 f3PositionToSpawn(0.0);
+		vec3 f3PositionToSpawn(1.0);
 		/*if (IsFollowingEmitter())
 		{
 			f3PositionToSpawn.SetNull();
@@ -47,8 +48,20 @@ void ParticleEmitter::Emit(float a_fTime, ParticleManager& a_rManager)
 			Particle& rParticle = a_rManager.RequestNewParticle();
 			rParticle.f3Position = f3PositionToSpawn;
 			rParticle.fMaxLife = 10.0f;
-			rParticle.f3Velocity = vec3(10.0);
 
+			
+			float iX =  rand() % 5 - 2; 
+			float iY = 70 + rand() % 2 - 1; 
+			float iZ =  rand() % 5 -2; 
+			rParticle.f3Velocity = vec3(iX,iY,iZ);
+			rParticle.f3Acceleration = vec3(0.0);
+
+			///Temp
+			rParticle.f2Size = 0.5;
+			rParticle.aUVs[0] = vec2(0.0,1.0);
+			rParticle.aUVs[1] = vec2(0.0,0.0);
+			rParticle.aUVs[2] = vec2(1.0,1.0);
+			rParticle.aUVs[3] = vec2(1.0,0.0);
 			/// \todo When a Particle pool will be ready, here how a particle should be set
 			/// First you grab a new particle from the pool (an available one)
 			/// Then you set the parameters

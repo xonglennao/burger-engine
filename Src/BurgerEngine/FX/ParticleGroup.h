@@ -55,7 +55,7 @@ public:
 	void AddEffector(ParticleEffector& a_rEffector){m_vEffector.push_back(&a_rEffector);}
 
 	/// \brief SetMaterial
-	void SetMaterial(Material* a_pMaterial){m_pMaterial = m_pMaterial;}
+	void SetMaterial(Material* a_pMaterial){m_pMaterial = a_pMaterial;}
 private:
 	/// \brief Update position 
 	void _UpdateCoreParameters(float a_fTime);

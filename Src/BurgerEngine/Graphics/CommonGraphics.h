@@ -28,3 +28,6 @@ class ParticleRenderer;
 class SkyBox;
 class RenderingContext;
 class Material;
+
+// COMMON Graphic Macro
+#define BUFFER_OFFSET(i) ((void*)(i))

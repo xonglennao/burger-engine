@@ -3,6 +3,7 @@
   <settings>
     <camera type="firstperson">
       <position x="0.0" y="15.0" z="30.0" rX="0.0" rY="0.0" />
+
       <speed position="0.03" rotation="0.05"/>
       <parameters fov="45.0" dofNearBlur="-150.0" dofFocalPlane="30.0" dofFarBlur="155.0" dofMaxFarBlur="1.0"/>
     </camera>
@@ -75,8 +76,8 @@
   
   <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">
     <ressourcecomponent><file>TestComponent/Particle</file></ressourcecomponent>
-    <instance name= ""/>
-  </sceneobject>
+    <instance name= "blop"/>
+  </sceneobject> 
   
 
   <sceneobject x="70.0" y="2.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">

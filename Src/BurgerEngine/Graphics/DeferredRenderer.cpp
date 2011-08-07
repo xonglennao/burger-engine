@@ -12,6 +12,7 @@
 #include "BurgerEngine/Graphics/Texture2D.h"
 #include "BurgerEngine/Graphics/RenderingContext.h"
 #include "BurgerEngine/Graphics/ParticleRenderer.h"
+#include "BurgerEngine/Graphics/Material.h"
 
 #include "BurgerEngine/Core/Timer.h"
 
@@ -1454,6 +1455,7 @@ void DeferredRenderer::Render()
 	OpenGLContext& rHardwareRenderContext = rEngine.GrabRenderingContext(); 
 
 	// Retrieving scene matrices
+	// Todo can be used by uniform now, right?
 	float4x4 mProjection = GlperspectiveMatrixY( rCamera.GetFOV(), (float)iWindowWidth/(float)iWindowHeight,rCamera.GetNear(), rCamera.GetFar() );
 	float4x4 mInvProjection = !mProjection;
 
@@ -1631,10 +1633,53 @@ void DeferredRenderer::Render()
 		++oMeshIt;
 	}
 
+	
 	//------------------ Draw particle
 	ParticleRenderer& rParticleRenderer = rRenderContext.GrabParticleRenderer();
+	if (rParticleRenderer.GrabBatchs().empty() == false)
+	{
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+		///Hack for now, retrive shader directly
+		ShaderManager& rShaderManager = ShaderManager::GrabInstance();
+		Shader* pParticleShader = rShaderManager.GetShader("../Data/Shaders/Material/xml/BasicParticle.bfx.xml");
+	
+		int iShaderHandle = pParticleShader->getHandle();
+		int	iVertexHandle = glGetAttribLocation(iShaderHandle, "InVertex");
+		int	iColorHandle = glGetAttribLocation(iShaderHandle, "InColor");
+		int	iSizeHandle = glGetAttribLocation(iShaderHandle, "InSize");
+		int	iUvHandle = glGetAttribLocation(iShaderHandle, "InTexCoord0");
 
 
+		FOR_EACH_IT(Batchs, rParticleRenderer.GrabBatchs(), it)
+		{
+			ParticleBatch& rBatch = (*it);
+			Material* pMaterial = rBatch.GrabMaterialPtr();
+			//The size of particle, to make the jumps
+			unsigned int iVertexSize = rBatch.GetParticleVertexSize();
+
+			if (pMaterial->Activate(EffectTechnique::E_RENDER_TRANSPARENCY))
+			{
+				
+				//Send Position
+				glVertexAttribPointer(iVertexHandle, 3, GL_FLOAT, GL_FALSE, iVertexSize, rBatch.GetVertexBuffer());
+				glVertexAttribPointer(iColorHandle, 4, GL_FLOAT, GL_FALSE, iVertexSize,  rBatch.GetVertexBuffer() + (sizeof(vec3)));
+				glVertexAttribPointer(iSizeHandle, 2, GL_FLOAT, GL_FALSE, iVertexSize,  rBatch.GetVertexBuffer() + (sizeof(vec3) + sizeof(vec4)));
+				glVertexAttribPointer(iUvHandle, 2, GL_FLOAT, GL_FALSE, iVertexSize,  rBatch.GetVertexBuffer() + (sizeof(vec3) + sizeof(vec4) + sizeof(vec2)));
+
+				glEnableVertexAttribArray(iVertexHandle);
+				glEnableVertexAttribArray(iColorHandle);
+				glEnableVertexAttribArray(iSizeHandle);
+				glEnableVertexAttribArray(iUvHandle);
+
+				glDrawElements(GL_TRIANGLES, (GLsizei)rBatch.GetIndexCount(), GL_UNSIGNED_SHORT, rBatch.GetIndexBuffer());
+				glDisableVertexAttribArray(iVertexHandle);
+				glDisableVertexAttribArray(iColorHandle);
+				glDisableVertexAttribArray(iSizeHandle);
+				glDisableVertexAttribArray(iUvHandle);
+
+			}
+		}
+	}
 	//------------------ End particle
 	
 	glDepthMask( GL_TRUE );
