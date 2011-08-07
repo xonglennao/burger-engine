@@ -16,7 +16,6 @@
 StageMain3DScene::StageMain3DScene(std::string const& a_sId)
 	: AbstractStage(a_sId)
 {
-	m_oTimer = new Timer();
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -46,10 +45,6 @@ StageMain3DScene::~StageMain3DScene()
 
 	Engine::GrabInstance().GrabEventManager().UnRegisterCallbackKeyboardUpKey(
 		EventManager::CallbackKeyboard(this,&StageMain3DScene::OnKeyUp));
-
-	
-	delete m_oTimer;
-	m_oTimer = NULL;
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -165,10 +160,6 @@ bool StageMain3DScene::OnMouseMoved(unsigned int a_uX, unsigned int a_uY)
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void StageMain3DScene::_Render()
+void StageMain3DScene::Update()
 {
-	float fDeltaTime = m_oTimer->Stop();
-	m_oTimer->Start();
-	Engine::GetInstance().GetCurrentCamera().Update( fDeltaTime );
-	Engine::GrabInstance().GrabRenderContext().GetDebugMenu().Update( fDeltaTime );
 }

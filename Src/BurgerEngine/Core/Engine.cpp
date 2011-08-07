@@ -161,17 +161,14 @@ void Engine::Run()
 
 		//Process Event
 		m_pEventManager->ProcessEventList();
+		
+		float fDeltaTime= m_pTimerContext->GetScaledTime();
 
-		m_pSceneGraph->Update( m_pTimerContext->GetScaledTime(), m_pTimerContext->GetElapsedTime() );
+		m_pSceneGraph->Update( fDeltaTime, m_pTimerContext->GetElapsedTime() );
+		m_pCurrentCamera->Update(fDeltaTime);
 
-		//Render Scene
-		// \Todo XL: avoid a "rendering" function, better send buffer trough a pipeline
-		// and "flush" this pipeline at the end.
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //TEMP
-
-		m_pStageManager->Render();
 		//Render the scene
-		m_pRenderContext->Update();
+		m_pRenderContext->Update( fDeltaTime );
 
 		//Swap buffer
 		m_pWindow->Display();

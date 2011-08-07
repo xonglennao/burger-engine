@@ -86,7 +86,7 @@ void DebugMenu::Update( float fDeltaTime )
 	}
 	else
 	{
-		m_fTimeSinceLastUpdate += fDeltaTime;
+		m_fTimeSinceLastUpdate += fDeltaTime * 1000.0f;
 	}
 }
 
