@@ -22,9 +22,18 @@
 class Material
 {
 public:
+	
+	enum MaterialStatus
+	{
+		E_LOADED,
+		E_LOADING_ERROR,
+		E_SHADER_ERROR,
+	};
 
-	Material( const char * sName );
+	Material();
 	~Material();
+
+	MaterialStatus Initialize( const char * sName );
 
 	bool Activate( EffectTechnique::RenderingTechnique eTechnique );
 	void Deactivate( EffectTechnique::RenderingTechnique eTechnique );
@@ -34,7 +43,7 @@ public:
 
 private:
 
-	void _LoadMaterialXML( const char * sName );
+	MaterialStatus _LoadMaterialXML( const char * sName );
 
 private:		
 	std::map< EffectTechnique::RenderingTechnique, EffectTechnique* > m_oTechniques;
