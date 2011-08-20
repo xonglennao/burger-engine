@@ -220,6 +220,9 @@
     <ClCompile Include="BurgerEngine\Graphics\ParticleBatch.cpp">
       <Filter>BurgerEngine\Graphics\FX</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\FX\ParticleLifeEffector.cpp">
+      <Filter>BurgerEngine\FX\Effector</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -452,6 +455,9 @@
     </ClInclude>
     <ClInclude Include="BurgerEngine\Graphics\ParticleBatch.h">
       <Filter>BurgerEngine\Graphics\FX</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\FX\ParticleLifeEffector.h">
+      <Filter>BurgerEngine\FX\Effector</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

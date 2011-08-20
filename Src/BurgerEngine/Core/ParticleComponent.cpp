@@ -6,6 +6,8 @@
 #include "BurgerEngine/fx/ParticleSystem.h"
 #include "BurgerEngine/fx/ParticleGroup.h"
 #include "BurgerEngine/fx/ParticleAccelerationEffector.h"
+#include "BurgerEngine/fx/ParticleLifeEffector.h"
+#include "BurgerEngine/fx/ParticleVelocityEffector.h"
 #include "BurgerEngine/Graphics/MaterialManager.h"
 
 
@@ -140,7 +142,7 @@ void ParticleComponent::Initialize(TiXmlElement const& a_rParameters)
 		ParticleGroup* pGroup = new ParticleGroup();
 		pGroup->Initialize();
 		ParticleEmitter& rEmitter = pGroup->GrabEmitter();
-		rEmitter.m_fEmissionFrequency = 40.0f;
+		rEmitter.m_fEmissionFrequency = 100.0f;
 		rEmitter.m_uMaxCount = 10000;
 		rEmitter.m_fLife = 10.0f;
 		rEmitter.m_uLoopCount = 0;
@@ -148,6 +150,15 @@ void ParticleComponent::Initialize(TiXmlElement const& a_rParameters)
 		ParticleAccelerationEffector* pEffector = new ParticleAccelerationEffector();
 		pEffector->SetAcceleration(vec3(0.0,-10.0,0.0));
 		pGroup->AddEffector(*pEffector);
+
+		ParticleLifeEffector* pEffector1 = new ParticleLifeEffector();
+		pGroup->AddEffector(*pEffector1);
+
+		ParticleVelocityEffector* pEffector2 = new ParticleVelocityEffector();
+		pEffector2->SetVelocity(vec3(-5.0,20.0,-5.0), vec3(5.0,15.0,5.0));
+		pGroup->AddEffector(*pEffector2);
+
+
 		pGroup->SetMaterial(pMaterial);
 		m_pSystem->AddGroup(pGroup);
 		m_pSystem->Play();

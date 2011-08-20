@@ -139,6 +139,7 @@ void Shader::QueryStdUniforms()
 	m_oStdUniformsMap[ E_STD_INV_MVP ] = glGetUniformLocation( m_oProgram, "mInvMVP" );
 	//m_oStdUniformsMap[ E_STD_INV_PROJECTION ] = glGetUniformLocation( m_oProgram, "vInProj" );
 	m_oStdUniformsMap[ E_STD_TIME ] = glGetUniformLocation( m_oProgram, "fTime" );
+
 }
 
 void Shader::CommitStdUniforms()
@@ -189,7 +190,7 @@ void Shader::CommitStdUniforms()
 
 		float4x4 mView =  rCamera.GetViewMatrix();
 
-		mat4 m4InvMVP = !(mView) ;
+		mat4 m4InvMVP = !(transpose(mProjection)*(mView)) ;
 		//mat4 m4MVP = mProjection * ;
 		glUniformMatrix4fv( iHandle, 1, false, (float*)m4InvMVP );
 	}

@@ -1,4 +1,5 @@
 <settings>
-  <scene>../Data/Scenes/ESM.xml</scene>
-  <window width="1280" height="800" style="FullScreen"/>
+  <scene>../Data/Scenes/test_movement.xml</scene>
+  <!-- <window width="1280" height="800" style="FullScreen"/> -->
+  <window width="1280" height="800" style="windowed"/>
 </settings>
