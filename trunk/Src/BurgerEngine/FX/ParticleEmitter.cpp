@@ -44,24 +44,17 @@ void ParticleEmitter::Emit(float a_fTime, ParticleManager& a_rManager)
 			//As long as we have 1 particle to emit
 		while(fEmitCount >= 1.0f )
 		{
-			std::cout<<"Emit!"<<std::endl;
+			//std::cout<<"Emit!"<<std::endl;
 			Particle& rParticle = a_rManager.RequestNewParticle();
 			rParticle.f3Position = f3PositionToSpawn;
-			rParticle.fMaxLife = 10.0f;
-
-			
-			float iX =  rand() % 5 - 2; 
-			float iY = 70 + rand() % 2 - 1; 
-			float iZ =  rand() % 5 -2; 
-			rParticle.f3Velocity = vec3(iX,iY,iZ);
-			rParticle.f3Acceleration = vec3(0.0);
 
 			///Temp
-			rParticle.f2Size = 0.5;
+			rParticle.f2Size = 2.0;
 			rParticle.aUVs[0] = vec2(0.0,1.0);
 			rParticle.aUVs[1] = vec2(0.0,0.0);
 			rParticle.aUVs[2] = vec2(1.0,1.0);
 			rParticle.aUVs[3] = vec2(1.0,0.0);
+
 			/// \todo When a Particle pool will be ready, here how a particle should be set
 			/// First you grab a new particle from the pool (an available one)
 			/// Then you set the parameters

@@ -47,6 +47,7 @@
     <ClInclude Include="BurgerEngine\FX\ParticleEffector.h" />
     <ClInclude Include="BurgerEngine\FX\ParticleEmitter.h" />
     <ClInclude Include="BurgerEngine\FX\ParticleGroup.h" />
+    <ClInclude Include="BurgerEngine\FX\ParticleLifeEffector.h" />
     <ClInclude Include="BurgerEngine\FX\ParticleManager.h" />
     <ClInclude Include="BurgerEngine\FX\ParticleSystem.h" />
     <ClInclude Include="BurgerEngine\FX\ParticleVelocityEffector.h" />
@@ -124,6 +125,7 @@
     <ClCompile Include="BurgerEngine\FX\ParticleEffector.cpp" />
     <ClCompile Include="BurgerEngine\FX\ParticleEmitter.cpp" />
     <ClCompile Include="BurgerEngine\FX\ParticleGroup.cpp" />
+    <ClCompile Include="BurgerEngine\FX\ParticleLifeEffector.cpp" />
     <ClCompile Include="BurgerEngine\FX\ParticleManager.cpp" />
     <ClCompile Include="BurgerEngine\FX\ParticleSystem.cpp" />
     <ClCompile Include="BurgerEngine\FX\ParticleVelocityEffector.cpp" />

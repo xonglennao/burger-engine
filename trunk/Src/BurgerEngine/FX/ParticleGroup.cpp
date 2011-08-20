@@ -129,6 +129,8 @@ void ParticleGroup::_UpdateCoreParameters(float a_fTime)
 
 		// Compute New Position
 		rParticle.f3Position += rParticle.f3Velocity * a_fTime;
+
+		
 	}
 	/*if (m_pManager->GrabParticles().size()>0)
 	{
