@@ -5,6 +5,7 @@
 
 #include "BurgerEngine/External/TinyXml/TinyXml.h"
 
+#include "BurgerEngine/Graphics/DirectionalLight.h"
 #include "BurgerEngine/Graphics/SpotShadow.h"
 #include "BurgerEngine/Graphics/SpotLight.h"
 #include "BurgerEngine/Graphics/OmniLight.h"
@@ -20,7 +21,6 @@ LightComponent::LightComponent(CompositeComponent* a_pParent):
 AbstractComponent(LIGHT, a_pParent),
 	m_pLight(NULL)
 {
-
 	m_mStringToLightTypeMap["omni"] = SceneLight::E_OMNI_LIGHT;
 	m_mStringToLightTypeMap["spot"] = SceneLight::E_SPOT_LIGHT;
 	m_mStringToLightTypeMap["spotshadow"] = SceneLight::E_SPOT_SHADOW;
@@ -68,7 +68,7 @@ void LightComponent::Initialize(TiXmlElement const& a_rParameters)
 		pPositionXml->QueryFloatAttribute("rY",&rY);
 		pPositionXml->QueryFloatAttribute("rZ",&rZ);
 	}
-
+	SetRotation( vec3( rX,rY, 0.0 ) );
 	float r, g, b;
 	pXmlElement = a_rParameters.FirstChildElement("Color");
 	if( pXmlElement )
@@ -129,7 +129,6 @@ void LightComponent::Initialize(TiXmlElement const& a_rParameters)
 				m_pLight = new SpotLight();
 			}
 
-			SetRotation( vec3( rX,rY, 0.0 ) );
 			static_cast< SpotLight* >(m_pLight)->SetOuterAngle( fOuterAngle );
 			static_cast< SpotLight* >(m_pLight)->SetInnerAngle( fInnerAngle );
 		}
@@ -150,7 +149,7 @@ void LightComponent::Initialize(TiXmlElement const& a_rParameters)
 	}
 	else if( ( eType & SceneLight::E_DIRECTIONAL) == SceneLight::E_DIRECTIONAL )
 	{
-		m_pLight = new SceneLight();
+		m_pLight = new DirectionalLight();
 		m_pLight->SetColor( vec3( r, g, b ) );
 		m_pLight->SetMultiplier( fMultiplier );
 		m_pLight->SetPos( vec3( x, y, z ) );

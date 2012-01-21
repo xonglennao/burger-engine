@@ -14,6 +14,7 @@
 
 #include <vector>
 #include <map>
+#include <stack>
 
 #include "BurgerEngine/Graphics/CommonGraphics.h"
 #include "BurgerEngine/Graphics/SceneLight.h"
@@ -21,9 +22,11 @@
 
 ///Forward declaration
 class SceneMesh;
+class DirectionalLight;
 class OmniLight;
 class SpotLight;
 class SpotShadow;
+class SceneLight;
 
 /// \class RenderingContext
 /// \brief This class hold all the mesh light and such
@@ -64,8 +67,8 @@ public:
 	const std::vector< SpotShadow* >& GetSpotShadows() const { return m_oSpotShadows; }
 	std::vector< SpotShadow* >& GrabSpotShadows(){ return m_oSpotShadows; }
 
-	const std::vector< SceneLight* >& GetDirectionalLights() const { return m_oDirectionalLights; }
-	std::vector< SceneLight* >& GrabDirectionalLights(){ return m_oDirectionalLights; }
+	const std::vector< DirectionalLight* >& GetDirectionalLights() const { return m_oDirectionalLights; }
+	std::vector< DirectionalLight* >& GrabDirectionalLights(){ return m_oDirectionalLights; }
 
 	const SkyBox* GetSkyBox() const { return m_pSkyBox; }
 	void SetSkyBox( SkyBox* pSkyBox ) { m_pSkyBox = pSkyBox; }
@@ -83,6 +86,23 @@ public:
 	/// \brief Add a light, depending on it's type
 	void AddLight(SceneLight& a_rLight, SceneLight::LightType a_eType);
 
+	const float4x4& GetMVP() const {return m_oModelViewProjectionMatrices.top(); };
+	void PushMVP(const float4x4& mMVP ){ m_oModelViewProjectionMatrices.push(mMVP); };
+	void PopMVP(){ m_oModelViewProjectionMatrices.pop(); };
+
+	//const float4x4& GetView() const {return m_oViewMatrices.top(); };
+	//void PushView(const float4x4& mMVP ){ m_oViewMatrices.push(mMVP); };
+	//void PopView(){ m_oViewMatrices.pop(); };
+	
+	const float4x4& GetModelView() const {return m_oModelViewMatrices.top(); };
+	void PushModelView(const float4x4& mMVP ){ m_oModelViewMatrices.push(mMVP); m_mNormalMatrix = transpose(!mMVP); };
+	void PopModelView(){ m_oModelViewMatrices.pop(); };
+
+	void SetCurrentShader( Shader* pShader ){ m_pCurrentShader = pShader; }
+	Shader* GetCurrentShader() { return m_pCurrentShader; }
+
+	const float4x4& GetNormalMatrix() const { return m_mNormalMatrix; }
+
 private:
 	/// The actual renderer
 	/// List of renderer? This will come with pipeline
@@ -92,16 +112,22 @@ private:
 
 	///lists of renderable objects and lights
 	/// \todo clear all this, 
-	std::vector< SceneMesh* >		m_oSceneMeshes;
-	std::vector< SceneMesh* >		m_oTransparentSceneMeshes;
-	std::vector< OmniLight* >		m_oOmniLights;
-	std::vector< SpotLight* >		m_oSpotLights;
-	std::vector< SpotShadow* >		m_oSpotShadows;
-	std::vector< SceneLight* >		m_oDirectionalLights;
+	std::vector< SceneMesh* >			m_oSceneMeshes;
+	std::vector< SceneMesh* >			m_oTransparentSceneMeshes;
+	std::vector< OmniLight* >			m_oOmniLights;
+	std::vector< SpotLight* >			m_oSpotLights;
+	std::vector< SpotShadow* >			m_oSpotShadows;
+	std::vector< DirectionalLight* >	m_oDirectionalLights;
 
 	SkyBox *						m_pSkyBox;
 	DebugMenu m_oDebugMenu;
 
+	Shader * m_pCurrentShader;
+
+	std::stack<float4x4> m_oModelViewProjectionMatrices;
+	//std::stack<float4x4> m_oViewMatrices;
+	std::stack<float4x4> m_oModelViewMatrices;
+	float4x4 m_mNormalMatrix;
 };
 
 

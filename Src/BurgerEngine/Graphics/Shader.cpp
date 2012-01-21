@@ -2,6 +2,7 @@
 #include "shaderTool.h"
 
 #include "BurgerEngine/Core/Engine.h"
+#include "BurgerEngine/Graphics/RenderingContext.h"
 #include "BurgerEngine/Core/AbstractCamera.h"
 #include "BurgerEngine/Core/TimeContext.h"
 #include "BurgerEngine/External/Math/Vector.h"
@@ -126,6 +127,11 @@ void Shader::setUniformMatrix4fv( int iUniformLocation, float * pValue)
 	glUniformMatrix4fvARB( iUniformLocation,1,GL_FALSE,pValue);
 }
 
+void Shader::setUniformMatrix4fv( int iUniformLocation, unsigned int iCount, float * pValue)
+{
+	glUniformMatrix4fvARB( iUniformLocation,iCount,GL_FALSE,pValue);
+}
+
 GLhandleARB	Shader::getHandle()
 {
 	return m_oProgram;
@@ -137,15 +143,17 @@ void Shader::QueryStdUniforms()
 	m_oStdUniformsMap[ E_STD_DOF_PARAMS ] = glGetUniformLocation( m_oProgram, "vDofParams" );
 	m_oStdUniformsMap[ E_STD_MVP ] = glGetUniformLocation( m_oProgram, "mMVP" );
 	m_oStdUniformsMap[ E_STD_INV_MVP ] = glGetUniformLocation( m_oProgram, "mInvMVP" );
+	m_oStdUniformsMap[ E_STD_MODEL_VIEW ] = glGetUniformLocation( m_oProgram, "mModelView" );
+	m_oStdUniformsMap[ E_STD_NORMAL_MATRIX ] = glGetUniformLocation( m_oProgram, "mNormalMatrix" );
 	//m_oStdUniformsMap[ E_STD_INV_PROJECTION ] = glGetUniformLocation( m_oProgram, "vInProj" );
 	m_oStdUniformsMap[ E_STD_TIME ] = glGetUniformLocation( m_oProgram, "fTime" );
-
 }
 
 void Shader::CommitStdUniforms()
 {
-	Engine const& rEngine = Engine::GetInstance();
-
+	Engine & rEngine = Engine::GrabInstance();
+	RenderingContext& rRenderContext = rEngine.GrabRenderContext();
+	
 	int iHandle;
 	
 	iHandle = m_oStdUniformsMap[ E_STD_INV_VIEWPORT ];
@@ -165,28 +173,17 @@ void Shader::CommitStdUniforms()
 	iHandle = m_oStdUniformsMap[ E_STD_MVP ];
 	if( iHandle != -1 )
 	{
-		Engine& rEngine = Engine::GrabInstance();
-		unsigned int iWindowWidth = rEngine.GetWindowWidth();
-		unsigned int iWindowHeight = rEngine.GetWindowHeight();
-
-		AbstractCamera & rCamera = rEngine.GetCurrentCamera();
-		float4x4 mProjection = GlperspectiveMatrixY( rCamera.GetFOV(), (float)iWindowWidth/(float)iWindowHeight,rCamera.GetNear(), rCamera.GetFar() );
-
-		float4x4 mView =  rCamera.GetViewMatrix();
-
-		mat4 m4MVP = transpose(mProjection) * mView;
-		glUniformMatrix4fv( iHandle, 1, true, (float*)m4MVP );
+		glUniformMatrix4fv( iHandle, 1, true, (float*)rRenderContext.GetMVP() );
 	}
 
 	iHandle = m_oStdUniformsMap[ E_STD_INV_MVP ];
 	if( iHandle != -1 )
 	{
-		Engine& rEngine = Engine::GrabInstance();
 		unsigned int iWindowWidth = rEngine.GetWindowWidth();
 		unsigned int iWindowHeight = rEngine.GetWindowHeight();
 
 		AbstractCamera & rCamera = rEngine.GetCurrentCamera();
-		float4x4 mProjection = GlperspectiveMatrixY( rCamera.GetFOV(), (float)iWindowWidth/(float)iWindowHeight,rCamera.GetNear(), rCamera.GetFar() );
+		float4x4 mProjection = GlperspectiveMatrix( rCamera.GetFOV(), (float)iWindowWidth/(float)iWindowHeight,rCamera.GetNear(), rCamera.GetFar() );
 
 		float4x4 mView =  rCamera.GetViewMatrix();
 
@@ -195,6 +192,17 @@ void Shader::CommitStdUniforms()
 		glUniformMatrix4fv( iHandle, 1, false, (float*)m4InvMVP );
 	}
 
+	iHandle = m_oStdUniformsMap[ E_STD_NORMAL_MATRIX ];
+	if( iHandle != -1 )
+	{
+		glUniformMatrix4fv( iHandle, 1, true, (float*)rRenderContext.GetNormalMatrix() );
+	}
+
+	iHandle = m_oStdUniformsMap[ E_STD_MODEL_VIEW ];
+	if( iHandle != -1 )
+	{
+		glUniformMatrix4fv( iHandle, 1, true, (float*)rRenderContext.GetModelView() );
+	}
 
 	iHandle = m_oStdUniformsMap[ E_STD_TIME ];
 	if( iHandle != -1 )

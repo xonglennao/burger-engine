@@ -9,7 +9,7 @@
         <mesh>
           <file>../Data/Mesh/inverted_cube.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>

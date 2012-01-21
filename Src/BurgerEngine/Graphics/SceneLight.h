@@ -46,7 +46,7 @@ public:
 	};
 
 	SceneLight();
-	~SceneLight();
+	virtual ~SceneLight();
 
 public:
 	void SetColor( vec3 vValue ){ vColor = vValue; };

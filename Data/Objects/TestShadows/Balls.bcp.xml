@@ -9,7 +9,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -21,7 +21,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -33,7 +33,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -45,7 +45,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -59,7 +59,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -71,7 +71,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -83,7 +83,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -95,7 +95,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -109,7 +109,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -121,7 +121,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -133,7 +133,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -145,7 +145,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -159,7 +159,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -171,7 +171,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -183,7 +183,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -195,7 +195,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -213,7 +213,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -225,7 +225,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -237,7 +237,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -249,7 +249,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -263,7 +263,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -275,7 +275,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -287,7 +287,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -299,7 +299,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -313,7 +313,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -325,7 +325,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -337,7 +337,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -349,7 +349,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -363,7 +363,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -375,7 +375,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -387,7 +387,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -399,7 +399,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -417,7 +417,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -429,7 +429,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -441,7 +441,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -453,7 +453,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -467,7 +467,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -479,7 +479,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -491,7 +491,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -503,7 +503,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -517,7 +517,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -529,7 +529,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -541,7 +541,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -553,7 +553,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -567,7 +567,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -579,7 +579,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -591,7 +591,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -603,7 +603,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -621,7 +621,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -633,7 +633,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -645,7 +645,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -657,7 +657,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -671,7 +671,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -683,7 +683,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -695,7 +695,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -707,7 +707,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -721,7 +721,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -733,7 +733,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -745,7 +745,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -757,7 +757,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -771,7 +771,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -783,7 +783,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -795,7 +795,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>
@@ -807,7 +807,7 @@
         <mesh>
           <file>../Data/Mesh/unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/test_dof/floorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>

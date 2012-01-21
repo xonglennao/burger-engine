@@ -26,16 +26,6 @@ public:
 
 	const static int iShadowMapSize = 512;
 
-	struct SpotShadowQuad
-	: public SpotLightQuad
-	{
-	};
-
-	struct SpotShadowVertex
-	: public SpotLightVertex
-	{
-	};
-
 	SpotShadow();
 	~SpotShadow();
 

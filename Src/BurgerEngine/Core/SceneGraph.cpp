@@ -13,7 +13,7 @@
 #include "BurgerEngine/Graphics/SceneMesh.h"
 #include "BurgerEngine/Graphics/SkyBox.h"
 
-#include "BurgerEngine/Graphics/SceneLight.h"
+#include "BurgerEngine/Graphics/DirectionalLight.h"
 #include "BurgerEngine/Graphics/SpotLight.h"
 #include "BurgerEngine/Graphics/OmniLight.h"
 #include "BurgerEngine/Graphics/SpotShadow.h"
@@ -191,7 +191,8 @@ void SceneGraph::LoadSceneXML( const char * sName )
 		while ( pXmlObject )
 		{			
 			float x, y, z, rX, rY, rZ, scale;
-			
+			x = y = z= rX = rY = rZ = 0.0f;
+			scale = 1.0f;
 			//gets position & rotation
 			pXmlObject->QueryFloatAttribute("x",&x);
 			pXmlObject->QueryFloatAttribute("y",&y);

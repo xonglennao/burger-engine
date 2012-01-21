@@ -1,3 +1,6 @@
+#include "BurgerEngine/Core/Engine.h"
+#include "BurgerEngine/Graphics/RenderingContext.h"
+
 #include "BurgerEngine/Graphics/SkyBox.h"
 #include "BurgerEngine/Graphics/Material.h"
 #include "BurgerEngine/External/Math/Vector.h"
@@ -136,8 +139,12 @@ void SkyBox::BuildSphere( float fSize, unsigned int iSlices, unsigned int iStack
 //--------------------------------------------------------------------------------------------------------------------
 void SkyBox::Draw( const vec3& f3Position, unsigned int iFlag ) const
 {
-	glPushMatrix();
-	glTranslatef( f3Position.x, f3Position.y, f3Position.z );
+	Engine& rEngine = Engine::GrabInstance();
+	RenderingContext& rRenderContext = rEngine.GrabRenderContext();
+
+	float4x4 oPositonMatrix = translate(f3Position.x,f3Position.y,f3Position.z);
+	rRenderContext.PushMVP( rRenderContext.GetMVP() * oPositonMatrix);
+	rRenderContext.PushModelView( rRenderContext.GetModelView() * oPositonMatrix );
 
 	if( m_pMaterial->Activate( EffectTechnique::E_RENDER_OPAQUE ) )
 	{
@@ -167,11 +174,4 @@ void SkyBox::Draw( const vec3& f3Position, unsigned int iFlag ) const
 		*/
 		m_pMaterial->Deactivate( EffectTechnique::E_RENDER_OPAQUE );
 	}
-	glPopMatrix();
 }
-
-
-
-
-
-

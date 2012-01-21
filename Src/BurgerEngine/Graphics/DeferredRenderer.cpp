@@ -17,6 +17,7 @@
 #include "BurgerEngine/Core/Timer.h"
 
 #include "BurgerEngine/External/Math/Vector.h"
+#include "BurgerEngine/External/Math/Miniball.h"
 #include "BurgerEngine/External/Math/Frustum.h"
 #include "BurgerEngine/External/GLFont/glfont.h"
 
@@ -27,12 +28,15 @@
 
 #include "BurgerEngine/Graphics/SkyBox.h"
 
-#include "BurgerEngine/Graphics/TextureManager.h"
 
 const int GLOW_RATIO = 4;
 const float MAX_FRAME = 15.0;
 
 const int PROFILING_LEFT_OFFSET = 300;
+
+//TMP CASCADED SHADOWMAPS VARIABLES
+vec3 pFrustumPoints[32];
+float pSphere[16];
 
 //--------------------------------------------------------------------------------------------------------------------
 //
@@ -50,7 +54,12 @@ DeferredRenderer::DeferredRenderer()
 	, m_fBrightPassThreshold( 0.5f )
 	, m_fBrightPassOffset( 10.0f )
 	, m_fAdaptationBaseTime( 0.0f )
+	, m_pDirectionalShadowLight( NULL )
+	//, m_pFrustumPoints( NULL )
+	, m_pFrustumBoundingSpheres( NULL )
+	, bComputeFrustumBoundingSpheres( true )
 	, m_pColorLUT( NULL )
+
 {
 	CreateFBO();
 	
@@ -71,11 +80,14 @@ DeferredRenderer::DeferredRenderer()
 	m_oTimer = new Timer();
 	m_fFrameCount = MAX_FRAME;
 
+	//m_pFrustumPoints = new vec3[DirectionalLight::iCascadeCount * 8];
+	m_pFrustumBoundingSpheres = new float[DirectionalLight::iCascadeCount * 4];
+
 	GenFullScreenQuad();
 
 	DebugMenu& oDebugMenu = Engine::GrabInstance().GrabRenderContext().GetDebugMenu();
 
-	oDebugMenu.AddEntry( "ToneMappingKey", m_fToneMappingKey, 0.0f, 1.0f, 0.01f );
+	oDebugMenu.AddEntry( "ToneMappingKey", m_fToneMappingKey, 0.0f, 10.0f, 0.01f );
 	oDebugMenu.AddEntry( "Glow Multiplier", m_fGlowMultiplier, 0.0f, 10.0f, 0.5f );
 	oDebugMenu.AddEntry( "BrightPass Threshold", m_fBrightPassThreshold, 0.0f, 50.0f, 0.5f );
 	oDebugMenu.AddEntry( "BrightPass Offset", m_fBrightPassOffset, 0.0f, 50.0f, 0.5f );
@@ -166,6 +178,12 @@ DeferredRenderer::~DeferredRenderer()
 	delete m_oTimer;
 	m_oTimer = NULL;
 
+	/*delete [] m_pFrustumPoints;
+	m_pFrustumPoints = NULL;*/
+
+	delete [] m_pFrustumBoundingSpheres;
+	m_pFrustumBoundingSpheres = NULL;
+
 	glDeleteBuffers( 1, &m_iFullScreenQuadBufferId );
 	glDeleteBuffers( 1, &m_iFullScreenQuadBufferIdCW );
 }
@@ -251,12 +269,16 @@ void DeferredRenderer::LoadEngineShaders()
 
 	m_pDirectionalLightShader->QueryStdUniforms();
 	m_iDirectionalLightShaderInvProjHandle = glGetUniformLocation( m_pDirectionalLightShader->getHandle(), "mInvProj" );
-	
+
+	m_iDirectionalLightShaderShadowMatrixHandle = glGetUniformLocation( m_pDirectionalLightShader->getHandle(), "mShadowMatrices" );
+	m_iDirectionalLightShaderSphereHandle = glGetUniformLocation( m_pDirectionalLightShader->getHandle(), "vSphere" );
+
 	m_iDirectionalLightShaderColor = glGetAttribLocation( m_pDirectionalLightShader->getHandle(),"vColor");
 	m_iDirectionalLightShaderViewSpacePosAndMultiplierHandle = glGetAttribLocation( m_pDirectionalLightShader->getHandle(),"vViewSpacePosAndMultiplier");
 
 	m_pDirectionalLightShader->setUniformTexture("sNormalSampler",0);
 	m_pDirectionalLightShader->setUniformTexture("sDepthSampler",1);
+	m_pDirectionalLightShader->setUniformTexture("sShadowMapSampler",2);
 
 	m_pDirectionalLightShader->Deactivate();
 
@@ -311,16 +333,27 @@ void DeferredRenderer::LoadEngineShaders()
 
 	//Exponential ShadowMap Shader
 	m_pExponentialShadowMapShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/ExponentialShadowMap.bfx.xml" );
+	m_pExponentialShadowMapShader->Activate();
+	m_pExponentialShadowMapShader->QueryStdUniforms();
+	m_pExponentialShadowMapShader->Activate();
+
+	//Exponential ShadowMap Shader
+	m_pShadowMapShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/ShadowMap.bfx.xml" );
+	m_pShadowMapShader->Activate();
+	m_pShadowMapShader->QueryStdUniforms();
+	m_pShadowMapShader->Activate();
 
 	//Blur 6 shader
 	m_pBlur6Shader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/GaussianBlur6.bfx.xml" );
 	m_pBlur6Shader->Activate();
+	m_pBlur6Shader->QueryStdUniforms();
 	m_iBlur6ShaderPixelSizeHandle = glGetUniformLocation( m_pBlur6Shader->getHandle(), "vPixelSize" );
 	m_pBlur6Shader->setUniformTexture("sTexture",0);
 	m_pBlur6Shader->Deactivate();
 
 	m_pDownSample4x4DOF = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/DownSample4x4DOF.bfx.xml" );
 	m_pDownSample4x4DOF->Activate();
+	m_pDownSample4x4DOF->QueryStdUniforms();
 	m_iDownSample4x4DOFPixelSizeHandle = glGetUniformLocation( m_pDownSample4x4DOF->getHandle(), "vPixelSize" );
 	m_pDownSample4x4DOF->setUniformTexture("sTexture",0);
 	m_pDownSample4x4DOF->setUniformTexture("sBlurData",1);
@@ -329,6 +362,7 @@ void DeferredRenderer::LoadEngineShaders()
 	//Blur 10 shader
 	m_pBlur10Shader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/GaussianBlur10.bfx.xml" );
 	m_pBlur10Shader->Activate();
+	m_pBlur10Shader->QueryStdUniforms();
 	m_iBlur10ShaderPixelSizeHandle = glGetUniformLocation( m_pBlur10Shader->getHandle(), "vPixelSize" );
 	m_pBlur10Shader->setUniformTexture("sTexture",0);
 	m_pBlur10Shader->Deactivate();
@@ -336,6 +370,7 @@ void DeferredRenderer::LoadEngineShaders()
 	//Log space Blur 10 shader
 	m_pLogBlur10Shader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/LogGaussianBlur10.bfx.xml" );
 	m_pLogBlur10Shader->Activate();
+	m_pLogBlur10Shader->QueryStdUniforms();
 	m_iLogBlur10ShaderPixelSizeHandle = glGetUniformLocation( m_pLogBlur10Shader->getHandle(), "vPixelSize" );
 	m_pLogBlur10Shader->setUniformTexture("sTexture",0);
 	m_pLogBlur10Shader->Deactivate();
@@ -343,6 +378,7 @@ void DeferredRenderer::LoadEngineShaders()
 	//Downsample shader
 	m_pDownSample4x4Shader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/DownSample4x4.bfx.xml" );
 	m_pDownSample4x4Shader->Activate();
+	m_pDownSample4x4Shader->QueryStdUniforms();
 	m_pDownSample4x4Shader->setUniformTexture("sTexture",0);
 	m_iDownSampleShaderPixelSizeHandle = glGetUniformLocation( m_pDownSample4x4Shader->getHandle(), "vPixelSize" );
 	m_pDownSample4x4Shader->Deactivate();
@@ -350,12 +386,14 @@ void DeferredRenderer::LoadEngineShaders()
 	//Average Luminance shaders
 	m_pAvgLumInitShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/AvgLumInit.bfx.xml" );
 	m_pAvgLumInitShader->Activate();
+	m_pAvgLumInitShader->QueryStdUniforms();
 	m_pAvgLumInitShader->setUniformTexture("sTexture",0);
 	m_iAvgLumInitShaderPixelSizeHandle = glGetUniformLocation( m_pAvgLumInitShader->getHandle(), "vPixelSize" );
 	m_pAvgLumInitShader->Deactivate();
 
 	m_pAvgLumFinalShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/AvgLumFinal.bfx.xml" );
 	m_pAvgLumFinalShader->Activate();
+	m_pAvgLumFinalShader->QueryStdUniforms();
 	m_pAvgLumFinalShader->setUniformTexture("sTexture",0);
 	m_iAvgLumFinalShaderPixelSizeHandle = glGetUniformLocation( m_pAvgLumFinalShader->getHandle(), "vPixelSize" );
 	m_pAvgLumFinalShader->Deactivate();
@@ -363,6 +401,7 @@ void DeferredRenderer::LoadEngineShaders()
 	//Post process shaders
 	m_pToneMappingShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/ToneMapping.bfx.xml" );
 	m_pToneMappingShader->Activate();
+	m_pToneMappingShader->QueryStdUniforms();
 	m_pToneMappingShader->setUniformTexture("sTexture",0);
 	m_pToneMappingShader->setUniformTexture("sLuminance",1);
 	m_iToneMappingShaderKeyHandle = glGetUniformLocation( m_pToneMappingShader->getHandle(), "fToneMappingKey" );
@@ -389,6 +428,7 @@ void DeferredRenderer::LoadEngineShaders()
 
 	m_pBrightPassShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/BrightPass.bfx.xml" );
 	m_pBrightPassShader->Activate();
+	m_pBrightPassShader->QueryStdUniforms();
 	m_iBrightPassShaderInvViewPortHandle = glGetUniformLocation( m_pBrightPassShader->getHandle(), "vInvViewport" );
 	m_iBrightPassShaderThresholdOffsetKeyHandle = glGetUniformLocation( m_pBrightPassShader->getHandle(), "fThresholdOffSetKey" );
 	m_pBrightPassShader->setUniformTexture("sTexture",0);
@@ -406,21 +446,25 @@ void DeferredRenderer::LoadEngineShaders()
 
 	m_pBasicTextureShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/BasicTexture.bfx.xml" );
 	m_pBasicTextureShader->Activate();
+	m_pBasicTextureShader->QueryStdUniforms();
 	m_pBasicTextureShader->setUniformTexture("sTexture",0);
 	m_pBasicTextureShader->Deactivate();
 
 	m_pDebugGlossShader = rShaderManager.AddShader( "../Data/Shaders/Engine/DebugRender/xml/DebugGloss.bfx.xml" );
 	m_pDebugGlossShader->Activate();
+	m_pDebugGlossShader->QueryStdUniforms();
 	m_pDebugGlossShader->setUniformTexture("sTexture",0);
 	m_pDebugGlossShader->Deactivate();
 
 	m_pDebugSpecularShader = rShaderManager.AddShader( "../Data/Shaders/Engine/DebugRender/xml/DebugSpecular.bfx.xml" );
 	m_pDebugSpecularShader->Activate();
+	m_pDebugSpecularShader->QueryStdUniforms();
 	m_pDebugSpecularShader->setUniformTexture("sTexture",0);
 	m_pDebugSpecularShader->Deactivate();
 	
 	m_pDebugDepthShader = rShaderManager.AddShader( "../Data/Shaders/Engine/DebugRender/xml/DebugDepth.bfx.xml" );
 	m_pDebugDepthShader->Activate();
+	m_pDebugDepthShader->QueryStdUniforms();
 	m_pDebugDepthShader->setUniformTexture("sTexture",0);
 	m_pDebugDepthShader->Deactivate();
 
@@ -478,11 +522,13 @@ void DeferredRenderer::GenFullScreenQuad()
 void DeferredRenderer::DrawFullScreenQuad( int iWindowWidth, int iWindowHeight, bool bCCW )
 {
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
-	Engine::GrabInstance().GrabRenderingContext().ReshapeGlOrtho( iWindowWidth, iWindowHeight );
-	
-	glPushMatrix();
+	Engine& rEngine = Engine::GrabInstance();
+	rEngine.GrabRenderingContext().ReshapeGlOrtho( iWindowWidth, iWindowHeight );
+	RenderingContext& rRenderContext = rEngine.GrabRenderContext();
 
-	glScalef( static_cast<float>(iWindowWidth), static_cast<float>(iWindowHeight), 0.0f );
+	float4x4 oOrthoMatrix = orthoMatrix(0.0, iWindowWidth, 0, iWindowHeight,-0.2f,0.2f);
+	rRenderContext.PushMVP(oOrthoMatrix * scale(static_cast<float>(iWindowWidth), static_cast<float>(iWindowHeight), 0.0f));
+	rRenderContext.GetCurrentShader()->CommitStdUniforms();
 	
 	if( bCCW )
 	{
@@ -507,8 +553,7 @@ void DeferredRenderer::DrawFullScreenQuad( int iWindowWidth, int iWindowHeight, 
 	glDisableClientState( GL_TEXTURE_COORD_ARRAY );
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0 );
-
-	glPopMatrix();
+	rRenderContext.PopMVP();
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -557,7 +602,7 @@ void DeferredRenderer::RenderDirectionalLights( std::vector< SceneLight::SceneLi
 		pDirectionalVertex[i*4+2] = oBottomLeft;
 		pDirectionalVertex[i*4+3] = oBottomRight;
 	}
-	
+
 	glBindBuffer(GL_ARRAY_BUFFER, iVertexBufferId);
 	glBufferData(GL_ARRAY_BUFFER, iSizeDirectionalVertex, pDirectionalVertex, GL_STATIC_DRAW);
 
@@ -828,9 +873,7 @@ void DeferredRenderer::DrawFrustum( const vec3 * pPoints, const vec3& f3Pos )
 void DeferredRenderer::DrawCube( const vec3 * pPoints )
 {
 	glLineWidth( 3.0f );
-	glColor3f(1.0f,0.0f,0.0f);
-	//glDisable( GL_DEPTH_TEST );
-
+	
 	glBegin( GL_LINES );
 
 	for(unsigned int i = 0; i < 4; ++i )
@@ -867,7 +910,6 @@ void DeferredRenderer::DrawCube( const vec3 * pPoints )
 	
 	glEnd();
 	
-	//glEnable( GL_DEPTH_TEST );
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -927,22 +969,22 @@ void DeferredRenderer::DisplayDebugMenu()
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void DeferredRenderer::PrepareDirectionalLights( std::vector< SceneLight* > const& oSceneLights, AbstractCamera const& rCamera, float4x4 const& mView )
+void DeferredRenderer::PrepareDirectionalLights( std::vector< DirectionalLight* > const& oSceneLights, AbstractCamera const& rCamera, float4x4 const& mView )
 {
 	m_vDirectionalLightQuads.clear();
-	std::vector< SceneLight* >::const_iterator oLightIt = oSceneLights.begin();
-	std::vector< SceneLight* >::const_iterator oLightItEnd = oSceneLights.end();
+	std::vector< DirectionalLight* >::const_iterator oLightIt = oSceneLights.begin();
+	std::vector< DirectionalLight* >::const_iterator oLightItEnd = oSceneLights.end();
 
 	while( oLightIt != oLightItEnd )
 	{
 		SceneLight * pLight = (*oLightIt);
-		
-		vec3 f3Pos = pLight->GetPos();
+		vec3 vRotation = pLight->GetRotation();
+		vec4 f4Pos = rotateY( vRotation.y * DEG_TO_RAD ) * rotateX( vRotation.x * DEG_TO_RAD ) * vec4( 0.0f, 0.0f, -1.0f, 0.0f );//pLight->GetPos();
 
 		SceneLight::SceneLightQuad oQuad;
 
 		//computing view space position
-		vec4 vViewSpacePos = mView * vec4( f3Pos.x, f3Pos.y, f3Pos.z, 0.0 );
+		vec4 vViewSpacePos = mView * f4Pos;
 		oQuad.vViewSpaceLightPos = vec3( vViewSpacePos.x, vViewSpacePos.y, vViewSpacePos.z );
 		oQuad.vColor = pLight->GetColor();
 		oQuad.fMultiplier = pLight->GetMultiplier();
@@ -994,6 +1036,7 @@ void DeferredRenderer::PrepareOmniLights( const std::vector< OmniLight* >& oOmni
 				vec3 oShiftedPos = f3Pos + min( fLength, fRadius ) * vLightToView;
 
 				vec4 oScreenPos = mViewProjection * vec4(oShiftedPos.x, oShiftedPos.y, oShiftedPos.z, 1.0 );
+				
 				oScreenPos = oScreenPos / oScreenPos.w;
 
 				vec3 vLightRight = oShiftedPos + fRadius * rCamera.GetRight();
@@ -1026,9 +1069,8 @@ void DeferredRenderer::PrepareAndRenderSpotShadows( const std::vector< SpotShado
 		oQuadVector.push_back( oQuad );
 
 		(*oLightIt)->ActivateDepthTexture();
-		mat4 mShadowMatrix = !transpose(mViewProjection) * (*oLightIt)->GetMatrix();
-
-		m_pSpotShadowShader->setUniformMatrix4fv( m_iSpotShadowShaderShadowMatrixHandle, mShadowMatrix );
+		mat4 mShadowMatrix = (*oLightIt)->GetMatrix() * !mViewProjection;
+		m_pSpotShadowShader->setUniformMatrix4fv( m_iSpotShadowShaderShadowMatrixHandle, transpose(mShadowMatrix) );
 
 		RenderSpotLights( oQuadVector, m_iSpotShadowShaderColorAndInverseRadiusHandle, m_iSpotShadowShaderViewSpacePosAndMultiplierHandle, m_iSpotShadowShaderViewSpaceDirHandle, m_iSpotShadowShaderCosInAndOutHandle );
 		
@@ -1131,8 +1173,196 @@ void DeferredRenderer::ComputeOneSpotBoundingQuad( SpotLight* pLight, AbstractCa
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
+void DeferredRenderer::ComputeFrustumBoundingSpheres( const float4x4& mInvProjection, float fNear, float fFar )
+{
+	//computing frustum slices in view space
+	//this should change only when the camera parameters or the projection parameters changes
+	vec3 pFrustumPoints[DirectionalLight::iCascadeCount * 8];
+
+	//unprojecting frustum points
+	//near
+	//bottom left
+	vec4 f3Point = mInvProjection * vec4(-1.0f,-1.0f,fNear,1.0f);
+	f3Point /= f3Point.w;
+	pFrustumPoints[0] = f3Point.xyz();
+	
+	//bottom right
+	f3Point = mInvProjection * vec4(1.0f,-1.0f,fNear,1.0f);
+	f3Point /= f3Point.w;
+	pFrustumPoints[1] = f3Point.xyz();
+
+	//top right
+	f3Point = mInvProjection * vec4(1.0f,1.0f,fNear,1.0f);
+	f3Point /= f3Point.w;
+	pFrustumPoints[2] = f3Point.xyz();
+
+	//top left
+	f3Point = mInvProjection * vec4(-1.0f,1.0f,fNear,1.0f);
+	f3Point /= f3Point.w;
+	pFrustumPoints[3] = f3Point.xyz();
+
+	//far
+	//bottom left
+	f3Point = mInvProjection * vec4(-1.0f,-1.0f,1.0f,1.0f);
+	f3Point /= f3Point.w;
+	pFrustumPoints[4] = f3Point.xyz();
+	
+	//bottom right
+	f3Point = mInvProjection * vec4(1.0f,-1.0f,1.0f,1.0f);
+	f3Point /= f3Point.w;
+	pFrustumPoints[5] = f3Point.xyz();
+
+	//top right
+	f3Point = mInvProjection * vec4(1.0f,1.0f,1.0f,1.0f);
+	f3Point /= f3Point.w;
+	pFrustumPoints[6] = f3Point.xyz();
+	
+	//top left
+	f3Point = mInvProjection * vec4(-1.0f,1.0f,1.0f,1.0f);
+	f3Point /= f3Point.w;
+	pFrustumPoints[7] = f3Point.xyz();
+
+	//computing frustum vectors
+	vec3 vBottomLeft = pFrustumPoints[4] - pFrustumPoints[0];
+	vBottomLeft = normalize( vBottomLeft );
+
+	vec3 vBottomRight = pFrustumPoints[5] - pFrustumPoints[1];
+	vBottomRight = normalize( vBottomRight );
+
+	vec3 vTopRight = pFrustumPoints[6] - pFrustumPoints[2];
+	vTopRight = normalize( vTopRight );
+
+	vec3 vTopLeft = pFrustumPoints[7] - pFrustumPoints[3];
+	vTopLeft = normalize( vTopLeft );
+
+	//computing frustum slices
+	float fLength = fFar * DirectionalLight::pCascadeSizes[0];
+	pFrustumPoints[4] = pFrustumPoints[0] + vBottomLeft * fLength;
+	pFrustumPoints[5] = pFrustumPoints[1] + vBottomRight * fLength;
+	pFrustumPoints[6] = pFrustumPoints[2] + vTopRight * fLength;
+	pFrustumPoints[7] = pFrustumPoints[3] + vTopLeft * fLength;
+
+	for( unsigned int i = 1; i < DirectionalLight::iCascadeCount; ++i )
+	{
+		fLength = fFar * DirectionalLight::pCascadeSizes[i];
+		pFrustumPoints[i*8]     = pFrustumPoints[i*8 - 4];
+		pFrustumPoints[i*8 + 1] = pFrustumPoints[i*8 - 3];
+		pFrustumPoints[i*8 + 2] = pFrustumPoints[i*8 - 2];
+		pFrustumPoints[i*8 + 3] = pFrustumPoints[i*8 - 1];
+
+		pFrustumPoints[i*8 + 4] = pFrustumPoints[i*8] + vBottomLeft * fLength;
+		pFrustumPoints[i*8 + 5] = pFrustumPoints[i*8 + 1] + vBottomRight * fLength;
+		pFrustumPoints[i*8 + 6] = pFrustumPoints[i*8 + 2] + vTopRight * fLength;
+		pFrustumPoints[i*8 + 7] = pFrustumPoints[i*8 + 3] + vTopLeft * fLength;
+	}
+	
+	//Computing frustum bounding sphere in view space
+	Miniball<3> oBall;
+	for( unsigned int i = 0; i < DirectionalLight::iCascadeCount; ++i )
+	{
+		oBall.clear();
+		oBall.check_in( &pFrustumPoints[i*8],8 );
+		oBall.build();
+
+		Point<3> oCenter = oBall.center();
+		vec3 vCenter = vec3(static_cast<float>(oCenter[0]),static_cast<float>(oCenter[1]),static_cast<float>(oCenter[2]));
+		float fRadius = static_cast<float>(sqrt( oBall.squared_radius() ));
+
+		//vec4 vViewSpaceCenter =  mView * vec4(vCenter,1.0f);
+		m_pFrustumBoundingSpheres[i*DirectionalLight::iCascadeCount] = vCenter.x;
+		m_pFrustumBoundingSpheres[i*DirectionalLight::iCascadeCount+1] = vCenter.y;
+		m_pFrustumBoundingSpheres[i*DirectionalLight::iCascadeCount+2] = vCenter.z;
+		m_pFrustumBoundingSpheres[i*DirectionalLight::iCascadeCount+3] = fRadius;
+	}
+	bComputeFrustumBoundingSpheres = false;
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void DeferredRenderer::RenderCascadedShadowMap( const std::vector< SceneMesh* >& oSceneMeshes, const float4x4& mInvView )
+{
+	Engine& rEngine = Engine::GrabInstance();
+	RenderingContext& rRenderContext = rEngine.GrabRenderContext();
+	
+	vec3 vLightRotation = m_pDirectionalShadowLight->GetRotation();
+	vec3 f3LightPosition = ( rotateY( vLightRotation.y * DEG_TO_RAD ) * rotateX( vLightRotation.x * DEG_TO_RAD ) * vec4( 0.0f, 0.0f, 2000.0f, 0.0f ) ).xyz();
+	float4x4 mLightRotation = rotateXY( vLightRotation.x*DEG_TO_RAD, -(vLightRotation.y+180.0f) * DEG_TO_RAD );
+	unsigned int x = 0;
+	unsigned int y = 0;
+	m_pDirectionalShadowLight->ActivateBuffer();
+	
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	glCullFace( GL_FRONT );
+	m_pShadowMapShader->Activate();
+	rRenderContext.SetCurrentShader(m_pShadowMapShader);
+	for( unsigned int i = 0; i < DirectionalLight::iCascadeCount; ++i )
+	{
+		//world space center
+		vec3 vViewCenter = vec3(m_pFrustumBoundingSpheres[i*DirectionalLight::iCascadeCount],m_pFrustumBoundingSpheres[i*DirectionalLight::iCascadeCount+1],m_pFrustumBoundingSpheres[i*DirectionalLight::iCascadeCount+2]);
+		vec3 vCenter = (mInvView * vec4(vViewCenter,1.0)).xyz();
+
+		float fRadius = m_pFrustumBoundingSpheres[i*DirectionalLight::iCascadeCount+3];
+		vec3 f3Pos = f3LightPosition - vCenter;
+		
+		float4x4 mLightProjection = orthoMatrix(-fRadius, fRadius, -fRadius, fRadius,0.01f,10000.0f);
+		float4x4 mLightView = mLightRotation * translate( f3Pos.x, f3Pos.y, f3Pos.z );
+
+		float4x4 mLightViewProjection = mLightProjection * mLightView;
+
+		//making sure the light move by an integral number of pixel
+		vec4 vWorldOrigin = mLightViewProjection * vec4(0.0f,0.0f,0.0f,1.0f);
+		vWorldOrigin *= DirectionalLight::iShadowMapSize * 0.5f;
+
+		float fRoundedX = roundf( vWorldOrigin.x );
+		float fRoundedY  = roundf( vWorldOrigin.y );
+
+		float fDx = ( fRoundedX - vWorldOrigin.x ) / ( DirectionalLight::iShadowMapSize * 0.5f );
+		float fDy = ( fRoundedY - vWorldOrigin.y ) / ( DirectionalLight::iShadowMapSize * 0.5f );
+
+		mLightViewProjection = translate( fDx, fDy, 0.0f ) * mLightViewProjection;
+		vec4 vWorldOrigin2 = mLightViewProjection * vec4(0.0f,0.0f,0.0f,1.0f);
+		vWorldOrigin2 *= DirectionalLight::iShadowMapSize * 0.5f;
+		m_pDirectionalShadowLight->SetMatrix( mLightViewProjection, i );
+		
+		glViewport(x,y,DirectionalLight::iShadowMapSize,DirectionalLight::iShadowMapSize);
+
+		rRenderContext.PushMVP(mLightViewProjection);
+		rRenderContext.PushModelView(mLightView);
+		Frustum oViewFrustum;
+		oViewFrustum.loadFrustum( transpose(mLightViewProjection) );
+
+		std::vector< SceneMesh* >::const_iterator oShadowMeshIt = oSceneMeshes.begin();
+		while( oShadowMeshIt != oSceneMeshes.end() )
+		{
+			if( (*oShadowMeshIt)->GetCastShadow() )
+			{
+				const float* pBoundingBox = (*oShadowMeshIt)->GetBoundingBox();
+
+				if( m_iSkipCulling || oViewFrustum.cubeInFrustum( pBoundingBox[0], pBoundingBox[1],pBoundingBox[2],pBoundingBox[3],pBoundingBox[4],pBoundingBox[5] ) )
+				{
+					(*oShadowMeshIt)->Draw( EffectTechnique::E_RENDER_SHADOW_MAP );
+				}
+			}
+			++oShadowMeshIt;
+		}
+		x += DirectionalLight::iShadowMapSize;
+		
+		rRenderContext.PopMVP();
+	}
+	m_pShadowMapShader->Deactivate();
+	m_pDirectionalShadowLight->DeactivateBuffer();
+	glCullFace( GL_BACK );
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
 void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oSceneMeshes, const std::vector< SpotShadow* >& oSpotShadows, OpenGLContext& a_rDriverRenderingContext )
 {
+	Engine& rEngine = Engine::GrabInstance();
+	RenderingContext& rRenderContext = rEngine.GrabRenderContext();
+
 	std::vector< SpotShadow* >::const_iterator oSpotIt = oSpotShadows.begin();
 	std::vector< SpotShadow* >::const_iterator oEnd = oSpotShadows.end();
 
@@ -1140,34 +1370,33 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 	{
 		SpotShadow * pSpot = *oSpotIt;
 		
-		vec3 oLightPos = pSpot->GetPos();
+		vec3 vLightPos = pSpot->GetPos();
 
-		vec3 oLightRotation = pSpot->GetRotation();
+		vec3 vLightRotation = pSpot->GetRotation();
 
 		float fRadius = pSpot->GetRadius();
 
-		a_rDriverRenderingContext.Reshape( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, 2.0f * acosf( pSpot->GetCosOuterAngle()  ) / (float)M_PI * 180.0f, 0.01f, fRadius );
-		glRotatef( -oLightRotation.x, 1.0,0.0,0.0 );
-		glRotatef( oLightRotation.y, 0.0,1.0,0.0 );
+		a_rDriverRenderingContext.Reshape( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, 2.0f * acosf( pSpot->GetCosOuterAngle()  ) * RAD_TO_DEG, 0.01f, fRadius );
 
-		glTranslatef( -oLightPos.x, -oLightPos.y, -oLightPos.z );
-
-		float4x4 mLightProjection = GlperspectiveMatrixY( 2.0f * acosf( pSpot->GetCosOuterAngle()  ) * RAD_TO_DEG, 1.0f,0.5, fRadius );
-
-		float4x4 mLightView =  rotateXY( -oLightRotation.x*DEG_TO_RAD, -oLightRotation.y*DEG_TO_RAD ) * translate( -oLightPos.x, -oLightPos.y, -oLightPos.z );
+		float4x4 mLightProjection = transpose(GlperspectiveMatrix( 2.0f * acosf( pSpot->GetCosOuterAngle()  ) * RAD_TO_DEG, 1.0f,0.5, fRadius ));
+		float4x4 mLightView = rotateXY( -vLightRotation.x*DEG_TO_RAD, -vLightRotation.y*DEG_TO_RAD ) * translate( -vLightPos.x, -vLightPos.y, -vLightPos.z );
 		
-		pSpot->SetMatrix( transpose( mLightProjection * mLightView ) );
-		
-		float4x4 mLightViewProjection = transpose(mLightProjection) * mLightView;
+		float4x4 mLightViewProjection = mLightProjection * mLightView;
+
+		rRenderContext.PushModelView(mLightView);
+		rRenderContext.PushMVP(mLightViewProjection);
+
+		pSpot->SetMatrix( mLightViewProjection );
 
 		Frustum oViewFrustum;
 		oViewFrustum.loadFrustum( transpose(mLightViewProjection) );
 
 		m_pExponentialShadowMapShader->Activate();
+		rRenderContext.SetCurrentShader(m_pExponentialShadowMapShader);
 		pSpot->ActivateBuffer();
-		
+
 		glClearColor( fRadius * 0.001f,0.0f,0.0f,0.0f );
-		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );	
+		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 		glClearColor( 0.0f,0.0f,0.0f,0.0f );
 
 		std::vector< SceneMesh* >::const_iterator oShadowMeshIt = oSceneMeshes.begin();
@@ -1185,13 +1414,17 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 			++oShadowMeshIt;
 		}
 
+		rRenderContext.PopModelView();
+		rRenderContext.PopMVP();
+
 		m_pExponentialShadowMapShader->Deactivate();
-		
+
 		pSpot->DeactivateBuffer();
 		
 		pSpot->ActivateDepthTexture();
 			
 		m_pLogBlur10Shader->Activate();
+		rRenderContext.SetCurrentShader(m_pLogBlur10Shader);
 		float pPixelSize[2] = { 1.0f/ SpotShadow::iShadowMapSize, 0.0f };
 		m_pLogBlur10Shader->setUniform2fv( m_iLogBlur10ShaderPixelSizeHandle, 1, pPixelSize );
 
@@ -1222,8 +1455,9 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 //--------------------------------------------------------------------------------------------------------------------
 void DeferredRenderer::ComputeAvgLum()
 {
-	Engine const& rEngine = Engine::GetInstance();
-	
+	Engine & rEngine = Engine::GrabInstance();
+	RenderingContext& rRenderContext = rEngine.GrabRenderContext();
+
 	unsigned int iWindowWidth = rEngine.GetWindowWidth();
 	unsigned int iWindowHeight = rEngine.GetWindowHeight();
 	
@@ -1234,6 +1468,7 @@ void DeferredRenderer::ComputeAvgLum()
 	m_pHDRSceneBuffer->ActivateTexture();
 	
 	m_pDownSample4x4Shader->Activate();
+	rRenderContext.SetCurrentShader(m_pDownSample4x4Shader);
 	
 	float pPixelSize[2] = { 1.0f/ ( iWindowWidth/GLOW_RATIO ), 1.0f / ( iWindowHeight/GLOW_RATIO ) };
 	m_pDownSample4x4Shader->setUniform2fv( m_iDownSampleShaderPixelSizeHandle, 1, pPixelSize);
@@ -1246,7 +1481,8 @@ void DeferredRenderer::ComputeAvgLum()
 	//Computing average luminance
 	m_p64x64LumBuffer->Activate();
 	m_pAvgLumInitShader->Activate();
-	
+	rRenderContext.SetCurrentShader(m_pAvgLumInitShader);
+
 	m_pDownSampledSceneBuffer->ActivateTexture();
 	
 	pPixelSize[0] = 1.0f/ 64.0f;
@@ -1258,7 +1494,8 @@ void DeferredRenderer::ComputeAvgLum()
 	//Downsampling to 16x16
 	m_p16x16LumBuffer->Activate();
 	m_pDownSample4x4Shader->Activate();
-	
+	rRenderContext.SetCurrentShader(m_pDownSample4x4Shader);
+
 	m_p64x64LumBuffer->ActivateTexture();
 	
 	pPixelSize[0] = 1.0f/ 16.0f;
@@ -1279,7 +1516,8 @@ void DeferredRenderer::ComputeAvgLum()
 	//Downsampling to 1x1
 	m_p1x1LumBuffer->Activate();
 	m_pAvgLumFinalShader->Activate();
-	
+	rRenderContext.SetCurrentShader(m_pAvgLumFinalShader);
+
 	m_p4x4LumBuffer->ActivateTexture();
 	
 	pPixelSize[0] = 1.0f;
@@ -1291,7 +1529,8 @@ void DeferredRenderer::ComputeAvgLum()
 	//Light Adaptation
 	m_pCurrentAdaptationBuffer->Activate();
 	m_pLightAdaptationShader->Activate();
-	
+	rRenderContext.SetCurrentShader(m_pLightAdaptationShader);
+
 	float fTimes[2] = { m_fFrameTime * 0.0001f, m_fAdaptationBaseTime };
 	m_pLightAdaptationShader->setUniform2fv( m_iAdaptationShaderTimeHandle, 1, fTimes );
 
@@ -1311,6 +1550,7 @@ void DeferredRenderer::ComputeAvgLum()
 	m_pBrightPass1Buffer->Activate();
 
 	m_pBrightPassShader->Activate();
+	rRenderContext.SetCurrentShader(m_pBrightPassShader);
 	pPixelSize[0] = 1.0f / ( iWindowWidth / GLOW_RATIO );
 	pPixelSize[1] = 1.0f /( iWindowHeight / GLOW_RATIO );
 	m_pBrightPassShader->setUniform2fv( m_iBrightPassShaderInvViewPortHandle, 1, pPixelSize);
@@ -1332,6 +1572,8 @@ void DeferredRenderer::ComputeAvgLum()
 	m_pBrightPass1Buffer->ActivateTexture();
 
 	m_pBlur10Shader->Activate();
+	rRenderContext.SetCurrentShader(m_pBlur10Shader);
+
 	pPixelSize[0] = 1.0f / ( iWindowWidth / GLOW_RATIO );
 	pPixelSize[1] = 0.0f;
 	m_pBlur10Shader->setUniform2fv( m_iBlur10ShaderPixelSizeHandle, 1, pPixelSize);
@@ -1442,7 +1684,7 @@ void DeferredRenderer::GetVisibleObjects( RenderingContext& rRenderContext, cons
 //--------------------------------------------------------------------------------------------------------------------
 void DeferredRenderer::Render()
 {
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );	
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
 	
 	Engine& rEngine = Engine::GrabInstance();
 	RenderingContext& rRenderContext = rEngine.GrabRenderContext();
@@ -1456,13 +1698,13 @@ void DeferredRenderer::Render()
 
 	// Retrieving scene matrices
 	// Todo can be used by uniform now, right?
-	float4x4 mProjection = GlperspectiveMatrixY( rCamera.GetFOV(), (float)iWindowWidth/(float)iWindowHeight,rCamera.GetNear(), rCamera.GetFar() );
+	float4x4 mProjection = GlperspectiveMatrix( rCamera.GetFOV(), (float)iWindowWidth/(float)iWindowHeight,rCamera.GetNear(), rCamera.GetFar() );
 	float4x4 mInvProjection = !mProjection;
 
-	vec3 f3CamPos = rCamera.GetPos();
 	float4x4 mView =  rCamera.GetViewMatrix();
 
 	float4x4 mViewProjection = transpose(mProjection) * mView;
+	float4x4 mInvViewProjection = !mViewProjection;
 
 	Frustum oViewFrustum;
 	oViewFrustum.loadFrustum( transpose(mViewProjection) );
@@ -1473,16 +1715,30 @@ void DeferredRenderer::Render()
 	std::vector< SpotLight* >	oSpotLights;
 	std::vector< SpotShadow* >	oSpotShadows;
 	
-	const SkyBox* pSkyBox = rRenderContext.GetSkyBox();	
+	const SkyBox* pSkyBox = rRenderContext.GetSkyBox();
 	
 	//Frustum culling
 	GetVisibleObjects( rRenderContext, oViewFrustum, mView, oSceneMeshes, oTransparentSceneMeshes, oOmniLights, oSpotLights, oSpotShadows );
-	
-	RenderShadowMaps( rRenderContext.GetSceneMeshes(),oSpotShadows,rHardwareRenderContext );
-	
-	rHardwareRenderContext.Reshape( iWindowWidth, iWindowHeight, rCamera.GetFOV(), rCamera.GetNear(), rCamera.GetFar() );	
-	rCamera.LookAt();
 
+	if(!rRenderContext.GetDirectionalLights().empty())
+	{
+		if( !m_pDirectionalShadowLight )
+		{
+			m_pDirectionalShadowLight = rRenderContext.GetDirectionalLights().front();
+		}
+		if( bComputeFrustumBoundingSpheres )
+		{
+			ComputeFrustumBoundingSpheres( transpose(mInvProjection), rCamera.GetNear(), rCamera.GetFar() );
+		}
+		RenderCascadedShadowMap(rRenderContext.GetSceneMeshes(), !mView);
+	}
+
+	RenderShadowMaps( rRenderContext.GetSceneMeshes(),oSpotShadows,rHardwareRenderContext );
+
+	rHardwareRenderContext.Reshape( iWindowWidth, iWindowHeight, rCamera.GetFOV(), rCamera.GetNear(), rCamera.GetFar() );	
+
+	rRenderContext.PushMVP(mViewProjection);
+	rRenderContext.PushModelView(mView);
 	//GBuffer pass
 	m_pGBuffer->Activate();
 	
@@ -1524,12 +1780,29 @@ void DeferredRenderer::Render()
 
 	Engine::GrabInstance().GrabRenderingContext().ReshapeGlOrtho( iWindowWidth, iWindowHeight );
 
+	float4x4 oOrthoMatrix = orthoMatrix(0.0, iWindowWidth, 0, iWindowHeight,-0.2f,0.2f);
+	rRenderContext.PushMVP(oOrthoMatrix);
+
 	if( !m_vDirectionalLightQuads.empty() )
 	{
-		m_pDirectionalLightShader->Activate();	
+		m_pDirectionalLightShader->Activate();
 		m_pDirectionalLightShader->CommitStdUniforms();
-		m_pDirectionalLightShader->setUniformMatrix4fv( m_iDirectionalLightShaderInvProjHandle, mInvProjection );		
+		m_pDirectionalLightShader->setUniformMatrix4fv( m_iDirectionalLightShaderInvProjHandle, mInvProjection );
 		
+		glActiveTexture( GL_TEXTURE2 );
+		m_pDirectionalShadowLight->ActivateDepthTexture();
+		float pMatrices[ 16 * DirectionalLight::iCascadeCount ];
+		for( unsigned int i = 0; i < DirectionalLight::iCascadeCount; ++i)
+		{
+			float * pMatrice = transpose(m_pDirectionalShadowLight->GetMatrix(i) * mInvViewProjection);
+			for(unsigned int j = 0; j < 16; ++j)
+			{
+				pMatrices[i*16+j] = pMatrice[j];
+			}
+		}
+
+		m_pDirectionalLightShader->setUniformMatrix4fv( m_iDirectionalLightShaderShadowMatrixHandle, DirectionalLight::iCascadeCount, pMatrices );
+		m_pDirectionalLightShader->setUniform4fv(m_iDirectionalLightShaderSphereHandle,DirectionalLight::iCascadeCount,m_pFrustumBoundingSpheres);
 		RenderDirectionalLights( m_vDirectionalLightQuads );
 
 		m_pDirectionalLightShader->Deactivate();
@@ -1538,7 +1811,7 @@ void DeferredRenderer::Render()
 	//Render Omni Lights
 	if( !m_vOmniLightQuads.empty() )
 	{
-		m_pOmniLightShader->Activate();	
+		m_pOmniLightShader->Activate();
 		m_pOmniLightShader->CommitStdUniforms();
 		m_pOmniLightShader->setUniformMatrix4fv( m_iOmniLightShaderInvProjHandle, mInvProjection );
 
@@ -1550,7 +1823,7 @@ void DeferredRenderer::Render()
 	//Render Spot Lights
 	if( !m_vSpotLightQuads.empty() )
 	{
-		m_pSpotLightShader->Activate();	
+		m_pSpotLightShader->Activate();
 		m_pSpotLightShader->CommitStdUniforms();
 		m_pSpotLightShader->setUniformMatrix4fv( m_iSpotLightShaderInvProjHandle, mInvProjection );
 		RenderSpotLights( m_vSpotLightQuads, m_iSpotLightShaderColorAndInverseRadiusHandle, m_iSpotLightShaderViewSpacePosAndMultiplierHandle, m_iSpotLightShaderViewSpaceDirHandle, m_iSpotLightShaderCosInAndOutHandle );
@@ -1559,7 +1832,7 @@ void DeferredRenderer::Render()
 
 	if( !oSpotShadows.empty() )
 	{
-		m_pSpotShadowShader->Activate();	
+		m_pSpotShadowShader->Activate();
 		m_pSpotShadowShader->CommitStdUniforms();
 		m_pSpotShadowShader->setUniformMatrix4fv( m_iSpotShadowShaderInvProjHandle, mInvProjection );
 
@@ -1573,6 +1846,8 @@ void DeferredRenderer::Render()
 	
 	m_pLightBuffer->Deactivate();
 
+	rRenderContext.PopMVP();
+
 	glActiveTexture( GL_TEXTURE0 );
 	Texture2D::Deactivate();
 	glActiveTexture( GL_TEXTURE1 );
@@ -1581,7 +1856,7 @@ void DeferredRenderer::Render()
 
 	glDisable(GL_BLEND);
 	glEnable( GL_DEPTH_TEST );
-	
+
 	//Material pass
 	//The material pass needs to fetch the light buffer
 	glActiveTexture( GL_TEXTURE6 );
@@ -1589,7 +1864,6 @@ void DeferredRenderer::Render()
 	
 	//Restoring perspective view
 	rHardwareRenderContext.Reshape( iWindowWidth, iWindowHeight, rCamera.GetFOV(), rCamera.GetNear(), rCamera.GetFar() );
-	rCamera.LookAt();
 	
 	m_pHDRSceneBuffer->Activate();
 	
@@ -1692,12 +1966,13 @@ void DeferredRenderer::Render()
 	glActiveTexture( GL_TEXTURE0 );
 	Texture2D::Deactivate();
 	m_pHDRSceneBuffer->Deactivate();
-	
+	rRenderContext.PopMVP();
+	rRenderContext.PopModelView();
 	ComputeAvgLum();
 	
 	//Tone mapping
 	m_pToneMappingShader->Activate();
-	
+	rRenderContext.SetCurrentShader(m_pToneMappingShader);
 	m_pToneMappingShader->setUniformf( m_iToneMappingShaderKeyHandle, m_fToneMappingKey );
 	
 	m_pHDRSceneBuffer->ActivateTexture();
@@ -1715,7 +1990,8 @@ void DeferredRenderer::Render()
 	
 	//Post process: bloom, color correction, fxaa
 	m_pPostProcessShader->Activate();
-	m_pPostProcessShader->CommitStdUniforms();
+	rRenderContext.SetCurrentShader(m_pPostProcessShader);
+
 	m_pPostProcessShader->setUniformf( m_iPostProcessShaderGlowMultiplierHandle, m_fGlowMultiplier );
 	m_pPostProcessShader->setUniformi( glGetUniformLocation( m_pPostProcessShader->getHandle(), "iDebug" ), m_iDebugFlag );
 	m_pLDRSceneBuffer->ActivateTexture();
@@ -1750,6 +2026,7 @@ void DeferredRenderer::Render()
 	
 	m_pDOFBlur1Buffer->Activate();
 	m_pDownSample4x4DOF->Activate();
+	rRenderContext.SetCurrentShader(m_pDownSample4x4DOF);
 	float pPixelSize[2] = { 1.0f/ (iWindowWidth), 1.0f/ (iWindowHeight) };
 	m_pDownSample4x4DOF->setUniform2fv( m_iDownSample4x4DOFPixelSizeHandle, 1, pPixelSize );
 	DrawFullScreenQuad( iWindowWidth/2, iWindowHeight/2);
@@ -1764,6 +2041,7 @@ void DeferredRenderer::Render()
 	m_pDOFBlur2Buffer->Activate();
 
 	m_pBlur6Shader->Activate();
+	rRenderContext.SetCurrentShader(m_pBlur6Shader);
 	pPixelSize[0] = 1.0f / ( iWindowWidth / 2 );
 	pPixelSize[1] = 0.0f;
 	m_pBlur6Shader->setUniform2fv( m_iBlur6ShaderPixelSizeHandle, 1, pPixelSize);
@@ -1781,6 +2059,7 @@ void DeferredRenderer::Render()
 	Texture2D::Deactivate();
 	
 	m_pDOFShader->Activate();
+	rRenderContext.SetCurrentShader(m_pDOFShader);
 	glActiveTexture( GL_TEXTURE0 );
 	m_pLDRSceneBuffer2->ActivateTexture();
 	glActiveTexture( GL_TEXTURE1 );
@@ -1806,7 +2085,6 @@ void DeferredRenderer::Render()
 	}
 	if( m_bShowDebugMenu )	
 	{
-		
 		//Profiling infos
 		std::stringstream oGPUStream;
 		oGPUStream << "GPU:" << m_fFrameTime << "ms";
@@ -1833,14 +2111,13 @@ void DeferredRenderer::Render()
 		DisplayText( o3DObjectStream.str(), iWindowWidth - PROFILING_LEFT_OFFSET, 170, m_pFont );
 		
 		DisplayDebugMenu();
-		
 	}
 }
 
 void DeferredRenderer::DebugRender( const std::vector< SceneMesh* >& oSceneMeshes, const std::vector< SceneMesh* >& oTransparentSceneMeshes, const std::vector< SpotShadow* >& oSpotShadows, const std::vector< SpotLight* >& oSpotLights )
 {
 	Engine& rEngine = Engine::GrabInstance();
-
+	RenderingContext& rRenderContext = rEngine.GrabRenderContext();
 	unsigned int iWindowWidth = rEngine.GetWindowWidth();
 	unsigned int iWindowHeight = rEngine.GetWindowHeight();
 	
@@ -1848,10 +2125,10 @@ void DeferredRenderer::DebugRender( const std::vector< SceneMesh* >& oSceneMeshe
 	AbstractCamera & rCamera = rEngine.GetCurrentCamera();
 	
 	rHardwareRenderContext.Reshape( iWindowWidth, iWindowHeight, rCamera.GetFOV(), rCamera.GetNear(), rCamera.GetFar() );
-	rCamera.LookAt();
 
-	glClear( GL_DEPTH_BUFFER_BIT );	
-
+	glClear( GL_DEPTH_BUFFER_BIT );
+	//DrawCube(m_pFrustumPoints);
+	glColor3f(1.0f,0.0f,0.0f);
 	if( m_iDebugBoundingBox )
 	{
 		std::vector< SceneMesh* >::const_iterator oMeshIt = oSceneMeshes.begin();	
@@ -1952,6 +2229,7 @@ void DeferredRenderer::DebugRender( const std::vector< SceneMesh* >& oSceneMeshe
 		glActiveTexture( GL_TEXTURE0 );
 		m_pGBuffer->ActivateTexture();
 		m_pBasicTextureShader->Activate();
+		rRenderContext.SetCurrentShader(m_pBasicTextureShader);
 		DrawFullScreenQuad( iWindowWidth, iWindowHeight );
 		m_pBasicTextureShader->Deactivate();
 	}
@@ -1960,6 +2238,7 @@ void DeferredRenderer::DebugRender( const std::vector< SceneMesh* >& oSceneMeshe
 		glActiveTexture( GL_TEXTURE0 );
 		m_pGBuffer->ActivateTexture();
 		m_pDebugGlossShader->Activate();
+		rRenderContext.SetCurrentShader(m_pDebugGlossShader);
 		DrawFullScreenQuad( iWindowWidth, iWindowHeight );
 		m_pDebugGlossShader->Deactivate();
 	}
@@ -1968,6 +2247,7 @@ void DeferredRenderer::DebugRender( const std::vector< SceneMesh* >& oSceneMeshe
 		glActiveTexture( GL_TEXTURE0 );
 		m_pLightBuffer->ActivateTexture();
 		m_pBasicTextureShader->Activate();
+		rRenderContext.SetCurrentShader(m_pBasicTextureShader);
 		DrawFullScreenQuad( iWindowWidth, iWindowHeight );
 		m_pBasicTextureShader->Deactivate();
 	}
@@ -1976,6 +2256,7 @@ void DeferredRenderer::DebugRender( const std::vector< SceneMesh* >& oSceneMeshe
 		glActiveTexture( GL_TEXTURE0 );
 		m_pLightBuffer->ActivateTexture();
 		m_pDebugSpecularShader->Activate();
+		rRenderContext.SetCurrentShader(m_pDebugSpecularShader);
 		DrawFullScreenQuad( iWindowWidth, iWindowHeight );
 		m_pDebugSpecularShader->Deactivate();
 	}
@@ -1984,6 +2265,7 @@ void DeferredRenderer::DebugRender( const std::vector< SceneMesh* >& oSceneMeshe
 		glActiveTexture( GL_TEXTURE0 );
 		m_pHDRSceneBuffer->ActivateTexture();
 		m_pBasicTextureShader->Activate();
+		rRenderContext.SetCurrentShader(m_pBasicTextureShader);
 		DrawFullScreenQuad( iWindowWidth, iWindowHeight );
 		m_pBasicTextureShader->Deactivate();
 	}
@@ -1992,6 +2274,7 @@ void DeferredRenderer::DebugRender( const std::vector< SceneMesh* >& oSceneMeshe
 		glActiveTexture( GL_TEXTURE0 );
 		m_pBrightPass1Buffer->ActivateTexture();
 		m_pBasicTextureShader->Activate();
+		rRenderContext.SetCurrentShader(m_pBasicTextureShader);
 		DrawFullScreenQuad( iWindowWidth, iWindowHeight );
 		m_pBasicTextureShader->Deactivate();
 	}
@@ -2000,7 +2283,17 @@ void DeferredRenderer::DebugRender( const std::vector< SceneMesh* >& oSceneMeshe
 		glActiveTexture( GL_TEXTURE0 );
 		m_pGBuffer->ActivateDepthTexture();
 		m_pDebugDepthShader->Activate();
+		rRenderContext.SetCurrentShader(m_pDebugDepthShader);
 		DrawFullScreenQuad( iWindowWidth, iWindowHeight );
 		m_pDebugDepthShader->Deactivate();
+	}
+	else if( m_iDebugRender == 8 && m_pDirectionalShadowLight )
+	{
+		glActiveTexture( GL_TEXTURE0 );
+		m_pDirectionalShadowLight->ActivateDepthTexture();
+		m_pBasicTextureShader->Activate();
+		rRenderContext.SetCurrentShader(m_pBasicTextureShader);
+		DrawFullScreenQuad( iWindowWidth, iWindowHeight );
+		m_pBasicTextureShader->Deactivate();
 	}
 }

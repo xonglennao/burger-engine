@@ -8,6 +8,8 @@ varying float fVarInverseRadius;
 varying float fVarMultiplier;
 varying float fZMin;
 
+uniform float4x4 mMVP;
+
 void main()
 {
 	vVarLightPos = vec3( vViewSpacePosAndMultiplier.xyz );
@@ -16,6 +18,5 @@ void main()
 	fVarInverseRadius = vColorAndInverseRadius.a;
 
 	fZMin = vVarLightPos.z - 1.0 / fVarInverseRadius;
-
-	gl_Position = ftransform();
+	gl_Position = mMVP * gl_Vertex;
 }

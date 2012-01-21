@@ -4,11 +4,11 @@
 //
 //--------------------------------------------------------------------------------------------------------------------
 
-	SphereCamera::SphereCamera( float fRadius, float fFOV, const vec3& f3Pos, const vec2& f2Rotation, const vec4& f4DofParams, const vec2& fSpeed )
-		: AbstractCamera( fFOV, f3Pos, f2Rotation, f4DofParams, fSpeed )
-		, m_fRadius( fRadius )
-	{			
-	};
+SphereCamera::SphereCamera( float fRadius, float fFOV, const vec3& f3Pos, const vec2& f2Rotation, const vec4& f4DofParams, const vec2& fSpeed )
+	: AbstractCamera( fFOV, f3Pos, f2Rotation, f4DofParams, fSpeed )
+	, m_fRadius( fRadius )
+{
+};
 
 //--------------------------------------------------------------------------------------------------------------------
 //
@@ -37,7 +37,15 @@ void SphereCamera::Update( float fDeltaTime )
 		m_fDofOffset -= fMovingSpeed;
 	}
 	
-	_InternalUpdate();
+	if( m_iFlags )
+	{
+		m_bNeedsUpdate = true;
+	}
+
+	if( m_bNeedsUpdate )
+	{
+		_InternalUpdate();
+	}
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -55,16 +63,11 @@ void SphereCamera::_InternalUpdate()
 
 	m_f3PositionOnSphere *= m_fRadius;
 	m_f3PositionOnSphere += m_f3Pos;
+
+	m_mViewMatrix = rotateXY( -m_fRX*DEG_TO_RAD, m_fRY*DEG_TO_RAD ) * translate( -m_f3PositionOnSphere.x, -m_f3PositionOnSphere.y, -m_f3PositionOnSphere.z );
 }
 
-void SphereCamera::LookAt()
+const float4x4& SphereCamera::GetViewMatrix() const
 {
-	glRotatef( -m_fRX, 1.0f, 0.0f, 0.0f );
-	glRotatef( -m_fRY, 0.0f, 1.0f, 0.0f );
-	glTranslatef( -m_f3PositionOnSphere.x, -m_f3PositionOnSphere.y, -m_f3PositionOnSphere.z );
-}
-
-float4x4 const SphereCamera::GetViewMatrix() const
-{
-	return rotateXY( -m_fRX*DEG_TO_RAD, m_fRY*DEG_TO_RAD ) * translate( -m_f3PositionOnSphere.x, -m_f3PositionOnSphere.y, -m_f3PositionOnSphere.z );
+	return m_mViewMatrix;
 }

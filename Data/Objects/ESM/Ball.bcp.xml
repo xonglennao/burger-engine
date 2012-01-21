@@ -5,9 +5,9 @@
       <parameters>
         <position x="0.0" y="0.5" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
         <mesh>
-          <file>../Data/Mesh/unit_sphere.obj</file>
+          <file>../Data/Mesh/hd_unit_sphere.obj</file>
           <part>
-            <material>../Data/Materials/prison/stoneFloorDiffuseBump.bma.xml</material>
+            <material>../Data/Materials/test_directional/GlossyWhite.bma.xml</material>
           </part>
         </mesh>
       </parameters>

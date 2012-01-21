@@ -1,0 +1,223 @@
+<component id="composite">
+  <parameters>
+    <position x="0.0" y="0.0" z="0.0"/>
+    
+    <component id="render">
+      <parameters>
+        <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/column.obj</file>
+          <part>
+            <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="2.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/column.obj</file>
+          <part>
+            <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="4.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/column.obj</file>
+          <part>
+            <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="6.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/column.obj</file>
+          <part>
+            <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="8.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/column.obj</file>
+          <part>
+            <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+    
+    <component id="render">
+      <parameters>
+        <position x="-2.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/column.obj</file>
+          <part>
+            <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-4.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/column.obj</file>
+          <part>
+            <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-6.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/column.obj</file>
+          <part>
+            <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-8.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/column.obj</file>
+          <part>
+            <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+
+    <component id="render">
+      <parameters>
+        <position x="0.0" y="0.0" z="-15.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/column.obj</file>
+          <part>
+            <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="2.0" y="0.0" z="-15.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/column.obj</file>
+          <part>
+            <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="4.0" y="0.0" z="-15.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/column.obj</file>
+          <part>
+            <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="6.0" y="0.0" z="-15.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/column.obj</file>
+          <part>
+            <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="8.0" y="0.0" z="-15.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/column.obj</file>
+          <part>
+            <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-2.0" y="0.0" z="-15.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/column.obj</file>
+          <part>
+            <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-4.0" y="0.0" z="-15.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/column.obj</file>
+          <part>
+            <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-6.0" y="0.0" z="-15.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/column.obj</file>
+          <part>
+            <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <parameters>
+        <position x="-8.0" y="0.0" z="-15.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/column.obj</file>
+          <part>
+            <material>../Data/Materials/test_directional/MattWhite.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+  </parameters>
+</component>

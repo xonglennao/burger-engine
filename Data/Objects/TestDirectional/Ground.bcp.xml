@@ -1,0 +1,131 @@
+<component id="composite">
+  <parameters>
+    <position x="0.0" y="0.0" z="0.0"/>
+    <component id="render">
+      <!-- COMPONENT TEST Maybe the component render can have it's own position (off set from the object -->
+      <parameters>
+        <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/plane.obj</file>
+          <part>
+            <!--<material>../Data/Materials/Engine/ShaderError.bma.xml</material>-->
+            <material>../Data/Materials/prison/stoneFloorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <!-- COMPONENT TEST Maybe the component render can have it's own position (off set from the object -->
+      <parameters>
+        <position x="1.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/plane.obj</file>
+          <part>
+            <!--<material>../Data/Materials/Engine/ShaderError.bma.xml</material>-->
+            <material>../Data/Materials/prison/stoneFloorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <!-- COMPONENT TEST Maybe the component render can have it's own position (off set from the object -->
+      <parameters>
+        <position x="-1.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/plane.obj</file>
+          <part>
+            <!--<material>../Data/Materials/Engine/ShaderError.bma.xml</material>-->
+            <material>../Data/Materials/prison/stoneFloorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <!-- COMPONENT TEST Maybe the component render can have it's own position (off set from the object -->
+      <parameters>
+        <position x="0.0" y="0.0" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/plane.obj</file>
+          <part>
+            <!--<material>../Data/Materials/Engine/ShaderError.bma.xml</material>-->
+            <material>../Data/Materials/prison/stoneFloorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <!-- COMPONENT TEST Maybe the component render can have it's own position (off set from the object -->
+      <parameters>
+        <position x="1.0" y="0.0" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/plane.obj</file>
+          <part>
+            <!--<material>../Data/Materials/Engine/ShaderError.bma.xml</material>-->
+            <material>../Data/Materials/prison/stoneFloorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <!-- COMPONENT TEST Maybe the component render can have it's own position (off set from the object -->
+      <parameters>
+        <position x="-1.0" y="0.0" z="1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/plane.obj</file>
+          <part>
+            <!--<material>../Data/Materials/Engine/ShaderError.bma.xml</material>-->
+            <material>../Data/Materials/prison/stoneFloorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <!-- COMPONENT TEST Maybe the component render can have it's own position (off set from the object -->
+      <parameters>
+        <position x="0.0" y="0.0" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/plane.obj</file>
+          <part>
+            <!--<material>../Data/Materials/Engine/ShaderError.bma.xml</material>-->
+            <material>../Data/Materials/prison/stoneFloorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <!-- COMPONENT TEST Maybe the component render can have it's own position (off set from the object -->
+      <parameters>
+        <position x="1.0" y="0.0" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/plane.obj</file>
+          <part>
+            <!--<material>../Data/Materials/Engine/ShaderError.bma.xml</material>-->
+            <material>../Data/Materials/prison/stoneFloorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+    <component id="render">
+      <!-- COMPONENT TEST Maybe the component render can have it's own position (off set from the object -->
+      <parameters>
+        <position x="-1.0" y="0.0" z="-1.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
+        <mesh>
+          <file>../Data/Mesh/plane.obj</file>
+          <part>
+            <!--<material>../Data/Materials/Engine/ShaderError.bma.xml</material>-->
+            <material>../Data/Materials/prison/stoneFloorDiffuseBump.bma.xml</material>
+          </part>
+        </mesh>
+      </parameters>
+    </component>
+
+  </parameters>
+</component>

@@ -981,41 +981,74 @@ mat4 perspectiveMatrixY(const float fov, const int width, const int height, cons
 		0, 0, 1, 0);
 }
 
-mat4 GlperspectiveMatrixY( const float fov, const float aspect, const float znear, const float zfar)
+mat4 GlperspectiveMatrix( const float fov, const float aspect, const float znear, const float zfar)
 {
-  float ymax = znear * tan( fov * PI/360 );
-  float ymin = -ymax;
-  float xmax = ymax * aspect;
-  float xmin = ymin * aspect;
+	float ymax = znear * tan( fov * PI/360 );
+	float ymin = -ymax;
+	float xmax = ymax * aspect;
+	float xmin = ymin * aspect;
 
-  float width = xmax - xmin;
-  float height = ymax - ymin;
+	float width = xmax - xmin;
+	float height = ymax - ymin;
 
-  float depth = zfar - znear;
-  float q = -(zfar + znear) / depth;
-  float qn = -2 * (zfar * znear) / depth;
+	float depth = zfar - znear;
+	float q = -(zfar + znear) / depth;
+	float qn = -2 * (zfar * znear) / depth;
 
-  float w = 2 * znear / width;
-  float h = 2 * znear / height;
+	float w = 2 * znear / width;
+	float h = 2 * znear / height;
 
-  return mat4(
-  w, 0, 0, 0,
-  0, h, 0, 0,
-  0, 0, q, -1,
-  0,  0,  qn, 0
-  );
+	return mat4(
+		w, 0, 0, 0,
+		0, h, 0, 0,
+		0, 0, q, -1,
+		0,  0,  qn, 0
+		);
 }
 
-mat4 orthoMatrixX(const float left, const float right, const float top, const float bottom, const float zNear, const float zFar){
+mat4 orthoMatrixX(const float left, const float right, const float top, const float bottom, const float zNear, const float zFar)
+{
 	float rl = right - left;
 	float tb = top - bottom;
 	float fn = zFar - zNear;
 
 	return mat4(
-		2.0f / rl, 0,         0,         -(right + left) / rl,
-		0,         2.0f / tb, 0,         -(top + bottom) / tb,
-		0,         0,        -2.0f / fn, -(zFar + zNear) / fn,
-		0,         0,         0,         1);
+		2.0f / rl, 0, 0, -(right + left) / rl,
+		0, 2.0f / tb, 0, -(top + bottom) / tb,
+		0, 0, -2.0f / fn, -(zFar + zNear) / fn,
+		0, 0, 0,  1);
+}
+
+mat4 GlorthoMatrix( const float left, const float right, const float bottom, const float top, const float near, const float far)
+{
+	float x1y1 = 2.0f / (right - left);
+	float x2y2 = 2.0f / (top - bottom);
+	float x3y3 = -2.0f / (far - near);
+	float x4y1 = - (right + left) / (right - left);
+	float x4y2 = - (top + bottom) / (top - bottom);
+	float x4y3 = - (far + near) / (far - near);
+	// 4x4 projection matrix.
+	return mat4(
+		x1y1, 0.0, 0.0, 0.0,
+		0.0, x2y2, 0.0, 0.0,
+		0.0, 0.0, x3y3, 0.0,
+		x4y1,x4y2,x4y3,1.0);
+}
+
+mat4 orthoMatrix( const float left, const float right, const float bottom, const float top, const float near, const float far)
+{
+	float x1y1 = 2.0f / (right - left);
+	float x2y2 = 2.0f / (top - bottom);
+	float x3y3 = -2.0f / (far - near);
+	float x4y1 = - (right + left) / (right - left);
+	float x4y2 = - (top + bottom) / (top - bottom);
+	float x4y3 = - (far + near) / (far - near);
+	// 4x4 projection matrix.
+	return mat4(
+		x1y1,0.0,0.0,x4y1,
+		0.0,x2y2,0.0,x4y2,
+		0.0,0.0,x3y3,x4y3,
+		0.0,0.0,0.0,1.0);
 }
 
 mat4 toD3DProjection(const mat4 &m){
