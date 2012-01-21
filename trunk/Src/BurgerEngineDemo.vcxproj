@@ -36,6 +36,7 @@
     <ClInclude Include="BurgerEngine\External\GLee\GLee.h" />
     <ClInclude Include="BurgerEngine\External\GLFont\glfont.h" />
     <ClInclude Include="BurgerEngine\External\Math\Frustum.h" />
+    <ClInclude Include="BurgerEngine\External\Math\Miniball.h" />
     <ClInclude Include="BurgerEngine\External\Math\MyMath.h" />
     <ClInclude Include="BurgerEngine\External\Math\Vector.h" />
     <ClInclude Include="BurgerEngine\External\TinyXml\tinystr.h" />
@@ -57,6 +58,7 @@
     <ClInclude Include="BurgerEngine\Graphics\CommonGraphics.h" />
     <ClInclude Include="BurgerEngine\Graphics\DebugDraw.h" />
     <ClInclude Include="BurgerEngine\Graphics\DeferredRenderer.h" />
+    <ClInclude Include="BurgerEngine\Graphics\DirectionalLight.h" />
     <ClInclude Include="BurgerEngine\Graphics\EffectTechnique.h" />
     <ClInclude Include="BurgerEngine\Graphics\FBO.h" />
     <ClInclude Include="BurgerEngine\Graphics\ImageTool.h" />
@@ -134,6 +136,7 @@
     <ClCompile Include="BurgerEngine\Graphics\AbstractTexture.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\DebugDraw.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\DeferredRenderer.cpp" />
+    <ClCompile Include="BurgerEngine\Graphics\DirectionalLight.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\EffectTechnique.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\FBO.cpp" />
     <ClCompile Include="BurgerEngine\Graphics\ImageTool.cpp" />
@@ -189,7 +192,9 @@
     <None Include="..\Data\Scenes\prison.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="..\Data\Scenes\test_directional.xml" />
+    <None Include="..\Data\Scenes\test_directional.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\Data\Scenes\test_dof.xml">
       <SubType>Designer</SubType>
     </None>
@@ -200,6 +205,9 @@
     <None Include="..\Data\Shaders\Engine\AvgLumFinal.frag" />
     <None Include="..\Data\Shaders\Engine\AvgLumInit.frag" />
     <None Include="..\Data\Shaders\Engine\BrightPass.frag" />
+    <None Include="..\Data\Shaders\Engine\DebugRender\DebugDepth.frag" />
+    <None Include="..\Data\Shaders\Engine\DebugRender\DebugGloss.frag" />
+    <None Include="..\Data\Shaders\Engine\DebugRender\DebugSpecular.frag" />
     <None Include="..\Data\Shaders\Engine\DirectionalLight.frag" />
     <None Include="..\Data\Shaders\Engine\DirectionalLight.vert" />
     <None Include="..\Data\Shaders\Engine\DOF.frag" />

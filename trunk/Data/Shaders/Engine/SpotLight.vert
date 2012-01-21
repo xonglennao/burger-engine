@@ -12,6 +12,8 @@ varying float fZMin;
 varying vec3 vVarViewSpaceDir;
 varying vec2 vVarCosInAndOut;
 
+uniform float4x4 mMVP;
+
 void main()
 {
 	vVarLightPos = vec3( vViewSpacePosAndMultiplier.xyz );
@@ -24,5 +26,5 @@ void main()
 	vVarViewSpaceDir = vViewSpaceDir;
 	vVarCosInAndOut = vCosInAndOut;
 
-	gl_Position = ftransform();
+	gl_Position = mMVP * gl_Vertex;
 }

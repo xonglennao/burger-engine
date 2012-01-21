@@ -1,8 +1,9 @@
 varying vec3 vNormal;
+uniform float4x4 mMVP;
+uniform float4x4 mModelView;
 void main()
 {
 	//normal
-	vNormal = gl_NormalMatrix * gl_Normal;
-
-	gl_Position = ftransform();
+	vNormal = (mModelView * vec4(gl_Normal,0.0)).xyz;
+	gl_Position = mMVP * gl_Vertex;
 }

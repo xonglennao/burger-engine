@@ -173,7 +173,7 @@ void Engine::Run()
 		//Swap buffer
 		m_pWindow->Display();
 
-		m_pRenderingContext->CheckError();
+		//m_pRenderingContext->CheckError();
 	}
 }
  

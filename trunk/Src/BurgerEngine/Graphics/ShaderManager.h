@@ -26,7 +26,7 @@ class ShaderManager:public Singleton<ShaderManager>
 	friend class Singleton<ShaderManager>;
 
 	public:
-		Shader*	GetShader(const std::string& name);
+		Shader* GetShader(const std::string& name);
 		Shader* AddShader(const char* sName );
 
 		void clear();

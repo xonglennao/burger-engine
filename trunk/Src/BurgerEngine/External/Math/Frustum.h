@@ -42,7 +42,8 @@ struct Plane {
 	}
 
 	float dist(const vec3 &pos) const {
-		return dot(normal, pos) + offset;
+		float fDot = dot(normal, pos);
+		return fDot + offset;
 	}
 
 	vec3 normal;

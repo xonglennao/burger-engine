@@ -47,7 +47,6 @@ public:
 
 	vec3 const& GetPos() const	{return m_f3Pos;}
 	vec3 & GetPos() {return m_f3Pos;}
-	vec3 const& GetAim() const {return m_f3Aim;}
 	vec3 const& GetUp() const {return m_f3Up;}
 	vec3 const& GetRight() const {return m_f3Right;}
 
@@ -60,13 +59,10 @@ public:
 
 	vec4 const GetDofParams() const {return vec4( m_f4DofParams.x + m_fDofOffset, m_f4DofParams.y + m_fDofOffset,m_f4DofParams.z + m_fDofOffset, m_f4DofParams.w );}
 	
-	virtual float4x4 const GetViewMatrix() const = 0;
+	virtual const float4x4& GetViewMatrix() const = 0;
 	
-	virtual void LookAt() = 0;
-
 protected:
 	vec3& _GrabPos(){return m_f3Pos;}
-	vec3& _GrabAim(){return m_f3Aim;}
 	vec3& _GrabUp(){return m_f3Up;}
 
 	/// \brief Calculate new Position from updated parameters
@@ -87,7 +83,6 @@ protected:
 	/// The position Vector
 	/// \todo On next implementation, we should use a full matrix instead of separate vector
 	vec3 m_f3Pos;
-	vec3 m_f3Aim;
 	vec3 m_f3Up;
 	vec3 m_f3Right;
 
@@ -100,8 +95,11 @@ protected:
 	vec4	m_f4DofParams;
 	float	m_fDofOffset;
 
+	float4x4 m_mViewMatrix;
+
 	/// These flags are used when a key is pressed, in order to avoid keyboard repeat delay
 	int m_iFlags;
+	bool m_bNeedsUpdate;
 };
 
 

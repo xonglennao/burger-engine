@@ -223,6 +223,9 @@
     <ClCompile Include="BurgerEngine\FX\ParticleLifeEffector.cpp">
       <Filter>BurgerEngine\FX\Effector</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\Graphics\DirectionalLight.cpp">
+      <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -459,6 +462,12 @@
     <ClInclude Include="BurgerEngine\FX\ParticleLifeEffector.h">
       <Filter>BurgerEngine\FX\Effector</Filter>
     </ClInclude>
+    <ClInclude Include="BurgerEngine\External\Math\Miniball.h">
+      <Filter>BurgerEngine\External\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\Graphics\DirectionalLight.h">
+      <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="BurgerEngine">
@@ -598,6 +607,9 @@
     </Filter>
     <Filter Include="BurgerEngine\Graphics\Vertex">
       <UniqueIdentifier>{71d6b253-7a5f-470a-b4bb-4dd199ddd27d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\Data\Shaders\Engine\Debug">
+      <UniqueIdentifier>{19de77c9-c3a9-4882-997f-131d714a2c71}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -774,6 +786,15 @@
     </None>
     <None Include="..\Data\Shaders\Engine\PostProcess.vert">
       <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\DebugRender\DebugDepth.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine\Debug</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\DebugRender\DebugGloss.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine\Debug</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\DebugRender\DebugSpecular.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine\Debug</Filter>
     </None>
   </ItemGroup>
 </Project>

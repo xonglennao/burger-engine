@@ -104,12 +104,10 @@ void RenderingContext::AddLight( SceneLight& a_rLight, SceneLight::LightType a_e
 {
 	switch (a_eType)
 	{
-		case SceneLight::E_DIRECTIONAL:m_oDirectionalLights.push_back(&a_rLight);break;
+		case SceneLight::E_DIRECTIONAL:m_oDirectionalLights.push_back(static_cast<DirectionalLight*>(&a_rLight));break;
 		case SceneLight::E_OMNI_LIGHT:m_oOmniLights.push_back(static_cast<OmniLight*>(&a_rLight));break;
 		case SceneLight::E_SPOT_LIGHT: m_oSpotLights.push_back(static_cast<SpotLight*>(&a_rLight));break;
 		case SceneLight::E_SPOT_SHADOW: m_oSpotShadows.push_back(static_cast<SpotShadow*>(&a_rLight));break;
 		default:break;
 	}
 }
-
-

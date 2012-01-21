@@ -1,35 +1,170 @@
 <scene>
+
+  <settings>
+    <camera type="firstperson">
+      <position x="0.0" y="0.0" z="90.0" rX="0.0" rY="0.0" />
+      <speed position="0.01" rotation="0.05"/>
+      <parameters fov="45.0" dofNearBlur="-1150.0" dofFocalPlane="30.0" dofFarBlur="9999.0" dofMaxFarBlur="1.0"/>
+    </camera>
+    <postprocess>
+      <parameters toneMappingKey="1.0" glowMultiplier="0.0" brightPassThreshold="7.5" brightPassOffset="0.5" adaptationBaseTime="0.85" colorLUT="../Data/Textures/xml/neutral_lut.btx.xml"/>
+    </postprocess>
+  </settings>
+
   <!-- GROUND  -->
-   <sceneobject x="0.0" y="500.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1000">
-    <ressourcecomponent><file>TestDirectional/InvertedCube</file></ressourcecomponent>
-	<instance name= "Cube"/>
+  <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1000">
+    <component id="composite">
+      <parameters>
+        <ressourcecomponent>
+          <file>TestDirectional/Ground</file>
+          <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+
+        <ressourcecomponent>
+          <file>TestDirectional/Ground</file>
+          <position x="3.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+
+        <ressourcecomponent>
+          <file>TestDirectional/Ground</file>
+          <position x="-3.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+
+        <ressourcecomponent>
+          <file>TestDirectional/Ground</file>
+          <position x="0.0" y="0.0" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+
+        <ressourcecomponent>
+          <file>TestDirectional/Ground</file>
+          <position x="3.0" y="0.0" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+
+        <ressourcecomponent>
+          <file>TestDirectional/Ground</file>
+          <position x="-3.0" y="0.0" z="3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+
+        <ressourcecomponent>
+          <file>TestDirectional/Ground</file>
+          <position x="0.0" y="0.0" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+
+        <ressourcecomponent>
+          <file>TestDirectional/Ground</file>
+          <position x="3.0" y="0.0" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+
+        <ressourcecomponent>
+          <file>TestDirectional/Ground</file>
+          <position x="-3.0" y="0.0" z="-3.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+
+      </parameters>
+    </component>
   </sceneobject>
 
-  <sceneobject x="0.0" y="10.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
-    <ressourcecomponent><file>TestDirectional/GlossyBall</file></ressourcecomponent>
-	<instance name= "Ball01"/>
+  <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
+    <component id="composite">
+      <parameters>
+        <ressourcecomponent>
+          <file>TestDirectional/Columns</file>
+          <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+      </parameters>
+    </component>
   </sceneobject>
 
-  <sceneobject x="0.0" y="10.0" z="30.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
-    <ressourcecomponent><file>TestDirectional/GlossyBall</file></ressourcecomponent>
-	<instance name= "Ball02"/>
+  <sceneobject x="350.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
+    <component id="composite">
+      <parameters>
+        <ressourcecomponent>
+          <file>TestDirectional/Columns</file>
+          <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+      </parameters>
+    </component>
   </sceneobject>
 
-  <sceneobject x="30.0" y="10.0" z="30.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
-    <ressourcecomponent><file>TestDirectional/MattBall</file></ressourcecomponent>
-	<instance name= "Ball03"/>
+  <sceneobject x="-350.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
+    <component id="composite">
+      <parameters>
+        <ressourcecomponent>
+          <file>TestDirectional/Columns</file>
+          <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+      </parameters>
+    </component>
   </sceneobject>
 
-  <sceneobject x="20.0" y="10.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
-    <ressourcecomponent><file>TestDirectional/MattBall</file></ressourcecomponent>
-	<instance name= "Ball04"/>
+  <sceneobject x="0.0" y="0.0" z="-300.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
+    <component id="composite">
+      <parameters>
+        <ressourcecomponent>
+          <file>TestDirectional/Columns</file>
+          <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+      </parameters>
+    </component>
   </sceneobject>
 
-  <sceneobject x="1.0" y="1.0" z="1.0" rX="0" rY="0">
-    <light type="directional">
-      <Multiplier value="1.0"/>
-      <Color  r="1.0" g="1.0" b="1.0"/>
-    </light>
-  </sceneobject>  
+  <sceneobject x="-550.0" y="0.0" z="-300.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
+    <component id="composite">
+      <parameters>
+        <ressourcecomponent>
+          <file>TestDirectional/Columns</file>
+          <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+      </parameters>
+    </component>
+  </sceneobject>
+
+  <sceneobject x="550.0" y="0.0" z="-300.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
+    <component id="composite">
+      <parameters>
+        <ressourcecomponent>
+          <file>TestDirectional/Columns</file>
+          <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+      </parameters>
+    </component>
+  </sceneobject>
+
+  <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="10">
+    <component id="composite">
+      <parameters>
+        <ressourcecomponent>
+          <file>TestDirectional/Columns</file>
+          <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1.0" />
+        </ressourcecomponent>
+      </parameters>
+    </component>
+  </sceneobject>
+
+
+  <sceneobject x="0.0" y="0.0" z="0.0" rX="0" rY="0" scale="1">
+
+    <component id="composite">
+      <parameters>
+
+        <component id="light">
+          <parameters>
+            <position rX="30.0" rY="0.0" rZ="0.0" />
+            <light type="directional"/>
+            <Multiplier value="1.0"/>
+            <Color  r="1.0" g="1.0" b="1.0"/>
+          </parameters>
+        </component>
+
+      </parameters>
+    </component>
+
+  </sceneobject>
   
+  <sceneobject scale="500">
+    <skybox>
+      <material>../Data/Materials/test_directional/WhiteSky.bma.xml</material>
+    </skybox>
+  </sceneobject>
+
 </scene>

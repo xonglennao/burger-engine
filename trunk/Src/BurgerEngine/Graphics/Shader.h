@@ -27,6 +27,8 @@ class Shader
 			E_STD_DOF_PARAMS,
 			E_STD_MVP,
 			E_STD_INV_MVP,
+			E_STD_MODEL_VIEW,
+			E_STD_NORMAL_MATRIX,
 			E_STD_TIME
 		};
 
@@ -53,7 +55,8 @@ class Shader
 		void setUniformTexture( int iUniformLocation, int iUnit);
 
 		void setUniformMatrix4fv(const std::string& sName, float * pValue);
-		void setUniformMatrix4fv( int iUniformLocation, float * pValue);		
+		void setUniformMatrix4fv( int iUniformLocation, float * pValue);
+		void setUniformMatrix4fv( int iUniformLocation, unsigned int iCount, float * pValue);
 		//Debug Function, should not be used
 		GLhandleARB		getHandle();	
 

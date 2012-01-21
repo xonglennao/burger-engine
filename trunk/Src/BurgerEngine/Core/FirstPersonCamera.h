@@ -27,8 +27,7 @@ public:
 	/// \brief the main update fonction, for position etc...
 	void Update( float fDeltaTime );
 
-	void LookAt();
-	float4x4 const GetViewMatrix() const;
+	const float4x4& GetViewMatrix() const;
 
 private:
 	/// \brief Calculate new Position from updated parameters

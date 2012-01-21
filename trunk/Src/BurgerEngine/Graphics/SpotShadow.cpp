@@ -9,6 +9,8 @@ SpotShadow::SpotShadow()
 
 SpotShadow::~SpotShadow()
 {
+	delete m_oDepth;
+	m_oDepth = NULL;
 }
 
 void SpotShadow::ActivateBuffer(){ m_oDepth->Activate(); }

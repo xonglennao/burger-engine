@@ -34,7 +34,7 @@ public:
 
 public: 
 	void Draw( EffectTechnique::RenderingTechnique eTechnique );
-
+	
 	void SetScale( float fValue ){ m_fScale = fValue; }
 	void SetPartCount( unsigned int iValue ){ m_uPartCount = iValue; }
 

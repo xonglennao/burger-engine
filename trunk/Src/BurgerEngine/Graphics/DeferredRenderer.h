@@ -14,6 +14,7 @@
 
 #include "BurgerEngine/Graphics/CommonGraphics.h"
 #include "BurgerEngine/Graphics/EffectTechnique.h"
+#include "BurgerEngine/Graphics/DirectionalLight.h"
 #include "BurgerEngine/Graphics/OmniLight.h"
 #include "BurgerEngine/Graphics/SpotLight.h"
 #include "BurgerEngine/Graphics/SpotShadow.h"
@@ -74,7 +75,7 @@ private:
 	void DrawCube( const vec3 * pPoints );
 
 	/// \brief Creates and stores 1 screen space quad per directional light
-	void PrepareDirectionalLights( std::vector< SceneLight* > const& oSceneLights, AbstractCamera const& rCamera, float4x4 const& mView );
+	void PrepareDirectionalLights( std::vector< DirectionalLight* > const& oSceneLights, AbstractCamera const& rCamera, float4x4 const& mView );
 	/// \brief Displays 1 full screen quad per Directional Light
 	void RenderDirectionalLights( std::vector< SceneLight::SceneLightQuad > vDirectionalLightQuads );
 	
@@ -90,6 +91,9 @@ private:
 	void RenderSpotLights( std::vector< SpotLight::SpotLightQuad > vSpotLightQuads, unsigned int iColorAndInverseRadiusHandle, unsigned int iViewSpacePosAndMultiplierHandle, unsigned int iViewSpaceDirHandle, unsigned int iCosInAndOutHandle );
 
 	void PrepareAndRenderSpotShadows( const std::vector< SpotShadow* >& oSpotShadows, const AbstractCamera & rCamera, const float4x4& mView, const float4x4& mViewProjection );
+
+	void ComputeFrustumBoundingSpheres( const float4x4& mInvProjection, float fNear, float fFar );
+	void RenderCascadedShadowMap( const std::vector< SceneMesh* >& oSceneMeshes, const float4x4& mInvView );
 
 	void RenderShadowMaps( const std::vector< SceneMesh* >& oSceneMeshes, const std::vector< SpotShadow* >& oSpotShadows, OpenGLContext& a_rDriverRenderingContext );
 
@@ -158,6 +162,8 @@ private:
 	unsigned int	m_iDirectionalLightShaderInvProjHandle;
 	unsigned int	m_iDirectionalLightShaderColor;
 	unsigned int	m_iDirectionalLightShaderViewSpacePosAndMultiplierHandle;
+	unsigned int	m_iDirectionalLightShaderShadowMatrixHandle;
+	unsigned int	m_iDirectionalLightShaderSphereHandle;
 
 	Shader*			m_pOmniLightShader;
 	unsigned int	m_iOmniLightShaderInvProjHandle;
@@ -180,7 +186,9 @@ private:
 	unsigned int	m_iSpotShadowShaderCosInAndOutHandle;
 
 	Shader*			m_pExponentialShadowMapShader;
-	
+
+	Shader*			m_pShadowMapShader;
+
 	Shader*			m_pBlur6Shader;
 	unsigned int	m_iBlur6ShaderPixelSizeHandle;
 
@@ -234,6 +242,14 @@ private:
 	std::vector< OmniLight::OmniLightQuad > m_vOmniLightQuads;
 	std::vector< SpotLight::SpotLightQuad > m_vSpotLightQuads;
 
+	//Sun shadow variables
+	DirectionalLight * m_pDirectionalShadowLight;
+	//4 slices
+	//vec3 * m_pFrustumPoints;
+	//sphere x,y,z and radius
+	bool bComputeFrustumBoundingSpheres;
+	float * m_pFrustumBoundingSpheres;
+	
 	Texture3D * m_pColorLUT;
 };
 

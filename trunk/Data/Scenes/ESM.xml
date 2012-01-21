@@ -4,7 +4,7 @@
     <camera type="firstperson">
       <position x="0.0" y="34.0" z="20.0" rX="0.0" rY="0.0" radius="20.0"/>
       <speed position="0.05" rotation="0.05"/>
-      <parameters fov="45.0" dofNearBlur="-50.0" dofFocalPlane="70.0" dofFarBlur="180.0" dofMaxFarBlur="1.0"/>
+      <parameters fov="45.0" dofNearBlur="-50.0" dofFocalPlane="70.0" dofFarBlur="380.0" dofMaxFarBlur="1.0"/>
     </camera>
     <postprocess>
       <parameters toneMappingKey="0.15" glowMultiplier="0.0" brightPassThreshold="0.5" brightPassOffset="5.0" adaptationBaseTime="0.85" colorLUT="../Data/Textures/xml/neutral_lut.btx.xml"/>
@@ -13,32 +13,101 @@
 
   <sceneobject x="0.0" y="100.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="200.0">
     <ressourcecomponent><file>ESM/InvertedCube</file></ressourcecomponent>
-    <instance name= "Cube"/>
   </sceneobject>
 
-  <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">
-    <ressourcecomponent><file>ESM/Skeleton</file></ressourcecomponent>
-    <instance name= ""/>
+  <sceneobject x="0.0" y="25.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="5.0">
+    <ressourcecomponent><file>TestShadows/Balls</file></ressourcecomponent>
+    <movementhackercomponent>
+      <parameters>
+        <posy sinSpeed="2.5" sinAmplitude="20" sinPhase="0" cosSpeed="0" cosAmplitude="0" cosPhase="0" increment="0" lastPosMultiplier="0"/>
+        <rotationy sinSpeed="0" sinAmplitude="0" sinPhase="0" cosSpeed="0" cosAmplitude="0" cosPhase="0" increment="20" lastPosMultiplier="1"/>
+      </parameters>
+    </movementhackercomponent>
   </sceneobject>
 
-  <sceneobject x="0.0" y="0.0" z="0.0" rX="0" rY="80" rZ="0.0" scale="1">
-    <ressourcecomponent><file>ESM/Omni</file></ressourcecomponent>
-    <instance name= ""/>
+  <sceneobject x="30.0" y="25.0" z="50.0" rX="30.0" rY="-45.0" rZ="0.0" scale="1.0">
+    <component id="composite">
+
+      <parameters>
+        <component id="light">
+          <parameters>
+            <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"/>
+            <light type="spotshadow"/>
+            <Multiplier value="1.5"/>
+            <Radius value="200"/>
+            <InnerAngle value="1"/>
+            <OuterAngle value="45"/>
+            <Color  r="1.0" g="1.0" b="1.0"/>
+          </parameters>
+        </component>
+      </parameters>
+    </component>
+    
+    <movementhackercomponent>
+      <parameters>
+        <posx sinSpeed="0.8" sinAmplitude="50" sinPhase="0" cosSpeed="0" cosAmplitude="0" cosPhase="0" increment="0" lastPosMultiplier="0"/>
+        <posy sinSpeed="0.5" sinAmplitude="10" sinPhase="5" cosSpeed="0" cosAmplitude="0" cosPhase="0" increment="0" lastPosMultiplier="0"/>
+      </parameters>
+    </movementhackercomponent>
   </sceneobject>
 
-  <sceneobject x="0.0" y="50.0" z="30.0" rX="-45" rY="0.0" rZ="0.0" scale="1">
-    <ressourcecomponent><file>esm/spotshadow</file></ressourcecomponent>
-    <instance name= ""/>
-  </sceneobject>
+  <sceneobject x="0.0" y="0.0" z="0.0" rX="0" rY="0" rZ="0.0" scale="1">
+    
+    <component id="composite">
+      
+      <parameters>
+      
+        <position x="0.0" y="0.0" z="0.0"/>
 
-  <sceneobject x="0.0" y="50.0" z="30.0" rX="-45" rY="45.0" rZ="0.0" scale="1">
-    <ressourcecomponent><file>esm/spotshadow</file></ressourcecomponent>
-    <instance name= ""/>
-  </sceneobject>
+        <component id="light">
+          <parameters>
+            <position x="0.0" y="100.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"/>
+            <light type="omni"/>
+            <Multiplier value="0.05"/>
+            <Radius value="200"/>
+            <Color  r="1.0" g="1.0" b="1.0"/>
+          </parameters>
+        </component>
 
-  <sceneobject x="0.0" y="50.0" z="30.0" rX="-45" rY="-45.0" rZ="0.0" scale="1">
-    <ressourcecomponent><file>esm/spotshadow</file></ressourcecomponent>
-    <instance name= ""/>
+        <component id="light">
+          <parameters>
+            <position x="0.0" y="70.0" z="50.0" rX="-45.0" rY=".0" rZ="0.0"/>
+            <light type="spotshadow"/>
+            <Multiplier value="1.0"/>
+            <Radius value="200"/>
+            <InnerAngle value="1"/>
+            <OuterAngle value="30"/>
+            <Color  r="1.0" g="1.0" b="1.0"/>
+          </parameters>
+        </component>
+
+        <!--<component id="light">
+          <parameters>
+            <position x="30.0" y="45.0" z="0.0" rX="-45.0" rY="-90" rZ="0.0"/>
+            <light type="spotshadow"/>
+            <Multiplier value="1.0"/>
+            <Radius value="80"/>
+            <InnerAngle value="1"/>
+            <OuterAngle value="25"/>
+            <Color  r="1.0" g="1.0" b="1.0"/>
+          </parameters>
+        </component>
+
+        <component id="light">
+          <parameters>
+            <position x="-30.0" y="45.0" z="0.0" rX="-45.0" rY="90" rZ="0.0"/>
+            <light type="spotshadow"/>
+            <Multiplier value="1.0"/>
+            <Radius value="80"/>
+            <InnerAngle value="1"/>
+            <OuterAngle value="25"/>
+            <Color  r="1.0" g="1.0" b="1.0"/>
+          </parameters>
+        </component>-->
+
+      </parameters>
+    </component>
+  
   </sceneobject>
 
 </scene>

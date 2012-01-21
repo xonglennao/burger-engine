@@ -1,3 +1,6 @@
+#include "BurgerEngine/Core/Engine.h"
+#include "BurgerEngine/Graphics/RenderingContext.h"
+
 #include "BurgerEngine/Graphics/SceneMesh.h"
 
 #include "BurgerEngine/Graphics/StaticMesh.h"
@@ -27,30 +30,31 @@ void SceneMesh::Draw( EffectTechnique::RenderingTechnique eTechnique )
 {
 	if( m_pMesh )
 	{
-		glPushMatrix();
-		glTranslatef( m_f3Position.x, m_f3Position.y, m_f3Position.z );
+		Engine& rEngine = Engine::GrabInstance();
+		RenderingContext& rRenderContext = rEngine.GrabRenderContext();
 		
-		vec3 C = vec3( m_mRotationMatrix.rows[0].z, m_mRotationMatrix.rows[1].z, m_mRotationMatrix.rows[2].z );//(mRotation * vec4(0.0f,0.0f,1.0f,1.0f)).xyz();
-		vec3 M = vec3( -m_mRotationMatrix.rows[0].y, -m_mRotationMatrix.rows[1].y, -m_mRotationMatrix.rows[2].y );//(mRotation * vec4(0.0f,-1.0f,0.0f,1.0f)).xyz();
-		vec3 Q = cross(C,M);
-		float OR[16] = { Q[0], Q[1], Q[2], 0.0f, -M[0], -M[1], -M[2],0.0f, C[0], C[1], C[2],0.0f,0.0f,0.0f,0.0f,1.0f };
-		glMultMatrixf( OR );
-		
-		glScalef( m_fScale, m_fScale, m_fScale);
+		float4x4 oPositonMatrix = translate(m_f3Position.x,m_f3Position.y,m_f3Position.z) * m_mRotationMatrix * scale(m_fScale,m_fScale,m_fScale);
 
-		for( unsigned int i = 0; i < m_uPartCount; ++i )
+		rRenderContext.PushMVP( rRenderContext.GetMVP() * oPositonMatrix);
+		rRenderContext.PushModelView( rRenderContext.GetModelView() * oPositonMatrix );
+		if( eTechnique == EffectTechnique::E_RENDER_SHADOW_MAP )
 		{
-			if( eTechnique == EffectTechnique::E_RENDER_SHADOW_MAP )
+			rRenderContext.GetCurrentShader()->CommitStdUniforms();
+			m_pMesh->Render();
+		}
+		else
+		{
+			for( unsigned int i = 0; i < m_uPartCount; ++i )
 			{
-				m_pMesh->Render( i );
-			}
-			else if( m_vMaterials[ i ]->Activate( eTechnique ) )
-			{
-				m_pMesh->Render( i );
-				m_vMaterials[ i ]->Deactivate( eTechnique );
+				if( m_vMaterials[ i ]->Activate( eTechnique ) )
+				{
+					m_pMesh->Render( i );
+					m_vMaterials[ i ]->Deactivate( eTechnique );
+				}
 			}
 		}
-		glPopMatrix();
+		rRenderContext.PopMVP();
+		rRenderContext.PopModelView();
 	}
 }
 
@@ -99,10 +103,8 @@ void SceneMesh::ComputeBoundingBox()
 		}
 	}
 
-	vf3Point3[0] = vf3Point3[0] * m_fScale;
-	vf3Point3[0] = ( m_mRotationMatrix * vec4( vf3Point3[0], 1.0f ) ).xyz();
-	vf3Point3[0] = vf3Point3[0] + m_f3Position;
-				
+	vf3Point3[0] = (translate(m_f3Position.x,m_f3Position.y,m_f3Position.z) * m_mRotationMatrix * scale(m_fScale,m_fScale,m_fScale) * vec4( vf3Point3[0], 1.0f )).xyz();
+
 	m_pBoundingBox[0] = m_pBoundingBox[1] = vf3Point3[0].x;
 	m_pBoundingBox[2] = m_pBoundingBox[3] = vf3Point3[0].y;
 	m_pBoundingBox[4] = m_pBoundingBox[5] = vf3Point3[0].z;
@@ -118,10 +120,8 @@ void SceneMesh::ComputeBoundingBox()
 
 	while( oIt != oEnd )
 	{
-		vec3 f3Point = (*oIt) * m_fScale;
-		f3Point = ( m_mRotationMatrix * vec4( f3Point, 1.0f ) ).xyz();
-		f3Point = f3Point + m_f3Position;
-				
+		vec3 f3Point = (translate(m_f3Position.x,m_f3Position.y,m_f3Position.z) * m_mRotationMatrix * scale(m_fScale,m_fScale,m_fScale) * vec4( (*oIt), 1.0f )).xyz();
+
 		m_pBoundingBox[0] = min( m_pBoundingBox[0], f3Point.x );
 		m_pBoundingBox[1] = max( m_pBoundingBox[1], f3Point.x );
 
