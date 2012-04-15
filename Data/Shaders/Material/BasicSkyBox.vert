@@ -1,5 +1,5 @@
 varying vec3 vPos;
-uniform float4x4 mMVP;
+uniform mat4 mMVP;
 void main(void)
 {
 	vPos = vec3( gl_Vertex );

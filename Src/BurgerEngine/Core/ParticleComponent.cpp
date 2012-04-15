@@ -46,127 +46,107 @@ ParticleComponent::~ParticleComponent()
 //--------------------------------------------------------------------------------------------------------------------
 void ParticleComponent::Initialize(TiXmlElement const& a_rParameters)
 {
-	//Retrieve position
-	//First we should check is there is not an desc offset
-	//to the parent node
-	/*float x, y, z, rX, rY, rZ, scale;
-
-	TiXmlElement const* pPositionXml = a_rParameters.FirstChildElement( "position" );
-	if(pPositionXml)
-	{
-		//gets position & bounded volume information 
-		pPositionXml->QueryFloatAttribute("x",&x);
-		pPositionXml->QueryFloatAttribute("y",&y);
-		pPositionXml->QueryFloatAttribute("z",&z);
-
-		pPositionXml->QueryFloatAttribute("rX",&rX);
-		pPositionXml->QueryFloatAttribute("rY",&rY);
-		pPositionXml->QueryFloatAttribute("rZ",&rZ);
-
-		pPositionXml->QueryFloatAttribute("scale",&scale);
-	}
-
-	//Find a way to retrieve position from the composite
-	TiXmlElement const* pMeshXml = a_rParameters.FirstChildElement( "mesh" );
-	if(pMeshXml)
-	{
-		//checks for the filename
-		TiXmlElement const* pFilename = pMeshXml->FirstChildElement( "file" );
-		if(pFilename)
-		{
-			std::string sMeshFileName( pFilename->GetText() );
-			StaticMesh* pMesh = MeshManager::GrabInstance().loadMesh( sMeshFileName );
-
-			if( pMesh )
-			{
-				m_pMesh = new SceneMesh( pMesh );
-
-				vec3 f3OffsetedPos(x,y,z);
-				SetPos(f3OffsetedPos);
-				//Get the parent node transformation
-				CompositeComponent const* pParent = GetParent();
-				if (pParent)
-				{
-					f3OffsetedPos += pParent->GetPos();
-					//pSceneMesh->SetPos( pParent->GetPos());
-				}
-
-				m_pMesh->SetPos(f3OffsetedPos);
-				m_pMesh->SetRotation( vec3( rX, rY, rZ ));
-				m_pMesh->SetScale( scale);
-				m_pMesh->ComputeBoundingBox();
-
-				//checks for materials used on different parts of the mesh
-				unsigned int iPartCount = 0;
-
-				TiXmlElement const* pPart = pMeshXml->FirstChildElement( "part" );
-				while( pPart )
-				{
-					++iPartCount;
-					TiXmlElement const* pXmlMaterial = pPart->FirstChildElement( "material" );
-					if( pXmlMaterial )
-					{
-						Material * pMaterial = MaterialManager::GrabInstance().addMaterial( pXmlMaterial->GetText() );
-						if( pMaterial )
-						{
-							m_pMesh->AddMaterial( pMaterial );
-						}
-					}			
-
-					pPart = pPart->NextSiblingElement( "part" );
-				}
-
-				m_pMesh->SetPartCount( iPartCount );
-
-				//Add itsefl to the render context
-				//Or maybe juste the mesh should register?? Or To the rendering pipeline( which does not exist so far)
-				Engine::GrabInstance().GrabRenderContext().AddMesh(*m_pMesh);
-			}
-
-		}
-
-	}*/
+	//Create the whole system
 	m_pSystem = new ParticleSystem();
 
+	TiXmlElement const* pGroupsXml = a_rParameters.FirstChildElement( "group" );
 
-
-	if (m_pSystem)
+	while (pGroupsXml)
 	{
-		/*
-			TestValue
-		*/
-		/// Create the matos
-		//Material * pMaterial = MaterialManager::GrabInstance().addMaterial( pXmlMaterial->GetText() );
-		Material * pMaterial = MaterialManager::GrabInstance().addMaterial( "../Data/Materials/prison/ParticleTest.bma.xml" );
-		/// \todo Creat a Parameter struc for Emitter init
 		ParticleGroup* pGroup = new ParticleGroup();
+		/// \todo Creat a Parameter struc for Emitter init
 		pGroup->Initialize();
-		ParticleEmitter& rEmitter = pGroup->GrabEmitter();
-		rEmitter.m_fEmissionFrequency = 100.0f;
-		rEmitter.m_uMaxCount = 10000;
-		rEmitter.m_fLife = 10.0f;
-		rEmitter.m_uLoopCount = 0;
 
-		ParticleAccelerationEffector* pEffector = new ParticleAccelerationEffector();
-		pEffector->SetAcceleration(vec3(0.0,-10.0,0.0));
-		pGroup->AddEffector(*pEffector);
+		//Retrieve position
+		//First we should check is there is not an desc offset
+		//to the parent node
+		float x, y, z;
 
-		ParticleLifeEffector* pEffector1 = new ParticleLifeEffector();
-		pGroup->AddEffector(*pEffector1);
+		pGroupsXml->QueryFloatAttribute("x",&x);
+		pGroupsXml->QueryFloatAttribute("y",&y);
+		pGroupsXml->QueryFloatAttribute("z",&z);
 
-		ParticleVelocityEffector* pEffector2 = new ParticleVelocityEffector();
-		pEffector2->SetVelocity(vec3(-5.0,20.0,-5.0), vec3(5.0,15.0,5.0));
-		pGroup->AddEffector(*pEffector2);
+		TiXmlElement const* pEmitterXml = pGroupsXml->FirstChildElement( "emitter" );
+		if (pEmitterXml)
+		{
+			// TODO : take position
+			ParticleEmitter& rEmitter = pGroup->GrabEmitter();
+			pEmitterXml->QueryFloatAttribute("frequency",&rEmitter.m_fEmissionFrequency);
+			pEmitterXml->QueryIntAttribute("max_count",(int*)&rEmitter.m_uMaxCount);
+			pEmitterXml->QueryIntAttribute("loop_count",(int*)&rEmitter.m_uLoopCount);
+			pEmitterXml->QueryFloatAttribute("life",&rEmitter.m_fLife);
+		}
+		
+		TiXmlElement const* pEffectorXml = pGroupsXml->FirstChildElement( "effector" );
+		//now were adding the effector for each row 
+		while (pEffectorXml)
+		{
+			std::string sId;
+			pEffectorXml->QueryValueAttribute<std::string>("id",&sId);
+			ParticleEffector* pEffector;
+			if (sId == "velocity")
+			{
+				ParticleVelocityEffector* pTypedEffector = new ParticleVelocityEffector();
+				vec3 vMax, vMin;
+				TiXmlElement const* pMinXml = pEffectorXml->FirstChildElement( "min" );
+				pMinXml->QueryFloatAttribute("x", &vMin.x);
+				pMinXml->QueryFloatAttribute("y", &vMin.y);
+				pMinXml->QueryFloatAttribute("z", &vMin.z);
 
+				TiXmlElement const* pMaxXml = pEffectorXml->FirstChildElement( "max" );
+				pMaxXml->QueryFloatAttribute("x", &vMax.x);
+				pMaxXml->QueryFloatAttribute("y", &vMax.y);
+				pMaxXml->QueryFloatAttribute("z", &vMax.z);
+				//pEffector->SetVelocity(vec3(-5.0,20.0,-5.0), vec3(5.0,15.0,5.0));
+				pTypedEffector->SetVelocity(vMin, vMax);
+				pEffector = pTypedEffector;
+			}
+			else if (sId == "life")
+			{
+				ParticleLifeEffector* pTypedEffector = new ParticleLifeEffector();
+				float fMin, fMax;
+				TiXmlElement const* pValueXml = pEffectorXml->FirstChildElement( "value" );
+				pValueXml->QueryFloatAttribute("min", &fMin);
+				pValueXml->QueryFloatAttribute("max", &fMax);
 
+				pTypedEffector->SetLifeTime(fMin, fMax);
+				pEffector = pTypedEffector;
+			}
+			else if (sId == "acceleration")
+			{
+				ParticleAccelerationEffector* pTypedEffector = new ParticleAccelerationEffector();
+				vec3 vMax, vMin;
+				TiXmlElement const* pMinXml = pEffectorXml->FirstChildElement( "min" );
+				pMinXml->QueryFloatAttribute("x", &vMin.x);
+				pMinXml->QueryFloatAttribute("y", &vMin.y);
+				pMinXml->QueryFloatAttribute("z", &vMin.z);
+
+				TiXmlElement const* pMaxXml = pEffectorXml->FirstChildElement( "max" );
+				pMaxXml->QueryFloatAttribute("x", &vMax.x);
+				pMaxXml->QueryFloatAttribute("y", &vMax.y);
+				pMaxXml->QueryFloatAttribute("z", &vMax.z);
+				pTypedEffector->SetAcceleration(vMin, vMax);
+				pEffector = pTypedEffector;
+			}
+			pGroup->AddEffector(*pEffector);
+
+			//
+			pEffectorXml = pEffectorXml->NextSiblingElement( "effector" );
+		}
+		//The material 
+		TiXmlElement const* pMaterialXml = pGroupsXml->FirstChildElement( "material" );
+		Material * pMaterial = MaterialManager::GrabInstance().addMaterial( pMaterialXml->GetText() );
 		pGroup->SetMaterial(pMaterial);
+
 		m_pSystem->AddGroup(pGroup);
-		m_pSystem->Play();
-
-
-		ParticleContext& rContext = Engine::GrabInstance().GrabParticleContext();
-		rContext.RegisterFXInstance(*m_pSystem);
+		//Get the next group
+		pGroupsXml = pGroupsXml->NextSiblingElement( "group" );
 	}
+	
+	m_pSystem->Play();
+	ParticleContext& rContext = Engine::GrabInstance().GrabParticleContext();
+	rContext.RegisterFXInstance(*m_pSystem);
+	
 
 }
 

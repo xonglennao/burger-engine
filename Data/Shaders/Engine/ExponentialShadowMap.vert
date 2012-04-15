@@ -1,6 +1,6 @@
 varying vec4 vPos;
-uniform float4x4 mMVP;
-uniform float4x4 mModelView;
+uniform mat4 mMVP;
+uniform mat4 mModelView;
 
 void main()
 {

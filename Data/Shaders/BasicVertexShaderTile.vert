@@ -1,5 +1,5 @@
 uniform float fTileSize; //Used to scale texture coordinates
-uniform float4x4 mMVP;
+uniform mat4 mMVP;
 
 void main()
 {

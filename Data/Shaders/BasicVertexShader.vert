@@ -1,4 +1,4 @@
-uniform float4x4 mMVP;
+uniform mat4 mMVP;
 
 void main()
 {

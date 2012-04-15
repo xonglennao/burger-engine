@@ -1,13 +1,33 @@
 <component id="composite">
-  <parameters>
-    <position x="0.0" y="0.0" z="0.0"/>
-	 <component id="particle">
-      <parameters>
-		<effectors>
-			<effector/>
-		</effectors>
-        <material>../Data/Materials/prison/ParticleTest.bma.xml</material>
-      </parameters>
-    </component>
-  </parameters>
+	<parameters>
+		<position x="0.0" y="0.0" z="0.0"/>
+		<component id="particle">
+			<parameters>
+				<group x="0.0" y="0.0" z="0.0"> <!-- Il peut y avoir plusieur groups par system de particule
+						Cela correspont à un emmeteur ( à la UDK) -->
+					<emitter frequency="100" max_count="10000" loop_count="0" life="10.0"/>
+					<effector id="velocity">
+						<min x="-5.0" y="20.0" z="-5.0"/>
+						<max x="5.0" y="15.0" z="5.0"/>
+					</effector>
+					<effector id="life">
+						<value min="1.0" max="2.0"/>
+					</effector>
+					<effector id="acceleration">
+						<min x="0.0" y="-10.0" z="0.0"/>
+						<max x="0.0" y="-10.0" z="0.0"/>
+						<!--
+						<min x="-5.0" y="20.0" z="-5.0"/>
+						<max x="5.0" y="15.0" z="5.0"/>
+						-->
+					</effector>
+					<material>../Data/Materials/prison/ParticleTest.bma.xml</material>
+				</group>
+				<!--
+				<group>
+				</group>
+				-->
+			</parameters>
+		</component>
+	</parameters>
 </component>

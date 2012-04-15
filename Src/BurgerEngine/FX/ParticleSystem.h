@@ -27,7 +27,7 @@ public:
 		m_bIsRunning(false)
 		{}
 
-	~ParticleSystem(){}
+	~ParticleSystem(){m_vGroups.clear();}
 
 	/// \brief Init
 	void Initialize();
