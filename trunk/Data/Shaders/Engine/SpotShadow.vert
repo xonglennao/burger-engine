@@ -12,7 +12,7 @@ varying float fZMin;
 varying vec3 vVarViewSpaceDir;
 varying vec2 vVarCosInAndOut;
 
-uniform float4x4 mMVP;
+uniform mat4 mMVP;
 
 void main()
 {

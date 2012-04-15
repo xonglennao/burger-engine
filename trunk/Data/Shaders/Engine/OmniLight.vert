@@ -8,7 +8,7 @@ varying float fVarInverseRadius;
 varying float fVarMultiplier;
 varying float fZMin;
 
-uniform float4x4 mMVP;
+uniform mat4 mMVP;
 
 void main()
 {

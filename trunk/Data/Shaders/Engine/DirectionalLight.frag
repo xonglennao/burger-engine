@@ -48,12 +48,15 @@ void main()
 
 	float fCompResult = dot(vComp,vec4(1.0,2.0,3.0,4.0));
 	float fIndex = max(fCompResult - 1.0,0.0);
-	vColor = vColors[fIndex];
+	//This is an ungly fix but we do not have a choice
+	//cg compiler need an Integer between bracket, no float - it's not supported since 1.3 version
+	int iIndex = int(fIndex);
+	vColor = vColors[iIndex];
 
 	vec3 vVertexToLight = vVarLightPos.xyz - vViewSpaceVertex.xyz;
 	float fDistanceToLight = length( vVertexToLight );
 
-	vec4 vLightSpaceVertex = mShadowMatrices[fIndex] * vClipPos;
+	vec4 vLightSpaceVertex = mShadowMatrices[iIndex] * vClipPos;
 	vLightSpaceVertex = ( vLightSpaceVertex / vLightSpaceVertex.w ) * 0.5 + 0.5;
 	
 	vec2 vShadowCoords = vec2( vLightSpaceVertex.x*0.25+(fIndex*0.25), vLightSpaceVertex.y );
