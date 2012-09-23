@@ -12,6 +12,10 @@ AbstractCamera::AbstractCamera( float fFOV, const vec3& f3Pos, const vec2& f2Rot
 	, m_f4DofParams ( f4DofParams )
 	, m_fDofOffset ( 0.0f )
 	, m_fPositionSpeed( fSpeed.x )
+	, m_fAnalogX(0.0f)
+	, m_fAnalogY(0.0f)
+	, m_fAnalogRX(0.0f)
+	, m_fAnalogRY(0.0f)
 	, m_fRotationSpeed( fSpeed.y )
 	, m_iFlags( 0 )
 	, m_bNeedsUpdate( true )
@@ -46,4 +50,24 @@ void AbstractCamera::SetFlag( CameraFlagEnum eFlag, bool bValue )
 		m_iFlags |= eFlag;
 	else
 		m_iFlags ^= eFlag;
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void AbstractCamera::Update( float fDeltaTime )
+{
+	if(m_iFlags)
+	{
+		_UpdatePosition(fDeltaTime);
+	}
+	else
+	{
+		_UpdatePositionAnalog(fDeltaTime);
+	}
+
+	if( m_bNeedsUpdate )
+	{
+		_InternalUpdate();
+	}
 }

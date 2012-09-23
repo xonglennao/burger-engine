@@ -12,23 +12,18 @@ FirstPersonCamera::FirstPersonCamera( float fFOV, const vec3& f3Pos, const vec2&
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void FirstPersonCamera::Update( float fDeltaTime )
+void FirstPersonCamera::_UpdatePosition( float fDeltaTime )
 {
 	vec3& rf3Pos = _GrabPos();
-
-	float fMovingSpeed = m_fPositionSpeed * fDeltaTime * 1000.0f;
+	float fMovingSpeed = m_fPositionSpeed * fDeltaTime;
 	
 	if( m_iFlags & E_CAMERA_FORWARD)
 	{
-		rf3Pos.x += fMovingSpeed * m_f3Direction.x;
-		rf3Pos.y += fMovingSpeed * m_f3Direction.y;
-		rf3Pos.z += fMovingSpeed * m_f3Direction.z;
+		rf3Pos += fMovingSpeed * m_f3Direction;
 	}
 	if( m_iFlags & E_CAMERA_BACKWARD )
 	{
-		rf3Pos.x -= fMovingSpeed * m_f3Direction.x;
-		rf3Pos.y -= fMovingSpeed * m_f3Direction.y;
-		rf3Pos.z -= fMovingSpeed * m_f3Direction.z;
+		rf3Pos -= fMovingSpeed * m_f3Direction;
 	}
 	if( m_iFlags & E_CAMERA_LEFT )
 	{
@@ -49,15 +44,20 @@ void FirstPersonCamera::Update( float fDeltaTime )
 		m_fDofOffset -= fMovingSpeed;
 	}
 
-	if( m_iFlags )
-	{
-		m_bNeedsUpdate = true;
-	}
+	m_bNeedsUpdate = true;
+}
 
-	if( m_bNeedsUpdate )
-	{
-		_InternalUpdate();
-	}
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void FirstPersonCamera::_UpdatePositionAnalog( float fDeltaTime )
+{
+	vec3& rf3Pos = _GrabPos();
+	float fMovingSpeed = m_fPositionSpeed * fDeltaTime;
+	rf3Pos += fMovingSpeed * m_f3Direction * m_fAnalogY;
+
+	rf3Pos.x -= fMovingSpeed * m_f3Right.x * m_fAnalogX;
+	rf3Pos.z -= fMovingSpeed * m_f3Right.z * m_fAnalogX;
 }
 
 //--------------------------------------------------------------------------------------------------------------------

@@ -59,15 +59,8 @@ Shader * ShaderManager::AddShader(const char * sName )
 
 			Shader* pShader	 =	new Shader();
 			std::cout << "LOADING SHADER : "<< sVertexShader <<" - "<< sPixelShader << std::endl << std::endl;
-			if ( pShader->LoadAndCompile( sVertexShader, sPixelShader ) )
-			{
-				return m_mShaders[ sName ] = pShader;
-			}
-			else
-			{
-				delete pShader;
-				return NULL;
-			}
+			assert(pShader->LoadAndCompile( sVertexShader, sPixelShader ) );
+			return m_mShaders[ sName ] = pShader;
 		}
 		return NULL;
 	}

@@ -226,6 +226,9 @@
     <ClCompile Include="BurgerEngine\Graphics\DirectionalLight.cpp">
       <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\External\XController\XController.cpp">
+      <Filter>BurgerEngine\External\XController</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -468,6 +471,9 @@
     <ClInclude Include="BurgerEngine\Graphics\DirectionalLight.h">
       <Filter>BurgerEngine\Graphics\SceneObjects</Filter>
     </ClInclude>
+    <ClInclude Include="BurgerEngine\External\XController\XController.h">
+      <Filter>BurgerEngine\External\XController</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="BurgerEngine">
@@ -610,6 +616,9 @@
     </Filter>
     <Filter Include="BurgerEngine\Data\Shaders\Engine\Debug">
       <UniqueIdentifier>{19de77c9-c3a9-4882-997f-131d714a2c71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\External\XController">
+      <UniqueIdentifier>{46d361ff-69e6-48e4-8ea0-a9d578a78bfa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -795,6 +804,12 @@
     </None>
     <None Include="..\Data\Shaders\Engine\DebugRender\DebugSpecular.frag">
       <Filter>BurgerEngine\Data\Shaders\Engine\Debug</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\ShadowMap.frag">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
+    </None>
+    <None Include="..\Data\Shaders\Engine\ShadowMap.vert">
+      <Filter>BurgerEngine\Data\Shaders\Engine</Filter>
     </None>
   </ItemGroup>
 </Project>

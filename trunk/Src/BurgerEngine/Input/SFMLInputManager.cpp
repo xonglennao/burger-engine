@@ -66,6 +66,8 @@ void SFMLInputManager::ProcessEvents()
 		case sf::Event::Closed:
 			rEngine.SetTerminate(true);
 			break;
+		default:
+			break;
 		}
 	
 	}

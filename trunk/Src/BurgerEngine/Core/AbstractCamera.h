@@ -37,7 +37,7 @@ public:
 	virtual ~AbstractCamera(){}
 
 	/// \brief the main update function, for position etc...
-	virtual void Update( float fDeltaTime ) = 0;
+	void Update( float fDeltaTime );
 
 	/// \brief Set flags related to camera movement
 	void SetFlag( CameraFlagEnum eFlag, bool bValue);
@@ -60,13 +60,24 @@ public:
 	vec4 const GetDofParams() const {return vec4( m_f4DofParams.x + m_fDofOffset, m_f4DofParams.y + m_fDofOffset,m_f4DofParams.z + m_fDofOffset, m_f4DofParams.w );}
 	
 	virtual const float4x4& GetViewMatrix() const = 0;
-	
+
+	void SetAnalogX(float fValue){ m_fAnalogX = fValue; };
+	void SetAnalogY(float fValue){ m_fAnalogY = fValue; };
+	void SetAnalogRX(float fValue){ m_fAnalogRX = fValue; };
+	void SetAnalogRY(float fValue){ m_fAnalogRY = fValue; };
+
 protected:
 	vec3& _GrabPos(){return m_f3Pos;}
 	vec3& _GrabUp(){return m_f3Up;}
 
 	/// \brief Calculate new Position from updated parameters
 	virtual void _InternalUpdate() = 0;
+
+	// compute the position from basic inputs (keyboard, button etc.)
+	virtual void _UpdatePosition( float fDeltaTime ) = 0;
+
+	//compute the position from analog inputs (joystick...)
+	virtual void _UpdatePositionAnalog( float fDeltaTime ) = 0;
 
 protected:
 	/// Angle : rotation around Up axis
@@ -76,6 +87,12 @@ protected:
 
 	/// Moving speed into space
 	float m_fPositionSpeed;
+
+	/// Analog values for motion and rotation 
+	float m_fAnalogX;
+	float m_fAnalogY;
+	float m_fAnalogRX;
+	float m_fAnalogRY;
 
 	/// Mouse speed (sensibility)
 	float m_fRotationSpeed;

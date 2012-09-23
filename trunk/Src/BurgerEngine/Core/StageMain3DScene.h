@@ -35,6 +35,7 @@ public:
 	bool OnKeyUp(unsigned char a_cKey);
 	bool OnKeyDown(unsigned char a_cKey);
 	bool OnMouseMoved(unsigned int a_uX, unsigned int a_uY);
+	bool OnJoystickMoved(unsigned int a_uStick, float a_fXValue, float a_fYValue);
 };
 
 

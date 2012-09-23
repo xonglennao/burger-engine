@@ -1,6 +1,5 @@
 #include "EventManager.h"
 #include "SFMLInputManager.h"
-
 #include <iostream>
 
 
@@ -11,6 +10,16 @@ void EventManager::Init()
 {
 	/// We are just using SFML, but we should do a AbstractInputManager
 	SFMLInputManager::InitializeInput();
+
+	int iNumConnected;
+	int* pPlayersConnected = XController::getConnectedPlayers(&iNumConnected);
+
+	m_oXboxController = NULL;
+
+	if(iNumConnected)
+	{
+		m_oXboxController = new XController( pPlayersConnected[0] );
+	}
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -25,6 +34,13 @@ void EventManager::Clear()
 	m_vMouseClickDownCallbacks.clear();
 	m_vMouseClickUpCallbacks.clear();
 	m_vResizeCallbacks.clear();
+
+	if(m_oXboxController)
+	{
+		m_oXboxController->vibrate(0.0f, 0.0f);
+		delete m_oXboxController;
+		m_oXboxController = NULL;
+	}
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -33,8 +49,24 @@ void EventManager::Clear()
 void EventManager::ProcessEventList()
 {
 	SFMLInputManager::ProcessEvents();
+	ProcessXboxControllerEvents();
+}
 
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void EventManager::ProcessXboxControllerEvents()
+{
+	m_oXboxController->update();
 
+	if( m_oXboxController->isConnected() )
+	{
+		XController::StickState stick = m_oXboxController->getLeftStickState();
+		DispatchJoystickValue(0,stick.dirX, stick.dirY );
+
+		stick = m_oXboxController->getRightStickState();
+		DispatchJoystickValue(1,stick.dirX, stick.dirY );
+	}
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -44,6 +76,7 @@ void EventManager::RegisterCallbackKeyboardUpKey(CallbackKeyboard& a_rCallback)
 {
 	m_vKeyboardUpKeyCallbacks.push_back(a_rCallback);
 }
+
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
@@ -196,6 +229,32 @@ void EventManager::UnRegisterCallbackResize(CallbackResize& a_rCallback)
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
+void EventManager::RegisterCallbackJoystick(CallbackXBoxJoystick& a_rCallback)
+{
+	m_vXBoxJoystickCallbacks.push_back(a_rCallback);
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void EventManager::UnRegisterCallbackJoystick(CallbackXBoxJoystick& a_rCallback)
+{
+	std::vector<CallbackXBoxJoystick>::iterator it = std::find(m_vXBoxJoystickCallbacks.begin(),
+		m_vXBoxJoystickCallbacks.end(),
+		a_rCallback);
+	if (it != m_vXBoxJoystickCallbacks.end())
+	{
+		m_vXBoxJoystickCallbacks.erase(it);
+	}
+	else
+	{
+		std::cerr<<"WARNING: CallBack not found."<<std::endl;
+	}
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
 void EventManager::DispatchKeyboardUpKeyEvent(unsigned char a_cKey) const
 {
 	std::vector<CallbackKeyboard>::const_iterator it = m_vKeyboardUpKeyCallbacks.begin() ;
@@ -295,6 +354,21 @@ void EventManager::DispatchResize(unsigned int a_uWidth, unsigned int a_uHeight)
 	while(it != m_vResizeCallbacks.end() && bContinue)
 	{
 		bContinue = (*it)(a_uWidth, a_uHeight);
+		++it;
+	}
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void EventManager::DispatchJoystickValue(unsigned int a_iStick, float a_iXValue, float a_iYValue) const
+{
+	std::vector<CallbackXBoxJoystick>::const_iterator it = m_vXBoxJoystickCallbacks.begin() ;
+	//The call back can specify that once its routine is done, all the other cannot exectute their routine.
+	bool bContinue = true;
+	while(it != m_vXBoxJoystickCallbacks.end() && bContinue)
+	{
+		bContinue = (*it)(a_iStick, a_iXValue, a_iYValue);
 		++it;
 	}
 }
