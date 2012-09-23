@@ -8,35 +8,14 @@ Here's some tasks to do.
 == Tasks ==
 
 === Shadows ===
- * Cull lights that are not visible when rendering shadowmap
+ * soft cascaded shadow maps
  * Try to have transparent object with shadow
- * VSM still need some tuning
 
 === Scene Object / Renderable Entity ===
- * cubemap (skybox)
- * particle system
- * bounding volume in order to do frustum culling
+ * particle system (In progress!!)
 
 === Deferred Rendering ===
- * Add directionnal lights
  * ~~new rendering technique : Refraction / distortion~~
-
-=== Post process===
- * Color correction using 3D LUT
-
-=== Materials ===
- * Put this in a separate xml (.bfx.xml):
-{{{
-<shadername>FillBGufferBasic</shadername>
-<vertexshader>../Data/Shaders/Material/FillGBufferBasic.vert</vertexshader>
-<pixelshader>../Data/Shaders/Material/FillGBufferBasic.frag</pixelshader>
-}}}
-
-=== Textures ===
- * .btx.xml file, so that we can specify the parameters (clamp/repeat, filtering etc.) for each texture
-
-=== Misc ===
- * Use default shaders/texture when there's a loading error 
 
 === Tools ===
  * A macro to display error or info message Ex: ADD_LOG_MESSAGE() ADD_ERROR_MESSAGE()...
