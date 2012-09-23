@@ -526,7 +526,7 @@ void DeferredRenderer::DrawFullScreenQuad( int iWindowWidth, int iWindowHeight, 
 	rEngine.GrabRenderingContext().ReshapeGlOrtho( iWindowWidth, iWindowHeight );
 	RenderingContext& rRenderContext = rEngine.GrabRenderContext();
 
-	float4x4 oOrthoMatrix = orthoMatrix(0.0, iWindowWidth, 0, iWindowHeight,-0.2f,0.2f);
+	float4x4 oOrthoMatrix = orthoMatrix(0.0, static_cast<float>(iWindowWidth), 0, static_cast<float>(iWindowHeight),-0.2f,0.2f);
 	rRenderContext.PushMVP(oOrthoMatrix * scale(static_cast<float>(iWindowWidth), static_cast<float>(iWindowHeight), 0.0f));
 	rRenderContext.GetCurrentShader()->CommitStdUniforms();
 	
@@ -1780,7 +1780,7 @@ void DeferredRenderer::Render()
 
 	Engine::GrabInstance().GrabRenderingContext().ReshapeGlOrtho( iWindowWidth, iWindowHeight );
 
-	float4x4 oOrthoMatrix = orthoMatrix(0.0, iWindowWidth, 0, iWindowHeight,-0.2f,0.2f);
+	float4x4 oOrthoMatrix = orthoMatrix(0.0, static_cast<float>(iWindowWidth), 0, static_cast<float>(iWindowHeight),-0.2f,0.2f);
 	rRenderContext.PushMVP(oOrthoMatrix);
 
 	if( !m_vDirectionalLightQuads.empty() )

@@ -24,15 +24,19 @@ public:
 	/// \brief destructor
 	~SphereCamera(){}
 
-	/// \brief the main update fonction, for position etc...
-	void Update( float fDeltaTime );
-
 	const float4x4& GetViewMatrix() const;
 
 private:
 	/// \brief Calculate new Position from updated parameters
 	void _InternalUpdate();
-	vec3 m_f3PositionOnSphere;
+
+	// compute the position from basic inputs (keyboard, button etc.)
+	void _UpdatePosition( float fDeltaTime );
+
+	//compute the position from analog inputs (joystick...)
+	void _UpdatePositionAnalog( float fDeltaTime );
+
+	vec3 m_f3CenterPosition;
 	float m_fRadius; 
 };
 

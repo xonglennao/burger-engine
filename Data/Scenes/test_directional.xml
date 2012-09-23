@@ -3,7 +3,7 @@
   <settings>
     <camera type="firstperson">
       <position x="0.0" y="0.0" z="90.0" rX="0.0" rY="0.0" />
-      <speed position="0.01" rotation="0.05"/>
+      <speed position="30.0" rotation="0.05"/>
       <parameters fov="45.0" dofNearBlur="-1150.0" dofFocalPlane="30.0" dofFarBlur="9999.0" dofMaxFarBlur="1.0"/>
     </camera>
     <postprocess>

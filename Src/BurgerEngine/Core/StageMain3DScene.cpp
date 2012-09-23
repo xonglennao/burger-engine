@@ -24,13 +24,16 @@ StageMain3DScene::StageMain3DScene(std::string const& a_sId)
 bool StageMain3DScene::Init()
 {
 	Engine::GrabInstance().GrabEventManager().RegisterCallbackKeyboardDownKey(
-		EventManager::CallbackKeyboard(this,&StageMain3DScene::OnKeyDown));
+	EventManager::CallbackKeyboard(this,&StageMain3DScene::OnKeyDown));
 
 	Engine::GrabInstance().GrabEventManager().RegisterCallbackKeyboardUpKey(
-		EventManager::CallbackKeyboard(this,&StageMain3DScene::OnKeyUp));
+	EventManager::CallbackKeyboard(this,&StageMain3DScene::OnKeyUp));
 
 	Engine::GrabInstance().GrabEventManager().RegisterCallbackMousePassiveMotion(
-		EventManager::CallbackMouseMotion(this,&StageMain3DScene::OnMouseMoved));
+	EventManager::CallbackMouseMotion(this,&StageMain3DScene::OnMouseMoved));
+
+	Engine::GrabInstance().GrabEventManager().RegisterCallbackJoystick(
+		EventManager::CallbackXBoxJoystick(this,&StageMain3DScene::OnJoystickMoved));
 
 	return true;
 }
@@ -45,6 +48,9 @@ StageMain3DScene::~StageMain3DScene()
 
 	Engine::GrabInstance().GrabEventManager().UnRegisterCallbackKeyboardUpKey(
 		EventManager::CallbackKeyboard(this,&StageMain3DScene::OnKeyUp));
+
+	Engine::GrabInstance().GrabEventManager().UnRegisterCallbackJoystick(
+		EventManager::CallbackXBoxJoystick(this,&StageMain3DScene::OnJoystickMoved));
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -154,6 +160,20 @@ bool StageMain3DScene::OnMouseMoved(unsigned int a_uX, unsigned int a_uY)
 
 	rEngine.GetWindow().GrabDriverWindow().SetCursorPosition( iHalfWidth, iHalfHeight );
 	
+	return true;
+}
+
+bool StageMain3DScene::OnJoystickMoved(unsigned int a_uStick, float a_fXValue, float a_fYValue)
+{
+	if(a_uStick == 0 )
+	{
+		Engine::GetInstance().GetCurrentCamera().SetAnalogY(pow(a_fYValue,3.0f));
+		Engine::GetInstance().GetCurrentCamera().SetAnalogX(pow(a_fXValue,3.0f));
+	}
+	else if(a_uStick == 1 )
+	{
+		Engine::GetInstance().GetCurrentCamera().UpdateAngles( static_cast<float>(-pow(a_fXValue,3.0f)*50.0f), static_cast<float>(pow(a_fYValue,3.0f)*50.0f) );
+	}
 	return true;
 }
 

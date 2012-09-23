@@ -13,8 +13,9 @@
 #define __EVENTMANAGER_H__
 
 #include <vector>
-//#include "BurgerEngine/Base/Functor.h"
+
 #include "BurgerEngine/External/Loki/Include/loki/Functor.h"
+#include "BurgerEngine/External/XController/XController.h"
 
 ///	\name EventManager.h
 ///	\brief	Register and dispatch eventCallbacks
@@ -26,6 +27,9 @@
 ///	Engine::GetInstance().GetEventManager().RegisterCallbackKeyboardUpKey(CallBackKeyBoard<this,MyClass::Foo>);
 ///	To unregister
 ///	Engine::GetInstance().GetEventManager().UnRegisterCallbackKeyboardUpKey(CallBackKeyBoard<this,MyClass::Foo>);
+
+class XController;
+
 class EventManager
 {
 public:
@@ -38,6 +42,13 @@ public:
 		unsigned int, // Coordinates
 		unsigned int)> CallbackMouseButton;
 	typedef Loki::Functor<bool,LOKI_TYPELIST_2(unsigned int, unsigned int)> CallbackResize;
+
+	typedef Loki::Functor<bool,LOKI_TYPELIST_1(unsigned int)> CallbackXBoxButtonPressed;
+	typedef Loki::Functor<bool,LOKI_TYPELIST_3(
+		unsigned int, //0 (left stick), 1 (right stick)
+		float, // x value
+		float //y value
+		)> CallbackXBoxJoystick;
 
 public:
 
@@ -75,6 +86,10 @@ public:
 	void RegisterCallbackResize(CallbackResize& a_rCallback);
 	void UnRegisterCallbackResize(CallbackResize& a_rCallback);
 
+	/// \brief Register for joystick values
+	void RegisterCallbackJoystick(CallbackXBoxJoystick& a_rCallback);
+	void UnRegisterCallbackJoystick(CallbackXBoxJoystick& a_rCallback);
+
 	///--------- Dispatch event ----------------
 	/// \brief	Send the key event to every register Callback
 	void DispatchKeyboardUpKeyEvent(unsigned char a_cKey) const;
@@ -97,8 +112,13 @@ public:
 	/// \brief	Send the Resize event to every register callback
 	void DispatchResize(unsigned int a_uWidth, unsigned int a_uHeight) const;
 
+	/// \brief	Send the release event to every register Callback
+	void DispatchJoystickValue(unsigned int a_iStick, float a_iXValue, float a_iYValue) const;
+
 
 private:
+
+	void ProcessXboxControllerEvents();
 
 	//Vector containing the callbacks
 	std::vector<CallbackKeyboard> m_vKeyboardUpKeyCallbacks;
@@ -108,6 +128,9 @@ private:
 	std::vector<CallbackMouseMotion> m_vMouseActiveMotionCallbacks;
 	std::vector<CallbackMouseButton> m_vMouseClickDownCallbacks;
 	std::vector<CallbackMouseButton> m_vMouseClickUpCallbacks;
+	std::vector<CallbackXBoxJoystick> m_vXBoxJoystickCallbacks;
+
+	XController* m_oXboxController; 
 	
 };
 

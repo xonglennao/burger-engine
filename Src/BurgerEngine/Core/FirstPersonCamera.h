@@ -24,14 +24,18 @@ public:
 	/// \brief destructor
 	~FirstPersonCamera(){}
 
-	/// \brief the main update fonction, for position etc...
-	void Update( float fDeltaTime );
-
 	const float4x4& GetViewMatrix() const;
 
 private:
 	/// \brief Calculate new Position from updated parameters
 	void _InternalUpdate();
+
+
+	// compute the position from basic inputs (keyboard, button etc.)
+	void _UpdatePosition( float fDeltaTime );
+
+	//compute the position from analog inputs (joystick...)
+	void _UpdatePositionAnalog( float fDeltaTime );
 
 	/// The direction the camera in pointing at
 private:
