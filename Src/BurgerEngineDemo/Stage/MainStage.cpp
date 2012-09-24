@@ -1,4 +1,3 @@
-#include "BurgerEngine/Core/StageMain3DScene.h"
 #include "BurgerEngine/Core/SceneGraph.h"
 #include "BurgerEngine/Core/Engine.h"
 #include "BurgerEngine/Core/AbstractCamera.h"
@@ -10,10 +9,12 @@
 
 #include "BurgerEngine/Graphics/Window.h"
 
+
+#include "BurgerEngineDemo/Stage/MainStage.h"
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-StageMain3DScene::StageMain3DScene(std::string const& a_sId)
+MainStage::MainStage(std::string const& a_sId)
 	: AbstractStage(a_sId)
 {
 }
@@ -21,19 +22,19 @@ StageMain3DScene::StageMain3DScene(std::string const& a_sId)
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-bool StageMain3DScene::Init()
+bool MainStage::Init()
 {
 	Engine::GrabInstance().GrabEventManager().RegisterCallbackKeyboardDownKey(
-	EventManager::CallbackKeyboard(this,&StageMain3DScene::OnKeyDown));
+	EventManager::CallbackKeyboard(this,&MainStage::OnKeyDown));
 
 	Engine::GrabInstance().GrabEventManager().RegisterCallbackKeyboardUpKey(
-	EventManager::CallbackKeyboard(this,&StageMain3DScene::OnKeyUp));
+	EventManager::CallbackKeyboard(this,&MainStage::OnKeyUp));
 
 	Engine::GrabInstance().GrabEventManager().RegisterCallbackMousePassiveMotion(
-	EventManager::CallbackMouseMotion(this,&StageMain3DScene::OnMouseMoved));
+	EventManager::CallbackMouseMotion(this,&MainStage::OnMouseMoved));
 
 	Engine::GrabInstance().GrabEventManager().RegisterCallbackJoystick(
-		EventManager::CallbackXBoxJoystick(this,&StageMain3DScene::OnJoystickMoved));
+		EventManager::CallbackXBoxJoystick(this,&MainStage::OnJoystickMoved));
 
 	return true;
 }
@@ -41,22 +42,22 @@ bool StageMain3DScene::Init()
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-StageMain3DScene::~StageMain3DScene()
+MainStage::~MainStage()
 {
 	Engine::GrabInstance().GrabEventManager().UnRegisterCallbackKeyboardDownKey(
-		EventManager::CallbackKeyboard(this,&StageMain3DScene::OnKeyDown));
+		EventManager::CallbackKeyboard(this,&MainStage::OnKeyDown));
 
 	Engine::GrabInstance().GrabEventManager().UnRegisterCallbackKeyboardUpKey(
-		EventManager::CallbackKeyboard(this,&StageMain3DScene::OnKeyUp));
+		EventManager::CallbackKeyboard(this,&MainStage::OnKeyUp));
 
 	Engine::GrabInstance().GrabEventManager().UnRegisterCallbackJoystick(
-		EventManager::CallbackXBoxJoystick(this,&StageMain3DScene::OnJoystickMoved));
+		EventManager::CallbackXBoxJoystick(this,&MainStage::OnJoystickMoved));
 }
 
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-bool StageMain3DScene::OnKeyDown(unsigned char a_cKey)
+bool MainStage::OnKeyDown(unsigned char a_cKey)
 {
 	switch ( a_cKey )
 	{
@@ -101,7 +102,7 @@ bool StageMain3DScene::OnKeyDown(unsigned char a_cKey)
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-bool StageMain3DScene::OnKeyUp(unsigned char a_cKey)
+bool MainStage::OnKeyUp(unsigned char a_cKey)
 {
 	switch ( a_cKey )
 	{
@@ -146,7 +147,7 @@ bool StageMain3DScene::OnKeyUp(unsigned char a_cKey)
 	return true;
 }
 
-bool StageMain3DScene::OnMouseMoved(unsigned int a_uX, unsigned int a_uY)
+bool MainStage::OnMouseMoved(unsigned int a_uX, unsigned int a_uY)
 {
 	Engine const& rEngine = Engine::GetInstance();
 	
@@ -163,7 +164,7 @@ bool StageMain3DScene::OnMouseMoved(unsigned int a_uX, unsigned int a_uY)
 	return true;
 }
 
-bool StageMain3DScene::OnJoystickMoved(unsigned int a_uStick, float a_fXValue, float a_fYValue)
+bool MainStage::OnJoystickMoved(unsigned int a_uStick, float a_fXValue, float a_fYValue)
 {
 	if(a_uStick == 0 )
 	{
@@ -180,6 +181,6 @@ bool StageMain3DScene::OnJoystickMoved(unsigned int a_uStick, float a_fXValue, f
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void StageMain3DScene::Update()
+void MainStage::Update()
 {
 }

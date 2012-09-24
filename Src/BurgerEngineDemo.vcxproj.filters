@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="BurgerEngineDemo\main.cpp">
-      <Filter>BurgerEngineDemo</Filter>
-    </ClCompile>
     <ClCompile Include="BurgerEngine\Graphics\AbstractPostEffect.cpp">
       <Filter>BurgerEngine\Graphics\Effect</Filter>
     </ClCompile>
@@ -28,9 +25,6 @@
     <ClCompile Include="BurgerEngine\Base\Functor.cpp">
       <Filter>BurgerEngine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="BurgerEngineDemo\StageTestInput.cpp">
-      <Filter>BurgerEngineDemo\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="BurgerEngine\Core\AbstractCamera.cpp">
       <Filter>BurgerEngine\Core\Camera</Filter>
     </ClCompile>
@@ -42,9 +36,6 @@
     </ClCompile>
     <ClCompile Include="BurgerEngine\Graphics\DebugDraw.cpp">
       <Filter>BurgerEngine\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="BurgerEngine\Core\StageMain3DScene.cpp">
-      <Filter>BurgerEngine\Core\Stage</Filter>
     </ClCompile>
     <ClCompile Include="BurgerEngine\Graphics\FBO.cpp">
       <Filter>BurgerEngine\Graphics\FBO</Filter>
@@ -261,9 +252,6 @@
     <ClInclude Include="BurgerEngine\Base\CommonBase.h">
       <Filter>BurgerEngine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="BurgerEngineDemo\StageTestInput.h">
-      <Filter>BurgerEngineDemo\Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="BurgerEngine\Graphics\CommonGraphics.h">
       <Filter>BurgerEngine\Graphics</Filter>
     </ClInclude>
@@ -278,9 +266,6 @@
     </ClInclude>
     <ClInclude Include="BurgerEngine\Graphics\DebugDraw.h">
       <Filter>BurgerEngine\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="BurgerEngine\Core\StageMain3DScene.h">
-      <Filter>BurgerEngine\Core\Stage</Filter>
     </ClInclude>
     <ClInclude Include="BurgerEngine\Graphics\FBO.h">
       <Filter>BurgerEngine\Graphics\FBO</Filter>
@@ -479,9 +464,6 @@
     <Filter Include="BurgerEngine">
       <UniqueIdentifier>{2d90855c-ae34-4647-a255-d725f699de00}</UniqueIdentifier>
     </Filter>
-    <Filter Include="BurgerEngineDemo">
-      <UniqueIdentifier>{90914403-df18-4bf8-86c8-512db48034d4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="BurgerEngine\Audio">
       <UniqueIdentifier>{675214bd-936b-4ca6-9472-854df083cc12}</UniqueIdentifier>
     </Filter>
@@ -508,9 +490,6 @@
     </Filter>
     <Filter Include="BurgerEngine\Graphics\Window">
       <UniqueIdentifier>{68a26023-0222-438a-94fe-446e75cd9576}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="BurgerEngineDemo\Scenes">
-      <UniqueIdentifier>{ee94bbe9-2c6a-437c-a87e-6ce70e54c0fb}</UniqueIdentifier>
     </Filter>
     <Filter Include="BurgerEngine\Graphics\Renderer">
       <UniqueIdentifier>{0b60af32-c166-40cd-8881-c205822d5bd7}</UniqueIdentifier>

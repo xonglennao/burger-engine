@@ -3,6 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual C++ Express 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BurgerEngine", "BurgerEngineDemo.vcxproj", "{99D06A18-E064-414F-BBCC-CAE1EE67296F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewProjectOuf", "NewProjectOuf.vcxproj", "{5C504957-44E0-439F-9DEB-B115FE865591}"
+	ProjectSection(ProjectDependencies) = postProject
+		{99D06A18-E064-414F-BBCC-CAE1EE67296F} = {99D06A18-E064-414F-BBCC-CAE1EE67296F}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -13,6 +18,10 @@ Global
 		{99D06A18-E064-414F-BBCC-CAE1EE67296F}.Debug|Win32.Build.0 = Debug|Win32
 		{99D06A18-E064-414F-BBCC-CAE1EE67296F}.Release|Win32.ActiveCfg = Release|Win32
 		{99D06A18-E064-414F-BBCC-CAE1EE67296F}.Release|Win32.Build.0 = Release|Win32
+		{5C504957-44E0-439F-9DEB-B115FE865591}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5C504957-44E0-439F-9DEB-B115FE865591}.Debug|Win32.Build.0 = Debug|Win32
+		{5C504957-44E0-439F-9DEB-B115FE865591}.Release|Win32.ActiveCfg = Release|Win32
+		{5C504957-44E0-439F-9DEB-B115FE865591}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

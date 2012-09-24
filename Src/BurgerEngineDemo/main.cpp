@@ -14,17 +14,14 @@
 #include "BurgerEngine/Core/Engine.h"
 #include "BurgerEngine/Input/SFMLInputManager.h"
 
-/// \TEMP Franck: Input test
-#include "StageTestInput.h"
-
-#include "BurgerEngine/Core/StageMain3DScene.h"
+#include "BurgerEngineDemo/Stage/MainStage.h"
 
 int main(int argc, char **argv)
 {
 	Engine& rEngine = Engine::GrabInstance();
 	rEngine.Init();
 
-	StageMain3DScene* pStage = new StageMain3DScene("BurgerEngine");
+	MainStage* pStage = new MainStage("BurgerEngine");
 	pStage->Init();
 
 	rEngine.GetStageManager().AddStage(pStage);
