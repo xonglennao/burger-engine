@@ -11,7 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BurgerEngineDemo\StageTestInput.h" />
     <ClInclude Include="BurgerEngine\Base\BaseMacro.h" />
     <ClInclude Include="BurgerEngine\Base\CommonBase.h" />
     <ClInclude Include="BurgerEngine\Base\Functor.h" />
@@ -29,7 +28,6 @@
     <ClInclude Include="BurgerEngine\Core\RenderComponent.h" />
     <ClInclude Include="BurgerEngine\Core\SceneGraph.h" />
     <ClInclude Include="BurgerEngine\Core\SphereCamera.h" />
-    <ClInclude Include="BurgerEngine\Core\StageMain3DScene.h" />
     <ClInclude Include="BurgerEngine\Core\StageManager.h" />
     <ClInclude Include="BurgerEngine\Core\TimeContext.h" />
     <ClInclude Include="BurgerEngine\Core\Timer.h" />
@@ -94,8 +92,6 @@
     <ClInclude Include="BurgerEngine\Input\SFMLInputManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BurgerEngineDemo\main.cpp" />
-    <ClCompile Include="BurgerEngineDemo\StageTestInput.cpp" />
     <ClCompile Include="BurgerEngine\Base\Functor.cpp" />
     <ClCompile Include="BurgerEngine\Core\AbstractCamera.cpp" />
     <ClCompile Include="BurgerEngine\Core\AbstractStage.cpp" />
@@ -110,7 +106,6 @@
     <ClCompile Include="BurgerEngine\Core\RenderComponent.cpp" />
     <ClCompile Include="BurgerEngine\Core\SceneGraph.cpp" />
     <ClCompile Include="BurgerEngine\Core\SphereCamera.cpp" />
-    <ClCompile Include="BurgerEngine\Core\StageMain3DScene.cpp" />
     <ClCompile Include="BurgerEngine\Core\StageManager.cpp" />
     <ClCompile Include="BurgerEngine\Core\TimeContext.cpp" />
     <ClCompile Include="BurgerEngine\Core\Timer.cpp" />
@@ -251,12 +246,12 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
@@ -272,22 +267,24 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>..\Bin\</OutDir>
+    <OutDir>..\Lib\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IntDir>..\Bin\</IntDir>
+    <IntDir>..\Bin\BurgerEngine\</IntDir>
     <IncludePath>$(IncludePath)</IncludePath>
     <LibraryPath>..\Lib\;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <TargetName>$(ProjectName)_d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>..\Bin</OutDir>
+    <OutDir>..\Lib\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IntDir>..\Bin</IntDir>
+    <IntDir>..\Bin\BurgerEngine\</IntDir>
     <LibraryPath>..\Lib\;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(IncludePath)</IncludePath>
+    <TargetName>$(ProjectName)_r</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -302,6 +299,9 @@
       <AdditionalDependencies>glew32.lib;openGL32.lib;glu32.lib;sfml-window-s-d.lib;loki_D.lib;devIL.lib;sfml-system-s-d.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
+    <Lib>
+      <AdditionalDependencies>glew32.lib;glu32.lib;openGL32.lib;sfml-window-s-d.lib;loki.lib;devIL.lib;sfml-system-s-d.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -317,6 +317,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>glew32.lib;glu32.lib;openGL32.lib;sfml-window-s.lib;loki.lib;devIL.lib;sfml-system-s.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Lib>
+      <AdditionalDependencies>glew32.lib;glu32.lib;openGL32.lib;sfml-window-s.lib;loki.lib;devIL.lib;sfml-system-s.lib;XInput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

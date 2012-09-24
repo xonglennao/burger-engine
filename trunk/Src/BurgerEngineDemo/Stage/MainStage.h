@@ -16,15 +16,15 @@
 #include "BurgerEngine/Core/AbstractStage.h"
 class Timer;
 class RenderingContext;
-/// \class	StageMain3DScene
+/// \class	MainStage
 /// \brief	Used to display 3D scenes
-class StageMain3DScene: public AbstractStage
+class MainStage: public AbstractStage
 {
 public:
 
 	/// \brief Constuctor, call parent
-	StageMain3DScene(std::string const& a_sId);
-	~StageMain3DScene();
+	MainStage(std::string const& a_sId);
+	~MainStage();
 
 	bool Init();
 
