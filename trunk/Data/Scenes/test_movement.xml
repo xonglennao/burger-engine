@@ -79,12 +79,12 @@
     <instance name= "blop"/>
   </sceneobject> 
   
- <!-- 
+
   <sceneobject x="20.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">
     <ressourcecomponent><file>TestComponent/Particle</file></ressourcecomponent>
     <instance name= "blip"/>
   </sceneobject> 
-  -->
+
 
   <sceneobject x="70.0" y="2.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">
     <component id="composite">

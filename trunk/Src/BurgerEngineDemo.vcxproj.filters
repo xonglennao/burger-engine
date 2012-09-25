@@ -220,6 +220,9 @@
     <ClCompile Include="BurgerEngine\External\XController\XController.cpp">
       <Filter>BurgerEngine\External\XController</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngine\External\WiiYourself\wiimote.cpp">
+      <Filter>BurgerEngine\External\WiiYourself</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngine\Graphics\AbstractPostEffect.h">
@@ -459,6 +462,15 @@
     <ClInclude Include="BurgerEngine\External\XController\XController.h">
       <Filter>BurgerEngine\External\XController</Filter>
     </ClInclude>
+    <ClInclude Include="BurgerEngine\External\WiiYourself\wiimote_state.h">
+      <Filter>BurgerEngine\External\WiiYourself</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\External\WiiYourself\wiimote.h">
+      <Filter>BurgerEngine\External\WiiYourself</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngine\External\WiiYourself\wiimote_common.h">
+      <Filter>BurgerEngine\External\WiiYourself</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="BurgerEngine">
@@ -598,6 +610,9 @@
     </Filter>
     <Filter Include="BurgerEngine\External\XController">
       <UniqueIdentifier>{46d361ff-69e6-48e4-8ea0-a9d578a78bfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BurgerEngine\External\WiiYourself">
+      <UniqueIdentifier>{4411a3b7-76e0-4792-9c35-cf4f06203f8f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
