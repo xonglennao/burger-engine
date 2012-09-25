@@ -5,8 +5,8 @@
 //--------------------------------------------------------------------------------------------------------------------
 ParticleBatch::~ParticleBatch()
 {
-	delete m_pVerterBuffer;
-	delete m_pIndexBuffer;
+	delete[] m_pVerterBuffer;
+	delete[] m_pIndexBuffer;
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -34,7 +34,7 @@ void ParticleBatch::Initialize(unsigned int a_uParticleCount)
 
 	//We have 4 vertex per particle, and 6 index
 	m_uVertexBufferSize = a_uParticleCount * 4 * m_uParticleVertexSize;
-	m_uIndexBufferSize = a_uParticleCount * 6* sizeof(IndexType);
+	m_uIndexBufferSize = a_uParticleCount * 6 ;//*sizeof(IndexType);
 
 	//We alloc all at once
 	m_pVerterBuffer = new ByteType[m_uVertexBufferSize];
@@ -61,7 +61,7 @@ void ParticleBatch::AddParticle(Particle const& a_rParticle)
 
 
 	// Step for next particle
-	++m_uParticleCount; 
+	//++m_uParticleCount; 
 	
 
 	// Index
@@ -121,7 +121,7 @@ void ParticleBatch::_CopyParticleData(Particle const& a_rParticle)
 		//memcpy(pData, &(a_rParticle.f2OffSet) ,sizeof(vec2));
 		//pData += sizeof(vec2);
 
-		memcpy(pData, &(a_rParticle.fRotation) ,sizeof(vec2));
+		memcpy(pData, &(f2Rotation) ,sizeof(vec2));
 		pData += sizeof(vec2);
 
 

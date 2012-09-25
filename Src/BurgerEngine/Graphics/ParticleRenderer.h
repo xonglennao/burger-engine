@@ -52,6 +52,6 @@ inline ParticleBatch& ParticleRenderer::RequestNewBatch()
 {
 	ParticleBatch oBatch;
 	m_vVertexs.push_back(oBatch);
-	return m_vVertexs[m_vVertexs.size() - 1];
+	return m_vVertexs.at(m_vVertexs.size() - 1);
 }
 #endif // __PARTICLERENDERER_H__

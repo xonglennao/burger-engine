@@ -16,6 +16,7 @@
 
 #include "BurgerEngine/External/Loki/Include/loki/Functor.h"
 #include "BurgerEngine/External/XController/XController.h"
+//#include "BurgerEngine/External/WiiYourself/wiimote.h"
 
 ///	\name EventManager.h
 ///	\brief	Register and dispatch eventCallbacks
