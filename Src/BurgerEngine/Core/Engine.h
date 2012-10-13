@@ -23,6 +23,7 @@ class SceneGraph;
 class RenderingContext;
 class ParticleContext;
 class TimerContext;
+class ObjectFactory;
 
 ///	\name	Engine.h
 ///	\brief	It's the main core of the program
@@ -34,7 +35,7 @@ class Engine:public Singleton<Engine>
 public:
 
 	/// \brief Initialize parameters
-	void Init();
+	void Init( ObjectFactory* pFactory );
 	
 	/// \brief	Render everything
 	void Display();
@@ -71,6 +72,9 @@ public:
 	StageManager& GetStageManager() {return *m_pStageManager;}
 	RenderingContext const& GetRenderContext() const {return *m_pRenderContext;}
 	TimerContext const& GetTimeContext() const {return *m_pTimerContext;}
+
+	ObjectFactory const& GetObjectFactory() const {return *m_pFactory;}
+	ObjectFactory & GetObjectFactory(){return *m_pFactory;}
 
 
 	const unsigned int GetWindowWidth() const { return m_iWindowWidth; }
@@ -113,6 +117,9 @@ private:
 
 	///The flag use to exit the running loop;
 	bool			m_bTerminate;
+
+	/// The Factory which can create object depending on the string griven
+	ObjectFactory* m_pFactory;
 };
 
 #endif //__ENGINE_H__

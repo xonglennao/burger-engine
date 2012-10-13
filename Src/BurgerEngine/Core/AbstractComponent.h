@@ -37,9 +37,8 @@ class AbstractComponent
 {
 public:
 	/// \brief constructor
-	AbstractComponent(ComponentType a_eType, CompositeComponent* a_pParent = NULL)
-		: m_eType(a_eType)
-		, m_pParentNode(a_pParent)
+	AbstractComponent( CompositeComponent* a_pParent = NULL )
+		: m_pParentNode(a_pParent)
 		, m_fScale( 1.0f )
 	{}
 
@@ -73,6 +72,7 @@ public:
 
 	/// \brief Get the parent of the node
 	CompositeComponent const* GetParent() const {return m_pParentNode;}
+	CompositeComponent * GetParent() {return m_pParentNode;}
 
 	/// \brief Get the Component Type
 	ComponentType GetType() const {return m_eType;}

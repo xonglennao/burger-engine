@@ -84,9 +84,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Src\BurgerEngineDemo\main.cpp" />
+    <ClCompile Include="BurgerEngineDemo\Component\PlayerComponent.cpp" />
+    <ClCompile Include="BurgerEngineDemo\Core\DemoObjectFactory.cpp" />
+    <ClCompile Include="BurgerEngineDemo\Manager\GameplayManager.cpp" />
     <ClCompile Include="BurgerEngineDemo\Stage\MainStage.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BurgerEngineDemo\Component\PlayerComponent.h" />
+    <ClInclude Include="BurgerEngineDemo\Core\DemoObjectFactory.h" />
+    <ClInclude Include="BurgerEngineDemo\Manager\GameplayManager.h" />
     <ClInclude Include="BurgerEngineDemo\Stage\MainStage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

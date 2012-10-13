@@ -93,25 +93,7 @@ AbstractComponent* ObjectFactory::CreateAndInitComponent(TiXmlElement const& a_r
 	std::string sId;
 	a_rComponentXml.QueryValueAttribute<std::string>("id",&sId);
 
-	//Transform to switch case with an int?
-	if (sId == "render")
-	{
-		//Create the component
-		pComponent = new RenderComponent(a_pParent);
-	}
-	else if(sId == "composite")
-	{
-		
-		pComponent = new CompositeComponent(a_pParent);
-	}
-	else if(sId == "light")
-	{
-		pComponent = new LightComponent(a_pParent);
-	}
-	else if(sId == "particle")
-	{
-		pComponent = new ParticleComponent(a_pParent);
-	}
+	pComponent = CreateComponentFromID(sId, a_pParent);
 
 	//Get Parameters
 	//std::map<std::string, void*> mParameters;
@@ -124,7 +106,31 @@ AbstractComponent* ObjectFactory::CreateAndInitComponent(TiXmlElement const& a_r
 	pComponent->Initialize(*pParameter);
 
 	return pComponent;
+}
 
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+AbstractComponent* ObjectFactory::CreateComponentFromID( std::string& a_sID, CompositeComponent* a_pParent )
+{
+	//Transform to switch case with an int?
+	if (a_sID == "render")
+	{
+		//Create the component
+		return new RenderComponent(a_pParent);
+	}
+	else if(a_sID == "composite")
+	{
+		return new CompositeComponent(a_pParent);
+	}
+	else if(a_sID == "light")
+	{
+		return new LightComponent(a_pParent);
+	}
+	else if(a_sID == "particle")
+	{
+		return new ParticleComponent(a_pParent);
+	}
 }
 
 //--------------------------------------------------------------------------------------------------------------------

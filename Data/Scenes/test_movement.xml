@@ -1,8 +1,8 @@
 <scene>
 
   <settings>
-    <camera type="firstperson">
-      <position x="0.0" y="15.0" z="30.0" rX="0.0" rY="0.0" />
+    <camera type="sphere">
+      <position x="0.0" y="0.0" z="0.0" rX="-45.0" rY="0.0" radius="30"/>
 
       <speed position="30.0" rotation="0.05"/>
       <parameters fov="45.0" dofNearBlur="-150.0" dofFocalPlane="30.0" dofFarBlur="155.0" dofMaxFarBlur="1.0"/>
@@ -19,6 +19,14 @@
     <instance name= ""/>
   </sceneobject>
 
+
+  <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
+    <ressourcecomponent>
+      <file>Demo/Player</file>
+    </ressourcecomponent>
+    <instance name= ""/>
+  </sceneobject>
+
   <sceneobject x="0.0" y="125.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="250">
     <component id="composite">
       <parameters>
@@ -27,7 +35,7 @@
           <parameters>
             <position x="0.0" y="0.0" z="0.0" />
             <light type="omni"/>
-            <Multiplier value="0.05"/>
+            <Multiplier value="0.08"/>
             <Radius value="200"/>
             <Color  r="1.0" g="1.0" b="1.0"/>
           </parameters>
@@ -74,18 +82,11 @@
 
   </sceneobject>
   
-  <sceneobject x="20.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">
+  <!--<sceneobject x="20.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">
     <ressourcecomponent><file>TestComponent/Particle</file></ressourcecomponent>
     <instance name= "blop"/>
-  </sceneobject> 
+  </sceneobject>--> 
   
-
-  <sceneobject x="20.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">
-    <ressourcecomponent><file>TestComponent/Particle</file></ressourcecomponent>
-    <instance name= "blip"/>
-  </sceneobject> 
-
-
   <sceneobject x="70.0" y="2.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">
     <component id="composite">
       <parameters>

@@ -1,7 +1,7 @@
 <scene>
 
-  <settings>
-    <camera type="firstperson">
+  <!--<settings>
+    <camera type="sphere">
       <position x="0.0" y="15.0" z="0.0" rX="0.0" rY="0.0" />
       <speed position="30.0" rotation="0.05"/>
       <parameters fov="45.0" dofNearBlur="-150.0" dofFocalPlane="30.0" dofFarBlur="55.0" dofMaxFarBlur="1.0"/>
@@ -9,7 +9,26 @@
     <postprocess>
       <parameters toneMappingKey="0.25" glowMultiplier="1.5" brightPassThreshold="7.5" brightPassOffset="0.5" adaptationBaseTime="0.85" colorLUT="../Data/Textures/xml/prison_lut.btx.xml"/>
     </postprocess>
-  </settings>
+  </settings>-->
+
+  <settings>
+    <camera type="sphere">
+      <position x="0.0" y="0.0" z="0.0" rX="-45.0" rY="0.0" radius="30"/>
+
+      <speed position="30.0" rotation="0.05"/>
+      <parameters fov="45.0" dofNearBlur="-150.0" dofFocalPlane="30.0" dofFarBlur="55.0" dofMaxFarBlur="1.0"/>
+    </camera>
+    <postprocess>
+      <parameters toneMappingKey="0.25" glowMultiplier="1.5" brightPassThreshold="7.5" brightPassOffset="0.5" adaptationBaseTime="0.85" colorLUT="../Data/Textures/xml/prison_lut.btx.xml"/>
+    </postprocess>
+  </settings>  
+
+  <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1">
+    <ressourcecomponent>
+      <file>Demo/Player</file>
+    </ressourcecomponent>
+    <instance name= ""/>
+  </sceneobject>
 
   <sceneobject x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0" scale="1.0">
     <ressourcecomponent><file>Prison/Lights</file></ressourcecomponent>

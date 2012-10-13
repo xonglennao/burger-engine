@@ -14,7 +14,7 @@
 //
 //--------------------------------------------------------------------------------------------------------------------
 RenderComponent::RenderComponent(CompositeComponent* a_pParent):
-	AbstractComponent(RENDER, a_pParent),
+	AbstractComponent(a_pParent),
 	m_pMesh(NULL)
 {
 }
@@ -23,7 +23,7 @@ RenderComponent::RenderComponent(CompositeComponent* a_pParent):
 //
 //--------------------------------------------------------------------------------------------------------------------
 RenderComponent::RenderComponent(AbstractComponent const& a_rToCopy):
-	AbstractComponent(RENDER)
+	AbstractComponent()
 {
 
 }
@@ -77,8 +77,6 @@ void RenderComponent::Initialize(TiXmlElement const& a_rParameters)
 			{
 				m_pMesh = new SceneMesh( pMesh );
 				
-				vec3 f3OffsetedPos(x,y,z);
-
 				SetPos( vec3(x,y,z) );
 				SetRotation( vec3( rX, rY, rZ ) );
 				SetScale( scale );

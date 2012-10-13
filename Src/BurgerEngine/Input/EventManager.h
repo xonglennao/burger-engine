@@ -35,6 +35,29 @@ class EventManager
 {
 public:
 
+	enum PAD_BUTTON
+	{
+		 PAD_BUTTON_1 = 0	//Xbox A
+		,PAD_BUTTON_2		//Xbox B
+		,PAD_BUTTON_3		//Xbox X
+		,PAD_BUTTON_4		//Xbox Y
+
+		,PAD_BUTTON_L		//Xbox LB
+		,PAD_BUTTON_R		//Xbox RB
+
+		,PAD_BUTTON_L_SITCK	//Xbox left stick button
+		,PAD_BUTTON_R_STICK	//Xbox right stick button
+
+		,PAD_BUTTON_UP		//Xbox DPad Up
+		,PAD_BUTTON_DOWN	//Xbox DPad Down
+		,PAD_BUTTON_LEFT	//Xbox DPad Left
+		,PAD_BUTTON_RIGHT	//Xbox DPad Right
+
+		,PAD_BUTTON_START	//Xbox Start
+		,PAD_BUTTON_SELECT	//Xbox Back
+		,PAD_BUTTON_MAX		//MAX
+	};
+
 	//Call back typedef
 	typedef Loki::Functor<bool,LOKI_TYPELIST_1(unsigned char)> CallbackKeyboard;
 	typedef Loki::Functor<bool,LOKI_TYPELIST_2(unsigned int, unsigned int)> CallbackMouseMotion;
@@ -50,6 +73,8 @@ public:
 		float, // x value
 		float //y value
 		)> CallbackXBoxJoystick;
+
+	typedef Loki::Functor<bool,LOKI_TYPELIST_2(PAD_BUTTON, bool)> CallbackPadButtonPressed;
 
 public:
 
@@ -91,6 +116,10 @@ public:
 	void RegisterCallbackJoystick(CallbackXBoxJoystick& a_rCallback);
 	void UnRegisterCallbackJoystick(CallbackXBoxJoystick& a_rCallback);
 
+	/// \brief Register for joystick values
+	void RegisterCallbackPadButton(CallbackPadButtonPressed& a_rCallback);
+	void UnRegisterCallbackPadButton(CallbackPadButtonPressed& a_rCallback);
+
 	///--------- Dispatch event ----------------
 	/// \brief	Send the key event to every register Callback
 	void DispatchKeyboardUpKeyEvent(unsigned char a_cKey) const;
@@ -113,13 +142,17 @@ public:
 	/// \brief	Send the Resize event to every register callback
 	void DispatchResize(unsigned int a_uWidth, unsigned int a_uHeight) const;
 
-	/// \brief	Send the release event to every register Callback
+	/// \brief	Send the value of a joystick to every register Callback
 	void DispatchJoystickValue(unsigned int a_iStick, float a_iXValue, float a_iYValue) const;
 
+	/// \brief	Send the button pressed/released event to every register Callback
+	void DispatchPadButtonPressed(PAD_BUTTON iButton, bool bPressed) const;
 
 private:
 
 	void ProcessXboxControllerEvents();
+
+	bool m_pButtonPressed[PAD_BUTTON_MAX];
 
 	//Vector containing the callbacks
 	std::vector<CallbackKeyboard> m_vKeyboardUpKeyCallbacks;
@@ -130,6 +163,7 @@ private:
 	std::vector<CallbackMouseButton> m_vMouseClickDownCallbacks;
 	std::vector<CallbackMouseButton> m_vMouseClickUpCallbacks;
 	std::vector<CallbackXBoxJoystick> m_vXBoxJoystickCallbacks;
+	std::vector<CallbackPadButtonPressed> m_vPadButtonCallbacks;
 
 	XController* m_oXboxController; 
 	

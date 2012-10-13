@@ -17,13 +17,12 @@
 #include "BurgerEngine/Graphics/SceneLight.h"
 
 #include "BurgerEngine/GUI/DebugMenu.h"
-#include "BurgerEngine/Core/ObjectFactory.h"
 
 #include <vector>
 #include <map>
 
 /// forward declaration
-
+class AbstractComponent;
 
 /// Typedef
 typedef std::vector< AbstractComponent* > ComponentCollection;
@@ -54,9 +53,6 @@ private:
 
 	///List of all the components object
 	ComponentCollection m_vComponentCollection;
-
-	/// The Factory which can create object depending on the string griven
-	ObjectFactory m_oFactory;
 };
 
 

@@ -66,6 +66,8 @@ public:
 	void SetAnalogRX(float fValue){ m_fAnalogRX = fValue; };
 	void SetAnalogRY(float fValue){ m_fAnalogRY = fValue; };
 
+	virtual void SetPosition(vec3 const& f3Position) = 0;
+
 protected:
 	vec3& _GrabPos(){return m_f3Pos;}
 	vec3& _GrabUp(){return m_f3Up;}
@@ -102,6 +104,7 @@ protected:
 	vec3 m_f3Pos;
 	vec3 m_f3Up;
 	vec3 m_f3Right;
+	vec3 m_f3Direction;
 
 	float	m_fFOV;
 	float	m_fNear;

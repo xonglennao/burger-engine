@@ -1,12 +1,11 @@
 #include "BurgerEngine/Core/SceneGraph.h"
 #include "BurgerEngine/Core/Engine.h"
-
 #include "BurgerEngine/Core/FirstPersonCamera.h"
 #include "BurgerEngine/Core/SphereCamera.h"
-
 #include "BurgerEngine/Core/CompositeComponent.h"
 #include "BurgerEngine/Core/MovementHackerComponent.h"
 #include "BurgerEngine/Core/RenderComponent.h"
+#include "BurgerEngine/Core/ObjectFactory.h"
 
 #include "BurgerEngine/Input/EventManager.h"
 
@@ -27,15 +26,11 @@
 
 #include "BurgerEngine/Base/CommonBase.h"
 
-
-
-
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
 SceneGraph::SceneGraph( const char * pSceneName )
 {
-	m_oFactory.Init();
 	LoadSceneXML( pSceneName );
 }
 
@@ -44,7 +39,6 @@ SceneGraph::SceneGraph( const char * pSceneName )
 //--------------------------------------------------------------------------------------------------------------------
 SceneGraph::~SceneGraph()
 {
-	m_oFactory.Terminate();
 	Clear();
 }
 //--------------------------------------------------------------------------------------------------------------------
@@ -211,12 +205,12 @@ void SceneGraph::LoadSceneXML( const char * sName )
 			if( pCurrentXmlObject = pXmlObject->FirstChildElement( "ressourcecomponent" ) )
 			{
 				// Load a component from a xml file
-				pComponent = static_cast< CompositeComponent* >( m_oFactory.LoadObject( pCurrentXmlObject ) );
+				pComponent = static_cast< CompositeComponent* >( Engine::GrabInstance().GetObjectFactory().LoadObject( pCurrentXmlObject ) );
 			}
 			else if( pCurrentXmlObject = pXmlObject->FirstChildElement( "component" ) )
 			{
 				// Load a component written in the scene xml
-				pComponent = static_cast< CompositeComponent* >( m_oFactory.CreateAndInitComponent( *pCurrentXmlObject, NULL ) );
+				pComponent = static_cast< CompositeComponent* >( Engine::GrabInstance().GetObjectFactory().CreateAndInitComponent( *pCurrentXmlObject, NULL ) );
 			}
 			else if( pCurrentXmlObject = pXmlObject->FirstChildElement( "skybox" ) )
 			{

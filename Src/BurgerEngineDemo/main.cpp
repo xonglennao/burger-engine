@@ -16,10 +16,13 @@
 
 #include "BurgerEngineDemo/Stage/MainStage.h"
 
+#include "BurgerEngineDemo/Core/DemoObjectFactory.h"
+#include "BurgerEngineDemo/Manager/GameplayManager.h"
+
 int main(int argc, char **argv)
 {
 	Engine& rEngine = Engine::GrabInstance();
-	rEngine.Init();
+	rEngine.Init( new DemoObjectFactory() );
 
 	MainStage* pStage = new MainStage("BurgerEngine");
 	pStage->Init();
@@ -30,6 +33,7 @@ int main(int argc, char **argv)
 	rEngine.Run();
 
 	//if we exit the run loop it's over
+	GameplayManager::KillInstance();
 	Engine::KillInstance();
 	return 0 ;
 }

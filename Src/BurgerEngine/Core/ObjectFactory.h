@@ -32,13 +32,15 @@ public:
 	void Init();
 
 	/// \brief Clear all the map
-	void Terminate();
+	virtual void Terminate();
 
 	/// \brief Load a Object from a xml file
-	static AbstractComponent* LoadObject( const TiXmlElement * const pXmlElement, CompositeComponent* a_pParent = NULL );
+	AbstractComponent* LoadObject( const TiXmlElement * const pXmlElement, CompositeComponent* a_pParent = NULL );
 
 	/// \brief Static loading method just load a single component
-	static AbstractComponent* CreateAndInitComponent(TiXmlElement const& a_rParameters, CompositeComponent* a_pParent);
+	AbstractComponent* CreateAndInitComponent(TiXmlElement const& a_rParameters, CompositeComponent* a_pParent);
+
+	virtual AbstractComponent* CreateComponentFromID( std::string& a_sID, CompositeComponent* a_pParent );
 	
 	/// \brief Try to create an object using the ID
 	/// \param a_rsID the unique ID... should become an int as it would become much faster

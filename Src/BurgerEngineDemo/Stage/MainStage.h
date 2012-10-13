@@ -14,8 +14,10 @@
 #define __STAGEMAINS3DCENE_H__
 
 #include "BurgerEngine/Core/AbstractStage.h"
+#include "BurgerEngine/Input/EventManager.h"
 class Timer;
 class RenderingContext;
+
 /// \class	MainStage
 /// \brief	Used to display 3D scenes
 class MainStage: public AbstractStage
@@ -36,6 +38,7 @@ public:
 	bool OnKeyDown(unsigned char a_cKey);
 	bool OnMouseMoved(unsigned int a_uX, unsigned int a_uY);
 	bool OnJoystickMoved(unsigned int a_uStick, float a_fXValue, float a_fYValue);
+	bool OnPadButtonPressed(EventManager::PAD_BUTTON iButton, bool bPressed);
 };
 
 

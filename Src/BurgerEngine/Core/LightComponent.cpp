@@ -18,7 +18,7 @@
 //
 //--------------------------------------------------------------------------------------------------------------------
 LightComponent::LightComponent(CompositeComponent* a_pParent):
-AbstractComponent(LIGHT, a_pParent),
+AbstractComponent(a_pParent),
 	m_pLight(NULL)
 {
 	m_mStringToLightTypeMap["omni"] = SceneLight::E_OMNI_LIGHT;
@@ -31,7 +31,7 @@ AbstractComponent(LIGHT, a_pParent),
 //
 //--------------------------------------------------------------------------------------------------------------------
 LightComponent::LightComponent(AbstractComponent const& a_rToCopy):
-AbstractComponent(LIGHT)
+AbstractComponent()
 {
 
 }

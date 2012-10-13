@@ -20,6 +20,12 @@ void EventManager::Init()
 	{
 		m_oXboxController = new XController( pPlayersConnected[0] );
 	}
+
+
+	for(unsigned i = 0; i < PAD_BUTTON_MAX; ++i)
+	{
+		m_pButtonPressed[i] = false;
+	}
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -66,6 +72,23 @@ void EventManager::ProcessXboxControllerEvents()
 
 		stick = m_oXboxController->getRightStickState();
 		DispatchJoystickValue(1,stick.dirX, stick.dirY );
+
+		if(m_oXboxController->isPressed(XController::A) )
+		{
+			if(!m_pButtonPressed[PAD_BUTTON_1])
+			{
+				m_pButtonPressed[PAD_BUTTON_1] = true;
+				DispatchPadButtonPressed(PAD_BUTTON_1,true);
+			}
+		}
+		else
+		{
+			if(m_pButtonPressed[PAD_BUTTON_1] == true)
+			{
+				m_pButtonPressed[PAD_BUTTON_1] = false;
+				DispatchPadButtonPressed(PAD_BUTTON_1,false);
+			}
+		}
 	}
 }
 
@@ -252,6 +275,33 @@ void EventManager::UnRegisterCallbackJoystick(CallbackXBoxJoystick& a_rCallback)
 	}
 }
 
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void EventManager::RegisterCallbackPadButton(CallbackPadButtonPressed& a_rCallback)
+{
+	m_vPadButtonCallbacks.push_back(a_rCallback);
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void EventManager::UnRegisterCallbackPadButton(CallbackPadButtonPressed& a_rCallback)
+{
+	std::vector<CallbackPadButtonPressed>::iterator it = std::find(m_vPadButtonCallbacks.begin(),
+		m_vPadButtonCallbacks.end(),
+		a_rCallback);
+	if (it != m_vPadButtonCallbacks.end())
+	{
+		m_vPadButtonCallbacks.erase(it);
+	}
+	else
+	{
+		std::cerr<<"WARNING: CallBack not found."<<std::endl;
+	}
+}
+
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
@@ -369,6 +419,21 @@ void EventManager::DispatchJoystickValue(unsigned int a_iStick, float a_iXValue,
 	while(it != m_vXBoxJoystickCallbacks.end() && bContinue)
 	{
 		bContinue = (*it)(a_iStick, a_iXValue, a_iYValue);
+		++it;
+	}
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void EventManager::DispatchPadButtonPressed(PAD_BUTTON iButton, bool bPressed) const
+{
+	std::vector<CallbackPadButtonPressed>::const_iterator it = m_vPadButtonCallbacks.begin() ;
+	//The call back can specify that once its routine is done, all the other cannot exectute their routine.
+	bool bContinue = true;
+	while(it != m_vPadButtonCallbacks.end() && bContinue)
+	{
+		bContinue = (*it)(iButton, bPressed);
 		++it;
 	}
 }

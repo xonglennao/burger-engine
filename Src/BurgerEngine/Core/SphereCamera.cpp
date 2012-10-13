@@ -42,9 +42,22 @@ void SphereCamera::_UpdatePosition( float fDeltaTime )
 //--------------------------------------------------------------------------------------------------------------------
 void SphereCamera::_UpdatePositionAnalog( float fDeltaTime )
 {
-	float fMovingSpeed = m_fPositionSpeed * fDeltaTime * m_fAnalogY;
-	m_fRadius -= fMovingSpeed;
-	m_fRadius = m_fRadius < 0.0f ?  0.0f : m_fRadius;
+	
+	vec4 f4Right = normalize( rotateY( -m_fRY*DEG_TO_RAD ) * vec4(-1.0f,0.0f,0.0f,1.0f) );
+	f4Right /= f4Right.w;
+	vec4 f4Direction = normalize( rotateY( -m_fRY*DEG_TO_RAD ) * vec4(0.0f,0.0f,-1.0f,1.0f) );
+	f4Direction /= f4Direction.w;
+
+
+	vec3 truc = (f4Direction.xyz()*m_fAnalogY);
+	truc -= (f4Right.xyz()*m_fAnalogX);
+
+	float bababa = min(length(truc), 1.0f);
+	float beeeeee = pow(bababa,3);
+
+	truc *= beeeeee;
+	m_f3CenterPosition += truc;
+	
 }
 
 //--------------------------------------------------------------------------------------------------------------------

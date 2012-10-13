@@ -4,6 +4,7 @@
 #include "BurgerEngine/Core/FirstPersonCamera.h"
 #include "BurgerEngine/Core/SceneGraph.h"
 #include "BurgerEngine/Core/TimeContext.h"
+#include "BurgerEngine/Core/ObjectFactory.h"
 
 #include "BurgerEngine/Graphics/MeshManager.h"
 #include "BurgerEngine/Graphics/MaterialManager.h"
@@ -35,7 +36,7 @@ Engine::Engine():
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void Engine::Init()
+void Engine::Init( ObjectFactory* pFactory )
 {
 	const char * pSceneName = NULL;
 	bool bFullScreen;
@@ -73,6 +74,8 @@ void Engine::Init()
 	}
 	
 	assert(pSceneName);
+
+	m_pFactory = pFactory;
 
 	m_pTimerContext = new TimerContext();
 	m_pTimerContext->Initialize();
@@ -119,6 +122,9 @@ void Engine::Terminate()
 	delete m_pCurrentCamera;
 	m_pCurrentCamera = NULL;
 
+	delete m_pFactory;
+	m_pFactory = NULL;
+
 	MaterialManager::KillInstance();
 	MeshManager::KillInstance();
 	ShaderManager::KillInstance();
@@ -157,7 +163,6 @@ void Engine::Run()
 		m_pParticleContext->Update();
 
 		//TODO: The main loop might just process event the fact of updating a Scene could be an event.
-		m_pStageManager->Update();
 
 		//Process Event
 		m_pEventManager->ProcessEventList();
@@ -165,6 +170,9 @@ void Engine::Run()
 		float fDeltaTime= m_pTimerContext->GetScaledTime();
 
 		m_pSceneGraph->Update( fDeltaTime, m_pTimerContext->GetElapsedTime() );
+		
+		m_pStageManager->Update();
+
 		m_pCurrentCamera->Update(fDeltaTime);
 
 		//Render the scene

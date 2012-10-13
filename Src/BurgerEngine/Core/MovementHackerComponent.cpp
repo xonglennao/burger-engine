@@ -9,7 +9,7 @@
 //
 //--------------------------------------------------------------------------------------------------------------------
 MovementHackerComponent::MovementHackerComponent(CompositeComponent* a_pParent)
-	: AbstractComponent(MOVEMENTHACKER, a_pParent)
+	: AbstractComponent(a_pParent)
 	, m_pComponent( NULL )
 {
 }
