@@ -1,6 +1,8 @@
 #include "XController.h"
+#include "BurgerEngine/External/Math/Vector.h"
 #include <cmath>
 
+#include <iostream>
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
@@ -8,7 +10,7 @@
 
 
 #define VIBRATION_MAX 65535
-const float MAX_STICK_VALUE = 0.000030f;
+const float MAX_STICK_VALUE = 0.0000305185f;
 
 class XController_InputState
 {
@@ -21,15 +23,6 @@ class XController_VibrationState
 public:
 	XINPUT_VIBRATION vibration;
 };
-
-static inline void clamp(float& f, float low, float high)
-{
-	if(f < low)
-		f = low;
-	else if(f > high)
-		f = high;
-}
-
 
 int* XController::getConnectedPlayers(int* numPlayers)
 {
@@ -128,7 +121,7 @@ XController::StickState XController::getStickState(float fX, float fY, float fDe
 	//check if the controller is outside a circular dead zone
 	if (magnitude > fDeadZone)
 	{
-		return StickState(fX*MAX_STICK_VALUE, fY*MAX_STICK_VALUE);
+		return StickState( clamp(fX*MAX_STICK_VALUE,-1.0f,1.0f), clamp(fY*MAX_STICK_VALUE,-1.0f,1.0f) );
 	}
 	else
 	{
@@ -212,10 +205,9 @@ float XController::getRightTriggerState()
 
 void XController::vibrate(float leftVal, float rightVal)
 {
-	leftVal = fabs(leftVal);
-	rightVal = fabs(rightVal);
-	clamp(leftVal, 0.0f, 1.0f);
-	clamp(rightVal, 0.0f, 1.0f);
+	leftVal = clamp(fabs(leftVal), 0.0f, 1.0f);
+	rightVal = clamp(fabs(rightVal), 0.0f, 1.0f);
+
 	// Set the Vibration Values
 	Vibration->vibration.wLeftMotorSpeed = leftVal*VIBRATION_MAX;
 	Vibration->vibration.wRightMotorSpeed = rightVal*VIBRATION_MAX;
@@ -236,8 +228,8 @@ void XController::vibrateOff()
 
 void XController::vibrateLeft(float leftVal)
 {
-	leftVal = fabs(leftVal);
-	clamp(leftVal, 0.0f, 1.0f);
+	leftVal = clamp(fabs(leftVal), 0.0f, 1.0f);
+
 	Vibration->vibration.wLeftMotorSpeed = leftVal*VIBRATION_MAX;
 
 	// Vibrate the controller
@@ -246,8 +238,8 @@ void XController::vibrateLeft(float leftVal)
 
 void XController::vibrateRight(float rightVal)
 {
-	rightVal = fabs(rightVal);
-	clamp(rightVal, 0.0f, 1.0f);
+	rightVal = clamp(fabs(rightVal), 0.0f, 1.0f);
+
 	Vibration->vibration.wRightMotorSpeed = rightVal*VIBRATION_MAX;
 
 	// Vibrate the controller

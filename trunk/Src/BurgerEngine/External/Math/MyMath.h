@@ -26,6 +26,8 @@ misrepresented as being the original software.
 #include <math.h>
 
 #define PI 3.14159265358979323846f
+#define PI_X_2 6.28318530718f
+#define PI_BY_2 1.57079632679f
 #define DEG_TO_RAD PI / 180.0f
 #define RAD_TO_DEG 180.f / PI 
 

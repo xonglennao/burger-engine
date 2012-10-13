@@ -86,7 +86,7 @@ void FirstPersonCamera::_InternalUpdate()
 	//normalize
 	m_f3Right = normalize( m_f3Right );
 
-	m_mViewMatrix = rotateXY( -m_fRX*DEG_TO_RAD, m_fRY*DEG_TO_RAD ) * translate( -m_f3Pos.x, -m_f3Pos.y, -m_f3Pos.z );
+	m_mViewMatrix = rotateXY( -fRX, fRY ) * translate( -m_f3Pos.x, -m_f3Pos.y, -m_f3Pos.z );
 }
 
 const float4x4& FirstPersonCamera::GetViewMatrix() const

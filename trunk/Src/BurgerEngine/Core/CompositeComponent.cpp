@@ -4,11 +4,13 @@
 #include "BurgerEngine/Core/ObjectFactory.h"
 #include "BurgerEngine/External/TinyXml/TinyXml.h"
 
+#include "BurgerEngine/Core/Engine.h"
+
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
 CompositeComponent::CompositeComponent(CompositeComponent* a_pParent)
-	: AbstractComponent(COMPOSITE, a_pParent)
+	: AbstractComponent(a_pParent)
 {
 	AbstractComponent::SetPos(vec3(0,0,0));
 }
@@ -17,7 +19,7 @@ CompositeComponent::CompositeComponent(CompositeComponent* a_pParent)
 //
 //--------------------------------------------------------------------------------------------------------------------
 CompositeComponent::CompositeComponent(AbstractComponent const& a_rToCopy):
-	AbstractComponent(COMPOSITE)
+	AbstractComponent()
 {
 }
 
@@ -65,7 +67,7 @@ void CompositeComponent::Initialize(TiXmlElement const& a_rParameters)
 	TiXmlElement const* pComponentXml = a_rParameters.FirstChildElement( "component" );
 	while (pComponentXml)
 	{
-		AbstractComponent* pComponentObject = ObjectFactory::CreateAndInitComponent(*pComponentXml, this);
+		AbstractComponent* pComponentObject = Engine::GrabInstance().GetObjectFactory().CreateAndInitComponent(*pComponentXml, this);
 
 		m_vComponents.push_back(pComponentObject);
 
@@ -76,7 +78,7 @@ void CompositeComponent::Initialize(TiXmlElement const& a_rParameters)
 	pComponentXml = a_rParameters.FirstChildElement( "ressourcecomponent" );
 	while (pComponentXml)
 	{
-		AbstractComponent* pComponentObject = ObjectFactory::LoadObject( pComponentXml, this );
+		AbstractComponent* pComponentObject = Engine::GrabInstance().GetObjectFactory().LoadObject( pComponentXml, this );
 
 		m_vComponents.push_back(pComponentObject);
 

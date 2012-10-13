@@ -5,15 +5,42 @@
     <ClCompile Include="BurgerEngineDemo\Stage\MainStage.cpp">
       <Filter>Stage</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngineDemo\Core\DemoObjectFactory.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngineDemo\Component\PlayerComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngineDemo\Manager\GameplayManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Stage">
       <UniqueIdentifier>{ad75ae05-5056-4e42-9e77-71d8f8f1b8fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{6f8beb4d-417a-4041-80f6-5f267af0edfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component">
+      <UniqueIdentifier>{90dbbae8-a326-4faa-9ed6-ba64c010ccb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{23fb62c8-24b6-4f5d-bda3-7e9bf1a40144}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BurgerEngineDemo\Stage\MainStage.h">
       <Filter>Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngineDemo\Core\DemoObjectFactory.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngineDemo\Component\PlayerComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngineDemo\Manager\GameplayManager.h">
+      <Filter>Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,13 +4,14 @@
 #include "BurgerEngine/Core/Timer.h"
 #include "BurgerEngine/Graphics/RenderingContext.h"
 #include "BurgerEngine/Graphics/DeferredRenderer.h"
-#include "BurgerEngine/Input/EventManager.h"
 #include "BurgerEngine/GUI/DebugMenu.h"
 
 #include "BurgerEngine/Graphics/Window.h"
 
 
 #include "BurgerEngineDemo/Stage/MainStage.h"
+#include "BurgerEngineDemo/Manager/GameplayManager.h"
+#include "BurgerEngineDemo/Component/PlayerComponent.h"
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
@@ -35,6 +36,9 @@ bool MainStage::Init()
 
 	Engine::GrabInstance().GrabEventManager().RegisterCallbackJoystick(
 		EventManager::CallbackXBoxJoystick(this,&MainStage::OnJoystickMoved));
+
+	Engine::GrabInstance().GrabEventManager().RegisterCallbackPadButton(
+		EventManager::CallbackPadButtonPressed(this,&MainStage::OnPadButtonPressed));
 
 	return true;
 }
@@ -157,7 +161,7 @@ bool MainStage::OnMouseMoved(unsigned int a_uX, unsigned int a_uY)
 	int iAlpha = ( iHalfWidth - a_uX );
 	int iPhi = ( iHalfHeight - a_uY );
 
-	Engine::GetInstance().GetCurrentCamera().UpdateAngles( static_cast<float>(iAlpha), static_cast<float>(iPhi) );
+	//Engine::GetInstance().GetCurrentCamera().UpdateAngles( static_cast<float>(iAlpha), static_cast<float>(iPhi) );
 
 	rEngine.GetWindow().GrabDriverWindow().SetCursorPosition( iHalfWidth, iHalfHeight );
 	
@@ -166,14 +170,41 @@ bool MainStage::OnMouseMoved(unsigned int a_uX, unsigned int a_uY)
 
 bool MainStage::OnJoystickMoved(unsigned int a_uStick, float a_fXValue, float a_fYValue)
 {
+	PlayerComponent * pCurrentPlayer = pCurrentPlayer = GameplayManager::GrabInstance().GetCurrentPlayer();
+
 	if(a_uStick == 0 )
 	{
-		Engine::GetInstance().GetCurrentCamera().SetAnalogY(pow(a_fYValue,3.0f));
-		Engine::GetInstance().GetCurrentCamera().SetAnalogX(pow(a_fXValue,3.0f));
+		if(pCurrentPlayer)
+		{
+			pCurrentPlayer->SetAnalogX(a_fXValue);
+			pCurrentPlayer->SetAnalogY(a_fYValue);
+		}
 	}
 	else if(a_uStick == 1 )
 	{
 		Engine::GetInstance().GetCurrentCamera().UpdateAngles( static_cast<float>(-pow(a_fXValue,3.0f)*50.0f), static_cast<float>(pow(a_fYValue,3.0f)*50.0f) );
+		
+		if(pCurrentPlayer)
+		{
+			pCurrentPlayer->UpdateAngles( static_cast<float>(pow(a_fXValue,3.0f)*50.0f), static_cast<float>(-pow(a_fYValue,3.0f)*50.0f) );
+		}
+	}
+	return true;
+}
+
+bool MainStage::OnPadButtonPressed(EventManager::PAD_BUTTON iButton, bool bPressed)
+{
+	PlayerComponent * pCurrentPlayer = pCurrentPlayer = GameplayManager::GrabInstance().GetCurrentPlayer();
+
+	switch(iButton)
+	{
+		case EventManager::PAD_BUTTON_1 :
+		{
+			if(pCurrentPlayer)
+			{
+				pCurrentPlayer->ChargeJump(bPressed);
+			}
+		}
 	}
 	return true;
 }
@@ -183,4 +214,10 @@ bool MainStage::OnJoystickMoved(unsigned int a_uStick, float a_fXValue, float a_
 //--------------------------------------------------------------------------------------------------------------------
 void MainStage::Update()
 {
+	PlayerComponent * pCurrentPlayer = pCurrentPlayer = GameplayManager::GrabInstance().GetCurrentPlayer();
+
+	if(pCurrentPlayer)
+	{
+		Engine::GetInstance().GetCurrentCamera().SetPosition(pCurrentPlayer->GetPos() );
+	}
 }

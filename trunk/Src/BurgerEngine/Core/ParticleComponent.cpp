@@ -17,7 +17,7 @@
 //
 //--------------------------------------------------------------------------------------------------------------------
 ParticleComponent::ParticleComponent(CompositeComponent* a_pParent):
-	AbstractComponent(PARTICLE, a_pParent),
+	AbstractComponent(a_pParent),
 	m_pSystem(NULL)
 {
 }
@@ -26,7 +26,7 @@ ParticleComponent::ParticleComponent(CompositeComponent* a_pParent):
 //
 //--------------------------------------------------------------------------------------------------------------------
 ParticleComponent::ParticleComponent(AbstractComponent const& a_rToCopy):
-	AbstractComponent(PARTICLE),
+	AbstractComponent(),
 	m_pSystem(NULL)
 {
 

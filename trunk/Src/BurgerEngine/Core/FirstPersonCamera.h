@@ -26,6 +26,8 @@ public:
 
 	const float4x4& GetViewMatrix() const;
 
+	void SetPosition(vec3 const& f3Position) { m_f3Pos  = f3Position; };
+
 private:
 	/// \brief Calculate new Position from updated parameters
 	void _InternalUpdate();
