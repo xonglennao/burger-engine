@@ -1,6 +1,5 @@
 <component id="composite">
   <parameters>
-
     <component id="player">
       <parameters>
         <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="0.0" rZ="0.0"  scale="1" />
@@ -23,23 +22,6 @@
       <file>ESM/Teapot</file>
       <position x="0.0" y="0.0" z="0.0" rX="0.0" rY="-90.0" rZ="0.0"  scale="1.0" />
     </ressourcecomponent>
-
-    <!--<ressourcecomponent >
-      <file>ESM/Teapot</file>
-      <position x="0.0" y="0.5" z="-2.0" rX="0.0" rY="-90.0" rZ="0.0"  scale="0.75" />
-    </ressourcecomponent>
-
-    <ressourcecomponent >
-      <file>ESM/Teapot</file>
-      <position x="0.0" y="0.5" z="-4.0" rX="0.0" rY="-90.0" rZ="0.0"  scale="0.5" />
-    </ressourcecomponent>
-
-    <ressourcecomponent >
-      <file>ESM/Teapot</file>
-      <position x="0.0" y="0.5" z="-6.0" rX="0.0" rY="-90.0" rZ="0.0"  scale="0.25" />
-    </ressourcecomponent>-->
-
-
 
     <component id="light">
       <parameters>

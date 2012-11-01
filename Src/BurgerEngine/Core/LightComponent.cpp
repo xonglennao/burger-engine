@@ -164,33 +164,15 @@ void LightComponent::Initialize(TiXmlElement const& a_rParameters)
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void LightComponent::_Update( float fFrameTime, float fElapsedTime )
+void LightComponent::Update( float fFrameTime, float fElapsedTime )
 {
-
-}
-
-//--------------------------------------------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------------------------------------------
-void LightComponent::UpdatePos()
-{
-	m_pLight->SetPos( GetPos() );
-
-	if( (m_pLight->GetType() & SceneLight::E_SPOT_LIGHT) == SceneLight::E_SPOT_LIGHT )
+	if( m_bUpdateNeeded )
 	{
-		static_cast< SpotLight* >(m_pLight)->ComputeBoundingBox();
-	}
-}
-
-//--------------------------------------------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------------------------------------------
-void LightComponent::UpdateRotation()
-{
-	m_pLight->SetRotation( GetRotation() );
-
-	if( (m_pLight->GetType() & SceneLight::E_SPOT_LIGHT) == SceneLight::E_SPOT_LIGHT )
-	{
-		static_cast< SpotLight* >(m_pLight)->ComputeBoundingBox();
+		m_pLight->SetPos( GetPos() );
+		m_pLight->SetRotation( GetRotation() );
+		if( (m_pLight->GetType() & SceneLight::E_SPOT_LIGHT) == SceneLight::E_SPOT_LIGHT )
+		{
+			static_cast< SpotLight* >(m_pLight)->ComputeBoundingBox();
+		}
 	}
 }

@@ -13,7 +13,7 @@
 #define __EVENTMANAGER_H__
 
 #include <vector>
-
+#include <map>
 #include "BurgerEngine/External/Loki/Include/loki/Functor.h"
 #include "BurgerEngine/External/XController/XController.h"
 //#include "BurgerEngine/External/WiiYourself/wiimote.h"
@@ -151,7 +151,10 @@ public:
 private:
 
 	void ProcessXboxControllerEvents();
+	void ProcessButtonPressed( PAD_BUTTON eButton, bool bPressed );
 
+
+	std::map<PAD_BUTTON, unsigned short> m_oBaseButtonToXboxButton;
 	bool m_pButtonPressed[PAD_BUTTON_MAX];
 
 	//Vector containing the callbacks

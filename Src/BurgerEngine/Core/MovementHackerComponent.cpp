@@ -118,7 +118,7 @@ void MovementHackerComponent::UpdateValue( float * fValue, float fFrameTime, flo
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void MovementHackerComponent::_Update( float fFrameTime, float fElapsedTime )
+void MovementHackerComponent::Update( float fFrameTime, float fElapsedTime )
 {
 	vec3 f3Pos = m_pComponent->GetPos();
 	UpdateValue( &f3Pos.x, fFrameTime, fElapsedTime, f3XSinPhaseSpeedAmplitude, f3XCosPhaseSpeedAmplitude, f3XConstIncMultiplier);

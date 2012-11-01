@@ -56,7 +56,7 @@ public:
 	virtual void Initialize(TiXmlElement const& a_rParameters) = 0;
 
 	///\brief Update
-	void Update( float fFrameTime, float fElapsedTime );
+	virtual void Update( float fFrameTime, float fElapsedTime ) = 0;
 
 	/// \brief Set and Get position
 	virtual void SetPos( vec3 const& a_vValue ){ m_f3Position = a_vValue; }
@@ -77,20 +77,10 @@ public:
 	/// \brief Get the Component Type
 	ComponentType GetType() const {return m_eType;}
 
-	/// \brief Update the rotation
-	virtual void UpdateRotation(){};
-	/// \brief Update the position
-	virtual void UpdatePos(){};
-	/// \brief Update the scale
-	virtual void UpdateScale(){};
+	void SetUpdateNeeded( bool bValue ){ m_bUpdateNeeded = bValue; };
 
-
-protected: // private ???
-	/// \brief Inner update
-	virtual void _Update( float fFrameTime, float fElapsedTime ) = 0;
-
-	/// \brief Inner Clone
-	//AbstractComponent& _Clone(AbstractComponent const& a_rToCopy) = 0;
+protected :
+	bool m_bUpdateNeeded;
 
 private:
 	/// The component type

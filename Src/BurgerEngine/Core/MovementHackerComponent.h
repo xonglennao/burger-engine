@@ -26,10 +26,9 @@ public:
 	/// override
 	void Initialize(TiXmlElement const& a_rParameters);
 	void SetComponent( AbstractComponent* pComponent );
+	void Update( float fFrameTime, float fElapsedTime );
 
 protected:
-	/// \brief Inner update
-	void _Update( float fFrameTime, float fElapsedTime );
 	void UpdateValue( float * fValue, float fFrameTime, float fElapsedTime, vec3 f3SinPhaseSpeedAmplitude, vec3 f3CosPhaseSpeedAmplitude, vec3 f3ConstIncMultiplier );
 
 private:

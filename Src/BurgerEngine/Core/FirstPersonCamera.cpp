@@ -65,17 +65,15 @@ void FirstPersonCamera::_UpdatePositionAnalog( float fDeltaTime )
 //--------------------------------------------------------------------------------------------------------------------
 void FirstPersonCamera::_InternalUpdate()
 {
-	float fRX = m_fRX * DEG_TO_RAD;
-	float fRY = m_fRY * DEG_TO_RAD;
-
-	float fCosX = cosf( fRX );
-	m_f3Direction.x = fCosX * -sinf( fRY );
-	m_f3Direction.y = sinf( fRX );
-	m_f3Direction.z = fCosX * -cosf( fRY );
+	float fCosX = cosf( m_fRX );
+	m_f3Direction.x = fCosX * -sinf( m_fRY );
+	m_f3Direction.y = sinf( m_fRX );
+	m_f3Direction.z = fCosX * -cosf( m_fRY );
 
 	//Cross product
 	vec3& rf3Up = _GrabUp();
-	if( m_fRX > -90.0f && m_fRX < 90.0f )
+	
+	if( m_fRX > -PI_BY_2 && m_fRX < PI_BY_2 )
 	{
 		m_f3Right = cross( rf3Up, m_f3Direction);
 	}
@@ -83,10 +81,11 @@ void FirstPersonCamera::_InternalUpdate()
 	{
 		m_f3Right = cross( m_f3Direction, rf3Up);
 	}
+
 	//normalize
 	m_f3Right = normalize( m_f3Right );
 
-	m_mViewMatrix = rotateXY( -fRX, fRY ) * translate( -m_f3Pos.x, -m_f3Pos.y, -m_f3Pos.z );
+	m_mViewMatrix = rotateXY( -m_fRX, m_fRY ) * translate( -m_f3Pos.x, -m_f3Pos.y, -m_f3Pos.z );
 }
 
 const float4x4& FirstPersonCamera::GetViewMatrix() const

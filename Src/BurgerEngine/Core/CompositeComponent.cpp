@@ -41,10 +41,9 @@ CompositeComponent::~CompositeComponent()
 //--------------------------------------------------------------------------------------------------------------------
 void CompositeComponent::Initialize(TiXmlElement const& a_rParameters)
 {
-	//The composite will take it's value (position) and then load all other component
-	//this is currently useless, there's only one composite component per sceneobject
-	//the composite component uses the scene object position
-	
+	//these values might be overwritten if the component :
+	// - is the first child of a sceneobject in a scene
+	// - is loaded as a ressource component by another component and this ressource component has a position tag
 	float x, y, z, rX, rY, rZ, scale;
 	TiXmlElement const* pPositionXml = a_rParameters.FirstChildElement( "position" );
 	if(pPositionXml)
@@ -90,13 +89,16 @@ void CompositeComponent::Initialize(TiXmlElement const& a_rParameters)
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void CompositeComponent::_Update( float fFrameTime, float fElapsedTime )
+void CompositeComponent::Update( float fFrameTime, float fElapsedTime )
 {
+
 	FOR_EACH_IT(std::vector<AbstractComponent*>, m_vComponents, itComponent)
 	{
 		//Should check if need to be updated??? (think about render and phys)
+		(*itComponent)->SetUpdateNeeded(m_bUpdateNeeded);
 		(*itComponent)->Update( fFrameTime, fElapsedTime );
 	}
+	m_bUpdateNeeded = false;
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -106,7 +108,7 @@ void CompositeComponent::SetPos( vec3 const& a_vValue )
 {
 	//Set the component position
 	AbstractComponent::SetPos( a_vValue );
-	UpdatePos();
+	m_bUpdateNeeded = true;
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -116,7 +118,7 @@ void CompositeComponent::SetScale( float const a_fValue )
 {
 	//Set the component scale
 	AbstractComponent::SetScale( a_fValue );
-	UpdateScale();
+	m_bUpdateNeeded = true;
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -125,49 +127,7 @@ void CompositeComponent::SetScale( float const a_fValue )
 void CompositeComponent::SetRotation( vec3 const& a_vValue )
 {
 	AbstractComponent::SetRotation( a_vValue );
-	UpdateRotation();
-}
-
-//--------------------------------------------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------------------------------------------
-void CompositeComponent::UpdatePos()
-{
-	FOR_EACH_IT(std::vector<AbstractComponent*>, m_vComponents, itComponent)
-	{
-		AbstractComponent* pComponent = (*itComponent);
-		//The component should not be null
-		assert(pComponent);
-		pComponent->UpdatePos();
-	}
-}
-
-//--------------------------------------------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------------------------------------------
-void CompositeComponent::UpdateScale()
-{
-	FOR_EACH_IT(std::vector<AbstractComponent*>, m_vComponents, itComponent)
-	{
-		AbstractComponent* pComponent = (*itComponent);
-		//The component should not be null
-		assert(pComponent);
-		pComponent->UpdateScale();
-	}
-}
-
-//--------------------------------------------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------------------------------------------
-void CompositeComponent::UpdateRotation()
-{
-	FOR_EACH_IT(std::vector<AbstractComponent*>, m_vComponents, itComponent)
-	{
-		AbstractComponent* pComponent = (*itComponent);
-		//The component should not be null
-		assert(pComponent);
-		pComponent->UpdateRotation();
-	}
+	m_bUpdateNeeded = true;
 }
 
 //--------------------------------------------------------------------------------------------------------------------

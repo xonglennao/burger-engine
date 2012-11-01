@@ -13,16 +13,13 @@
 
 #include "BurgerEngine/Core/AbstractComponent.h"
 
-class SceneMesh;
+class MovementComponent;
 
 class PlayerComponent : public AbstractComponent
 {
 public:
 	/// \brief constructor
 	PlayerComponent(CompositeComponent* a_pParent = NULL);
-
-	/// \brief Copy constructor //clone???
-	PlayerComponent(AbstractComponent const& a_rToCopy);
 
 	/// \brief Destructor
 	~PlayerComponent();
@@ -37,17 +34,16 @@ public:
 	/// \brief Add value to alpha and phi angles
 	void UpdateAngles( float a_fAddToAlpha, float a_fAddToPhi );
 
-	void ChargeJump( bool bCharge );
-
-protected:
-	/// \brief Inner update
-	void _Update( float fFrameTime, float fElapsedTime );
+	void Update( float fFrameTime, float fElapsedTime );
 
 private:
 	float GetRotationDirection(float fCurrentRotation, float fDestinationRotation);
 	float GetAngleDifference(float fAngle1, float fAngle2);
 
 private:
+
+	MovementComponent* m_pMovementComponent;
+
 	/// Analog values for motion and rotation 
 	float m_fAnalogX;
 	float m_fAnalogY;
@@ -57,14 +53,11 @@ private:
 	/// Angle : rotation around Right Axis
 	float	m_fRX;
 
-	vec4	m_f4Direction;
+	//vec4	m_f4Direction;
 
-	float	m_fCurrentRotation;
+	//float	m_fCurrentRotation;
 
-	float	m_fSpeed;
-
-	bool	m_bChargeJump;
-	float	m_fJumpSpeed;
+	//float	m_fSpeed;
 };
 
 #endif //__PLAYERCOMPONENT_H__

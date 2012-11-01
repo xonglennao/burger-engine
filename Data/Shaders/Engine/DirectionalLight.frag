@@ -53,9 +53,6 @@ void main()
 	int iIndex = int(fIndex);
 	vColor = vColors[iIndex];
 
-	vec3 vVertexToLight = vVarLightPos.xyz - vViewSpaceVertex.xyz;
-	float fDistanceToLight = length( vVertexToLight );
-
 	vec4 vLightSpaceVertex = mShadowMatrices[iIndex] * vClipPos;
 	vLightSpaceVertex = ( vLightSpaceVertex / vLightSpaceVertex.w ) * 0.5 + 0.5;
 	

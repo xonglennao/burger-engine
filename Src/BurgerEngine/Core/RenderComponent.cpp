@@ -116,33 +116,13 @@ void RenderComponent::Initialize(TiXmlElement const& a_rParameters)
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void RenderComponent::_Update( float fFrameTime, float fElapsedTime )
+void RenderComponent::Update( float fFrameTime, float fElapsedTime )
 {
-}
-
-//--------------------------------------------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------------------------------------------
-void RenderComponent::UpdatePos()
-{
-	m_pMesh->SetPos( GetPos() );
-	m_pMesh->ComputeBoundingBox();
-}
-
-//--------------------------------------------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------------------------------------------
-void RenderComponent::UpdateScale()
-{
-	m_pMesh->SetScale( GetScale() );
-	m_pMesh->ComputeBoundingBox();
-}
-
-//--------------------------------------------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------------------------------------------
-void RenderComponent::UpdateRotation()
-{
-	m_pMesh->SetRotation( GetRotation() );
-	m_pMesh->ComputeBoundingBox();
+	if( m_bUpdateNeeded )
+	{
+		m_pMesh->SetPos( GetPos() );
+		m_pMesh->SetRotation( GetRotation() );
+		m_pMesh->SetScale( GetScale() );
+		m_pMesh->ComputeBoundingBox();
+	}
 }
