@@ -14,6 +14,12 @@
     <ClCompile Include="BurgerEngineDemo\Manager\GameplayManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
+    <ClCompile Include="BurgerEngineDemo\Component\MovementComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="BurgerEngineDemo\Component\EnnemyComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Stage">
@@ -41,6 +47,12 @@
     </ClInclude>
     <ClInclude Include="BurgerEngineDemo\Manager\GameplayManager.h">
       <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngineDemo\Component\MovementComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="BurgerEngineDemo\Component\EnnemyComponent.h">
+      <Filter>Component</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

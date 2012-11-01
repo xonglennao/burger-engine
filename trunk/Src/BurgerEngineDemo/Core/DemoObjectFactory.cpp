@@ -1,5 +1,6 @@
 #include "BurgerEngineDemo/Core/DemoObjectFactory.h"
 #include "BurgerEngineDemo/Component/PlayerComponent.h"
+#include "BurgerEngineDemo/Component/EnnemyComponent.h"
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
@@ -23,6 +24,10 @@ AbstractComponent* DemoObjectFactory::CreateComponentFromID( std::string& a_sID,
 	if(a_sID == "player")
 	{
 		return new PlayerComponent(a_pParent);
+	}
+	else if(a_sID == "ennemy")
+	{
+		return new EnnemyComponent(a_pParent);
 	}
 
 	return NULL;

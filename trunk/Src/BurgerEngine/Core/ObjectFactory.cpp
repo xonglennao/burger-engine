@@ -131,6 +131,8 @@ AbstractComponent* ObjectFactory::CreateComponentFromID( std::string& a_sID, Com
 	{
 		return new ParticleComponent(a_pParent);
 	}
+
+	return NULL;
 }
 
 //--------------------------------------------------------------------------------------------------------------------

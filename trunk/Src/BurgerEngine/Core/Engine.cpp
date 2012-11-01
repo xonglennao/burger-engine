@@ -78,7 +78,6 @@ void Engine::Init( ObjectFactory* pFactory )
 	m_pFactory = pFactory;
 
 	m_pTimerContext = new TimerContext();
-	m_pTimerContext->Initialize();
 
 	m_pEventManager = new EventManager();
 	m_pEventManager->Init();
@@ -153,6 +152,9 @@ void Engine::Terminate()
 void Engine::Run()
 {
 	m_bTerminate = false;
+	
+	m_pTimerContext->Initialize();
+
 	//Let's Roll
 	while (m_bTerminate == false)
 	{
@@ -219,10 +221,6 @@ SceneGraph& Engine::GrabSceneGraph()
 //--------------------------------------------------------------------------------------------------------------------
 void Engine::SetCurrentCamera ( AbstractCamera * pCamera )
 {
-	if(m_pCurrentCamera)
-	{
-	delete m_pCurrentCamera;
-	}
 	m_pCurrentCamera = pCamera;
-};
+}
  

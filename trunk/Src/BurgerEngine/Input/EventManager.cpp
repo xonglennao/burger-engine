@@ -26,6 +26,25 @@ void EventManager::Init()
 	{
 		m_pButtonPressed[i] = false;
 	}
+
+	m_oBaseButtonToXboxButton[ PAD_BUTTON_1 ] = XController::A ;
+	m_oBaseButtonToXboxButton[ PAD_BUTTON_2 ] = XController::B ;
+	m_oBaseButtonToXboxButton[ PAD_BUTTON_3 ] = XController::X ;
+	m_oBaseButtonToXboxButton[ PAD_BUTTON_4 ] = XController::Y ;
+
+	m_oBaseButtonToXboxButton[ PAD_BUTTON_L ] = XController::LEFT_SHOULDER;
+	m_oBaseButtonToXboxButton[ PAD_BUTTON_R ] = XController::RIGHT_SHOULDER;
+
+	m_oBaseButtonToXboxButton[ PAD_BUTTON_L_SITCK ] = XController::LEFT_THUMB;
+	m_oBaseButtonToXboxButton[ PAD_BUTTON_R_STICK ] = XController::RIGHT_THUMB;
+
+	m_oBaseButtonToXboxButton[ PAD_BUTTON_UP ] = XController::DPAD_UP;
+	m_oBaseButtonToXboxButton[ PAD_BUTTON_DOWN ] = XController::DPAD_DOWN;
+	m_oBaseButtonToXboxButton[ PAD_BUTTON_LEFT ] = XController::DPAD_LEFT;
+	m_oBaseButtonToXboxButton[ PAD_BUTTON_RIGHT ] = XController::DPAD_RIGHT;
+
+	m_oBaseButtonToXboxButton[ PAD_BUTTON_START ] = XController::START;
+	m_oBaseButtonToXboxButton[ PAD_BUTTON_SELECT ] = XController::BACK;
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -73,21 +92,32 @@ void EventManager::ProcessXboxControllerEvents()
 		stick = m_oXboxController->getRightStickState();
 		DispatchJoystickValue(1,stick.dirX, stick.dirY );
 
-		if(m_oXboxController->isPressed(XController::A) )
+		for(unsigned int i = 0; i < PAD_BUTTON_MAX; ++i)
 		{
-			if(!m_pButtonPressed[PAD_BUTTON_1])
-			{
-				m_pButtonPressed[PAD_BUTTON_1] = true;
-				DispatchPadButtonPressed(PAD_BUTTON_1,true);
-			}
+			ProcessButtonPressed( static_cast<PAD_BUTTON>(i), m_oXboxController->isPressed(m_oBaseButtonToXboxButton[ static_cast<PAD_BUTTON>(i) ] ) );
 		}
-		else
+	}
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void EventManager::ProcessButtonPressed( PAD_BUTTON eButton, bool bPressed )
+{
+	if( bPressed )
+	{
+		if(!m_pButtonPressed[eButton])
 		{
-			if(m_pButtonPressed[PAD_BUTTON_1] == true)
-			{
-				m_pButtonPressed[PAD_BUTTON_1] = false;
-				DispatchPadButtonPressed(PAD_BUTTON_1,false);
-			}
+			m_pButtonPressed[eButton] = true;
+			DispatchPadButtonPressed(eButton,true);
+		}
+	}
+	else
+	{
+		if(m_pButtonPressed[eButton] == true)
+		{
+			m_pButtonPressed[eButton] = false;
+			DispatchPadButtonPressed(eButton,false);
 		}
 	}
 }

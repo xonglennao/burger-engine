@@ -39,6 +39,13 @@ public:
 	bool OnMouseMoved(unsigned int a_uX, unsigned int a_uY);
 	bool OnJoystickMoved(unsigned int a_uStick, float a_fXValue, float a_fYValue);
 	bool OnPadButtonPressed(EventManager::PAD_BUTTON iButton, bool bPressed);
+
+private:
+
+	AbstractCamera* m_pPlayerCamera;
+	AbstractCamera* m_pFreeCamera;
+
+	bool m_bFreeCam;
 };
 
 

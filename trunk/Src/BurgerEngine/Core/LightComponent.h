@@ -38,16 +38,7 @@ public:
 	/// \todo Could also go from the RenderContext
 	SceneLight& GrabInternalLight(){assert(m_pLight); return *m_pLight;}
 
-	/// \brief Update the position of the light
-	/// usually called when the parent is moved
-	void UpdatePos();
-
-	/// \brief Update the rotation
-	void UpdateRotation();
-
-protected:
-	/// \brief Inner update
-	void _Update( float fFrameTime, float fElapsedTime );
+	void Update( float fFrameTime, float fElapsedTime );
 
 private:
 	/// Own a Scene light object

@@ -2,41 +2,45 @@
 *
 *		BurgerEngine Project
 *		
-*		Created :	25/04/11
+*		Created :	16/02/11
 *		Authors :	Franck Letellier
 *					Baptiste Malaga
 *		Contact :   shadervalouf@googlegroups.com
 *
 **************************************/
-#ifndef __PARTICLECOMPONENT_H__
-#define __PARTICLECOMPONENT_H__
+#ifndef __ENNEMYCOMPONENT_H__
+#define __ENNEMYCOMPONENT_H__
 
 #include "BurgerEngine/Core/AbstractComponent.h"
 
-class ParticleSystem;
+class MovementComponent;
 
-class ParticleComponent : public AbstractComponent
+class EnnemyComponent : public AbstractComponent
 {
 public:
 	/// \brief constructor
-	ParticleComponent(CompositeComponent* a_pParent = NULL);
-
-	/// \brief Copy constructor //clone???
-	ParticleComponent(AbstractComponent const& a_rToCopy);
+	EnnemyComponent(CompositeComponent* a_pParent = NULL);
 
 	/// \brief Destructor
-	~ParticleComponent();
+	~EnnemyComponent();
 
 	/// \brief Load the component using a XML Node
 	/// override
 	void Initialize(TiXmlElement const& a_rParameters);
 
 	void Update( float fFrameTime, float fElapsedTime );
-
 private:
 
-	/// The contained system
-	ParticleSystem* m_pSystem;
+	void Respawn();
+	
+	MovementComponent* m_pMovementComponent;
+
+	float m_fSpeed;
+
+	/// Angle : rotation around Up axis
+	float	m_fRY;
+	/// Angle : rotation around Right Axis
+	float	m_fRX;
 };
 
-#endif //__PARTICLECOMPONENT_H__
+#endif //__ENNEMYCOMPONENT_H__

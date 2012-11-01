@@ -28,16 +28,13 @@ AbstractCamera::AbstractCamera( float fFOV, const vec3& f3Pos, const vec2& f2Rot
 //--------------------------------------------------------------------------------------------------------------------
 void AbstractCamera::UpdateAngles( float a_fAddToY, float a_fAddToX )
 {
-	m_fRY += a_fAddToY * m_fRotationSpeed;
-	m_fRX += a_fAddToX * m_fRotationSpeed;
+	m_fRY += a_fAddToY * DEG_TO_RAD * m_fRotationSpeed;
+	m_fRY = fmod(m_fRY + PI_X_2, PI_X_2);
 
-	m_fRX = m_fRX > 90.0f ? 90.0f : m_fRX;
-	m_fRX = m_fRX < -90.0f ? -90.0f : m_fRX;
-	
-	if(m_fRY > 360.0f || m_fRY < -360.0f )
-	{
-		m_fRY = 0.0f; 
-	}
+	m_fRX += a_fAddToX * DEG_TO_RAD * m_fRotationSpeed;
+	m_fRX = m_fRX > PI_BY_2 ? PI_BY_2 : m_fRX;
+	m_fRX = m_fRX < -PI_BY_2 ? -PI_BY_2 : m_fRX;
+
 	m_bNeedsUpdate = true;
 }
 

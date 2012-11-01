@@ -64,19 +64,10 @@ public:
 	/// \todo again this is kinda specific so it's pretty ugly, should be change
 	void SetRotation( vec3 const& a_vValue );
 
-	/// \brief Update the rotation
-	void UpdateRotation();
-	/// \brief Update the position
-	void UpdatePos();
-	/// \brief Update the scale
-	void UpdateScale();
-
-protected:
-	/// \brief Inner update
-	void _Update( float fFrameTime, float fElapsedTime );
+	void Update( float fFrameTime, float fElapsedTime );
 
 private:
-
+	
 	/// \brief Collection Of AbstractComponenet
 
 	std::vector<AbstractComponent*> m_vComponents;

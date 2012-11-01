@@ -56,7 +56,7 @@ public:
 	/// \todo a camera manager
 	void SetCurrentCamera ( AbstractCamera * pCamera );
 	AbstractCamera & GetCurrentCamera() const;
-
+	AbstractCamera * GetCurrentCameraPointer() const { return m_pCurrentCamera; };
 	/// \brief Get/Grab the FX context
 	ParticleContext const& GetParticleContext(){return *m_pParticleContext;}
 	ParticleContext& GrabParticleContext(){return *m_pParticleContext;}

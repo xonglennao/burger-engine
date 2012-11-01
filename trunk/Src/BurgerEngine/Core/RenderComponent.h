@@ -35,19 +35,7 @@ public:
 	/// \todo Could also go from the RenderContext
 	SceneMesh& GrabInternalMesh(){assert(m_pMesh); return *m_pMesh;}
 
-	/// \brief Update the position of the mesh
-	/// usually called when the parent is moved
-	void UpdatePos();
-
-	/// \brief Update the scale of the mesh
-	void UpdateScale();
-
-	/// \brief Update the rotation
-	void UpdateRotation();
-
-protected:
-	/// \brief Inner update
-	void _Update( float fFrameTime, float fElapsedTime );
+	void Update( float fFrameTime, float fElapsedTime );
 
 private:
 	/// Own a Scene mesh object

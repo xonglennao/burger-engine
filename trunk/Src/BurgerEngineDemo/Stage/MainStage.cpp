@@ -1,6 +1,7 @@
 #include "BurgerEngine/Core/SceneGraph.h"
 #include "BurgerEngine/Core/Engine.h"
 #include "BurgerEngine/Core/AbstractCamera.h"
+#include "BurgerEngine/Core/FirstPersonCamera.h"
 #include "BurgerEngine/Core/Timer.h"
 #include "BurgerEngine/Graphics/RenderingContext.h"
 #include "BurgerEngine/Graphics/DeferredRenderer.h"
@@ -12,14 +13,18 @@
 #include "BurgerEngineDemo/Stage/MainStage.h"
 #include "BurgerEngineDemo/Manager/GameplayManager.h"
 #include "BurgerEngineDemo/Component/PlayerComponent.h"
+
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
 MainStage::MainStage(std::string const& a_sId)
 	: AbstractStage(a_sId)
+	, m_bFreeCam(false)
 {
+	//freecam hack
+	m_pPlayerCamera = Engine::GetInstance().GetCurrentCameraPointer();
+	m_pFreeCamera = new FirstPersonCamera(45.0f,vec3(0.0f, 10.0f,0.0f), vec2(0.0f,0.0f), vec4(-150.0f, 30.0f, 155.0f,1.0f), vec2(30.0f,0.05f));
 }
-
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
@@ -56,6 +61,15 @@ MainStage::~MainStage()
 
 	Engine::GrabInstance().GrabEventManager().UnRegisterCallbackJoystick(
 		EventManager::CallbackXBoxJoystick(this,&MainStage::OnJoystickMoved));
+
+
+	delete m_pPlayerCamera;
+	m_pPlayerCamera = NULL;
+
+	delete m_pFreeCamera;
+	m_pFreeCamera = NULL;
+
+	Engine::GrabInstance().SetCurrentCamera( NULL );
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -160,9 +174,15 @@ bool MainStage::OnMouseMoved(unsigned int a_uX, unsigned int a_uY)
 
 	int iAlpha = ( iHalfWidth - a_uX );
 	int iPhi = ( iHalfHeight - a_uY );
-
-	//Engine::GetInstance().GetCurrentCamera().UpdateAngles( static_cast<float>(iAlpha), static_cast<float>(iPhi) );
-
+	
+	Engine::GetInstance().GetCurrentCamera().UpdateAngles( static_cast<float>(iAlpha), static_cast<float>(iPhi) );
+	
+	PlayerComponent * pCurrentPlayer = pCurrentPlayer = GameplayManager::GrabInstance().GetCurrentPlayer();
+	if(pCurrentPlayer)
+	{
+		pCurrentPlayer->UpdateAngles( static_cast<float>(-iAlpha), static_cast<float>(-iPhi) );
+	}
+	
 	rEngine.GetWindow().GrabDriverWindow().SetCursorPosition( iHalfWidth, iHalfHeight );
 	
 	return true;
@@ -174,17 +194,28 @@ bool MainStage::OnJoystickMoved(unsigned int a_uStick, float a_fXValue, float a_
 
 	if(a_uStick == 0 )
 	{
-		if(pCurrentPlayer)
+		if(pCurrentPlayer && !m_bFreeCam)
 		{
 			pCurrentPlayer->SetAnalogX(a_fXValue);
 			pCurrentPlayer->SetAnalogY(a_fYValue);
+		}
+		else if(m_bFreeCam)
+		{
+			Engine::GetInstance().GetCurrentCamera().SetAnalogX(a_fXValue);
+			Engine::GetInstance().GetCurrentCamera().SetAnalogY(a_fYValue);
+
+			if(pCurrentPlayer)
+			{
+				pCurrentPlayer->SetAnalogX(0.0f);
+				pCurrentPlayer->SetAnalogY(0.0f);
+			}
 		}
 	}
 	else if(a_uStick == 1 )
 	{
 		Engine::GetInstance().GetCurrentCamera().UpdateAngles( static_cast<float>(-pow(a_fXValue,3.0f)*50.0f), static_cast<float>(pow(a_fYValue,3.0f)*50.0f) );
 		
-		if(pCurrentPlayer)
+		if(pCurrentPlayer && !m_bFreeCam)
 		{
 			pCurrentPlayer->UpdateAngles( static_cast<float>(pow(a_fXValue,3.0f)*50.0f), static_cast<float>(-pow(a_fYValue,3.0f)*50.0f) );
 		}
@@ -202,12 +233,31 @@ bool MainStage::OnPadButtonPressed(EventManager::PAD_BUTTON iButton, bool bPress
 		{
 			if(pCurrentPlayer)
 			{
-				pCurrentPlayer->ChargeJump(bPressed);
 			}
+			break;
+		}
+		
+		case EventManager::PAD_BUTTON_L :
+		{
+			if(bPressed)
+			{
+				m_bFreeCam = !m_bFreeCam;
+
+				if(m_bFreeCam)
+				{
+					Engine::GrabInstance().SetCurrentCamera( m_pFreeCamera );
+				}
+				else
+				{
+					Engine::GrabInstance().SetCurrentCamera( m_pPlayerCamera );
+				}
+			}
+			break;
 		}
 	}
 	return true;
 }
+
 
 //--------------------------------------------------------------------------------------------------------------------
 //
@@ -216,8 +266,8 @@ void MainStage::Update()
 {
 	PlayerComponent * pCurrentPlayer = pCurrentPlayer = GameplayManager::GrabInstance().GetCurrentPlayer();
 
-	if(pCurrentPlayer)
+	if(pCurrentPlayer && !m_bFreeCam)
 	{
-		Engine::GetInstance().GetCurrentCamera().SetPosition(pCurrentPlayer->GetPos() );
+		Engine::GetInstance().GetCurrentCamera().SetPosition( pCurrentPlayer->GetPos() );
 	}
 }
