@@ -14,9 +14,32 @@
 
 #include <vector>
 #include <map>
+#include "BurgerEngine/Base/CommonBase.h"
 #include "BurgerEngine/External/Loki/Include/loki/Functor.h"
 #include "BurgerEngine/External/XController/XController.h"
-//#include "BurgerEngine/External/WiiYourself/wiimote.h"
+#include "BurgerEngine/External/WiiYourself/wiimote.h"
+
+//This is temp, but right now I just want to play around with the wiimote
+enum EventWiiButton
+{
+	EventWiiButtonLeft=0,
+	EventWiiButtonRight,
+	EventWiiButtonDown,
+	EventWiiButtonUp,
+	EventWiiButtonPlus,
+	EventWiiUnknown5,
+	EventWiiUnknown6,
+	EventWiiUnknown7,
+	EventWiiTwo,
+	EventWiiOne,
+	EventWiiB,
+	EventWiiA,
+	EventWiiMinus,
+	EventWiiUnknown13,
+	EventWiiUnknown14,
+	EventWiiHome
+};
+
 
 ///	\name EventManager.h
 ///	\brief	Register and dispatch eventCallbacks
@@ -74,12 +97,17 @@ public:
 		float //y value
 		)> CallbackXBoxJoystick;
 
+	typedef Loki::Functor<bool,LOKI_TYPELIST_1(unsigned int)>CallbackWiiButton;
+	typedef Loki::Functor<bool,LOKI_TYPELIST_3(float, float, float)>CallbackWiiAccelerometer;
 	typedef Loki::Functor<bool,LOKI_TYPELIST_2(PAD_BUTTON, bool)> CallbackPadButtonPressed;
 
 public:
 
+
+	EventManager():m_bIsWiimoteEnabled(false),m_pWiimote(NULL){}
+
 	/// \brief	Initialize method (set what input manager to use....)
-	void Init();
+	void Init(bool bWiimoteEnabled);
 
 	/// \brief	Clear all callback list
 	void Clear();
@@ -151,11 +179,28 @@ public:
 private:
 
 	void ProcessXboxControllerEvents();
+	void ProcessWiimoteEvents();
+
+	static void CallbackWiiState(wiimote	&remote, state_change_flags  changed, wiimote_state const& new_state);
+
 	void ProcessButtonPressed( PAD_BUTTON eButton, bool bPressed );
 
 
+
+private:
+
+	bool m_bIsWiimoteEnabled;
+
 	std::map<PAD_BUTTON, unsigned short> m_oBaseButtonToXboxButton;
+	std::map<PAD_BUTTON, unsigned short> m_oBaseButtonToWiimoteButton;
+
 	bool m_pButtonPressed[PAD_BUTTON_MAX];
+	//We need to make  a button map for each controller.
+	//But maybe it would be better just have, like 4 controller pressed array (whatever they are)
+	//And link them into some xml
+	//Ex 1: Player one -> xBox | Palyer 2 ->wiimote
+	//Ex 2: Player one -> xBox | Palyer 2 ->xBox ...and so on;
+	bool m_aButtonPressedWiimote[PAD_BUTTON_MAX];
 
 	//Vector containing the callbacks
 	std::vector<CallbackKeyboard> m_vKeyboardUpKeyCallbacks;
@@ -166,9 +211,15 @@ private:
 	std::vector<CallbackMouseButton> m_vMouseClickDownCallbacks;
 	std::vector<CallbackMouseButton> m_vMouseClickUpCallbacks;
 	std::vector<CallbackXBoxJoystick> m_vXBoxJoystickCallbacks;
+	std::vector<CallbackWiiButton> m_vWiiButtonCallbacks;
 	std::vector<CallbackPadButtonPressed> m_vPadButtonCallbacks;
 
+
+	wiimote* m_pWiimote;
+	int m_iTimerTest;
+
 	XController* m_pXboxController; 
+
 	
 };
 

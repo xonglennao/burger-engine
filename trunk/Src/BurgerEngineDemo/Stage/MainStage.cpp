@@ -237,6 +237,20 @@ bool MainStage::OnPadButtonPressed(EventManager::PAD_BUTTON iButton, bool bPress
 		{
 			if(pCurrentPlayer)
 			{
+				if(bPressed)
+				{
+					m_bFreeCam = !m_bFreeCam;
+
+					if(m_bFreeCam)
+					{
+						Engine::GrabInstance().SetCurrentCamera( m_pFreeCamera );
+					}
+					else
+					{
+						Engine::GrabInstance().SetCurrentCamera( m_pPlayerCamera );
+					}
+				}
+			
 			}
 			break;
 		}
