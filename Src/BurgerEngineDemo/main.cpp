@@ -21,6 +21,16 @@
 
 int main(int argc, char **argv)
 {
+
+	/*wiimote* mote = new wiimote();
+	
+
+	while(!mote->Connect(wiimote::FIRST_AVAILABLE)) {
+		Sleep(1000);
+	}
+	mote->SetRumble(true);
+	mote->SetLEDs(1);*/
+
 	Engine& rEngine = Engine::GrabInstance();
 	rEngine.Init( new DemoObjectFactory() );
 
@@ -35,6 +45,10 @@ int main(int argc, char **argv)
 	//if we exit the run loop it's over
 	GameplayManager::KillInstance();
 	Engine::KillInstance();
+
+	/*mote->SetRumble(false);
+	mote->Disconnect();
+	delete mote;*/
 	return 0 ;
 }
 

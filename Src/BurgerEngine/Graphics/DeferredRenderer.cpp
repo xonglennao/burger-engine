@@ -1926,6 +1926,7 @@ void DeferredRenderer::Render()
 
 		FOR_EACH_IT(Batchs, rParticleRenderer.GrabBatchs(), it)
 		{
+			ADD_LOG_MESSAGE("Rre!");
 			ParticleBatch& rBatch = (*it);
 			Material* pMaterial = rBatch.GrabMaterialPtr();
 			//The size of particle, to make the jumps

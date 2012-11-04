@@ -40,7 +40,8 @@ void Engine::Init( ObjectFactory* pFactory )
 {
 	const char * pSceneName = NULL;
 	bool bFullScreen;
-	
+	int isWiimoteUsed;
+
 	TiXmlDocument * pDocument = new TiXmlDocument( "../Settings/Settings.xml" );
 	if( !pDocument->LoadFile() )
 	{
@@ -71,6 +72,13 @@ void Engine::Init( ObjectFactory* pFactory )
 			pWindow->QueryValueAttribute<std::string>("style",&sWindowStyle);
 			bFullScreen =  (sWindowStyle == "FullScreen");
 		}
+		TiXmlElement * pWiimote = pRoot->FirstChildElement( "wiimote" );
+		if( pWiimote )
+		{
+
+			pWiimote->QueryIntAttribute("enable",&isWiimoteUsed);
+
+		}
 	}
 	
 	assert(pSceneName);
@@ -80,7 +88,7 @@ void Engine::Init( ObjectFactory* pFactory )
 	m_pTimerContext = new TimerContext();
 
 	m_pEventManager = new EventManager();
-	m_pEventManager->Init();
+	m_pEventManager->Init(isWiimoteUsed);
 	
 	m_pStageManager = new StageManager();
 

@@ -39,6 +39,9 @@
     <ClInclude Include="BurgerEngine\External\Math\Vector.h" />
     <ClInclude Include="BurgerEngine\External\TinyXml\tinystr.h" />
     <ClInclude Include="BurgerEngine\External\TinyXml\tinyxml.h" />
+    <ClInclude Include="BurgerEngine\External\WiiYourself\wiimote.h" />
+    <ClInclude Include="BurgerEngine\External\WiiYourself\wiimote_common.h" />
+    <ClInclude Include="BurgerEngine\External\WiiYourself\wiimote_state.h" />
     <ClInclude Include="BurgerEngine\External\XController\XController.h" />
     <ClInclude Include="BurgerEngine\FX\FXCommon.h" />
     <ClInclude Include="BurgerEngine\FX\Particle.h" />
@@ -117,6 +120,7 @@
     <ClCompile Include="BurgerEngine\External\TinyXml\tinyxml.cpp" />
     <ClCompile Include="BurgerEngine\External\TinyXml\tinyxmlerror.cpp" />
     <ClCompile Include="BurgerEngine\External\TinyXml\tinyxmlparser.cpp" />
+    <ClCompile Include="BurgerEngine\External\WiiYourself\wiimote.cpp" />
     <ClCompile Include="BurgerEngine\External\XController\XController.cpp" />
     <ClCompile Include="BurgerEngine\FX\Particle.cpp" />
     <ClCompile Include="BurgerEngine\FX\ParticleAccelerationEffector.cpp" />
@@ -271,8 +275,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IntDir>..\Bin\BurgerEngine\</IntDir>
-    <IncludePath>$(IncludePath)</IncludePath>
-    <LibraryPath>..\Lib\;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\WinDDK\7600.16385.1\inc;C:\WinDDK\7600.16385.1\inc\api;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\WinDDK\7600.16385.1\lib\win7\i386;..\Lib\;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <TargetName>$(ProjectName)_d</TargetName>
   </PropertyGroup>

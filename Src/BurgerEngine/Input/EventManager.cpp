@@ -6,7 +6,7 @@
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
-void EventManager::Init()
+void EventManager::Init(bool bIsWiimoteEnabled)
 {
 	/// We are just using SFML, but we should do a AbstractInputManager
 	SFMLInputManager::InitializeInput();
@@ -21,11 +21,27 @@ void EventManager::Init()
 		m_pXboxController = new XController( pPlayersConnected[0] );
 	}
 
+	if (bIsWiimoteEnabled)
+	{
+		ADD_LOG_MESSAGE("connecting Wiimote...");
+		m_pWiimote = new wiimote();
+		m_pWiimote->ChangedCallback	= &EventManager::CallbackWiiState;
+		m_pWiimote->CallbackTriggerFlags = (state_change_flags)(CHANGED_ALL );
+		m_iTimerTest = 0;
+		while(!m_pWiimote->Connect(wiimote::FIRST_AVAILABLE)) {
+			Sleep(1000);
+		}
+		m_pWiimote->SetLEDs(1 | 1<<3);
+
+	}
+	
 
 	for(unsigned i = 0; i < PAD_BUTTON_MAX; ++i)
 	{
 		m_pButtonPressed[i] = false;
+		m_aButtonPressedWiimote[i] = false;
 	}
+
 
 	m_oBaseButtonToXboxButton[ PAD_BUTTON_1 ] = XController::A ;
 	m_oBaseButtonToXboxButton[ PAD_BUTTON_2 ] = XController::B ;
@@ -45,6 +61,26 @@ void EventManager::Init()
 
 	m_oBaseButtonToXboxButton[ PAD_BUTTON_START ] = XController::START;
 	m_oBaseButtonToXboxButton[ PAD_BUTTON_SELECT ] = XController::BACK;
+
+	m_oBaseButtonToWiimoteButton[ PAD_BUTTON_1 ] = wiimote_state::buttons::_A;
+	m_oBaseButtonToWiimoteButton[ PAD_BUTTON_2 ] = wiimote_state::buttons::_B ;
+	m_oBaseButtonToWiimoteButton[ PAD_BUTTON_3 ] = wiimote_state::buttons::ONE ;
+	m_oBaseButtonToWiimoteButton[ PAD_BUTTON_4 ] = wiimote_state::buttons::TWO ;
+
+	m_oBaseButtonToWiimoteButton[ PAD_BUTTON_L ] = 0;
+	m_oBaseButtonToWiimoteButton[ PAD_BUTTON_R ] = 0;
+
+	m_oBaseButtonToWiimoteButton[ PAD_BUTTON_L_SITCK ] = 0;
+	m_oBaseButtonToWiimoteButton[ PAD_BUTTON_R_STICK ] = 0;
+
+	m_oBaseButtonToWiimoteButton[ PAD_BUTTON_UP ] = wiimote_state::buttons::UP;
+	m_oBaseButtonToWiimoteButton[ PAD_BUTTON_DOWN ] = wiimote_state::buttons::DOWN;
+	m_oBaseButtonToWiimoteButton[ PAD_BUTTON_LEFT ] = wiimote_state::buttons::LEFT;
+	m_oBaseButtonToWiimoteButton[ PAD_BUTTON_RIGHT ] = wiimote_state::buttons::RIGHT;
+
+	m_oBaseButtonToWiimoteButton[ PAD_BUTTON_START ] = wiimote_state::buttons::PLUS;
+	m_oBaseButtonToWiimoteButton[ PAD_BUTTON_SELECT ] = wiimote_state::buttons::MINUS;
+
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -66,6 +102,13 @@ void EventManager::Clear()
 		delete m_pXboxController;
 		m_pXboxController = NULL;
 	}
+
+	if(m_pWiimote)
+	{
+		m_pWiimote->Disconnect();
+		delete m_pWiimote;
+		m_pWiimote = NULL;
+	}
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -74,11 +117,19 @@ void EventManager::Clear()
 void EventManager::ProcessEventList()
 {
 	SFMLInputManager::ProcessEvents();
-	
-	if(m_pXboxController)
+
+	if (m_pWiimote)
+	{
+		ProcessWiimoteEvents();
+	}
+	else if (m_pXboxController)
 	{
 		ProcessXboxControllerEvents();
 	}
+	
+	
+
+
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -100,6 +151,99 @@ void EventManager::ProcessXboxControllerEvents()
 		{
 			ProcessButtonPressed( static_cast<PAD_BUTTON>(i), m_pXboxController->isPressed(m_oBaseButtonToXboxButton[ static_cast<PAD_BUTTON>(i) ] ) );
 		}
+	}
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void EventManager::ProcessWiimoteEvents()
+{
+	if (m_pWiimote)
+	{
+		m_pWiimote->RefreshState();
+		//m_pWiimote->SetLEDs(1 | 1<<3);
+	
+		switch(m_pWiimote->ExtensionType)
+		{
+			case wiimote_state::NONE:
+		
+			break;
+			
+			case wiimote_state::PARTIALLY_INSERTED:
+			{
+				ADD_LOG_MESSAGE("Wiimote partially inserted");
+			}
+			break;
+			
+			// -- Nunchuk --
+			case wiimote_state::NUNCHUK:
+			{
+				DispatchJoystickValue(0, m_pWiimote->Nunchuk.Joystick.X,  m_pWiimote->Nunchuk.Joystick.Y );
+
+				/*BRIGHT_WHITE; _tprintf(_T("Nunchuk   "));
+
+				// Buttons:
+				CYAN		; _tprintf(_T("Buttons: ")); WHITE; _tprintf(_T("["));
+				BRIGHT_WHITE; _tprintf(remote.Nunchuk.C? _T("C") : _T(" "));
+				CYAN		; _tprintf(_T("|"));
+				BRIGHT_WHITE; _tprintf(remote.Nunchuk.Z? _T("Z") : _T(" "));
+				WHITE		; _tprintf(_T("]   "));
+				// Joystick:
+				CYAN		; _tprintf(_T("Joystick:  "));
+				WHITE		; _tprintf(_T("X %+2.3f  Y %+2.3f\n"),
+									   remote.Nunchuk.Joystick.X,
+									   remote.Nunchuk.Joystick.Y);
+				// Acceleration:
+				CYAN		; _tprintf(_T("    Accel:"));
+				WHITE		; _tprintf(_T("  X %+2.3f  Y %+2.3f  Z %+2.3f  \n"),
+									   remote.Nunchuk.Acceleration.X,
+									   remote.Nunchuk.Acceleration.Y,
+									   remote.Nunchuk.Acceleration.Z);
+				
+				// Orientation estimate (shown red if last valid update is aging):
+				CYAN		; _tprintf(_T("   Orient:"));
+				WHITE		; _tprintf(_T("  UpdateAge %3u  "),
+								remote.Nunchuk.Acceleration.Orientation.UpdateAge);
+				//  show if the last orientation update is aging
+				if(remote.Nunchuk.Acceleration.Orientation.UpdateAge > 10)
+					RED;
+				_tprintf(_T("Pitch %4ddeg  Roll %4ddeg  \n")
+					     _T("                           (X %+.2f  Y %+.2f  Z %+.2f)      \n"),
+						 (int)remote.Nunchuk.Acceleration.Orientation.Pitch,
+						 (int)remote.Nunchuk.Acceleration.Orientation.Roll ,
+						 remote.Nunchuk.Acceleration.Orientation.X,
+						 remote.Nunchuk.Acceleration.Orientation.Y,
+  						 remote.Nunchuk.Acceleration.Orientation.Z);*/
+				break;
+			}
+				
+		}
+
+		for(unsigned int i = 0; i < PAD_BUTTON_MAX; ++i)
+		{
+			unsigned short uMask = m_oBaseButtonToWiimoteButton[ static_cast<PAD_BUTTON>(i) ];
+			ProcessButtonPressed( static_cast<PAD_BUTTON>(i), ((m_pWiimote->Button.Bits & uMask) != 0) );
+		}
+
+		//Old version to discard
+		/*for(unsigned int bit=0; bit<16; ++bit)
+		{
+			unsigned int mask = 1 << bit;
+			// skip unused bits
+			if((wiimote_state::buttons::ALL & mask) == 0)
+				continue;
+
+			const TCHAR* button_name = wiimote::ButtonNameFromBit[bit];
+			bool		 pressed	 = ((m_pWiimote->Button.Bits & mask) != 0);
+			if (pressed)
+			{
+				ADD_LOG_MESSAGE(button_name);
+
+			}
+			
+		}*/
+		
 	}
 }
 
@@ -470,6 +614,38 @@ void EventManager::DispatchPadButtonPressed(PAD_BUTTON iButton, bool bPressed) c
 		bContinue = (*it)(iButton, bPressed);
 		++it;
 	}
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void EventManager::CallbackWiiState(wiimote	&remote, state_change_flags  changed, wiimote_state const& new_state)
+{
+	if(changed & CONNECTED)
+	{
+		ADD_LOG_MESSAGE("Wiimote is now connected");
+		if(new_state.bExtension)
+			remote.SetReportType(wiimote::IN_BUTTONS_ACCEL_IR_EXT); // no IR dots
+		else
+			remote.SetReportType(wiimote::IN_BUTTONS_ACCEL_IR);		//    IR dots
+		
+
+	}
+	else if (changed & CONNECTION_LOST)
+	{
+		ADD_LOG_MESSAGE("Wiimote is now disconnected");
+	}
+	else if(changed & EXTENSION_CONNECTED)
+	{
+		remote.SetReportType(wiimote::IN_BUTTONS_ACCEL_IR_EXT);
+	}
+	// extension was just disconnected:
+	else if(changed & EXTENSION_DISCONNECTED)
+	{
+		// use a non-extension report mode (this gives us back the IR dot sizes)
+		remote.SetReportType(wiimote::IN_BUTTONS_ACCEL_IR);
+	}
+
 }
 
 
