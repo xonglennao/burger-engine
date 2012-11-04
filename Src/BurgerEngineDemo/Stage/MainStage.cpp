@@ -161,6 +161,10 @@ bool MainStage::OnKeyUp(unsigned char a_cKey)
 		case 21 :
 			Engine::GrabInstance().GrabRenderContext().GrabRenderer().SwitchShowDebugMenu();
 		break;
+
+		case 'f' :
+			ToggleFreeCam();
+		break;
 	}
 	return true;
 }
@@ -241,16 +245,7 @@ bool MainStage::OnPadButtonPressed(EventManager::PAD_BUTTON iButton, bool bPress
 		{
 			if(bPressed)
 			{
-				m_bFreeCam = !m_bFreeCam;
-
-				if(m_bFreeCam)
-				{
-					Engine::GrabInstance().SetCurrentCamera( m_pFreeCamera );
-				}
-				else
-				{
-					Engine::GrabInstance().SetCurrentCamera( m_pPlayerCamera );
-				}
+				ToggleFreeCam();
 			}
 			break;
 		}
@@ -258,6 +253,22 @@ bool MainStage::OnPadButtonPressed(EventManager::PAD_BUTTON iButton, bool bPress
 	return true;
 }
 
+//--------------------------------------------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------------------------------------------
+void MainStage::ToggleFreeCam()
+{
+	m_bFreeCam = !m_bFreeCam;
+
+	if(m_bFreeCam)
+	{
+		Engine::GrabInstance().SetCurrentCamera( m_pFreeCamera );
+	}
+	else
+	{
+		Engine::GrabInstance().SetCurrentCamera( m_pPlayerCamera );
+	}
+}
 
 //--------------------------------------------------------------------------------------------------------------------
 //

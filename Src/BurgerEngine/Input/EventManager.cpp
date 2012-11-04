@@ -14,11 +14,11 @@ void EventManager::Init()
 	int iNumConnected;
 	int* pPlayersConnected = XController::getConnectedPlayers(&iNumConnected);
 
-	m_oXboxController = NULL;
+	m_pXboxController = NULL;
 
 	if(iNumConnected)
 	{
-		m_oXboxController = new XController( pPlayersConnected[0] );
+		m_pXboxController = new XController( pPlayersConnected[0] );
 	}
 
 
@@ -60,11 +60,11 @@ void EventManager::Clear()
 	m_vMouseClickUpCallbacks.clear();
 	m_vResizeCallbacks.clear();
 
-	if(m_oXboxController)
+	if(m_pXboxController)
 	{
-		m_oXboxController->vibrate(0.0f, 0.0f);
-		delete m_oXboxController;
-		m_oXboxController = NULL;
+		m_pXboxController->vibrate(0.0f, 0.0f);
+		delete m_pXboxController;
+		m_pXboxController = NULL;
 	}
 }
 
@@ -74,7 +74,11 @@ void EventManager::Clear()
 void EventManager::ProcessEventList()
 {
 	SFMLInputManager::ProcessEvents();
-	ProcessXboxControllerEvents();
+	
+	if(m_pXboxController)
+	{
+		ProcessXboxControllerEvents();
+	}
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -82,19 +86,19 @@ void EventManager::ProcessEventList()
 //--------------------------------------------------------------------------------------------------------------------
 void EventManager::ProcessXboxControllerEvents()
 {
-	m_oXboxController->update();
+	m_pXboxController->update();
 
-	if( m_oXboxController->isConnected() )
+	if( m_pXboxController->isConnected() )
 	{
-		XController::StickState stick = m_oXboxController->getLeftStickState();
+		XController::StickState stick = m_pXboxController->getLeftStickState();
 		DispatchJoystickValue(0,stick.dirX, stick.dirY );
 
-		stick = m_oXboxController->getRightStickState();
+		stick = m_pXboxController->getRightStickState();
 		DispatchJoystickValue(1,stick.dirX, stick.dirY );
 
 		for(unsigned int i = 0; i < PAD_BUTTON_MAX; ++i)
 		{
-			ProcessButtonPressed( static_cast<PAD_BUTTON>(i), m_oXboxController->isPressed(m_oBaseButtonToXboxButton[ static_cast<PAD_BUTTON>(i) ] ) );
+			ProcessButtonPressed( static_cast<PAD_BUTTON>(i), m_pXboxController->isPressed(m_oBaseButtonToXboxButton[ static_cast<PAD_BUTTON>(i) ] ) );
 		}
 	}
 }

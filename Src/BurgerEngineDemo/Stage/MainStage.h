@@ -42,6 +42,8 @@ public:
 
 private:
 
+	void ToggleFreeCam();
+
 	AbstractCamera* m_pPlayerCamera;
 	AbstractCamera* m_pFreeCamera;
 
