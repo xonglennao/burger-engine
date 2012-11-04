@@ -168,7 +168,7 @@ private:
 	std::vector<CallbackXBoxJoystick> m_vXBoxJoystickCallbacks;
 	std::vector<CallbackPadButtonPressed> m_vPadButtonCallbacks;
 
-	XController* m_oXboxController; 
+	XController* m_pXboxController; 
 	
 };
 
