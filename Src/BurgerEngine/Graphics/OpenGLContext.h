@@ -34,12 +34,6 @@ public:
 	/// \brief Clear variable
 	void Terminate();
 
-	/// \brief	Upon resizing of the window
-	//bool ReshapeGl(unsigned int a_uWidth, unsigned int a_uHeight );
-	bool ReshapeGlOrtho(unsigned int a_uWidth, unsigned int a_uHeight );
-	bool ReshapeOrtho( unsigned int a_uX, unsigned int a_uY, unsigned int a_uWidth, unsigned int a_uHeight, float fLeft, float fRight, float fBottom, float fTop );
-	bool Reshape(unsigned int a_uWidth, unsigned int a_uHeight, float a_fFOV, float a_fNear, float a_fFar );
-
 	/// \brief	Check if the rendering context has errors of not and display a message
 	/// \return true if error, false otherwise
 	bool CheckError();

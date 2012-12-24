@@ -450,6 +450,20 @@ void DeferredRenderer::LoadEngineShaders()
 	m_pBasicTextureShader->setUniformTexture("sTexture",0);
 	m_pBasicTextureShader->Deactivate();
 
+	m_pBasicColorShader = rShaderManager.AddShader( "../Data/Shaders/Engine/xml/SelfIllum.bfx.xml" );
+	m_pBasicColorShader->Activate();
+	m_iBasicColorShaderColorHandle = glGetUniformLocation( m_pBasicColorShader->getHandle(), "vColor" );
+
+	float pColor[4];
+	pColor[0] = 1.0f;
+	pColor[1] = 0.0f;
+	pColor[2] = 0.0f;
+	pColor[3] = 1.0f;
+
+	m_pBasicColorShader->setUniform4fv( m_iBasicColorShaderColorHandle, 1, pColor);
+	m_pBasicColorShader->QueryStdUniforms();
+	m_pBasicColorShader->Deactivate();
+
 	m_pDebugGlossShader = rShaderManager.AddShader( "../Data/Shaders/Engine/DebugRender/xml/DebugGloss.bfx.xml" );
 	m_pDebugGlossShader->Activate();
 	m_pDebugGlossShader->QueryStdUniforms();
@@ -523,7 +537,7 @@ void DeferredRenderer::DrawFullScreenQuad( int iWindowWidth, int iWindowHeight, 
 {
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
 	Engine& rEngine = Engine::GrabInstance();
-	rEngine.GrabRenderingContext().ReshapeGlOrtho( iWindowWidth, iWindowHeight );
+	glViewport(0,0,iWindowWidth,iWindowHeight);
 	RenderingContext& rRenderContext = rEngine.GrabRenderContext();
 
 	float4x4 oOrthoMatrix = orthoMatrix(0.0, static_cast<float>(iWindowWidth), 0, static_cast<float>(iWindowHeight),-0.2f,0.2f);
@@ -1376,8 +1390,7 @@ void DeferredRenderer::RenderShadowMaps( const std::vector< SceneMesh* >& oScene
 
 		float fRadius = pSpot->GetRadius();
 
-		a_rDriverRenderingContext.Reshape( SpotShadow::iShadowMapSize, SpotShadow::iShadowMapSize, 2.0f * acosf( pSpot->GetCosOuterAngle()  ) * RAD_TO_DEG, 0.01f, fRadius );
-
+		glViewport(0,0,SpotShadow::iShadowMapSize,SpotShadow::iShadowMapSize);
 		float4x4 mLightProjection = transpose(GlperspectiveMatrix( 2.0f * acosf( pSpot->GetCosOuterAngle()  ) * RAD_TO_DEG, 1.0f,0.5, fRadius ));
 		float4x4 mLightView = rotateXY( -vLightRotation.x*DEG_TO_RAD, -vLightRotation.y*DEG_TO_RAD ) * translate( -vLightPos.x, -vLightPos.y, -vLightPos.z );
 		
@@ -1735,8 +1748,7 @@ void DeferredRenderer::Render()
 
 	RenderShadowMaps( rRenderContext.GetSceneMeshes(),oSpotShadows,rHardwareRenderContext );
 
-	rHardwareRenderContext.Reshape( iWindowWidth, iWindowHeight, rCamera.GetFOV(), rCamera.GetNear(), rCamera.GetFar() );	
-
+	glViewport(0,0,iWindowWidth,iWindowHeight);
 	rRenderContext.PushMVP(mViewProjection);
 	rRenderContext.PushModelView(mView);
 	//GBuffer pass
@@ -1778,8 +1790,7 @@ void DeferredRenderer::Render()
 	
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-	Engine::GrabInstance().GrabRenderingContext().ReshapeGlOrtho( iWindowWidth, iWindowHeight );
-
+	glViewport(0,0,iWindowWidth,iWindowHeight);
 	float4x4 oOrthoMatrix = orthoMatrix(0.0, static_cast<float>(iWindowWidth), 0, static_cast<float>(iWindowHeight),-0.2f,0.2f);
 	rRenderContext.PushMVP(oOrthoMatrix);
 
@@ -1863,7 +1874,7 @@ void DeferredRenderer::Render()
 	m_pLightBuffer->ActivateTexture();
 	
 	//Restoring perspective view
-	rHardwareRenderContext.Reshape( iWindowWidth, iWindowHeight, rCamera.GetFOV(), rCamera.GetNear(), rCamera.GetFar() );
+	glViewport(0,0,iWindowWidth,iWindowHeight);
 	
 	m_pHDRSceneBuffer->Activate();
 	
@@ -2125,10 +2136,25 @@ void DeferredRenderer::DebugRender( const std::vector< SceneMesh* >& oSceneMeshe
 	OpenGLContext& rHardwareRenderContext = rEngine.GrabRenderingContext();
 	AbstractCamera & rCamera = rEngine.GetCurrentCamera();
 	
-	rHardwareRenderContext.Reshape( iWindowWidth, iWindowHeight, rCamera.GetFOV(), rCamera.GetNear(), rCamera.GetFar() );
+	glViewport(0,0,iWindowWidth,iWindowHeight);
 
 	glClear( GL_DEPTH_BUFFER_BIT );
-	//DrawCube(m_pFrustumPoints);
+
+	// Retrieving scene matrices
+	float4x4 mProjection = GlperspectiveMatrix( rCamera.GetFOV(), (float)iWindowWidth/(float)iWindowHeight,rCamera.GetNear(), rCamera.GetFar() );
+	float4x4 mInvProjection = !mProjection;
+
+	float4x4 mView =  rCamera.GetViewMatrix();
+
+	float4x4 mViewProjection = transpose(mProjection) * mView;
+	float4x4 mInvViewProjection = !mViewProjection;
+
+	rRenderContext.PushMVP(mViewProjection);
+	rRenderContext.PushModelView(mView);
+
+	m_pBasicColorShader->Activate();
+	m_pBasicColorShader->CommitStdUniforms();
+
 	glColor3f(1.0f,0.0f,0.0f);
 	if( m_iDebugBoundingBox )
 	{
@@ -2224,6 +2250,9 @@ void DeferredRenderer::DebugRender( const std::vector< SceneMesh* >& oSceneMeshe
 			oSpotIt++;
 		}
 	}
+	m_pBasicColorShader->Deactivate();
+	rRenderContext.PopMVP();
+	rRenderContext.PopModelView();
 
 	if( m_iDebugRender == 1 )
 	{

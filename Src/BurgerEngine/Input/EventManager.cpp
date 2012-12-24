@@ -21,6 +21,8 @@ void EventManager::Init(bool bIsWiimoteEnabled)
 		m_pXboxController = new XController( pPlayersConnected[0] );
 	}
 
+	//commented because wiimote stuff are not compiling
+#ifndef FUCK_WIIMOTE
 	if (bIsWiimoteEnabled)
 	{
 		ADD_LOG_MESSAGE("connecting Wiimote...");
@@ -33,7 +35,7 @@ void EventManager::Init(bool bIsWiimoteEnabled)
 		}
 		m_pWiimote->SetLEDs(1 | 1<<3);
 
-	}
+#endif
 	
 
 	for(unsigned i = 0; i < PAD_BUTTON_MAX; ++i)
@@ -61,7 +63,8 @@ void EventManager::Init(bool bIsWiimoteEnabled)
 
 	m_oBaseButtonToXboxButton[ PAD_BUTTON_START ] = XController::START;
 	m_oBaseButtonToXboxButton[ PAD_BUTTON_SELECT ] = XController::BACK;
-
+	//commented because wiimote stuff are not compiling
+#ifndef FUCK_WIIMOTE
 	m_oBaseButtonToWiimoteButton[ PAD_BUTTON_1 ] = wiimote_state::buttons::_A;
 	m_oBaseButtonToWiimoteButton[ PAD_BUTTON_2 ] = wiimote_state::buttons::_B ;
 	m_oBaseButtonToWiimoteButton[ PAD_BUTTON_3 ] = wiimote_state::buttons::ONE ;
@@ -80,7 +83,7 @@ void EventManager::Init(bool bIsWiimoteEnabled)
 
 	m_oBaseButtonToWiimoteButton[ PAD_BUTTON_START ] = wiimote_state::buttons::PLUS;
 	m_oBaseButtonToWiimoteButton[ PAD_BUTTON_SELECT ] = wiimote_state::buttons::MINUS;
-
+#endif
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -103,12 +106,15 @@ void EventManager::Clear()
 		m_pXboxController = NULL;
 	}
 
+	//commented because wiimote stuff are not compiling
+#ifndef FUCK_WIIMOTE
 	if(m_pWiimote)
 	{
 		m_pWiimote->Disconnect();
 		delete m_pWiimote;
 		m_pWiimote = NULL;
 	}
+#endif
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -159,6 +165,8 @@ void EventManager::ProcessXboxControllerEvents()
 //--------------------------------------------------------------------------------------------------------------------
 void EventManager::ProcessWiimoteEvents()
 {
+	//commented because wiimote stuff are not compiling
+#ifndef FUCK_WIIMOTE
 	if (m_pWiimote)
 	{
 		m_pWiimote->RefreshState();
@@ -245,6 +253,7 @@ void EventManager::ProcessWiimoteEvents()
 		}*/
 		
 	}
+#endif
 }
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -619,8 +628,11 @@ void EventManager::DispatchPadButtonPressed(PAD_BUTTON iButton, bool bPressed) c
 //--------------------------------------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------------------------------------
+//commented because wiimote stuff are not compiling
+#ifndef FUCK_WIIMOTE
 void EventManager::CallbackWiiState(wiimote	&remote, state_change_flags  changed, wiimote_state const& new_state)
 {
+
 	if(changed & CONNECTED)
 	{
 		ADD_LOG_MESSAGE("Wiimote is now connected");
@@ -647,5 +659,5 @@ void EventManager::CallbackWiiState(wiimote	&remote, state_change_flags  changed
 	}
 
 }
-
+#endif
 

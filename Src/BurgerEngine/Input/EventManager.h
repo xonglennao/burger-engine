@@ -17,7 +17,18 @@
 #include "BurgerEngine/Base/CommonBase.h"
 #include "BurgerEngine/External/Loki/Include/loki/Functor.h"
 #include "BurgerEngine/External/XController/XController.h"
-#include "BurgerEngine/External/WiiYourself/wiimote.h"
+
+#define FUCK_WIIMOTE
+	//commented because wiimote stuff are not compiling
+#ifndef FUCK_WIIMOTE
+//#include "BurgerEngine/External/WiiYourself/wiimote.h"
+#else
+class wiimote;
+class state_change_flags;
+class wiimote_state;
+#endif
+///////////////////////////////////////////////////
+
 
 //This is temp, but right now I just want to play around with the wiimote
 enum EventWiiButton
