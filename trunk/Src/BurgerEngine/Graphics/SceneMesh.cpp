@@ -36,7 +36,6 @@ void SceneMesh::Draw( EffectTechnique::RenderingTechnique eTechnique )
 		float4x4 oPositonMatrix = translate(m_f3Position.x,m_f3Position.y,m_f3Position.z) * m_mRotationMatrix * scale(m_fScale,m_fScale,m_fScale);
 
 		rRenderContext.PushMVP( rRenderContext.GetMVP() * oPositonMatrix);
-		rRenderContext.PushModelView( rRenderContext.GetModelView() * oPositonMatrix );
 		if( eTechnique == EffectTechnique::E_RENDER_SHADOW_MAP )
 		{
 			rRenderContext.GetCurrentShader()->CommitStdUniforms();
@@ -54,7 +53,6 @@ void SceneMesh::Draw( EffectTechnique::RenderingTechnique eTechnique )
 			}
 		}
 		rRenderContext.PopMVP();
-		rRenderContext.PopModelView();
 	}
 }
 

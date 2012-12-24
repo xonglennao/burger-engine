@@ -227,6 +227,10 @@ private:
 
 	//Debug render shaders
 	Shader*			m_pBasicTextureShader;
+	
+	Shader*			m_pBasicColorShader;
+	unsigned int	m_iBasicColorShaderColorHandle;
+
 	Shader*			m_pDebugGlossShader;
 	Shader*			m_pDebugSpecularShader;
 	Shader*			m_pDebugDepthShader;
